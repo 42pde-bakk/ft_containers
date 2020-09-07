@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:46:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/06 16:21:41 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/09/07 13:53:56 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,18 @@
 int fakemain() {
 	ft::list<int> l;
 	l.push_back(8);
-	l.push_back(8);
-	l.push_back(8);
+	l.push_back(42);
+	l.push_back(12387);
+	ft::list<int>::iterator it = l.begin();
+	it++;
+	for (int i = 0; i < 3; i++) {
+		std::cout << "*it = " *it << std::endl;
+	}
 	std::cout << l.getlength() << std::endl;
 	return 0;
 }
 
 int main() {
 	fakemain();
-	system("leaks containers.out");
+	// system("leaks containers.out");
 }

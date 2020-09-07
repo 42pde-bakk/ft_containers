@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/06 16:39:26 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/09/07 13:02:50 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 # include <limits>
 # include <memory>
 # include <iostream>
+# include <cstddef>
+# include <cstring>
 
 namespace ft {
 	template <typename T>
@@ -58,7 +60,7 @@ namespace ft {
 			return *this;
 		}
 		T&	operator*() {
-			return *this->ptr->data;
+			return this->ptr->data;
 		}
 		T	*operator->() {
 			return *this->ptr->data;
@@ -84,34 +86,38 @@ namespace ft {
 		typedef ptrdiff_t	difference_type;
 		typedef size_t		size_type;
 	private:
-		node<T>		*begin;
+		node<T>		*head;
 		node<T>		*firstelem;
 		node<T>		*lastelem;
-		node<T>		*end;
+		node<T>		*tail;
 		allocator_type	alloc;
 		size_type		length;
 	public:
 		list(const allocator_type& alloc = allocator_type()) : alloc(alloc) /* Default constructor */
 		{
-			this->begin = new node<T>();
-			std::memset(this->begin, 0, sizeof(node<T>));
-			this->end = new node<T>();
-			std::memset(this->end, 0, sizeof(node<T>));
+			this->head = new node<T>();
+			this->tail = new node<T>();
 			this->length = 0;
-			std::cout << "begin = " << this->begin << ", end = " << this->end << std::endl;
+			std::cout << "head = " << this->head << ", tail = " << this->tail << std::endl;
 		}
 		~list() {
 			this->clear();
-			delete this->begin;
-			delete this->end;
+			delete this->head;
+			delete this->tail;
+		}
+		iterator	begin() {
+			return iterator(this->head->next);
+		}
+		iterator	end() {
+			return iterator(this->tail);
 		}
 		
 		void	push_back(const value_type &val) {
 			node<T>	*ptr = new node<T>();
 			std::cout << "new element ptr @ " << ptr << std::endl;
-			ptr->next = this->end;
-			ptr->prev = this->end->prev;
-			this->end->prev = ptr;
+			ptr->next = this->tail;
+			ptr->prev = this->tail->prev;
+			this->tail->prev = ptr;
 			ptr->data = val;
 			this->lastelem = ptr;
 			this->length++;
@@ -121,14 +127,15 @@ namespace ft {
 			{
 				if (this->length == 1)
 				{
-					
+					this->head->next = this->tail;
+					delete this->tail->prev;
+					this->tail->prev = this->head;
 				}
 				else
 				{
-					std::cout << "popping back" << std::endl;
 					node<T>	*tmp = this->lastelem->prev;
-					tmp->next = this->end;
-					this->end = tmp;
+					tmp->next = this->tail;
+					this->tail = tmp;
 					delete this->lastelem;
 					this->lastelem = tmp;
 				}
