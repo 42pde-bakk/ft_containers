@@ -31,6 +31,7 @@ namespace ft {
 		node<T>(const node<T>& other) : data(other.data), next(other.next), prev(other.prev) { } /* Copy constructor */
 		~node<T>() { } /* Default destructor */
 	};
+
 	template < class T, class Category = std::bidirectional_iterator_tag >
 	class listIterator {
 	private:
@@ -49,7 +50,8 @@ namespace ft {
 		listIterator(node<T> *list) {
 			this->ptr = list;
 		}
-		listIterator&	operator++() {
+		listIterator&	operator++(int unused) {
+			(void)unused;
 			if (this->ptr)
 				this->ptr = this->ptr->next;
 			return *this;
@@ -60,11 +62,13 @@ namespace ft {
 			return *this;
 		}
 		T&	operator*() {
+			// std::cout << "haha wtf" << std::endl;
+			std::cout << "this->ptr->data = " << this->ptr << std::endl;
 			return this->ptr->data;
 		}
-		T	*operator->() {
-			return *this->ptr->data;
-		}
+		// T	*operator->() {
+		// 	return *this->ptr->data;
+		// }
 		node<T>	*getptr() {
 			return this->ptr;
 		}

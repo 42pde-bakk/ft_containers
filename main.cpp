@@ -19,9 +19,12 @@ int fakemain() {
 	l.push_back(42);
 	l.push_back(12387);
 	ft::list<int>::iterator it = l.begin();
-	it++;
+	std::cout << "iterator = " << &it << std::endl;
+	// it++;
 	for (int i = 0; i < 3; i++) {
-		std::cout << "*it = " *it << std::endl;
+		std::cout << "i = " << i << std::endl;
+		std::cout << "*it = " << *it << std::endl;
+		it++;
 	}
 	std::cout << l.getlength() << std::endl;
 	return 0;
@@ -30,4 +33,5 @@ int fakemain() {
 int main() {
 	fakemain();
 	// system("leaks containers.out");
+	//thx djevayo for the pr
 }
