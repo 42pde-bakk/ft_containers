@@ -6,24 +6,18 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/09 19:27:44 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/09 22:10:01 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIST_HPP
 # define LIST_HPP
-# include <limits>
-# include <memory>
-# include <iostream>
-# include <cstddef>
-# include <cstring>
-# include <climits>
 
 # include "node.hpp"
 # include "bidirectionaliterator.hpp"
+# include "../Traits.hpp"
 
 namespace ft {
-
 	
 	template < class T, class Alloc = std::allocator<T> >
 	class list {
@@ -120,17 +114,21 @@ namespace ft {
 			return this->tail->prev->data;
 		}
 		template <class InputIterator>
- 		void assign (InputIterator first, InputIterator last) {
+ 		void assign (InputIterator first, InputIterator last,
+		typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = NULL) {
 			this->clear();
+			// std::cout << "assign with iterator range, first: " << &first << ", last: " << &last << std::endl;
 			while (first != last) {
-				push_back(*first);
+				// push_back(*first);
 				first++;
 			} 
 		}
 		void	assign(size_type n, const value_type& val) {
 			this->clear();
-			for (size_type i = 0; i < n; i++) {
+			std::cout << "assign n times val" << std::endl;
+			while (n > 0) {
 				push_back(val);
+				--n;
 			}
 		}
 		void	push_front(const value_type &val) {

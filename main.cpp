@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:46:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/09 19:17:09 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/09 21:03:41 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ int fakemain() {
 	ft::list<int> l(8, 42);
 	for (int i = 0; i < 10; i++)
 		l.push_front(i * 3);
+	std::cout << "aftr constr" << std::endl;
 	ft::list<int> lrange(l.begin(), l.end());
+	std::cout << "aftr constr" << std::endl;
 	for (ft::list<int>::iterator lrangeit = lrange.begin(); lrangeit != lrange.end(); lrangeit++) {
 		std::cout << "*lrangeit = " << *lrangeit << std::endl;
 	}
