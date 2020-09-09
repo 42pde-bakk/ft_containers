@@ -19,10 +19,12 @@ int fakemain() {
 	l.push_back(42);
 	l.push_back(12387);
 	ft::list<int>::iterator it = l.begin();
-	std::cout << "iterator = " << &it << std::endl;
-	// it++;
+	// std::cout << "iterator = " << &it << std::endl;
+	it++;
+	it--;
+	++it;
+	--it;
 	for (int i = 0; i < 3; i++) {
-		std::cout << "i = " << i << std::endl;
 		std::cout << "*it = " << *it << std::endl;
 		it++;
 	}

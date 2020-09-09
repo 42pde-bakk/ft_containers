@@ -50,10 +50,19 @@ namespace ft {
 		listIterator(node<T> *list) {
 			this->ptr = list;
 		}
-		listIterator&	operator++(int unused) {
-			(void)unused;
+		listIterator&	operator++(int) {
 			if (this->ptr)
 				this->ptr = this->ptr->next;
+			return *this;
+		}
+		listIterator&	operator++() {
+			if (this->ptr)
+				this->ptr = this->ptr->next;
+			return *this;
+		}
+		listIterator&	operator--(int) {
+			if (this->ptr)
+				this->ptr = this->ptr->prev;
 			return *this;
 		}
 		listIterator&	operator--() {
@@ -62,8 +71,6 @@ namespace ft {
 			return *this;
 		}
 		T&	operator*() {
-			// std::cout << "haha wtf" << std::endl;
-			std::cout << "this->ptr->data = " << this->ptr << std::endl;
 			return this->ptr->data;
 		}
 		// T	*operator->() {
@@ -101,13 +108,14 @@ namespace ft {
 		{
 			this->head = new node<T>();
 			this->tail = new node<T>();
+			this->head->next = this->tail;
+			this->tail->prev = this->head;
 			this->length = 0;
-			std::cout << "head = " << this->head << ", tail = " << this->tail << std::endl;
 		}
 		~list() {
 			this->clear();
-			delete this->head;
 			delete this->tail;
+			delete this->head;
 		}
 		iterator	begin() {
 			return iterator(this->head->next);
@@ -118,9 +126,9 @@ namespace ft {
 		
 		void	push_back(const value_type &val) {
 			node<T>	*ptr = new node<T>();
-			std::cout << "new element ptr @ " << ptr << std::endl;
 			ptr->next = this->tail;
 			ptr->prev = this->tail->prev;
+			this->tail->prev->next = ptr;
 			this->tail->prev = ptr;
 			ptr->data = val;
 			this->lastelem = ptr;
@@ -129,17 +137,18 @@ namespace ft {
 		void	pop_back() {
 			if (this->length)
 			{
-				if (this->length == 1)
-				{
-					this->head->next = this->tail;
-					delete this->tail->prev;
-					this->tail->prev = this->head;
-				}
-				else
+				// if (this->length == 1)
+				// {
+				// 	this->head->next = this->tail;
+				// 	std::cout << "deleting " << tail->prev << std::endl;
+				// 	delete this->tail->prev;
+				// 	this->tail->prev = this->head;
+				// }
+				// else
 				{
 					node<T>	*tmp = this->lastelem->prev;
 					tmp->next = this->tail;
-					this->tail = tmp;
+					this->tail->prev = tmp;
 					delete this->lastelem;
 					this->lastelem = tmp;
 				}
@@ -149,7 +158,7 @@ namespace ft {
 		void	clear() {
 			while (this->length) {
 				pop_back();
-				std::cout << "length is now " << this->getlength() << std::endl;
+				// std::cout << "after popping, length is " << this->getlength() << std::endl;
 			}
 		}
 		size_type	getlength() const { return this->length; }
