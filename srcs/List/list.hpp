@@ -1,0 +1,191 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   list.hpp                                           :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
+/*   Updated: 2020/09/09 19:27:44 by peerdb        ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef LIST_HPP
+# define LIST_HPP
+# include <limits>
+# include <memory>
+# include <iostream>
+# include <cstddef>
+# include <cstring>
+# include <climits>
+
+# include "node.hpp"
+# include "bidirectionaliterator.hpp"
+
+namespace ft {
+
+	
+	template < class T, class Alloc = std::allocator<T> >
+	class list {
+	public:
+		typedef T		value_type;
+		typedef Alloc	allocator_type;
+		// typedef T		&reference;
+		// typedef const T	&const_reference;
+		// typedef T		*pointer;
+		// typedef const T	*const_pointer;
+		typedef ft::listIterator<T>	iterator;
+		// typedef const_iterator;
+		// typedef reverse_iterator;
+		// typedef const_reverse_iterator;
+		typedef ptrdiff_t	difference_type;
+		typedef size_t		size_type;
+	private:
+		node<T>		*head;
+		node<T>		*firstelem;
+		node<T>		*lastelem;
+		node<T>		*tail;
+		allocator_type	alloc;
+		size_type		length;
+	public:
+		explicit list(const allocator_type& alloc = allocator_type()) : alloc(alloc) /* Default constructor */
+		{
+			this->head = new node<T>();
+			this->tail = new node<T>();
+			// std::cout << "new list with head: " << head << ", and tail: " << tail << std::endl;
+			this->head->next = this->tail;
+			this->tail->prev = this->head;
+			this->length = 0;
+		}
+		explicit list (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : alloc(alloc)
+		{
+			this->head = new node<T>();
+			this->tail = new node<T>();
+			this->head->next = this->tail;
+			this->tail->prev = this->head;
+			this->length = 0;
+			this->assign(n, val);
+		}
+		template <class InputIterator>
+		list (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) : alloc(alloc) {
+			this->head = new node<T>();
+			this->tail = new node<T>();
+			this->head->next = this->tail;
+			this->tail->prev = this->head;
+			this->length = 0;
+			this->assign(first, last);
+		}
+		list (const list& x) {
+			this->head = new node<T>();
+			this->tail = new node<T>();
+			this->head->next = this->tail;
+			this->tail->prev = this->head;
+			this->length = 0;
+			this->assign(x.begin(), x.end());
+		}
+		list&	operator=(const list& x) {
+			this->clear();
+			this->head = new node<T>();
+			this->tail = new node<T>();
+			this->head->next = this->tail;
+			this->tail->prev = this->head;
+			this->length = 0;
+			this->assign(x.begin(), x.end());
+		}
+		~list() {
+			this->clear();
+			delete this->tail;
+			delete this->head;
+		}
+		iterator	begin() { //need to make a const_iterator version here too
+			return iterator(this->head->next);
+		}
+		iterator	end() {
+			// std::cout << "end:" << iterator(this->tail).getptr() << std::endl;
+			return iterator(this->tail);
+		}
+		const iterator	begin() const { //need to make a const_iterator version here too
+			return iterator(this->head->next);
+		}
+		const iterator	end() const {
+			// std::cout << "end:" << iterator(this->tail).getptr() << std::endl;
+			return iterator(this->tail);
+		}
+		T	front() const {
+			// What happens if this->length == 0?
+			return this->head->next->data;
+		}
+		T	back() const {
+			// same question as above
+			return this->tail->prev->data;
+		}
+		template <class InputIterator>
+ 		void assign (InputIterator first, InputIterator last) {
+			this->clear();
+			while (first != last) {
+				push_back(*first);
+				first++;
+			} 
+		}
+		void	assign(size_type n, const value_type& val) {
+			this->clear();
+			for (size_type i = 0; i < n; i++) {
+				push_back(val);
+			}
+		}
+		void	push_front(const value_type &val) {
+			node<T> *ptr = new node<T>();
+			ptr->data = val;
+			ptr->prev = this->head;
+			ptr->next = this->head->next;
+			this->head->next = ptr;
+			ptr->next->prev = ptr;
+			this->length++;
+		}
+		void	pop_front() {
+			if (this->length)
+			{
+				node<T> *tmp = this->head->next->next;
+				tmp->prev = this->head;
+				delete this->head->next;
+				this->head->next = tmp;
+				this->length--;
+			}
+		}
+		void	push_back(const value_type &val) {
+			node<T>	*ptr = new node<T>();
+			ptr->next = this->tail;
+			ptr->prev = this->tail->prev;
+			this->tail->prev->next = ptr;
+			this->tail->prev = ptr;
+			ptr->data = val;
+			this->lastelem = ptr;
+			this->length++;
+		}
+		void	pop_back() {
+			if (this->length)
+			{
+				node<T>	*tmp = this->lastelem->prev;
+				tmp->next = this->tail;
+				this->tail->prev = tmp;
+				delete this->lastelem;
+				this->lastelem = tmp;
+				this->length--;
+			}
+		}
+		void	clear() {
+			while (this->length) {
+				pop_back();
+			}
+		}
+		size_type	size() const { return this->length; }
+		size_type	max_size() const { return (SSIZE_MAX / sizeof(node<T>)); }
+		bool empty() const {
+			if (this->length > 0)
+				return true;
+			return false;
+		}
+	};
+}
+
+#endif

@@ -6,29 +6,34 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:46:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/07 13:53:56 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/09 19:17:09 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
-#include "list.hpp"
+#include "srcs/List/list.hpp"
+#include <list>
 
 int fakemain() {
-	ft::list<int> l;
-	l.push_back(8);
-	l.push_back(42);
-	l.push_back(12387);
+	ft::list<int> l(8, 42);
+	for (int i = 0; i < 10; i++)
+		l.push_front(i * 3);
+	ft::list<int> lrange(l.begin(), l.end());
+	for (ft::list<int>::iterator lrangeit = lrange.begin(); lrangeit != lrange.end(); lrangeit++) {
+		std::cout << "*lrangeit = " << *lrangeit << std::endl;
+	}
 	ft::list<int>::iterator it = l.begin();
-	// std::cout << "iterator = " << &it << std::endl;
-	it++;
-	it--;
-	++it;
-	--it;
-	for (int i = 0; i < 3; i++) {
-		std::cout << "*it = " << *it << std::endl;
+	int i = 0;
+	while (it != l.end()) {
+		// *it *= i;
+		std::cout << "*it: " << *it << std::endl;
+		i++;
 		it++;
 	}
-	std::cout << l.getlength() << std::endl;
+	while (l.size())
+		l.pop_front();
+	std::cout << "l.size() = " << l.size() << std::endl;
+	std::cout << "l.max_size() = " << l.max_size() << std::endl;
 	return 0;
 }
 
