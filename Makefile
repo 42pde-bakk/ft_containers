@@ -6,7 +6,7 @@
 #    By: Peer <pde-bakk@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/25 17:28:30 by pde-bakk      #+#    #+#                  #
-#    Updated: 2020/09/10 18:00:59 by peerdb        ########   odam.nl          #
+#    Updated: 2020/09/10 20:10:29 by peerdb        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,9 @@ clean:
 
 fclean: clean
 	rm -f $(NAME)
+
+fuckingclean: fclean
+	rm -f std.txt ft.txt stdmain.cpp
 
 re: fclean all
 
