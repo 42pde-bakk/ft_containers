@@ -6,14 +6,14 @@
 #    By: Peer <pde-bakk@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/25 17:28:30 by pde-bakk      #+#    #+#                  #
-#    Updated: 2020/09/09 20:34:40 by peerdb        ########   odam.nl          #
+#    Updated: 2020/09/10 18:00:59 by peerdb        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = containers.out
 
 ifeq ($(shell uname), Linux)
- CXX = g++
+ CXX = clang++
 else
  CXX = clang++
 endif
@@ -35,7 +35,7 @@ $(NAME):
 	$(CXX) $(FILES) $(FLAGS) -o $(NAME)
 	
 clean:
-	rm -f std.txt ft.txt stdmain.cpp
+	# rm -f std.txt ft.txt stdmain.cpp
 
 fclean: clean
 	rm -f $(NAME)

@@ -6,19 +6,12 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/09 22:07:27 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/09/09 22:08:02 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/10 12:59:35 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TRAITS_HPP
 # define TRAITS_HPP
-
-# include <limits>
-# include <memory>
-# include <iostream>
-# include <cstddef>
-# include <cstring>
-# include <climits>
 
 namespace ft
 {
@@ -43,14 +36,12 @@ namespace ft
 	{
 	};
 
-	template <bool B, class T = void>
-	struct enable_if
-	{
+	template <bool B, typename T = void>
+	struct enable_if {
 	};
 
-	template <class T>
-	struct enable_if<true, T>
-	{
+	template <typename T>
+	struct enable_if<true, T> {
 		typedef T type;
 	};
 

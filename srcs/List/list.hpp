@@ -6,16 +6,22 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/09 22:10:01 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/10 18:00:14 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIST_HPP
 # define LIST_HPP
 
+# include <limits>
+# include <memory>
+# include <iostream>
+# include <cstddef>
+# include <cstring>
+# include <climits>
 # include "node.hpp"
 # include "bidirectionaliterator.hpp"
-# include "../Traits.hpp"
+// # include "../Traits.hpp"
 
 namespace ft {
 	
@@ -24,12 +30,12 @@ namespace ft {
 	public:
 		typedef T		value_type;
 		typedef Alloc	allocator_type;
-		// typedef T		&reference;
-		// typedef const T	&const_reference;
-		// typedef T		*pointer;
-		// typedef const T	*const_pointer;
-		typedef ft::listIterator<T>	iterator;
-		// typedef const_iterator;
+		typedef T		&reference;
+		typedef const T	&const_reference;
+		typedef T		*pointer;
+		typedef const T	*const_pointer;
+		typedef ft::ListIterator<T>	iterator;
+		typedef ft::ListIterator<const T> const_iterator;
 		// typedef reverse_iterator;
 		// typedef const_reverse_iterator;
 		typedef ptrdiff_t	difference_type;
@@ -98,34 +104,32 @@ namespace ft {
 			// std::cout << "end:" << iterator(this->tail).getptr() << std::endl;
 			return iterator(this->tail);
 		}
-		const iterator	begin() const { //need to make a const_iterator version here too
-			return iterator(this->head->next);
+		const_iterator	begin() const {
+			// std::cout << "calling begin() const" << std::endl;
+			return const_iterator(this->head->next);
 		}
-		const iterator	end() const {
+		const_iterator	end() const {
 			// std::cout << "end:" << iterator(this->tail).getptr() << std::endl;
-			return iterator(this->tail);
+			return const_iterator(this->tail);
 		}
 		T	front() const {
 			// What happens if this->length == 0?
 			return this->head->next->data;
 		}
 		T	back() const {
-			// same question as above
-			return this->tail->prev->data;
+			// same question as above<< &first << ", last: " << &last 
 		}
 		template <class InputIterator>
- 		void assign (InputIterator first, InputIterator last,
-		typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = NULL) {
+ 		void assign(InputIterator first, InputIterator last) {
+		// typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = NULL) {
 			this->clear();
-			// std::cout << "assign with iterator range, first: " << &first << ", last: " << &last << std::endl;
 			while (first != last) {
-				// push_back(*first);
+				push_back(*first);
 				first++;
 			} 
 		}
 		void	assign(size_type n, const value_type& val) {
 			this->clear();
-			std::cout << "assign n times val" << std::endl;
 			while (n > 0) {
 				push_back(val);
 				--n;
