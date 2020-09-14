@@ -21,15 +21,15 @@
 
 namespace ft {
 	
-	template < typename T, typename R, typename P, typename N, class Category = std::bidirectional_iterator_tag >
+	template < typename T, class Category = std::bidirectional_iterator_tag >
 	class ListIterator {
 	private:
 		node<T>	*ptr;
 	public:
-		typedef T value_type;
-		typedef R reference;
-		typedef P pointer;
-		typedef N node_pointer;
+		// typedef T value_type;
+		// typedef R reference;
+		// typedef P pointer;
+		// typedef N node_pointer;
 		typedef size_t size_type;
 		typedef ptrdiff_t difference_type;
 		// typedef std::bidirectional_iterator_tag iterator_category;
@@ -47,10 +47,10 @@ namespace ft {
 		}
 		~ListIterator() {}
 
-		ListIterator(node_pointer element) {
+		ListIterator(node<T> *element) {
 			this->ptr = element;
 			// std::cout << "constructor with node<T> *list" << std::endl;
-		}
+		}	
 		ListIterator	operator++(int) {
 			if (this->ptr)
 				this->ptr = this->ptr->next;

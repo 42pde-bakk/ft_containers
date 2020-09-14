@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/14 22:00:36 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/09/15 00:45:54 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ namespace ft {
 		typedef node<T> *node_pointer;
 		typedef ptrdiff_t	difference_type;
 		typedef size_t		size_type;
-		typedef ListIterator<value_type, reference, pointer, node_pointer>	iterator;
-		typedef ListIterator<value_type, const_reference, const_pointer, node_pointer> const_iterator;
+		typedef ListIterator<value_type>	iterator;
+		typedef ListIterator<value_type>	const_iterator;
 		// typedef reverse_iterator;
 		// typedef const_reverse_iterator;
 	private:
@@ -98,9 +98,9 @@ namespace ft {
 			delete this->tail;
 			delete this->head;
 		}
-		// iterator	begin() {
-		// 	return iterator(this->head->next);
-		// }
+		iterator	begin() {
+			return iterator(this->head->next);
+		}
 		iterator	end() {
 			return iterator(this->tail);
 		}

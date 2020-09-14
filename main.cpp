@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:46:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/14 22:00:46 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/09/14 23:37:17 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@
 
 int fakemain() {
 	ft::list<int> l((size_t)8, 42);
+	
+	// const ft::list<std::string> s(size_t(10), "anker");
 	ft::list<std::string> s(size_t(10), "anker");
 
 	for (int i = 0; i < 10; i++)
