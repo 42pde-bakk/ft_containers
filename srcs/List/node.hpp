@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/09 12:18:41 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/09/09 17:47:55 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/14 16:19:02 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ namespace ft {
 	class node {
 	public:
 		T			data;
-		node<T>		*next;
-		node<T>		*prev; /* Bi-directional list means it has a pointer to the next element and to the previous one */
+		node		*next;
+		node		*prev; /* Bi-directional list means it has a pointer to the next element and to the previous one */
 
-		node<T>() : data(), next(NULL), prev(NULL) { } /* Default constructor for  */
-		node<T>(T data) : data(data), next(NULL), prev(NULL) { } /* Fill constructor */
-		node<T>(const node<T>& other) : data(other.data), next(other.next), prev(other.prev) { } /* Copy constructor */
-		~node<T>() { } /* Default destructor */
+		node() : data(), next(NULL), prev(NULL) { } /* Default constructor for  */
+		node(T &val) : data(val), next(NULL), prev(NULL) { } /* Fill constructor */
+		node(const node &other) : data(other.data), next(other.next), prev(other.prev) { } /* Copy constructor */
+		~node() { } /* Default destructor */
 
 		node	operator=(const node& rhs) {
 			this->data = rhs.data;

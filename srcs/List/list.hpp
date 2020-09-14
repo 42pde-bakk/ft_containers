@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/10 18:00:14 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/14 16:32:26 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <cstring>
 # include <climits>
 # include "node.hpp"
-# include "bidirectionaliterator.hpp"
+# include "ListIterator.hpp"
 // # include "../Traits.hpp"
 
 namespace ft {
@@ -34,8 +34,10 @@ namespace ft {
 		typedef const T	&const_reference;
 		typedef T		*pointer;
 		typedef const T	*const_pointer;
-		typedef ft::ListIterator<T>	iterator;
-		typedef ft::ListIterator<const T> const_iterator;
+		typedef node<value_type> node;
+		typedef node *node_pointer;
+		typedef ListIterator<value_type, reference, pointer, node_pointer>	iterator;
+		typedef ft::ListIterator<value_type, const_reference, const_pointer, node_pointer> const_iterator;
 		// typedef reverse_iterator;
 		// typedef const_reverse_iterator;
 		typedef ptrdiff_t	difference_type;

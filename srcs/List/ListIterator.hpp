@@ -21,12 +21,20 @@
 
 namespace ft {
 	
-	template < class T, class Category = std::bidirectional_iterator_tag >
+	template < typename T, typename R, typename P, typename N, class Category = std::bidirectional_iterator_tag >
 	class ListIterator {
 	private:
 		node<T>	*ptr;
 	public:
+		typedef T value_type;
+		typedef R reference;
+		typedef P pointer;
+		// typedef N node_pointer;
+		typedef size_t size_type;
+		typedef ptrdiff_t difference_type;
+
 		ListIterator() : ptr(NULL) { }
+		// ListIterator(node_pointer element) : ptr(element) {}
 		ListIterator(const ListIterator& other) {
 			*this = other;
 		}
