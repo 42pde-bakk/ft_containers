@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/14 16:32:26 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/14 22:00:36 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,13 @@ namespace ft {
 		typedef const T	&const_reference;
 		typedef T		*pointer;
 		typedef const T	*const_pointer;
-		typedef node<value_type> node;
-		typedef node *node_pointer;
-		typedef ListIterator<value_type, reference, pointer, node_pointer>	iterator;
-		typedef ft::ListIterator<value_type, const_reference, const_pointer, node_pointer> const_iterator;
-		// typedef reverse_iterator;
-		// typedef const_reverse_iterator;
+		typedef node<T> *node_pointer;
 		typedef ptrdiff_t	difference_type;
 		typedef size_t		size_type;
+		typedef ListIterator<value_type, reference, pointer, node_pointer>	iterator;
+		typedef ListIterator<value_type, const_reference, const_pointer, node_pointer> const_iterator;
+		// typedef reverse_iterator;
+		// typedef const_reverse_iterator;
 	private:
 		node<T>		*head;
 		node<T>		*firstelem;
@@ -99,19 +98,16 @@ namespace ft {
 			delete this->tail;
 			delete this->head;
 		}
-		iterator	begin() { //need to make a const_iterator version here too
-			return iterator(this->head->next);
-		}
+		// iterator	begin() {
+		// 	return iterator(this->head->next);
+		// }
 		iterator	end() {
-			// std::cout << "end:" << iterator(this->tail).getptr() << std::endl;
 			return iterator(this->tail);
 		}
 		const_iterator	begin() const {
-			// std::cout << "calling begin() const" << std::endl;
 			return const_iterator(this->head->next);
 		}
 		const_iterator	end() const {
-			// std::cout << "end:" << iterator(this->tail).getptr() << std::endl;
 			return const_iterator(this->tail);
 		}
 		T	front() const {

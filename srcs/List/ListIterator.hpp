@@ -29,9 +29,11 @@ namespace ft {
 		typedef T value_type;
 		typedef R reference;
 		typedef P pointer;
-		// typedef N node_pointer;
+		typedef N node_pointer;
 		typedef size_t size_type;
 		typedef ptrdiff_t difference_type;
+		// typedef std::bidirectional_iterator_tag iterator_category;
+		// typedef ListIterator self_type;
 
 		ListIterator() : ptr(NULL) { }
 		// ListIterator(node_pointer element) : ptr(element) {}
@@ -45,8 +47,8 @@ namespace ft {
 		}
 		~ListIterator() {}
 
-		ListIterator(node<T> *list) {
-			this->ptr = list;
+		ListIterator(node_pointer element) {
+			this->ptr = element;
 			// std::cout << "constructor with node<T> *list" << std::endl;
 		}
 		ListIterator	operator++(int) {
