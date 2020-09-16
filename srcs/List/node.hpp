@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/09 12:18:41 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/09/14 16:19:02 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/16 16:41:52 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include <cstring>
 
 namespace ft {
-
 	template <typename T>
 	class node {
 	public:
@@ -28,8 +27,8 @@ namespace ft {
 		node		*next;
 		node		*prev; /* Bi-directional list means it has a pointer to the next element and to the previous one */
 
-		node() : data(), next(NULL), prev(NULL) { } /* Default constructor for  */
-		node(T &val) : data(val), next(NULL), prev(NULL) { } /* Fill constructor */
+		// node() : data(), next(NULL), prev(NULL) { } /* Default constructor for  */
+		node(const T &val = T()) : data(val), next(NULL), prev(NULL) { } /* Fill constructor */
 		node(const node &other) : data(other.data), next(other.next), prev(other.prev) { } /* Copy constructor */
 		~node() { } /* Default destructor */
 

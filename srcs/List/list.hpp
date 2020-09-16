@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/15 00:45:54 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/16 17:15:42 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ namespace ft {
 		typedef node<T> *node_pointer;
 		typedef ptrdiff_t	difference_type;
 		typedef size_t		size_type;
-		typedef ListIterator<value_type>	iterator;
-		typedef ListIterator<value_type>	const_iterator;
+		typedef ListIterator<value_type, reference, pointer, node_pointer> iterator;
+		typedef ListIterator<value_type, const_reference, const_pointer, node_pointer> const_iterator;
 		// typedef reverse_iterator;
 		// typedef const_reverse_iterator;
 	private:
@@ -94,9 +94,14 @@ namespace ft {
 			this->assign(x.begin(), x.end());
 		}
 		~list() {
+			std::cout << "starting ~list()" << std::endl;
+			std::cout << "this->head = " << this->head << ", this->tail = " << this->tail << std::endl;
 			this->clear();
+			std::cout << "after clear()" << std::endl;
 			delete this->tail;
+			std::cout << "after deleting tail" << std::endl;
 			delete this->head;
+			std::cout << "after deleting head" << std::endl;
 		}
 		iterator	begin() {
 			return iterator(this->head->next);
@@ -104,10 +109,10 @@ namespace ft {
 		iterator	end() {
 			return iterator(this->tail);
 		}
-		const_iterator	begin() const {
+		const_iterator	cbegin() const {
 			return const_iterator(this->head->next);
 		}
-		const_iterator	end() const {
+		const_iterator	cend() const {
 			return const_iterator(this->tail);
 		}
 		T	front() const {
@@ -134,13 +139,14 @@ namespace ft {
 			}
 		}
 		void	push_front(const value_type &val) {
-			node<T> *ptr = new node<T>();
-			ptr->data = val;
+			node<T> *ptr = new node<T>(val);
 			ptr->prev = this->head;
 			ptr->next = this->head->next;
-			this->head->next = ptr;
-			ptr->next->prev = ptr;
+			this->head->next->prev = ptr;
+			ptr->next = ptr;
 			this->length++;
+			std::cout << "pushing front " << this->head->next << std::endl;
+
 		}
 		void	pop_front() {
 			if (this->length)
@@ -153,29 +159,34 @@ namespace ft {
 			}
 		}
 		void	push_back(const value_type &val) {
-			node<T>	*ptr = new node<T>();
+			node<T>	*ptr = new node<T>(val);
 			ptr->next = this->tail;
 			ptr->prev = this->tail->prev;
 			this->tail->prev->next = ptr;
 			this->tail->prev = ptr;
-			ptr->data = val;
 			this->lastelem = ptr;
 			this->length++;
+			std::cout << "pushing back " << this->lastelem << std::endl;
 		}
 		void	pop_back() {
 			if (this->length)
 			{
+				std::cout << "this->lastelem->prev = " << lastelem->prev << std::endl;
 				node<T>	*tmp = this->lastelem->prev;
 				tmp->next = this->tail;
 				this->tail->prev = tmp;
+				std::cout << "popping back " << this->lastelem << std::endl;
 				delete this->lastelem;
 				this->lastelem = tmp;
 				this->length--;
 			}
 		}
 		void	clear() {
+			int i = 0;
 			while (this->length) {
+				std::cout << "clear " << i << ", length = " << length << std::endl;
 				pop_back();
+				i++;
 			}
 		}
 		size_type	size() const { return this->length; }

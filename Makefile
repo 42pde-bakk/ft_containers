@@ -6,7 +6,7 @@
 #    By: Peer <pde-bakk@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/25 17:28:30 by pde-bakk      #+#    #+#                  #
-#    Updated: 2020/09/13 20:19:42 by peerdb        ########   odam.nl          #
+#    Updated: 2020/09/16 15:43:37 by peerdb        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,6 @@ $(NAME):
 	$(CXX) $(FILES) $(FLAGS) -o $(NAME)
 	
 clean:
-	# rm -f std.txt ft.txt stdmain.cpp
 
 fclean: clean
 	rm -f $(NAME)

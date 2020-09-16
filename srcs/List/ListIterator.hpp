@@ -21,7 +21,7 @@
 
 namespace ft {
 	
-	template < typename T, class Category = std::bidirectional_iterator_tag >
+	template < typename T, typename reference, typename pointer, typename node_pointer, class Category = std::bidirectional_iterator_tag >
 	class ListIterator {
 	private:
 		node<T>	*ptr;
@@ -47,10 +47,10 @@ namespace ft {
 		}
 		~ListIterator() {}
 
-		ListIterator(node<T> *element) {
-			this->ptr = element;
+		ListIterator(node<T> *element) : ptr(element){
+			// this->ptr = element;
 			// std::cout << "constructor with node<T> *list" << std::endl;
-		}	
+		}
 		ListIterator	operator++(int) {
 			if (this->ptr)
 				this->ptr = this->ptr->next;
@@ -71,8 +71,11 @@ namespace ft {
 				this->ptr = this->ptr->prev;
 			return *this;
 		}
-		T&	operator*() {
+		reference	operator*() {
 			return this->ptr->data;
+		}
+		pointer		operator->() {
+			return (&(this->ptr->data));
 		}
 		bool	operator==(const ListIterator& rhs) const {
 			if (this->ptr == rhs.ptr)
@@ -80,15 +83,11 @@ namespace ft {
 			return false;
 		}
 		bool	operator!=(const ListIterator& rhs) const {
-			// std::cout << "lhs: " << (*this).ptr << ", rhs: " << rhs.ptr << std::endl;
 			if (this->ptr == rhs.ptr) {
 				return false;
 			}
 			return true;
 		}
-		// T	*operator->() {
-		// 	return *this->ptr->data;
-		// }
 		node<T>	*getptr() {
 			return this->ptr;
 		}

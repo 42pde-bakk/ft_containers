@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:46:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/14 23:37:17 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/16 16:46:42 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,33 @@
 #include "srcs/List/list.hpp"
 #include <list>
 #include <string>
+#include <cstdlib>
 
-int fakemain() {
+
+void	constants(void)
+{
+	ft::list<int> myList;
+	for (int i = 0; i < 20; i++)
+		myList.push_front(i * 7);
+	
+	// std::cout << "before making myConstLIst" << std::endl;
+	// ft::list<int> myConstList(size_t(8), 7);
+	// ft::list<int>::const_iterator cit = myConstList.cbegin();
+	// ft::list<int>::const_iterator cite = myConstList.cend();
+	// while (cit != cite)
+	// {
+	// 	// std::cout << *cit << "\t";
+	// 	cit++;
+	// }
+	std::cout << std::endl;
+	std::cout << "haha" << std::endl;
+}
+
+int peer() {
 	ft::list<int> l((size_t)8, 42);
 	
-	// const ft::list<std::string> s(size_t(10), "anker");
-	ft::list<std::string> s(size_t(10), "anker");
-
 	for (int i = 0; i < 10; i++)
 		l.push_front(i * 3);
-
-	// ft::list<int> lrange(l.begin(), l.end());
-
-	// for (ft::list<int>::iterator lrangeit = lrange.begin(); lrangeit != lrange.end(); lrangeit++) {
-	// 	std::cout << "*lrangeit = " << *lrangeit << std::endl;
-	// }
-	ft::list<std::string>::const_iterator cit = s.begin();
-	std::cout << "*cit: " << *cit << std::endl;
-	cit++;
-	std::cout << "*cit: " << *cit << std::endl;
-	// ft::list<int>::iterator it = l.begin();
-	// while (it != l.end()) {
-	// 	std::cout << "*it: " << *it << std::endl;
-	// 	it++;
-	// }
 	while (l.size())
 		l.pop_front();
 	std::cout << "l.size() = " << l.size() << std::endl;
@@ -46,7 +49,9 @@ int fakemain() {
 }
 
 int main() {
-	fakemain();
+	srand(time(0));
+	// peer();
+	constants();
 	// system("leaks containers.out");
 	//thx djevayo for the pr
 }
