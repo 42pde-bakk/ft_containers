@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/16 18:52:44 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/09/16 21:24:01 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ namespace ft {
 		allocator_type	alloc;
 		size_type		length;
 	public:
+	
+	/* Constructors, destructor and operator= */
 		explicit list(const allocator_type& alloc = allocator_type()) : alloc(alloc) /* Default constructor */
 		{
 			this->head = new node<T>();
@@ -96,11 +98,18 @@ namespace ft {
 			delete this->tail;
 			delete this->head;
 		}
+	/* Iterators */
 		iterator	begin() {
 			return iterator(this->head->next);
 		}
 		iterator	end() {
 			return iterator(this->tail);
+		}
+		const_iterator	begin() const {
+			return const_iterator(this->head->next);
+		}
+		const_iterator	end() const {
+			return const_iterator(this->tail);
 		}
 		const_iterator	cbegin() const {
 			return const_iterator(this->head->next);
@@ -108,13 +117,35 @@ namespace ft {
 		const_iterator	cend() const {
 			return const_iterator(this->tail);
 		}
-		T	front() const {
+
+	/* Capacity */
+		bool		empty() const {
+			return !this->length;
+		}
+		size_type	size() const {
+			return this->length;
+		}
+		size_type	max_size() const {
+			return (SSIZE_MAX / sizeof(node<T>));
+		}
+		
+	/* Element access */
+		reference		front() {
 			// What happens if this->length == 0?
 			return this->head->next->data;
 		}
-		T	back() const {
-			// same question as above<< &first << ", last: " << &last 
+		const_reference	front() const {
+			// What happens if this->length == 0?
+			return this->head->next->data;
 		}
+		reference		back() {
+			return this->tail->prev->data;
+		}
+		const_reference	back() const {
+			return this->tail->prev->data;
+		}
+	
+	/* Modifiers */
 		template <class InputIterator>
  		void assign(InputIterator first, InputIterator last) {
 		// typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = NULL) {
@@ -175,13 +206,6 @@ namespace ft {
 				pop_back();
 				i++;
 			}
-		}
-		size_type	size() const { return this->length; }
-		size_type	max_size() const { return (SSIZE_MAX / sizeof(node<T>)); }
-		bool empty() const {
-			if (this->length > 0)
-				return true;
-			return false;
 		}
 	};
 }
