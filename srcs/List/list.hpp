@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/16 21:24:01 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/09/16 22:41:28 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,19 +103,19 @@ namespace ft {
 			return iterator(this->head->next);
 		}
 		iterator	end() {
-			return iterator(this->tail);
+			return iterator(this->tail->prev);
 		}
 		const_iterator	begin() const {
 			return const_iterator(this->head->next);
 		}
 		const_iterator	end() const {
-			return const_iterator(this->tail);
+			return const_iterator(this->tail->prev);
 		}
 		const_iterator	cbegin() const {
 			return const_iterator(this->head->next);
 		}
 		const_iterator	cend() const {
-			return const_iterator(this->tail);
+			return const_iterator(this->tail->prev);
 		}
 
 	/* Capacity */
@@ -152,7 +152,7 @@ namespace ft {
 			this->clear();
 			while (first != last) {
 				push_back(*first);
-				first++;
+				++first;
 			} 
 		}
 		void	assign(size_type n, const value_type& val) {
@@ -169,7 +169,6 @@ namespace ft {
 			this->head->next->prev = ptr;
 			this->head->next = ptr;
 			this->length++;
-
 		}
 		void	pop_front() {
 			if (this->length)
@@ -199,6 +198,18 @@ namespace ft {
 				this->length--;
 			}
 		}
+		iterator	insert(iterator position, const value_type& val) {
+			node<T> *insertion = new node<T>(val);
+			insertion->prev = position.getptr()->prev;
+			insertion->next = position.getptr()->next;
+			std::cout << "insertion->next = " << insertion->next << ", and ->prev = " << insertion->prev << std::endl;
+			insertion->prev->next = insertion;
+			insertion->next->prev = insertion;
+			return position;
+		}
+		void		insert(iterator position, size_type n, const value_type& val);
+		template <class InputIterator>
+		void		insert(iterator position, InputIterator first, InputIterator last);
 		void	clear() {
 			int i = 0;
 			while (this->length) {
