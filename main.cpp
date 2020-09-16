@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:46:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/16 16:46:42 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/16 18:48:26 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,15 @@ void	constants(void)
 	for (int i = 0; i < 20; i++)
 		myList.push_front(i * 7);
 	
-	// std::cout << "before making myConstLIst" << std::endl;
-	// ft::list<int> myConstList(size_t(8), 7);
-	// ft::list<int>::const_iterator cit = myConstList.cbegin();
-	// ft::list<int>::const_iterator cite = myConstList.cend();
-	// while (cit != cite)
-	// {
-	// 	// std::cout << *cit << "\t";
-	// 	cit++;
-	// }
+	std::cout << "before making myConstLIst" << std::endl;
+	ft::list<int> myConstList(size_t(8), 7);
+	ft::list<int>::const_iterator cit = myConstList.cbegin();
+	ft::list<int>::const_iterator cite = myConstList.cend();
+	while (cit != cite)
+	{
+		// std::cout << *cit << "\t";
+		cit++;
+	}
 	std::cout << std::endl;
 	std::cout << "haha" << std::endl;
 }

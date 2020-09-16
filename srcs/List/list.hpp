@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/16 17:15:42 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/16 18:52:44 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ namespace ft {
 	private:
 		node<T>		*head;
 		node<T>		*firstelem;
-		node<T>		*lastelem;
 		node<T>		*tail;
 		allocator_type	alloc;
 		size_type		length;
@@ -53,7 +52,6 @@ namespace ft {
 		{
 			this->head = new node<T>();
 			this->tail = new node<T>();
-			// std::cout << "new list with head: " << head << ", and tail: " << tail << std::endl;
 			this->head->next = this->tail;
 			this->tail->prev = this->head;
 			this->length = 0;
@@ -94,14 +92,9 @@ namespace ft {
 			this->assign(x.begin(), x.end());
 		}
 		~list() {
-			std::cout << "starting ~list()" << std::endl;
-			std::cout << "this->head = " << this->head << ", this->tail = " << this->tail << std::endl;
 			this->clear();
-			std::cout << "after clear()" << std::endl;
 			delete this->tail;
-			std::cout << "after deleting tail" << std::endl;
 			delete this->head;
-			std::cout << "after deleting head" << std::endl;
 		}
 		iterator	begin() {
 			return iterator(this->head->next);
@@ -143,9 +136,8 @@ namespace ft {
 			ptr->prev = this->head;
 			ptr->next = this->head->next;
 			this->head->next->prev = ptr;
-			ptr->next = ptr;
+			this->head->next = ptr;
 			this->length++;
-			std::cout << "pushing front " << this->head->next << std::endl;
 
 		}
 		void	pop_front() {
@@ -164,27 +156,22 @@ namespace ft {
 			ptr->prev = this->tail->prev;
 			this->tail->prev->next = ptr;
 			this->tail->prev = ptr;
-			this->lastelem = ptr;
 			this->length++;
-			std::cout << "pushing back " << this->lastelem << std::endl;
 		}
 		void	pop_back() {
 			if (this->length)
 			{
-				std::cout << "this->lastelem->prev = " << lastelem->prev << std::endl;
-				node<T>	*tmp = this->lastelem->prev;
+				node<T>	*tmp = this->tail->prev->prev;
 				tmp->next = this->tail;
+				delete this->tail->prev;
 				this->tail->prev = tmp;
-				std::cout << "popping back " << this->lastelem << std::endl;
-				delete this->lastelem;
-				this->lastelem = tmp;
 				this->length--;
 			}
 		}
 		void	clear() {
 			int i = 0;
 			while (this->length) {
-				std::cout << "clear " << i << ", length = " << length << std::endl;
+				// std::cout << "clear " << i << ", length = " << length << std::endl;
 				pop_back();
 				i++;
 			}

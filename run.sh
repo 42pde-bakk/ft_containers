@@ -6,7 +6,7 @@
 #    By: peerdb <peerdb@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/09/09 16:47:13 by peerdb        #+#    #+#                  #
-#    Updated: 2020/09/10 13:28:42 by peerdb        ########   odam.nl          #
+#    Updated: 2020/09/16 18:52:34 by pde-bakk      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,3 +19,9 @@ make re && ./containers.out > ft.txt
 make re STD=1 && ./containers.out > std.txt
 
 diff ft.txt std.txt
+
+if [ $? -eq 1 ]; then
+	echo "Diff failed"
+else
+	echo "Diff found no differences"
+fi
