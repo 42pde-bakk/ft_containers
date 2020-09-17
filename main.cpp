@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:46:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/16 22:40:55 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/09/17 18:38:19 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,10 @@ void	constants(void)
 	std::cout << "myList.empty() = " << myList.empty() << std::endl;
 	std::cout << "myList.front() = " << myList.front() << std::endl;
 	std::cout << "myList.back() = " << myList.back() << std::endl;
-	for (int i = 0; i < 20; i++)
-		myList.push_front(i * 7);
+	for (int i = 0; i < 20; i++) {
+		myList.push_front(i * 7 + 1);
+		// std::cout << "added " << i * 7 << std::endl;
+	}
 	std::cout << "myList.front() = " << myList.front() << std::endl;
 	std::cout << "myList.back() = " << myList.back() << std::endl;
 	
@@ -44,14 +46,20 @@ int peer() {
 	ft::list<int> l;
 	for (int i = 0; i < 8; i++)
 		l.push_back(i * 2);
-	ft::list<int>::iterator myIt = l.end();
-	std::cout << "*myIt = " << *myIt << std::endl;
-	myIt--;
+	for (ft::list<int>::iterator it = l.begin(); it != l.end(); it++) {
+		std::cout << *it << "\t";
+	}
+	std::cout << std::endl;
+	ft::list<int>::iterator myIt = l.begin();
+	for (int i = 0; i < 5; i++)
+		myIt++;
 	
 	for (int i = 0; i < 10; i++)
 		l.push_back(i * 3);
+	
+	std::cout << "*myIt = " << *myIt << std::endl;
 	ft::list<int>::iterator tmp = l.insert(myIt, -800);
-	std::cout << "tmp = " << &tmp << std::endl;
+	std::cout << "tmp = " << *tmp << std::endl;
 	for (ft::list<int>::iterator it = l.begin(); it != l.end(); it++)
 		std::cout << "*it = " << *it << std::endl;
 	// while (l.size())
@@ -63,8 +71,8 @@ int peer() {
 
 int main() {
 	srand(time(0));
-	// peer();
-	constants();
+	peer();
+	// constants();
 	// system("leaks containers.out");
 	//thx djevayo for the pr
 }

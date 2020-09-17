@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/16 22:41:28 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/09/17 18:40:03 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,19 +103,19 @@ namespace ft {
 			return iterator(this->head->next);
 		}
 		iterator	end() {
-			return iterator(this->tail->prev);
+			return iterator(this->tail);
 		}
 		const_iterator	begin() const {
 			return const_iterator(this->head->next);
 		}
 		const_iterator	end() const {
-			return const_iterator(this->tail->prev);
+			return const_iterator(this->tail);
 		}
 		const_iterator	cbegin() const {
 			return const_iterator(this->head->next);
 		}
 		const_iterator	cend() const {
-			return const_iterator(this->tail->prev);
+			return const_iterator(this->tail);
 		}
 
 	/* Capacity */
@@ -199,13 +199,15 @@ namespace ft {
 			}
 		}
 		iterator	insert(iterator position, const value_type& val) {
+			// std::cout << "position->prev = " << position.getptr()->prev->data << ", and ->next = " << position.getptr()->next->data << std::endl;
 			node<T> *insertion = new node<T>(val);
 			insertion->prev = position.getptr()->prev;
-			insertion->next = position.getptr()->next;
-			std::cout << "insertion->next = " << insertion->next << ", and ->prev = " << insertion->prev << std::endl;
+			insertion->next = position.getptr();
+			// std::cout << "insertion->prev = " << insertion->prev->data << ", and ->next = " << insertion->next->data << std::endl;
+			// std::cout << "insertion->next = " << insertion->next << ", and ->prev = " << insertion->prev << std::endl;
 			insertion->prev->next = insertion;
 			insertion->next->prev = insertion;
-			return position;
+			return iterator(insertion);
 		}
 		void		insert(iterator position, size_type n, const value_type& val);
 		template <class InputIterator>

@@ -71,6 +71,11 @@ namespace ft {
 				this->ptr = this->ptr->prev;
 			return *this;
 		}
+		// ListIterator&	operator+(int x) {
+		// 	while (x > 0)
+		// 		*this = *this->ptr->next;
+		// 	return *this;
+		// }
 		reference	operator*() {
 			return this->ptr->data;
 		}
