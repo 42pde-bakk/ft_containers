@@ -6,7 +6,7 @@
 #    By: peerdb <peerdb@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/09/09 16:47:13 by peerdb        #+#    #+#                  #
-#    Updated: 2020/09/17 20:29:58 by pde-bakk      ########   odam.nl          #
+#    Updated: 2020/09/18 00:21:12 by peerdb        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,8 +23,15 @@ RESET='\033[0m'
 ARG=""
 if [[ $1 == "REALG" ]]; then
 	ARG="REALG=1"
+elif [[ $1 == "CLANG" ]]; then
+	ARG="CLANG=1"
 fi
 
+if [[ $OSTYPE == *"linux"* ]]; then
+	ECHOARG='-e'
+else
+	ECHOARG=''
+fi
 make fuckingclean
 
 sed "s/ft::/std::/g" main.cpp > stdmain.cpp
@@ -35,11 +42,11 @@ FTRET=$?
 make re STD=1 $ARG && ./containers.out > std.txt
 STDRET=$?
 
-echo "${PURPLE}FTRET = ${FTRET}, STDRET = ${STDRET}${RESET}"
+echo $ECHOARG "${PURPLE}FTRET = ${FTRET}, STDRET = ${STDRET}${RESET}"
 
 diff ft.txt std.txt
 if [ $? -eq 1 ]; then
-	echo "${RED}Diff failed${RESET}"
+	echo $ECHOARG "${RED}Diff failed${RESET}"
 else
-	echo "${LIGHTPURPLE}Diff found no differences${RESET}"
+	echo $ECHOARG "${LIGHTPURPLE}Diff found no differences${RESET}"
 fi

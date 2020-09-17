@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:46:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/17 21:50:34 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/09/18 00:26:46 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,8 +106,8 @@ void	resizer() {
 	for (ft::list<int>::iterator it = second.begin(); it != second.end(); it++) {
 		std::cout << "resized second *it: " << *it << std::endl;
 	}
-	if (first == second)
-		std::cout << "yes" << std::endl;
+	std::cout << "are first and second the same?: " << (first == second) << std::endl;
+	std::cout << "are first and second difference?: " << (first != second) << std::endl;
 }
 
 int main() {

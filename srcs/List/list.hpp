@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/17 22:41:15 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/09/18 00:26:30 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,12 +268,11 @@ namespace ft {
 		}
 	/* Relational operators (list) */
 	};
-}
 	
 template <class T, class Alloc>
 bool operator== (const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs) {
-	typename<T, Alloc>::const_iterator lit = lhs.begin();
-	typename<T, Alloc>::const_iterator rit = rhs.begin();
+	typename list<T,Alloc>::const_iterator lit = lhs.begin();
+	typename list<T,Alloc>::const_iterator rit = rhs.begin();
 	
 	if (lhs.size() != rhs.size())
 		return false;
@@ -287,7 +286,12 @@ bool operator== (const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs) {
 	}
 	return false;
 }
+template <class T, class Alloc>
+bool operator!= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
+	return !(lhs == rhs);
+}
 
+} // namespace ft
 // template <typename T, typename Alloc>
 // bool operator== (const list<T, Alloc>& lhs, const list<T, Alloc>& rhs) {
 // 	if (lhs.getlength() == rhs.getlenght())
