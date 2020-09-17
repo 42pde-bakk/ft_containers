@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:46:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/17 19:36:37 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/09/17 21:50:34 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,12 @@ int peer() {
 	l.insert(myIt, (size_t)5, 42);
 	ft::list<int> tocopyList((size_t)3, 69);
 	l.insert(myIt, tocopyList.begin(), tocopyList.end());
+	ft::list<int>::iterator del = l.erase(myIt);
+	std::cout << "list.erase() returned " << *del << std::endl;
 	for (ft::list<int>::iterator it = l.begin(); it != l.end(); it++)
 		std::cout << "*it = " << *it << std::endl;
+	ft::list<int>::iterator delrange = l.erase(l.begin(), l.end());
+	std::cout << "outcome of delrange = " << *delrange << std::endl;
 	// while (l.size())
 	// 	l.pop_front();
 	// std::cout << "l.size() = " << l.size() << std::endl;
@@ -72,10 +76,47 @@ int peer() {
 	return 0;
 }
 
+void	eraser() {
+	ft::list<int> listone((size_t)3, 42);
+	// ft::list<int> listtwo((size_t)5, 84);
+	ft::list<int>::iterator delrange = listone.erase(listone.begin(), listone.end());
+	std::cout << "outcome of delrange = " << *delrange << std::endl;
+}
+
+void	swapper() {
+	ft::list<int> first((size_t)10, 42);
+	ft::list<int> second((size_t)2, 200);
+	first.swap(second);
+	for (ft::list<int>::iterator it = first.begin(); it != first.end(); it++) {
+		std::cout << "swapped first *it: " << *it << std::endl;
+	}
+	for (ft::list<int>::iterator it = second.begin(); it != second.end(); it++) {
+		std::cout << "swapped second *it: " << *it << std::endl;
+	}
+}
+
+void	resizer() {
+	ft::list<int> first((size_t)10, 42);
+	ft::list<int> second((size_t)2, 200);
+	first.resize(5);
+	second.resize(5);
+	for (ft::list<int>::iterator it = first.begin(); it != first.end(); it++) {
+		std::cout << "resized first *it: " << *it << std::endl;
+	}
+	for (ft::list<int>::iterator it = second.begin(); it != second.end(); it++) {
+		std::cout << "resized second *it: " << *it << std::endl;
+	}
+	if (first == second)
+		std::cout << "yes" << std::endl;
+}
+
 int main() {
 	srand(time(0));
-	peer();
+	// peer();
 	// constants();
+	// eraser();
+	// swapper();
+	resizer();
 	// system("leaks containers.out");
 	//thx djevayo for the pr
 }

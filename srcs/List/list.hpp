@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/17 19:35:16 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/09/17 22:41:15 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,16 @@
 // # include "../Traits.hpp"
 
 namespace ft {
+	
+	template<typename Iterator>
+	ptrdiff_t distance(Iterator first, Iterator last) {
+		ptrdiff_t dist = 0;
+		while (first != last) {
+			++dist;
+			first++;
+		}
+		return dist;
+	}
 	
 	template < class T, class Alloc = std::allocator<T> >
 	class list {
@@ -92,6 +102,7 @@ namespace ft {
 			this->tail->prev = this->head;
 			this->length = 0;
 			this->assign(x.begin(), x.end());
+			return *this;
 		}
 		~list() {
 			this->clear();
@@ -131,11 +142,9 @@ namespace ft {
 		
 	/* Element access */
 		reference		front() {
-			// What happens if this->length == 0?
 			return this->head->next->data;
 		}
 		const_reference	front() const {
-			// What happens if this->length == 0?
 			return this->head->next->data;
 		}
 		reference		back() {
@@ -204,6 +213,7 @@ namespace ft {
 			insertion->next = position.getptr();
 			insertion->prev->next = insertion;
 			insertion->next->prev = insertion;
+			this->length++;
 			return iterator(insertion);
 		}
 		void		insert(iterator position, size_type n, const value_type& val) {
@@ -219,6 +229,36 @@ namespace ft {
 				first++;
 			}
 		}
+		iterator	erase(iterator position) {
+			node<T> *tmp = position.getptr();
+			tmp->prev->next = tmp->next;
+			tmp->next->prev = tmp->prev;
+			delete tmp;
+			this->length--;
+			return position.getptr()->next;
+		}
+		iterator	erase(iterator first, iterator last) {
+			iterator out = first;
+			while (first != last) {
+				if (first != this->head && first != this->tail)
+					out = erase(first);
+				first++;
+			}
+			return out;
+		}
+		void	swap(list& x) {
+			list tmp(x);
+			x = *this;
+			*this = tmp; 
+		}
+		void	resize(size_type n, value_type val = value_type()) {
+			while (this->length > n) {
+				pop_back();
+			}
+			while (this->length < n) {
+				push_back(val);
+			}
+		}
 		void	clear() {
 			int i = 0;
 			while (this->length) {
@@ -226,7 +266,32 @@ namespace ft {
 				i++;
 			}
 		}
+	/* Relational operators (list) */
 	};
 }
+	
+template <class T, class Alloc>
+bool operator== (const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs) {
+	typename<T, Alloc>::const_iterator lit = lhs.begin();
+	typename<T, Alloc>::const_iterator rit = rhs.begin();
+	
+	if (lhs.size() != rhs.size())
+		return false;
+	while (1) {
+		if (*lit != *rit)
+			return false;
+		if (lit == lhs.end() && rit == rhs.end())
+			return true;
+		lit++;
+		rit++;
+	}
+	return false;
+}
 
+// template <typename T, typename Alloc>
+// bool operator== (const list<T, Alloc>& lhs, const list<T, Alloc>& rhs) {
+// 	if (lhs.getlength() == rhs.getlenght())
+// 		return true;
+// 	return false;
+// }
 #endif
