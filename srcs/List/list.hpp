@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/17 18:40:03 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/09/17 19:35:16 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,23 +199,29 @@ namespace ft {
 			}
 		}
 		iterator	insert(iterator position, const value_type& val) {
-			// std::cout << "position->prev = " << position.getptr()->prev->data << ", and ->next = " << position.getptr()->next->data << std::endl;
 			node<T> *insertion = new node<T>(val);
 			insertion->prev = position.getptr()->prev;
 			insertion->next = position.getptr();
-			// std::cout << "insertion->prev = " << insertion->prev->data << ", and ->next = " << insertion->next->data << std::endl;
-			// std::cout << "insertion->next = " << insertion->next << ", and ->prev = " << insertion->prev << std::endl;
 			insertion->prev->next = insertion;
 			insertion->next->prev = insertion;
 			return iterator(insertion);
 		}
-		void		insert(iterator position, size_type n, const value_type& val);
+		void		insert(iterator position, size_type n, const value_type& val) {
+			while (n > 0) {
+				insert(position, val);
+				--n;
+			}
+		}
 		template <class InputIterator>
-		void		insert(iterator position, InputIterator first, InputIterator last);
+		void		insert(iterator position, InputIterator first, InputIterator last) {
+			while (first != last) {
+				insert(position, *first);
+				first++;
+			}
+		}
 		void	clear() {
 			int i = 0;
 			while (this->length) {
-				// std::cout << "clear " << i << ", length = " << length << std::endl;
 				pop_back();
 				i++;
 			}

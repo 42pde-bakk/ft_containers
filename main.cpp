@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:46:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/17 18:38:19 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/09/17 19:36:37 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,9 @@ int peer() {
 	std::cout << "*myIt = " << *myIt << std::endl;
 	ft::list<int>::iterator tmp = l.insert(myIt, -800);
 	std::cout << "tmp = " << *tmp << std::endl;
+	l.insert(myIt, (size_t)5, 42);
+	ft::list<int> tocopyList((size_t)3, 69);
+	l.insert(myIt, tocopyList.begin(), tocopyList.end());
 	for (ft::list<int>::iterator it = l.begin(); it != l.end(); it++)
 		std::cout << "*it = " << *it << std::endl;
 	// while (l.size())

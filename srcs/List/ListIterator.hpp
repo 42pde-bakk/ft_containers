@@ -48,8 +48,6 @@ namespace ft {
 		~ListIterator() {}
 
 		ListIterator(node<T> *element) : ptr(element){
-			// this->ptr = element;
-			// std::cout << "constructor with node<T> *list" << std::endl;
 		}
 		ListIterator	operator++(int) {
 			if (this->ptr)
@@ -71,11 +69,6 @@ namespace ft {
 				this->ptr = this->ptr->prev;
 			return *this;
 		}
-		// ListIterator&	operator+(int x) {
-		// 	while (x > 0)
-		// 		*this = *this->ptr->next;
-		// 	return *this;
-		// }
 		reference	operator*() {
 			return this->ptr->data;
 		}
