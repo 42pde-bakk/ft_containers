@@ -6,12 +6,12 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:46:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/18 00:26:46 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/18 19:17:18 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
-#include "srcs/List/list.hpp"
+#include "srcs/List/List.hpp"
 #include <list>
 #include <string>
 #include <cstdlib>
@@ -100,6 +100,8 @@ void	resizer() {
 	ft::list<int> second((size_t)2, 200);
 	first.resize(5);
 	second.resize(5);
+	std::cout << "first < second: " << (first < second) << std::endl;
+	std::cout << "first > second: " << (first > second) << std::endl;
 	for (ft::list<int>::iterator it = first.begin(); it != first.end(); it++) {
 		std::cout << "resized first *it: " << *it << std::endl;
 	}
@@ -110,13 +112,22 @@ void	resizer() {
 	std::cout << "are first and second difference?: " << (first != second) << std::endl;
 }
 
+void	relational() {
+	ft::list<int> first;
+	first.push_back(3);
+	first.push_back(5);
+	ft::list<int> second((size_t)2, 4);
+	std::cout << "first < second: " << (first < second) << std::endl;
+}
+
 int main() {
 	srand(time(0));
 	// peer();
 	// constants();
 	// eraser();
 	// swapper();
-	resizer();
-	// system("leaks containers.out");
+	// resizer();
+	relational();
+	// system("leaks containers.out | grep \"total leaked bytes\"");
 	//thx djevayo for the pr
 }

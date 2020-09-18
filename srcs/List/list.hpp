@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   list.hpp                                           :+:    :+:            */
+/*   List.hpp                                           :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/18 00:26:30 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/18 19:26:04 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <cstddef>
 # include <cstring>
 # include <climits>
-# include "node.hpp"
+# include "ListNode.hpp"
 # include "ListIterator.hpp"
 // # include "../Traits.hpp"
 
@@ -290,12 +290,32 @@ template <class T, class Alloc>
 bool operator!= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
 	return !(lhs == rhs);
 }
+template <class T, class Alloc>
+bool operator<  (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
+	typename list<T, Alloc>::const_iterator lit = lhs.begin();
+	typename list<T, Alloc>::const_iterator rit = rhs.begin();
+	if (lhs.size() > rhs.size())
+		return false;
+	while (lit != lhs.end() && rit != rhs.end()) {
+		if (*lit != *rit)
+			return (*lit < *rit ? true : false);
+		lit++;
+		rit++;
+	}
+	return true;
+}
+template <class T, class Alloc>
+bool operator<= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
+	return !(lhs < rhs);
+}
+template <class T, class Alloc>
+bool operator>  (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
+	return (rhs < lhs);
+}
+template <class T, class Alloc>
+bool operator>= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
+	return !(lhs > rhs);
+}
 
 } // namespace ft
-// template <typename T, typename Alloc>
-// bool operator== (const list<T, Alloc>& lhs, const list<T, Alloc>& rhs) {
-// 	if (lhs.getlength() == rhs.getlenght())
-// 		return true;
-// 	return false;
-// }
 #endif
