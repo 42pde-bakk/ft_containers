@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:46:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/18 19:17:18 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/09/19 14:16:12 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,8 @@ void	relational() {
 	first.push_back(3);
 	first.push_back(5);
 	ft::list<int> second((size_t)2, 4);
+	std::cout << "first < second: " << (first < second) << std::endl;
+	swap(first, second);
 	std::cout << "first < second: " << (first < second) << std::endl;
 }
 

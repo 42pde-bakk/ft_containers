@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/18 19:26:04 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/09/19 14:11:19 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -316,6 +316,12 @@ template <class T, class Alloc>
 bool operator>= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
 	return !(lhs > rhs);
 }
-
+template <class T, class Alloc>
+void swap (list<T,Alloc>& x, list<T,Alloc>& y) {
+	list<T, Alloc> tmp = x;
+	x = y;
+	y = tmp;
+}
+  
 } // namespace ft
 #endif
