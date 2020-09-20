@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/19 14:11:19 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/20 13:05:07 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,12 @@ namespace ft {
 		}
 		return dist;
 	}
+	template< typename S >
+	void	itemswap(S& var1, S& var2) {
+		S tmpvar = var1;
+		var1 = var2;
+		var2 = tmpvar;
+}
 	
 	template < class T, class Alloc = std::allocator<T> >
 	class list {
@@ -260,15 +266,24 @@ namespace ft {
 			}
 		}
 		void	clear() {
-			int i = 0;
 			while (this->length) {
 				pop_back();
-				i++;
 			}
 		}
-	/* Relational operators (list) */
+	/* Operations */
+		void	reverse() {
+			iterator it = begin();	
+			while (it != end()) {
+				itemswap(it.getptr()->prev, it.getptr()->next);
+				it--;
+			}
+			itemswap(head->prev, head->next);
+			itemswap(tail->prev, tail->next);
+			itemswap(head, tail);
+		}
 	};
-	
+
+/* Relational operators (list) */
 template <class T, class Alloc>
 bool operator== (const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs) {
 	typename list<T,Alloc>::const_iterator lit = lhs.begin();
@@ -318,7 +333,7 @@ bool operator>= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
 }
 template <class T, class Alloc>
 void swap (list<T,Alloc>& x, list<T,Alloc>& y) {
-	list<T, Alloc> tmp = x;
+	list<T, Alloc> tmp(x);
 	x = y;
 	y = tmp;
 }

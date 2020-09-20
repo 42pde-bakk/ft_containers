@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:46:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/19 14:16:12 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/19 22:22:06 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,18 @@ void	relational() {
 	std::cout << "first < second: " << (first < second) << std::endl;
 }
 
+void	reverser() {
+	ft::list<int> wop;
+	for (int i = 0; i < 10; i++) {
+		wop.push_back(i * 2);
+		std::cout << "wop[" << i << "]: " << i * 2 << std::endl;
+	}
+	wop.reverse();
+	for (ft::list<int>::iterator it = wop.begin(); it != wop.end(); it++) {
+		std::cout << "wop: " << *it << std::endl;
+	}
+}
+
 int main() {
 	srand(time(0));
 	// peer();
@@ -130,6 +142,7 @@ int main() {
 	// swapper();
 	// resizer();
 	relational();
+	reverser();
 	// system("leaks containers.out | grep \"total leaked bytes\"");
 	//thx djevayo for the pr
 }
