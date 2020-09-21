@@ -295,7 +295,9 @@ namespace ft {
 		}
 		void	splice(iterator position, list&x, iterator i) {
 			this->insert(position, i.getptr()->data);
+			std::cout << "*position = " << *position << std::endl;
 			x.erase(i);
+			std::cout << "*xit = " << *i << std::endl;
 		}
 		void	splice(iterator position, list&x, iterator first, iterator last) {
 			this->insert(position, first, last);
@@ -365,6 +367,29 @@ namespace ft {
 				++it;
 			}
 		}
+		void	merge(list& x) {
+			if (&x == this)
+				return ;
+			// iterator it = begin();
+			// iterator xit = x.begin();
+			// while (it != end()) {
+			// 	// std::cout << "*it = " << *it << ", *xit = " << *xit << std::endl;
+			// 	while (it != end() && !(*xit < *it))
+			// 		++it;
+			// 	if (*xit < *it) {
+			// 		std::cout << "*xit = " << *xit << ", *it = " << *it << std::endl;
+			// 		this->splice(it, x, xit);
+			// 	}
+			// }
+			this->splice(begin(), x);
+			this->sort();
+		}
+		template <class Compare>
+		void merge (list& x, Compare comp) {
+			this->splice(begin(), x);
+			this->sort(comp);
+		}
+
 		void	reverse() {
 			iterator it = begin();	
 			while (it != end()) {

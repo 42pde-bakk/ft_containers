@@ -249,6 +249,39 @@ void	sort_test() {
 	for (it=mylist.begin(); it!=mylist.end(); ++it)
 		std::cout << ' ' << *it;
 	std::cout << " loveyou" << std::endl;
+
+
+}
+
+void	merge_test() {
+	ft::list<int> mylist;
+	for (int i = 0; i < 5; i++) {
+		mylist.push_back(i * 4);
+	}
+	ft::list<int> mysecondlist;
+	for (int i = 0; i < 5; i++) {
+		mysecondlist.push_back(i * 3);
+	}
+	mylist.sort();
+	mysecondlist.sort();
+	ft::list<int>::iterator it;
+	std::cout << "Before mergin, mylist contains:";
+	for (it = mylist.begin(); it != mylist.end(); it++)
+		std::cout << ' ' << *it;
+	std::cout << " loveyou" << std::endl;
+	std::cout << std::endl << "Before mergin, mysecondlist contains:";
+	for (it = mysecondlist.begin(); it != mysecondlist.end(); it++)
+		std::cout << ' ' << *it;
+	std::cout << " loveyou" << std::endl;
+	mylist.merge(mysecondlist);
+	std::cout << "After mergin, mylist contains:";
+	for (it = mylist.begin(); it != mylist.end(); it++)
+		std::cout << ' ' << *it;
+	std::cout << " loveyou" << std::endl;
+	std::cout << std::endl << "After mergin, mysecondlist contains:";
+	for (it = mysecondlist.begin(); it != mysecondlist.end(); it++)
+		std::cout << ' ' << *it;
+	std::cout << " loveyou" << std::endl;
 }
 
 int main() {
@@ -264,7 +297,8 @@ int main() {
 	// remover();
 	// remover_if();
 	// unique_test();
-	sort_test();
+	// sort_test();
+	merge_test();
 	// system("leaks containers.out | grep \"total leaked bytes\"");
 	//thx djevayo for the pr
 }
