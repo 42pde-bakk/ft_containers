@@ -6,7 +6,7 @@
 #    By: peerdb <peerdb@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/09/09 16:47:13 by peerdb        #+#    #+#                  #
-#    Updated: 2020/09/18 00:21:12 by peerdb        ########   odam.nl          #
+#    Updated: 2020/09/21 15:44:48 by pde-bakk      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,14 +37,17 @@ make fuckingclean
 sed "s/ft::/std::/g" main.cpp > stdmain.cpp
 
 make re $ARG && ./containers.out > ft.txt
-FTRET=$?
+STATUS_FT=$?
 
 make re STD=1 $ARG && ./containers.out > std.txt
-STDRET=$?
+STATUS_STD=$?
 
-echo $ECHOARG "${PURPLE}FTRET = ${FTRET}, STDRET = ${STDRET}${RESET}"
+echo $ECHOARG "${PURPLE}STATUS_FT = ${STATUS_FT}, STATUS_STD = ${STATUS_STD}${RESET}"
+if [[ $STATUS_FT -ne 0 || $STATUS_STD -ne 0 ]]; then
+	exit
+fi
 
-diff ft.txt std.txt
+diff ft.txt std.txt > diff.txt;
 if [ $? -eq 1 ]; then
 	echo $ECHOARG "${RED}Diff failed${RESET}"
 else

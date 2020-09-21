@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/20 13:05:07 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/21 21:23:10 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,26 @@ namespace ft {
 		}
 		return dist;
 	}
+	template <class InputIterator, class Distance>
+	void advance (InputIterator& it, Distance n) {
+		while (n) {
+			// std::cout << "n = " << n << std::endl;
+			if (n > 0) {
+				++it;
+				--n;
+			}
+			else {
+				--it;
+				++n;
+			}
+		}
+	}
 	template< typename S >
 	void	itemswap(S& var1, S& var2) {
 		S tmpvar = var1;
 		var1 = var2;
 		var2 = tmpvar;
-}
+	}
 	
 	template < class T, class Alloc = std::allocator<T> >
 	class list {
@@ -111,9 +125,13 @@ namespace ft {
 			return *this;
 		}
 		~list() {
+			// std::cout << "before clear" << std::endl;
 			this->clear();
+			// std::cout << "after clear" << std::endl;
 			delete this->tail;
+			// std::cout << "after tail" << std::endl;
 			delete this->head;
+			// std::cout << "after head" << std::endl;
 		}
 	/* Iterators */
 		iterator	begin() {
@@ -255,7 +273,7 @@ namespace ft {
 		void	swap(list& x) {
 			list tmp(x);
 			x = *this;
-			*this = tmp; 
+			*this = tmp;
 		}
 		void	resize(size_type n, value_type val = value_type()) {
 			while (this->length > n) {
@@ -271,6 +289,82 @@ namespace ft {
 			}
 		}
 	/* Operations */
+		void	splice(iterator position, list& x) {
+			this->insert(position, x.begin(), x.end());
+			x.clear();			
+		}
+		void	splice(iterator position, list&x, iterator i) {
+			this->insert(position, i.getptr()->data);
+			x.erase(i);
+		}
+		void	splice(iterator position, list&x, iterator first, iterator last) {
+			this->insert(position, first, last);
+			x.erase(first, last);
+		}
+		void	remove(const value_type& val) {
+			iterator	it = begin();
+			while (it != end()) {
+				if (*it == val)
+					it = erase(it);
+				else
+					++it;
+			}
+		}
+		template <class Predicate>
+		void remove_if (Predicate pred) {
+			iterator it = begin();
+			while (it != end()) {
+				if (pred(*it) == true)
+					it = erase(it);
+				else
+					++it;
+			}
+			
+		}
+		void	unique() { /* Not truly unique, only removes consecutive same-value elements */
+			iterator it = begin();
+			++it;
+			while (it != end()) {
+				if (*it == it.getprev()->data)
+					it = erase(it);
+				else
+					++it;
+			}
+		}
+		template <class BinaryPredicate>
+		void	unique(BinaryPredicate binary_pred) {
+			iterator it = begin();
+			++it;
+			while (it != end()) {
+				if (binary_pred(*it, it.getprev()->data))
+					it = erase(it);
+				else
+					++it;
+			}
+		}
+		void	sort() {
+			iterator it = begin();
+			++it;
+			while (it != end()) {
+				if (*it < it.getprev()->data) {
+					this->swap(it.getptr(), it.getprev());
+					it = begin();
+				}
+				++it;
+			}
+		}
+		template <class Compare>
+		void	sort(Compare comp) {
+			iterator it = begin();
+			++it;
+			while (it != end()) {
+				if (comp(it, it.getprev()->data)) {
+					this->swap(it.getptr(), it.getprev());
+					it = begin();
+				}
+				++it;
+			}
+		}
 		void	reverse() {
 			iterator it = begin();	
 			while (it != end()) {
@@ -280,6 +374,44 @@ namespace ft {
 			itemswap(head->prev, head->next);
 			itemswap(tail->prev, tail->next);
 			itemswap(head, tail);
+		}
+	private:
+		void	trulyunique() {
+			iterator	it = begin();
+			while (it != end()) {
+				value_type val = *it;
+				iterator rem = it;
+				rem++;
+				while (rem != end()) {
+					if (*rem == val)
+						rem = erase(rem);
+					else
+						++rem;
+				}
+				++it;
+			}
+		}
+		void	refreshouterpointers(node<T> *a) {
+			if (a->prev)
+				a->prev->next = a;
+			if (a->next)
+				a->next->prev = a;
+		}
+		void	swap(node<T> *first, node<T> *second) {
+			if (first == second)
+				return ;
+			if (second->next == first) {
+        		node<T> *temp = first;
+       			first = second;
+        		second = temp;
+    		}
+			node<T>	*swappervector[4] = { first->prev, second->prev, first->next, second->next };
+			first->prev = swappervector[2];
+			second->prev = swappervector[0];
+			first->next = swappervector[3];
+			second->next = swappervector[1];
+			refreshouterpointers(first);
+			refreshouterpointers(second);
 		}
 	};
 

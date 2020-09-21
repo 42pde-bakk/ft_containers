@@ -89,6 +89,12 @@ namespace ft {
 		node<T>	*getptr() {
 			return this->ptr;
 		}
+		node<T>	*getnext() {
+			return this->ptr->next;
+		}
+		node<T>	*getprev() {
+			return this->ptr->prev;
+		}
 	};
 }
 

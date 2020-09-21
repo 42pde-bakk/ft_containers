@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:46:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/19 22:22:06 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/21 21:15:11 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,123 @@ void	reverser() {
 	}
 }
 
+void	splicing() {
+  ft::list<int> mylist1, mylist2;
+  ft::list<int>::iterator it;
+
+  // set some initial values:
+  for (int i=1; i<=4; ++i)
+     mylist1.push_back(i);      // mylist1: 1 2 3 4
+
+  for (int i=1; i<=3; ++i)
+     mylist2.push_back(i*10);   // mylist2: 10 20 30
+
+  it = mylist1.begin();
+  ++it;                         // points to 2
+
+  mylist1.splice (it, mylist2); // mylist1: 1 10 20 30 2 3 4
+                                // mylist2 (empty)
+                                // "it" still points to 2 (the 5th element)
+                                          
+  mylist2.splice (mylist2.begin(),mylist1, it);
+                                // mylist1: 1 10 20 30 3 4
+                                // mylist2: 2
+                                // "it" is now invalid.
+  it = mylist1.begin();
+  ft::advance(it,3);           // "it" points now to 30
+  std::cout << "mylist1 contains:";
+
+  mylist1.splice ( mylist1.begin(), mylist1, it, mylist1.end());
+                                // mylist1: 30 3 4 1 10 20
+
+  std::cout << "mylist1 contains:";
+  for (it=mylist1.begin(); it!=mylist1.end(); ++it)
+    std::cout << ' ' << *it;
+  std::cout << '\n';
+
+  std::cout << "mylist2 contains:";
+  for (it=mylist2.begin(); it!=mylist2.end(); ++it)
+    std::cout << ' ' << *it;
+  std::cout << '\n';
+}
+
+void	remover() {
+	int myints[]= {17,89,7,14};
+	ft::list<int> mylist (myints,myints+4);
+
+	mylist.remove(89);
+
+	std::cout << "mylist contains:";
+	for (ft::list<int>::iterator it=mylist.begin(); it!=mylist.end(); ++it)
+		std::cout << ' ' << *it;
+	std::cout << '\n';
+}
+
+// a predicate implemented as a function:
+bool single_digit (const int& value) { return (value<10); }
+
+// a predicate implemented as a class:
+struct is_odd {
+	bool operator() (const int& value) { return (value%2)==1; }
+};
+
+void	remover_if()
+{
+	int myints[]= {15,36,7,17,20,39,4,1};
+	ft::list<int> mylist (myints,myints+8);   // 15 36 7 17 20 39 4 1
+
+	mylist.remove_if(single_digit);           // 15 36 17 20 39
+
+	mylist.remove_if (is_odd());               // 36 20
+
+	std::cout << "mylist contains:";
+	for (ft::list<int>::iterator it=mylist.begin(); it!=mylist.end(); ++it)
+		std::cout << ' ' << *it;
+	std::cout << '\n';
+}
+
+bool	is_within_five(int first, int second) {
+	return (abs(first - second) <= 5);
+}
+
+void	unique_test() {
+	ft::list<double> mylist;
+
+	for (int i = 0; i < 10; i++) {
+		int n = i;
+		if (i % 2)
+			n = 0;
+		mylist.push_back(n);
+	}
+  
+	// mylist.sort();
+
+	mylist.unique();
+	mylist.unique(is_within_five);
+
+	std::cout << "mylist contains:";
+	for (ft::list<double>::iterator it=mylist.begin(); it!=mylist.end(); ++it)
+		std::cout << ' ' << *it;
+	std::cout << '\n';
+}
+
+void	sort_test() {
+	ft::list<int> mylist;
+	int	myints[] = {0, 4, 213, 20, 22, 20, -100, 300};
+	ft::list<int>::iterator it;
+	for (int i = 0; i < 8; i++)
+		mylist.push_back(myints[i]);
+	std::cout << "mylist contains:";
+	for (it=mylist.begin(); it!=mylist.end(); ++it)
+		std::cout << ' ' << *it;
+	std::cout << std::endl;
+	mylist.sort();
+	std::cout << "After sorting, mylist contains:";
+	for (it=mylist.begin(); it!=mylist.end(); ++it)
+		std::cout << ' ' << *it;
+	std::cout << " loveyou" << std::endl;
+}
+
 int main() {
 	srand(time(0));
 	// peer();
@@ -141,8 +258,13 @@ int main() {
 	// eraser();
 	// swapper();
 	// resizer();
-	relational();
-	reverser();
+	// relational();
+	// reverser();
+	// splicing();
+	// remover();
+	// remover_if();
+	// unique_test();
+	sort_test();
 	// system("leaks containers.out | grep \"total leaked bytes\"");
 	//thx djevayo for the pr
 }
