@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:46:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/21 21:15:11 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/09/22 13:01:23 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -255,12 +255,14 @@ void	sort_test() {
 
 void	merge_test() {
 	ft::list<int> mylist;
+	int	myints[] = {0, 2, 4, 6, 8};
+	int	myints2[] = {1, 3, 5, 7, 9};
 	for (int i = 0; i < 5; i++) {
-		mylist.push_back(i * 4);
+		mylist.push_back(myints[i]);
 	}
 	ft::list<int> mysecondlist;
 	for (int i = 0; i < 5; i++) {
-		mysecondlist.push_back(i * 3);
+		mysecondlist.push_back(myints2[i]);
 	}
 	mylist.sort();
 	mysecondlist.sort();

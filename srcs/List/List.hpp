@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/21 21:23:10 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/09/22 13:09:50 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -295,9 +295,7 @@ namespace ft {
 		}
 		void	splice(iterator position, list&x, iterator i) {
 			this->insert(position, i.getptr()->data);
-			std::cout << "*position = " << *position << std::endl;
 			x.erase(i);
-			std::cout << "*xit = " << *i << std::endl;
 		}
 		void	splice(iterator position, list&x, iterator first, iterator last) {
 			this->insert(position, first, last);
@@ -370,24 +368,29 @@ namespace ft {
 		void	merge(list& x) {
 			if (&x == this)
 				return ;
-			// iterator it = begin();
-			// iterator xit = x.begin();
-			// while (it != end()) {
-			// 	// std::cout << "*it = " << *it << ", *xit = " << *xit << std::endl;
-			// 	while (it != end() && !(*xit < *it))
-			// 		++it;
-			// 	if (*xit < *it) {
-			// 		std::cout << "*xit = " << *xit << ", *it = " << *it << std::endl;
-			// 		this->splice(it, x, xit);
-			// 	}
-			// }
-			this->splice(begin(), x);
-			this->sort();
+			iterator it = begin();
+			iterator xit = x.begin();
+			while (it != end()) {
+				while (it != end() && *it < *xit) {
+					++it;
+				}
+				this->splice(it, x, xit);
+				++xit;
+			}
 		}
 		template <class Compare>
 		void merge (list& x, Compare comp) {
-			this->splice(begin(), x);
-			this->sort(comp);
+			if (&x == this)
+				return ;
+			iterator it = begin();
+			iterator xit = x.begin();
+			while (it != end()) {
+				while (it != end() && comp(it, xit)) {
+					++it;
+				}
+				this->splice(it, x, xit);
+				++xit;
+			}
 		}
 
 		void	reverse() {
