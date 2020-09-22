@@ -33,7 +33,5 @@
 
 # bs
 .vscode
-ft.txt
-std.txt
+*.txt
 stdmain.cpp
-diff.txt
