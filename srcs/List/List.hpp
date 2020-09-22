@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/22 16:28:04 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/09/22 19:30:56 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,8 @@ namespace ft {
 		typedef node<T> *node_pointer;
 		typedef ptrdiff_t	difference_type;
 		typedef size_t		size_type;
-		typedef ListIterator<value_type, reference, pointer, node_pointer> iterator;
-		typedef ListIterator<value_type, const_reference, const_pointer, node_pointer> const_iterator;
+		typedef ListIterator<value_type> iterator;
+		typedef ConstListIterator<value_type> const_iterator;
 		// typedef reverse_iterator;
 		// typedef const_reverse_iterator;
 	private:
@@ -97,7 +97,9 @@ namespace ft {
 			this->assign(n, val);
 		}
 		template <class InputIterator>
-		list (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type()) : alloc(alloc) {
+		list (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), 
+				typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = nullptr)
+				: alloc(alloc) {
 			this->head = new node<T>();
 			this->tail = new node<T>();
 			this->head->next = this->tail;
@@ -177,7 +179,6 @@ namespace ft {
 		template <class InputIterator>
  		void assign(InputIterator first, InputIterator last,
 		typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = nullptr) {
-			// std::cout << "test" << InputIterator::iterator_category << std::endl;
 			this->clear();
 			while (first != last) {
 				push_back(*first);

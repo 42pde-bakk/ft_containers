@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/09 22:07:27 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/09/22 16:29:29 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/09/22 17:05:44 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ struct iterator_check : public iterator_result<false, bool>
 // };
 
 template <>
-struct iterator_check<std::bidirectional_iterator_tag>
-	: public iterator_result<true, std::bidirectional_iterator_tag>
+struct iterator_check<bidirectional_iterator_tag>
+	: public iterator_result<true, bidirectional_iterator_tag>
 {
 };
 

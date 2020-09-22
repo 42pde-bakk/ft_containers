@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:46:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/22 16:27:00 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/09/22 19:40:04 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,19 @@ void	constants(void)
 	std::cout << std::endl;
 	ft::list<int>::iterator einde = myList.end();
 	std::cout << "myList.end() = " << *einde << std::endl;
+}
+
+void	iterators() {
+	ft::list<int> mylist(10, 42);
+	ft::list<int> mysecondlist = mylist;
+	std::cout << "haha" << std::endl;
+	ft::list<int>::const_iterator it = mylist.begin();
+	std::cout << "haha" << std::endl;
+	while (it != mylist.end())
+	{
+		// *it = 0; //wont compile cus its const
+		++it;
+	}
 }
 
 void	assign_test() {
@@ -304,7 +317,8 @@ void	merge_test() {
 
 int main() {
 	srand(time(0));
-	assign_test();
+	// assign_test();
+	iterators();
 	// peer();
 	// constants();
 	// eraser();
