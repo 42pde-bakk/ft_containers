@@ -32,7 +32,7 @@ namespace ft {
 		// typedef N node_pointer;
 		typedef size_t size_type;
 		typedef ptrdiff_t difference_type;
-		// typedef std::bidirectional_iterator_tag iterator_category;
+		typedef std::bidirectional_iterator_tag iterator_category;
 		// typedef ListIterator self_type;
 
 		ListIterator() : ptr(NULL) { }

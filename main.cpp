@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:46:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/22 13:01:23 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/09/22 16:27:00 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,22 @@ void	constants(void)
 	std::cout << std::endl;
 	ft::list<int>::iterator einde = myList.end();
 	std::cout << "myList.end() = " << *einde << std::endl;
+}
+
+void	assign_test() {
+	ft::list<int> first;
+	ft::list<int> second;
+
+	first.assign (7,100);                      // 7 ints with value 100
+
+	second.assign (first.begin(),first.end()); // a copy of first
+
+	// int myints[]={1776,7,4};
+	// first.assign (myints,myints+3);            // assigning from array
+	// std::cout << "first contains: "
+
+	std::cout << "Size of first: " << int (first.size()) << std::endl;
+	std::cout << "Size of second: " << int (second.size()) << std::endl;
 }
 
 int peer() {
@@ -83,17 +99,17 @@ void	eraser() {
 	std::cout << "outcome of delrange = " << *delrange << std::endl;
 }
 
-void	swapper() {
-	ft::list<int> first((size_t)10, 42);
-	ft::list<int> second((size_t)2, 200);
-	first.swap(second);
-	for (ft::list<int>::iterator it = first.begin(); it != first.end(); it++) {
-		std::cout << "swapped first *it: " << *it << std::endl;
-	}
-	for (ft::list<int>::iterator it = second.begin(); it != second.end(); it++) {
-		std::cout << "swapped second *it: " << *it << std::endl;
-	}
-}
+// void	swapper() {
+// 	ft::list<int> first((size_t)10, 42);
+// 	ft::list<int> second((size_t)2, 200);
+// 	first.swap(second);
+// 	for (ft::list<int>::iterator it = first.begin(); it != first.end(); it++) {
+// 		std::cout << "swapped first *it: " << *it << std::endl;
+// 	}
+// 	for (ft::list<int>::iterator it = second.begin(); it != second.end(); it++) {
+// 		std::cout << "swapped second *it: " << *it << std::endl;
+// 	}
+// }
 
 void	resizer() {
 	ft::list<int> first((size_t)10, 42);
@@ -112,15 +128,15 @@ void	resizer() {
 	std::cout << "are first and second difference?: " << (first != second) << std::endl;
 }
 
-void	relational() {
-	ft::list<int> first;
-	first.push_back(3);
-	first.push_back(5);
-	ft::list<int> second((size_t)2, 4);
-	std::cout << "first < second: " << (first < second) << std::endl;
-	swap(first, second);
-	std::cout << "first < second: " << (first < second) << std::endl;
-}
+// void	relational() {
+// 	ft::list<int> first;
+// 	first.push_back(3);
+// 	first.push_back(5);
+// 	ft::list<int> second((size_t)2, 4);
+// 	std::cout << "first < second: " << (first < second) << std::endl;
+// 	swap(first, second);
+// 	std::cout << "first < second: " << (first < second) << std::endl;
+// }
 
 void	reverser() {
 	ft::list<int> wop;
@@ -174,17 +190,17 @@ void	splicing() {
   std::cout << '\n';
 }
 
-void	remover() {
-	int myints[]= {17,89,7,14};
-	ft::list<int> mylist (myints,myints+4);
+// void	remover() {
+// 	int myints[]= {17,89,7,14};
+// 	ft::list<int> mylist (myints,myints+4);
 
-	mylist.remove(89);
+// 	mylist.remove(89);
 
-	std::cout << "mylist contains:";
-	for (ft::list<int>::iterator it=mylist.begin(); it!=mylist.end(); ++it)
-		std::cout << ' ' << *it;
-	std::cout << '\n';
-}
+// 	std::cout << "mylist contains:";
+// 	for (ft::list<int>::iterator it=mylist.begin(); it!=mylist.end(); ++it)
+// 		std::cout << ' ' << *it;
+// 	std::cout << '\n';
+// }
 
 // a predicate implemented as a function:
 bool single_digit (const int& value) { return (value<10); }
@@ -194,20 +210,20 @@ struct is_odd {
 	bool operator() (const int& value) { return (value%2)==1; }
 };
 
-void	remover_if()
-{
-	int myints[]= {15,36,7,17,20,39,4,1};
-	ft::list<int> mylist (myints,myints+8);   // 15 36 7 17 20 39 4 1
+// void	remover_if()
+// {
+// 	int myints[]= {15,36,7,17,20,39,4,1};
+// 	ft::list<int> mylist (myints,myints+8);   // 15 36 7 17 20 39 4 1
 
-	mylist.remove_if(single_digit);           // 15 36 17 20 39
+// 	mylist.remove_if(single_digit);           // 15 36 17 20 39
 
-	mylist.remove_if (is_odd());               // 36 20
+// 	mylist.remove_if (is_odd());               // 36 20
 
-	std::cout << "mylist contains:";
-	for (ft::list<int>::iterator it=mylist.begin(); it!=mylist.end(); ++it)
-		std::cout << ' ' << *it;
-	std::cout << '\n';
-}
+// 	std::cout << "mylist contains:";
+// 	for (ft::list<int>::iterator it=mylist.begin(); it!=mylist.end(); ++it)
+// 		std::cout << ' ' << *it;
+// 	std::cout << '\n';
+// }
 
 bool	is_within_five(int first, int second) {
 	return (abs(first - second) <= 5);
@@ -288,6 +304,7 @@ void	merge_test() {
 
 int main() {
 	srand(time(0));
+	assign_test();
 	// peer();
 	// constants();
 	// eraser();
@@ -300,7 +317,7 @@ int main() {
 	// remover_if();
 	// unique_test();
 	// sort_test();
-	merge_test();
+	// merge_test();
 	// system("leaks containers.out | grep \"total leaked bytes\"");
 	//thx djevayo for the pr
 }

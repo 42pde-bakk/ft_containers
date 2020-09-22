@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/22 13:09:50 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/09/22 16:28:04 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <climits>
 # include "ListNode.hpp"
 # include "ListIterator.hpp"
-// # include "../Traits.hpp"
+# include "../Traits.hpp"
 
 namespace ft {
 	
@@ -37,7 +37,6 @@ namespace ft {
 	template <class InputIterator, class Distance>
 	void advance (InputIterator& it, Distance n) {
 		while (n) {
-			// std::cout << "n = " << n << std::endl;
 			if (n > 0) {
 				++it;
 				--n;
@@ -125,13 +124,9 @@ namespace ft {
 			return *this;
 		}
 		~list() {
-			// std::cout << "before clear" << std::endl;
 			this->clear();
-			// std::cout << "after clear" << std::endl;
 			delete this->tail;
-			// std::cout << "after tail" << std::endl;
 			delete this->head;
-			// std::cout << "after head" << std::endl;
 		}
 	/* Iterators */
 		iterator	begin() {
@@ -180,8 +175,9 @@ namespace ft {
 	
 	/* Modifiers */
 		template <class InputIterator>
- 		void assign(InputIterator first, InputIterator last) {
-		// typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = NULL) {
+ 		void assign(InputIterator first, InputIterator last,
+		typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = nullptr) {
+			// std::cout << "test" << InputIterator::iterator_category << std::endl;
 			this->clear();
 			while (first != last) {
 				push_back(*first);
