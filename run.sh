@@ -6,7 +6,7 @@
 #    By: peerdb <peerdb@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/09/09 16:47:13 by peerdb        #+#    #+#                  #
-#    Updated: 2020/09/21 15:44:48 by pde-bakk      ########   odam.nl          #
+#    Updated: 2020/09/23 12:45:32 by pde-bakk      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,11 +36,11 @@ make fuckingclean
 
 sed "s/ft::/std::/g" main.cpp > stdmain.cpp
 
-make re $ARG && ./containers.out > ft.txt
-STATUS_FT=$?
-
 make re STD=1 $ARG && ./containers.out > std.txt
 STATUS_STD=$?
+
+make re $ARG && ./containers.out > ft.txt
+STATUS_FT=$?
 
 echo $ECHOARG "${PURPLE}STATUS_FT = ${STATUS_FT}, STATUS_STD = ${STATUS_STD}${RESET}"
 if [[ $STATUS_FT -ne 0 || $STATUS_STD -ne 0 ]]; then
