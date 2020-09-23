@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/23 14:53:04 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/09/23 23:41:00 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@
 # include "ListNode.hpp"
 # include "ListIterator.hpp"
 # include "../Traits.hpp"
+
+#if defined(unix) || defined(__unix__) || defined(__unix)
+# define PEER_MAX SSIZE_MAX
+#else
+# define PEER_MAX SIZE_T_MAX
+#endif
 
 namespace ft {
 	
@@ -98,7 +104,7 @@ namespace ft {
 		}
 		template <class InputIterator>
 		list (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), 
-				typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = nullptr)
+				typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0)
 				: alloc(alloc) {
 			this->head = new node<T>();
 			this->tail = new node<T>();
@@ -171,7 +177,7 @@ namespace ft {
 			return this->length;
 		}
 		size_type	max_size() const {
-			return (SIZE_T_MAX / sizeof(node<T>)); //size_type_max
+			return (PEER_MAX / sizeof(node<T>)); //size_type_max
 		}
 		
 	/* Element access */
@@ -191,7 +197,7 @@ namespace ft {
 	/* Modifiers */
 		template <class InputIterator>
  		void assign(InputIterator first, InputIterator last,
-		typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = nullptr) {
+		typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) {
 			this->clear();
 			while (first != last) {
 				push_back(*first);
@@ -258,7 +264,7 @@ namespace ft {
 		}
 		template <class InputIterator>
 		void		insert(iterator position, InputIterator first, InputIterator last,
-		typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = nullptr) {
+		typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) {
 			while (first != last) {
 				insert(position, *first);
 				first++;
@@ -268,18 +274,19 @@ namespace ft {
 			node<T> *tmp = position.getptr();
 			tmp->prev->next = tmp->next;
 			tmp->next->prev = tmp->prev;
+			position++;
 			delete tmp;
 			this->length--;
-			return position.getptr()->next;
+			return position;
 		}
 		iterator	erase(iterator first, iterator last) {
-			iterator out = first;
 			while (first != last) {
 				if (first != this->head && first != this->tail)
-					out = erase(first);
-				first++;
+					first = erase(first);
+				else
+					first++;
 			}
-			return out;
+			return first;
 		}
 		void	swap(list& x) {
 			list tmp(x);
@@ -381,12 +388,12 @@ namespace ft {
 				return ;
 			iterator it = begin();
 			iterator xit = x.begin();
-			while (it != end()) {
+			while (it != end() && xit != x.end()) {
 				while (it != end() && *it < *xit) {
 					++it;
 				}
-				this->splice(it, x, xit);
 				++xit;
+				this->splice(it, x, xit.getprev());
 			}
 		}
 		template <class Compare>
@@ -399,8 +406,8 @@ namespace ft {
 				while (it != end() && comp(it, xit)) {
 					++it;
 				}
-				this->splice(it, x, xit);
 				++xit;
+				this->splice(it, x, xit.getprev());
 			}
 		}
 

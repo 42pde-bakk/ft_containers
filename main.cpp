@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:46:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/23 16:30:55 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/09/23 23:42:29 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,23 +141,61 @@ void	modifiers_test() {
 	std::cout << std::endl;
 }
 
+bool single_digit (const int& value) { return (value<10); }
+
 void	operations_test() {
+	ft::list<int>	splicelist1(4, 0);
+	ft::list<int>	splicelist2(4, 12);
+	ft::list<int>	splicelist3(4, 69);
+	ft::list<int>::iterator it = splicelist3.begin();
+	ft::advance(it, 2);
 	ft::list<int>	mylist;
 	for (int i = 0; i < 10; i++)
 		mylist.push_back(i);
-	ft::list<int>	otherlist(4, 0);
-	mylist.splice(mylist.begin(), otherlist);
-	print_container_content(otherlist, "otherlist");
+	mylist.splice(mylist.begin(), splicelist1);
+	mylist.splice(mylist.begin(), splicelist2, splicelist2.begin());
+	mylist.splice(mylist.begin(), splicelist3, splicelist3.begin(), splicelist3.end());
+	print_container_content(splicelist1, "splicelist1");
+	print_container_content(splicelist2, "splicelist2");
+	print_container_content(splicelist3, "splicelist3");
 	print_container_content(mylist, "mylist");
-	
+	mylist.remove(69);
+	mylist.remove_if(single_digit);
+	print_container_content(mylist, "mylist");
+	std::cout << std::endl;
+}
+
+void	operations_test2() {
+	ft::list<int>	mylist;
+	for (int i = 0; i < 20; i++) {
+		if (i % 3 == 0 || i % 5 == 0)
+			mylist.push_back(0);
+		else
+			mylist.push_back(i);
+	}
+	ft::list<int>	myotherlist;
+	for (int i = 0; i < 20; i++)
+		myotherlist.push_back(i);
+	print_container_content(mylist, "mylist");
+	mylist.unique();
+	print_container_content(mylist, "mylist");
+	mylist.sort();
+	print_container_content(mylist, "Mylist");
+	print_container_content(myotherlist, "My Other list");
+	mylist.merge(myotherlist);
+	mylist.reverse();
+	print_container_content(mylist, "mylist");
+	std::cout << std::endl;
 }
 
 int main() {
 	srand(time(0));
-	// constructors_test();
-	// iterators_test();
-	// capacity_test_element_access();
-	// modifiers_test();
+	constructors_test();
+	iterators_test();
+	capacity_test_element_access();
+	modifiers_test();
 	operations_test();
+	operations_test2();
+	// eraser();
 	// system("leaks containers.out | grep \"total leaked bytes\"");
 }
