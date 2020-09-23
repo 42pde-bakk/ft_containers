@@ -39,7 +39,6 @@ namespace ft {
 		ListIterator() : ptr(NULL) { }
 		ListIterator(node_pointer element) : ptr(element) {}
 		ListIterator(const ListIterator& other) {
-			std::cout << "what the hoer" << std::endl;
 			*this = other;
 		}
 		ListIterator&	operator=(const ListIterator& other) {
@@ -86,7 +85,7 @@ namespace ft {
 			}
 			return true;
 		}
-		node<T>	*getptr() {
+		node<T>	*getptr() const {
 			return this->ptr;
 		}
 		node<T>	*getnext() {
@@ -111,17 +110,17 @@ namespace ft {
 		ConstListIterator() : ptr(NULL) { }
 		ConstListIterator(node_pointer element) : ptr(element) {}
 		ConstListIterator(const ConstListIterator& other) {
-			std::cout << "fuck me" << std::endl;
 			*this = other;
 		}
 		ConstListIterator(const ListIterator<T> &other) {
-			std::cout << "fuck" << std::endl;
 			*this = other;
-			std::cout << "hsdfskdjf" << std::endl;
 		}
 		ConstListIterator&	operator=(const ConstListIterator& other) {
-			if (this != &other)
-				this->ptr = other.ptr;
+			this->ptr = other.ptr;
+			return *this;
+		}
+		ConstListIterator&	operator=(const ListIterator<T>& other) {
+			this->ptr = other.getptr();
 			return *this;
 		}
 		~ConstListIterator() { }
@@ -162,7 +161,7 @@ namespace ft {
 	};
 
 	template < typename T, class Category = std::bidirectional_iterator_tag >
-	class RevListIterator : public ListIterator<T> {
+	class RevListIterator{
 	private:
 		node<T>	*ptr;
 	public:
@@ -176,7 +175,7 @@ namespace ft {
 		// typedef RevListIterator self_type;
 
 		RevListIterator() : ptr(NULL) { }
-		RevListIterator(node_pointer element) : ptr(element) {}
+		RevListIterator(node_pointer element) : ptr(element) { }
 		RevListIterator(const RevListIterator& other) {
 			*this = other;
 		}
@@ -206,9 +205,35 @@ namespace ft {
 				this->ptr = this->ptr->next;
 			return *this;
 		}
+		reference	operator*() {
+			return this->ptr->data;
+		}
+		pointer		operator->() {
+			return (&(this->ptr->data));
+		}
+		bool	operator==(const RevListIterator& rhs) const {
+			if (this->ptr == rhs.ptr)
+				return true;
+			return false;
+		}
+		bool	operator!=(const RevListIterator& rhs) const {
+			if (this->ptr == rhs.ptr) {
+				return false;
+			}
+			return true;
+		}
+		node<T>	*getptr() const {
+			return this->ptr;
+		}
+		node<T>	*getnext() {
+			return this->ptr->next;
+		}
+		node<T>	*getprev() {
+			return this->ptr->prev;
+		}
 	};
 	template < typename T, class Category = std::bidirectional_iterator_tag >
-	class ConstRevListIterator : public ConstListIterator<T>{
+	class ConstRevListIterator {
 	private:
 		node<T>	*ptr;
 	public:
@@ -221,15 +246,18 @@ namespace ft {
 		typedef bidirectional_iterator_tag iterator_category;
 		ConstRevListIterator() : ptr(NULL) { }
 		ConstRevListIterator(node_pointer element) : ptr(element) {}
-		ConstRevListIterator(const ConstRevListIterator<T> &other) {
-			*this = other;
-		}
 		ConstRevListIterator(const ConstRevListIterator& other) {
 			*this = other;
 		}
+		ConstRevListIterator(const RevListIterator<T> &other) {
+			*this = other;
+		}
 		ConstRevListIterator&	operator=(const ConstRevListIterator& other) {
-			if (this != &other)
-				this->ptr = other.ptr;
+			this->ptr = other.ptr;
+			return *this;
+		}
+		ConstRevListIterator&	operator=(const RevListIterator<T> &other) {
+			this->ptr = other.getptr();
 			return *this;
 		}
 		~ConstRevListIterator() { }
@@ -253,6 +281,19 @@ namespace ft {
 			if (this->ptr)
 				this->ptr = this->ptr->next;
 			return *this;
+		}
+		bool	operator==(const ConstRevListIterator& rhs) const {
+			if (this->ptr == rhs.ptr)
+				return true;
+			return false;
+		}
+		bool	operator!=(const ConstRevListIterator& rhs) const {
+			if (this->ptr == rhs.ptr)
+				return false;
+			return true;
+		}
+		reference	operator*() {
+			return (this->ptr->data);
 		}
 	};
 }

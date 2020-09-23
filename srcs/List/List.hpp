@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/22 19:30:56 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/09/23 12:42:13 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,19 +57,19 @@ namespace ft {
 	template < class T, class Alloc = std::allocator<T> >
 	class list {
 	public:
-		typedef T		value_type;
-		typedef Alloc	allocator_type;
-		typedef T		&reference;
-		typedef const T	&const_reference;
-		typedef T		*pointer;
-		typedef const T	*const_pointer;
-		typedef node<T> *node_pointer;
+		typedef T			value_type;
+		typedef Alloc		allocator_type;
+		typedef T			&reference;
+		typedef const T		&const_reference;
+		typedef T			*pointer;
+		typedef const T		*const_pointer;
+		typedef node<T> 	*node_pointer;
 		typedef ptrdiff_t	difference_type;
 		typedef size_t		size_type;
-		typedef ListIterator<value_type> iterator;
-		typedef ConstListIterator<value_type> const_iterator;
-		// typedef reverse_iterator;
-		// typedef const_reverse_iterator;
+		typedef ListIterator<value_type>			iterator;
+		typedef ConstListIterator<value_type>		const_iterator;
+		typedef RevListIterator<value_type>			reverse_iterator;
+		typedef ConstRevListIterator<value_type>	const_reverse_iterator;
 	private:
 		node<T>		*head;
 		node<T>		*firstelem;
@@ -134,14 +134,26 @@ namespace ft {
 		iterator	begin() {
 			return iterator(this->head->next);
 		}
-		iterator	end() {
-			return iterator(this->tail);
-		}
 		const_iterator	begin() const {
 			return const_iterator(this->head->next);
 		}
+		iterator	end() {
+			return iterator(this->tail);
+		}
 		const_iterator	end() const {
 			return const_iterator(this->tail);
+		}
+		reverse_iterator		rbegin() {
+			return reverse_iterator(this->tail->prev);
+		}
+		const_reverse_iterator	rbegin() const {
+			return const_reverse_iterator(this->tail->prev);
+		}
+		reverse_iterator		rend() {
+			return reverse_iterator(this->head);
+		}
+		const_reverse_iterator	rend() const {
+			return const_reverse_iterator(this->head);
 		}
 		const_iterator	cbegin() const {
 			return const_iterator(this->head->next);
@@ -149,6 +161,7 @@ namespace ft {
 		const_iterator	cend() const {
 			return const_iterator(this->tail);
 		}
+		
 
 	/* Capacity */
 		bool		empty() const {

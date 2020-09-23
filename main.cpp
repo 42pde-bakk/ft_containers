@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:46:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/22 19:40:04 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/09/23 13:09:20 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,38 @@ void	constants(void)
 
 void	iterators() {
 	ft::list<int> mylist(10, 42);
+	int i = 0;
+	for (ft::list<int>::iterator it = mylist.begin(); it != mylist.end(); it++) {
+		*it += i;
+		++i;
+	}
 	ft::list<int> mysecondlist = mylist;
-	std::cout << "haha" << std::endl;
 	ft::list<int>::const_iterator it = mylist.begin();
-	std::cout << "haha" << std::endl;
+	std::cout << "mylist contains:";
 	while (it != mylist.end())
 	{
+		std::cout << ' ' << *it;
 		// *it = 0; //wont compile cus its const
 		++it;
 	}
+	std::cout << std::endl;
+	ft::list<int>::reverse_iterator rit = mylist.rbegin();
+	ft::list<int>::reverse_iterator ritend = mylist.rend();
+	std::cout << "mylist.reverse contains:";
+	while (rit != ritend)
+	{
+		std::cout << ' ' << *rit;
+		++rit;
+	}
+	std::cout << std::endl;
+	ft::list<int>::const_reverse_iterator crit = mylist.rbegin();
+	std::cout << "mylist.reverse contains:";
+	while (crit != ritend)
+	{
+		std::cout << ' ' << *crit;
+		++crit;
+	}
+	std::cout << std::endl;
 }
 
 void	assign_test() {
