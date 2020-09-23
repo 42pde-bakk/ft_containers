@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/23 12:42:13 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/09/23 14:53:04 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,7 @@ namespace ft {
 			return this->length;
 		}
 		size_type	max_size() const {
-			return (SSIZE_MAX / sizeof(node<T>));
+			return (SIZE_T_MAX / sizeof(node<T>)); //size_type_max
 		}
 		
 	/* Element access */
@@ -257,7 +257,8 @@ namespace ft {
 			}
 		}
 		template <class InputIterator>
-		void		insert(iterator position, InputIterator first, InputIterator last) {
+		void		insert(iterator position, InputIterator first, InputIterator last,
+		typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = nullptr) {
 			while (first != last) {
 				insert(position, *first);
 				first++;
