@@ -6,7 +6,7 @@
 #    By: Peer <pde-bakk@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/25 17:28:30 by pde-bakk      #+#    #+#                  #
-#    Updated: 2020/09/23 22:54:25 by peerdb        ########   odam.nl          #
+#    Updated: 2020/09/24 14:42:18 by peerdb        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,17 +25,22 @@ ifdef CLANG
 endif
 
 FLAGS = -W -Wall -Wextra -Werror -pedantic -std=c++98 -ansi
-#-Weffc++ -Wshadow
 
 FILES = main.cpp
 ifdef STD
  FILES = stdmain.cpp
 endif
 
-all: $(NAME)
+# all: $(NAME)
 
-$(NAME):
-	$(CXX) $(FILES) $(FLAGS) -o $(NAME)
+# $(NAME):
+# 	$(CXX) $(FILES) $(FLAGS) -o $(NAME)
+
+list: fclean
+	$(CXX) $(FLAGS) list_$(FILES) -o $(NAME)
+
+vector: fclean
+	$(CXX) $(FLAGS) vector$(FILES) -o $(NAME)
 	
 clean:
 
@@ -43,7 +48,7 @@ fclean: clean
 	rm -f $(NAME)
 
 fuckingclean: fclean
-	rm -f std.txt ft.txt stdmain.cpp
+	rm -f std.txt ft.txt *stdmain.cpp diff.txt
 
-re: fclean all
+re: fclean
 

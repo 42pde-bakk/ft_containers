@@ -34,4 +34,4 @@
 # bs
 .vscode
 *.txt
-stdmain.cpp
+*stdmain.cpp

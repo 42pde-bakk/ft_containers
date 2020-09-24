@@ -6,7 +6,7 @@
 #    By: peerdb <peerdb@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/09/09 16:47:13 by peerdb        #+#    #+#                  #
-#    Updated: 2020/09/23 12:45:32 by pde-bakk      ########   odam.nl          #
+#    Updated: 2020/09/24 14:03:10 by peerdb        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,11 +20,40 @@ CYAN='\033[0;36m'
 LIGHTCYAN='\033[1;36m'
 RESET='\033[0m'
 # echo "Passed" $# "arguments to run.sh" 
+
+function test {
+	if [[ $1 == "" ]]; then
+		exit
+	fi
+	make fuckingclean
+
+	sed "s/ft::/std::/g" $1_main.cpp > $1_stdmain.cpp
+
+	make $1 STD=1 && ./containers.out > std.txt
+	STATUS_STD=$?
+
+	make $1 && ./containers.out > ft.txt
+	STATUS_FT=$?
+
+	echo $ECHOARG "${ORANGE}Startin testing for $1${RESET}"
+	echo $ECHOARG "${PURPLE}STATUS_FT = ${STATUS_FT}, STATUS_STD = ${STATUS_STD}${RESET}"
+	if [[ $STATUS_FT -ne 0 || $STATUS_STD -ne 0 ]]; then
+		exit
+	fi
+
+	diff ft.txt std.txt > diff.txt;
+	if [ $? -eq 1 ]; then
+		echo $ECHOARG "${RED}Diff failed${RESET}"
+	else
+		echo $ECHOARG "${LIGHTPURPLE}Diff found no differences${RESET}"
+	fi	
+}
+
 ARG=""
-if [[ $1 == "REALG" ]]; then
-	ARG="REALG=1"
-elif [[ $1 == "CLANG" ]]; then
-	ARG="CLANG=1"
+if [[ $1 == "list" || $1 == "vector" || $1 == "map" ]]; then
+	ARG=$1
+else
+	ARG="all"
 fi
 
 if [[ $OSTYPE == *"linux"* ]]; then
@@ -32,24 +61,13 @@ if [[ $OSTYPE == *"linux"* ]]; then
 else
 	ECHOARG=''
 fi
-make fuckingclean
 
-sed "s/ft::/std::/g" main.cpp > stdmain.cpp
-
-make re STD=1 $ARG && ./containers.out > std.txt
-STATUS_STD=$?
-
-make re $ARG && ./containers.out > ft.txt
-STATUS_FT=$?
-
-echo $ECHOARG "${PURPLE}STATUS_FT = ${STATUS_FT}, STATUS_STD = ${STATUS_STD}${RESET}"
-if [[ $STATUS_FT -ne 0 || $STATUS_STD -ne 0 ]]; then
-	exit
-fi
-
-diff ft.txt std.txt > diff.txt;
-if [ $? -eq 1 ]; then
-	echo $ECHOARG "${RED}Diff failed${RESET}"
+declare -a arr=("list" "vector" "map" "stack" "queue")
+if [[ $ARG == "all" ]]; then
+	for i in "${arr[@]}"
+	do
+		test $i
+	done
 else
-	echo $ECHOARG "${LIGHTPURPLE}Diff found no differences${RESET}"
-fi
+	test $ARG
+fi	
