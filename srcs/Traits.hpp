@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/09 22:07:27 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/09/22 17:05:44 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/09/26 00:30:22 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 namespace ft
 {
 
-// struct random_access_iterator_tag
-// {
-// };
+struct random_access_iterator_tag
+{
+};
 
 struct bidirectional_iterator_tag
 {
@@ -57,11 +57,11 @@ struct iterator_check : public iterator_result<false, bool>
 {
 };
 
-// template <>
-// struct iterator_check<random_access_iterator_tag>
-// 	: public iterator_result<true, random_access_iterator_tag>
-// {
-// };
+template <>
+struct iterator_check<random_access_iterator_tag>
+	: public iterator_result<true, random_access_iterator_tag>
+{
+};
 
 template <>
 struct iterator_check<bidirectional_iterator_tag>

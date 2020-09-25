@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/24 14:48:26 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/26 00:39:14 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@
 # include "../Iterators/BidirectionalIterator.hpp"
 # include "../Traits.hpp"
 
-#if defined(unix) || defined(__unix__) || defined(__unix)
-# define PEER_MAX SSIZE_MAX
-#else
-# define PEER_MAX SIZE_T_MAX
-#endif
+# if defined(unix) || defined(__unix__) || defined(__unix)
+#  define PEER_MAX SSIZE_MAX
+# else
+#  define PEER_MAX SIZE_T_MAX
+# endif
 
 namespace ft {
 	
