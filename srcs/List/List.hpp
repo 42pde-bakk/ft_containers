@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/23 23:41:00 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/24 14:48:26 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <cstring>
 # include <climits>
 # include "ListNode.hpp"
-# include "ListIterator.hpp"
+# include "../Iterators/BidirectionalIterator.hpp"
 # include "../Traits.hpp"
 
 #if defined(unix) || defined(__unix__) || defined(__unix)
@@ -32,7 +32,8 @@
 namespace ft {
 	
 	template<typename Iterator>
-	ptrdiff_t distance(Iterator first, Iterator last) {
+	ptrdiff_t distance(Iterator first, Iterator last,
+			typename enable_if<is_iterator<typename Iterator::iterator_category>::value, Iterator>::type * = 0) {
 		ptrdiff_t dist = 0;
 		while (first != last) {
 			++dist;
@@ -41,7 +42,8 @@ namespace ft {
 		return dist;
 	}
 	template <class InputIterator, class Distance>
-	void advance (InputIterator& it, Distance n) {
+	void advance (InputIterator& it, Distance n,
+			typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) {
 		while (n) {
 			if (n > 0) {
 				++it;
@@ -72,10 +74,10 @@ namespace ft {
 		typedef node<T> 	*node_pointer;
 		typedef ptrdiff_t	difference_type;
 		typedef size_t		size_type;
-		typedef ListIterator<value_type>			iterator;
-		typedef ConstListIterator<value_type>		const_iterator;
-		typedef RevListIterator<value_type>			reverse_iterator;
-		typedef ConstRevListIterator<value_type>	const_reverse_iterator;
+		typedef BidirectionalIterator<value_type>			iterator;
+		typedef ConstBidirectionalIterator<value_type>		const_iterator;
+		typedef RevBidirectionalIterator<value_type>			reverse_iterator;
+		typedef ConstRevBidirectionalIterator<value_type>	const_reverse_iterator;
 	private:
 		node<T>		*head;
 		node<T>		*firstelem;

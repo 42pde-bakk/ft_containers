@@ -6,7 +6,7 @@
 #    By: Peer <pde-bakk@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/25 17:28:30 by pde-bakk      #+#    #+#                  #
-#    Updated: 2020/09/24 14:42:18 by peerdb        ########   odam.nl          #
+#    Updated: 2020/09/25 21:13:01 by peerdb        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ list: fclean
 	$(CXX) $(FLAGS) list_$(FILES) -o $(NAME)
 
 vector: fclean
-	$(CXX) $(FLAGS) vector$(FILES) -o $(NAME)
+	$(CXX) $(FLAGS) vector_$(FILES) -o $(NAME)
 	
 clean:
 
