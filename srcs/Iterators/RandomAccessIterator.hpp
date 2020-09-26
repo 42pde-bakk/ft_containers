@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/09 12:20:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/09/26 18:23:34 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/26 23:21:47 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -389,44 +389,28 @@ namespace ft {
 			return true;
 		}
 		bool	operator<(const RevRandomAccessIterator& rhs) const {
-			if (this->array < rhs.array)
-				return true;
-			return false;
+			return (this->array >= rhs.array);
 		}
 		bool	operator<(const ConstRevRandomAccessIterator<T>& rhs) const {
-			if (this->array < rhs.data())
-				return true;
-			return false;
+			return (this->array >= rhs.data());
 		}
 		bool	operator<=(const RevRandomAccessIterator& rhs) const {
-			if (this->array <= rhs.array)
-				return true;
-			return false;
+			return (this->array > rhs.array);
 		}
 		bool	operator<=(const ConstRevRandomAccessIterator<T>& rhs) const {
-			if (this->array <= rhs.data())
-				return true;
-			return false;
+			return (this->array > rhs.data());
 		}
 		bool	operator>(const RevRandomAccessIterator& rhs) const {
-			if (this->array > rhs.array)
-				return true;
-			return false;
+			return (this->array <= rhs.array);
 		}
 		bool	operator>(const ConstRevRandomAccessIterator<T>& rhs) const {
-			if (this->array > rhs.data())
-				return true;
-			return false;
+			return (this->array <= rhs.data());
 		}
 		bool	operator>=(const RevRandomAccessIterator& rhs) const {
-			if (this->array >= rhs.array)
-				return true;
-			return false;
+			return (this->array < rhs.array);
 		}
 		bool	operator>=(const ConstRevRandomAccessIterator<T>& rhs) const {
-			if (this->array >= rhs.data())
-				return true;
-			return false;
+			return (this->array < rhs.data());
 		}
 		self_type	operator[](difference_type n) const {
 			self_type out = *this - n;
@@ -531,44 +515,28 @@ namespace ft {
 			return true;
 		}
 		bool	operator<(const ConstRevRandomAccessIterator& rhs) const {
-			if (this->array < rhs.array)
-				return true;
-			return false;
+			return (this->array >= rhs.array);
 		}
 		bool	operator<(const RevRandomAccessIterator<T>& rhs) const {
-			if (this->array < rhs.data())
-				return true;
-			return false;
+			return (this->array >= rhs.data());
 		}
 		bool	operator<=(const ConstRevRandomAccessIterator& rhs) const {
-			if (this->array <= rhs.array)
-				return true;
-			return false;
+			return (this->array > rhs.array);
 		}
 		bool	operator<=(const RevRandomAccessIterator<T>& rhs) const {
-			if (this->array <= rhs.data())
-				return true;
-			return false;
+			return (this->array > rhs.data());
 		}
 		bool	operator>(const ConstRevRandomAccessIterator& rhs) const {
-			if (this->array > rhs.array)
-				return true;
-			return false;
+			return (this->array <= rhs.array);
 		}
 		bool	operator>(const RevRandomAccessIterator<T>& rhs) const {
-			if (this->array > rhs.data())
-				return true;
-			return false;
+			return (this->array <= rhs.data());
 		}
 		bool	operator>=(const ConstRevRandomAccessIterator& rhs) const {
-			if (this->array >= rhs.array)
-				return true;
-			return false;
+			return (this->array < rhs.array);
 		}
 		bool	operator>=(const RevRandomAccessIterator<T>& rhs) const {
-			if (this->array >= rhs.data())
-				return true;
-			return false;
+			return (this->array < rhs.data());
 		}
 		self_type	operator[](difference_type n) const {
 			self_type out = *this - n;
