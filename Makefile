@@ -6,7 +6,7 @@
 #    By: Peer <pde-bakk@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/25 17:28:30 by pde-bakk      #+#    #+#                  #
-#    Updated: 2020/09/25 21:13:01 by peerdb        ########   odam.nl          #
+#    Updated: 2020/09/26 14:53:37 by peerdb        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,9 @@ ifdef CLANG
 endif
 
 FLAGS = -W -Wall -Wextra -Werror -pedantic -std=c++98 -ansi
+ifdef DEBUG
+ FLAGS += -fsanitize=address
+endif
 
 FILES = main.cpp
 ifdef STD

@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:46:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/24 14:49:24 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/26 14:56:47 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <cstdlib>
 
 template<typename T>
-void	print_container_content(ft::list<T>	list, std::string name) {
+void	print_container_content(ft::list<T>	&list, std::string name) {
 	std::cout << name << " contains:";
 	for (ft::list<int>::iterator it = list.begin(); it != list.end(); it++)
 		std::cout << ' ' << *it;
@@ -196,6 +196,5 @@ int main() {
 	modifiers_test();
 	operations_test();
 	operations_test2();
-	// eraser();
 	// system("leaks containers.out | grep \"total leaked bytes\"");
 }
