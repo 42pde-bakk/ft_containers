@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 15:19:02 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/09/26 17:38:10 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/26 23:26:43 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,6 +143,11 @@ namespace ft {
 			return this->_array[n];
 		}
 		reference		at(size_type n) {
+			if (n >= this->_size)
+				throw std::out_of_range();
+			return this->_array[n];
+		}
+		const_reference	at(size_type n) const {
 			if (n >= this->_size)
 				throw std::out_of_range();
 			return this->_array[n];

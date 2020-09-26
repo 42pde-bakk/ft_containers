@@ -6,7 +6,7 @@
 #    By: peerdb <peerdb@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/09/09 16:47:13 by peerdb        #+#    #+#                  #
-#    Updated: 2020/09/26 16:41:42 by peerdb        ########   odam.nl          #
+#    Updated: 2020/09/26 23:51:31 by peerdb        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ function test {
 	make $1 STD=1 && ./containers.out > std.txt
 	STATUS_STD=$?
 
-	make $1 && ./containers.out > ft.txt
+	make $1 DEBUG=1 && ./containers.out > ft.txt
 	STATUS_FT=$?
 
 	echo $ECHOARG "${ORANGE}Startin testing for $1${RESET}"

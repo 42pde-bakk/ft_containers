@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 21:10:23 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/09/26 23:21:27 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/27 01:50:43 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,10 @@ void	iterators_test() {
 		hats.push_back(i * 10);
 	ft::vector<int>::iterator		it = hats.begin();
 	ft::vector<int>::iterator		ite = hats.end();
+									ite--;
 	ft::vector<int>::const_iterator	cit = hats.begin();
 	ft::vector<int>::const_iterator	cite = hats.end();
+									cite--;
 	std::cout << "*it = " << *it << ", *ite = " << *ite << std::endl;
 	ft::vector<int>::reverse_iterator		rit = hats.rbegin();
 	ft::vector<int>::reverse_iterator		rite = hats.rend();
@@ -54,6 +56,7 @@ void	iterators_test() {
 	std::cout << "*rit = " << *rit << ", *rite = " << *rite << std::endl;
 	if (it == cit && cit == it)
 		std::cout << "equal works" << std::endl;
+	std::cout << "first: " << (it != cite) << ", second: " << (cite != it) << std::endl;
 	if (it != cite && cite != it)
 		std::cout << "unequal works" << std::endl;
 	if (it < cite && !(cite < it))
@@ -77,7 +80,9 @@ void	iterators_test() {
 		std::cout << "bigger than works" << std::endl;
 	if (crite >= rit && !(rit >= crite))
 		std::cout << "bigger/equal works" << std::endl;
-
+	int a = it[2];
+	int b = rite[3];
+	std::cout << "a: " << a << ", b: " << b << std::endl;
 }
 
 int	main() {
