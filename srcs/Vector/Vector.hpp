@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 15:19:02 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/09/26 01:23:01 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/26 14:50:41 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 # include <cstring>
 # include <climits>
 # include "../Iterators/RandomAccessIterator.hpp"
+# include "../Traits.hpp"
+# include "../Extra.hpp"
+
 # if defined(unix) || defined(__unix__) || defined(__unix)
 #  define PEER_MAX SSIZE_MAX
 # else
@@ -60,7 +63,13 @@ namespace ft {
 		template <class InputIterator>
 		vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
 				typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0);
-		vector (const vector& x);
+		vector (const vector& x) {
+			*this = x;
+		}
+		// vector&	operator=(const vector& x) {
+		// 	delete[] this->_array;
+			
+		// }
 		~vector() {
 			delete[] this->_array;
 		}
@@ -84,9 +93,26 @@ namespace ft {
 		size_type	max_size() const {
 			return (PEER_MAX / sizeof(T));
 		}
-		void resize (size_type n, value_type val = value_type());
+		void		resize (size_type n, value_type val = value_type()) {
+			while (n < this->_size)
+				pop_back();
+			if (n > this->_capacity)
+				resize(n);
+			while (n > this->_size)
+				push_back(val);
+		}
 		size_type	capacity() const {
 			return this->_capacity;
+		}
+		void		reserve(size_type n) {
+			if (n <= this->_capacity)
+				return ;
+			pointer tmp = new value_type[n];
+			for (size_type i = 0; i < this->_size; i++) 
+				tmp[i] = this->_array[i];
+			delete[] this->_array;
+			this->_array = tmp;
+			this->_capacity = n;
 		}
 	/* Element Access */
 		reference		operator[](size_type n) {
@@ -113,14 +139,30 @@ namespace ft {
 			return this->_array[this->_size];
 		}
 	/* Modifiers */
+		template <class InputIterator>
+		void assign (InputIterator first, InputIterator last) {
+			this->clear();
+			while (first != last) {
+				push_back(*first);
+				++first;
+			}
+		}
+		void	push_back(const value_type& val) {
+			if (this->_array == 0)
+				resize(1);
+			if (this->_size == this->_capacity)
+				resize(this->_capacity * 2);
+			this->_array[this->_size] = val;
+			this->_size++;
+		}
 		void	pop_back() {
-			this->_array[this->_size] = 0;
+			// this->_array[this->_size] = 0;
 			this->_size--;
 		}
 		iterator	erase(iterator position) {
 			iterator tmp = position;
 			while (position != end()) {
-				*position = *position + 1;
+				*position = *(position + 1);
 				++position;
 			}
 			return tmp;
