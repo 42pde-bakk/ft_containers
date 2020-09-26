@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 15:19:02 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/09/26 14:50:41 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/26 17:38:10 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ namespace ft {
 		typedef value_type*								pointer;
 		typedef const value_type*						const_pointer;
 		typedef RandomAccessIterator<T>					iterator;
-		typedef ConstRandomAccessIterator<const T>		const_iterator;
-		// typedef RevRandomAccessIterator<T> 				reverse_iterator;
-		// typedef ConstRevRandomAccessIterator<const T>	const_reverse_iterator;
+		typedef ConstRandomAccessIterator<T>		const_iterator;
+		typedef RevRandomAccessIterator<T> 				reverse_iterator;
+		typedef ConstRevRandomAccessIterator<T>	const_reverse_iterator;
 		typedef ptrdiff_t								difference_type;
 		typedef size_t									size_type;
 
@@ -62,14 +62,23 @@ namespace ft {
 		}
 		template <class InputIterator>
 		vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
-				typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0);
-		vector (const vector& x) {
+				typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) : _alloc(alloc) {
+			this->_capacity = distance(first, last);
+			this->_size = _capacity;
+			this->_array = new value_type[this->_capacity];
+			this->assign(first, last);
+		}
+		vector (const vector& x) : _array(0), _alloc(x._alloc) {
 			*this = x;
 		}
-		// vector&	operator=(const vector& x) {
-		// 	delete[] this->_array;
-			
-		// }
+		vector&	operator=(const vector& x) {
+			delete[] this->_array;
+			this->_array = new value_type[x._capacity];
+			this->_capacity = x._capacity;
+			this->_size = 0;
+			this->assign(x.begin(), x.end());
+			return *this;
+		}
 		~vector() {
 			delete[] this->_array;
 		}
@@ -85,6 +94,18 @@ namespace ft {
 		}
 		const_iterator end() const {
 			return const_iterator(&this->_array[this->_size]);
+		}
+		reverse_iterator		rbegin() {
+			return reverse_iterator(&this->_array[this->_size - 1]);
+		}
+		const_reverse_iterator	rbegin() const {
+			return reverse_iterator(&this->_array[this->_size - 1]);
+		}
+		reverse_iterator		rend() {
+			return reverse_iterator(this->_array);
+		}
+		const_reverse_iterator	rend() const {
+			return reverse_iterator(this->_array);
 		}
 	/* Capacity */
 		size_type	size() const {
@@ -149,14 +170,13 @@ namespace ft {
 		}
 		void	push_back(const value_type& val) {
 			if (this->_array == 0)
-				resize(1);
+				reserve(1);
 			if (this->_size == this->_capacity)
-				resize(this->_capacity * 2);
+				reserve(this->_capacity * 2);
 			this->_array[this->_size] = val;
 			this->_size++;
 		}
 		void	pop_back() {
-			// this->_array[this->_size] = 0;
 			this->_size--;
 		}
 		iterator	erase(iterator position) {
