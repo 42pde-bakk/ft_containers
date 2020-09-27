@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 21:10:23 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/09/27 01:50:43 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/27 18:24:15 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,13 +80,68 @@ void	iterators_test() {
 		std::cout << "bigger than works" << std::endl;
 	if (crite >= rit && !(rit >= crite))
 		std::cout << "bigger/equal works" << std::endl;
-	int a = it[2];
-	int b = rite[3];
-	std::cout << "a: " << a << ", b: " << b << std::endl;
+	std::cout << "dereference operator on iterators: " << it[2] << ", " << cit[3] << ", " << rit[4] << ", " << crit[5] << " WORK!" << std::endl;
+}
+
+void	capacity_test() {
+	ft::vector<int>	papajohns;
+
+	std::cout << "papajohns.empty(): " << papajohns.empty() << std::endl;
+	for (int i = 0; i < 10; ++i)
+		papajohns.push_back(i);
+	std::cout << "papajohns.size(): " << papajohns.size() << std::endl;
+	std::cout << "papajohns.max_size(): " << papajohns.max_size() << std::endl;
+	std::cout << "papajohns.capacacity(): " << papajohns.capacity() << std::endl;
+	std::cout << "papajohns.empty(): " << papajohns.empty() << std::endl;
+}
+
+void	element_access_test() {
+	ft::vector<int> kokkita;
+
+	for (int i = 0; i < 10; ++i)
+		kokkita.push_back(-3 * i);
+
+	const ft::vector<int> constkita(kokkita);
+	std::cout << "kokkita[3]: " << kokkita[3] << ", constkita[4]: " << constkita[4] << std::endl;
+	try {
+		std::cout << "the [] operator does not check if the input value is inbounds of the array" << std::endl;
+		std::cout << "the function .at() does check and throws an exception if it is out of bounds, here I'll show you:" << std::endl;
+		std::cout << "kokkita.at(13): " << kokkita.at(13) << std::endl;
+	}
+	catch (std::out_of_range& e) {
+		std::cout << "See? it threw an exception" << std::endl;
+		// I didnt print e.what(), because diff will see it as different (and wrong) sadface
+	}
+	std::cout << "kokkita.front() = " << kokkita.front() << ", constkita.front() = " << constkita.front() << std::endl;
+	std::cout << "kokkita.back() = " << kokkita.back() << ", constkita.back() = " << constkita.back() << std::endl;
+}
+
+void	modifiers_test() {
+	ft::vector<int>	tocopy;
+	for (int i = 0; i < 14; ++i)
+		tocopy.push_back(14 * i);
+	ft::vector<int> wap;
+	wap.assign(5, 69);
+	print_container_content(wap, "after the first assign, wapwap");
+	wap.assign(tocopy.begin(), tocopy.end());
+	print_container_content(wap, "and after the second, wapwap");
+	while (!(tocopy.empty()))
+		tocopy.pop_back();
+	print_container_content(wap, "wap");
+	ft::vector<int>::iterator it = wap.begin() + 2;
+	std::cout << "*it = " << *it << std::endl;
+	wap.insert(it, 800);
+	print_container_content(wap, "after insert, wap");
+	tocopy.insert(tocopy.begin(), 1);
+	print_container_content(tocopy, "after insert, tocopy");
+	
 }
 
 int	main() {
 	// constructors_test();
-	iterators_test();
+	// iterators_test();
+	// capacity_test();
+	// element_access_test();
+	modifiers_test();
 	// peer();
 }

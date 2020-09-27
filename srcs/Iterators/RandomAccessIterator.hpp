@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/09 12:20:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/09/27 01:51:22 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/27 15:07:52 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -360,7 +360,7 @@ namespace ft {
 			return (this->array < rhs.data());
 		}
 		reference	operator[](difference_type n) const {
-			return (*(this->array + n));
+			return (*(this->array - n));
 		}
 		pointer		data() const {
 			return this->array;
@@ -476,7 +476,7 @@ namespace ft {
 			return (this->array < rhs.data());
 		}
 		reference	operator[](difference_type n) const {
-			return (*(this->array + n));
+			return (*(this->array - n));
 		}
 		pointer		data() const {
 			return this->array;

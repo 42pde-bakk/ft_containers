@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 15:19:02 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/09/26 23:26:43 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/27 18:26:52 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@
 # include <memory>
 # include <iostream>
 # include <cstddef>
+# include <cstdlib>
 # include <cstring>
 # include <climits>
+# include <string>
 # include "../Iterators/RandomAccessIterator.hpp"
 # include "../Traits.hpp"
 # include "../Extra.hpp"
@@ -118,12 +120,15 @@ namespace ft {
 			while (n < this->_size)
 				pop_back();
 			if (n > this->_capacity)
-				resize(n);
+				reserve(n);
 			while (n > this->_size)
 				push_back(val);
 		}
 		size_type	capacity() const {
 			return this->_capacity;
+		}
+		bool	empty() const {
+			return (!(this->_size));
 		}
 		void		reserve(size_type n) {
 			if (n <= this->_capacity)
@@ -144,12 +149,12 @@ namespace ft {
 		}
 		reference		at(size_type n) {
 			if (n >= this->_size)
-				throw std::out_of_range();
+				throw std::out_of_range("out of range");
 			return this->_array[n];
 		}
 		const_reference	at(size_type n) const {
 			if (n >= this->_size)
-				throw std::out_of_range();
+				throw std::out_of_range("out of range");
 			return this->_array[n];
 		}
 		reference		front() {
@@ -159,18 +164,26 @@ namespace ft {
 			return this->_array[0];
 		}
 		reference		back() {
-			return this->_array[this->_size];
+			return this->_array[this->_size - 1];
 		}
 		const_reference	back() const {
-			return this->_array[this->_size];
+			return this->_array[this->_size - 1];
 		}
 	/* Modifiers */
 		template <class InputIterator>
-		void assign (InputIterator first, InputIterator last) {
+		void	assign (InputIterator first, InputIterator last,
+						typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) {
 			this->clear();
 			while (first != last) {
 				push_back(*first);
 				++first;
+			}
+		}
+		void	assign(size_type n, const value_type& val) {
+			this->clear();
+			while (n) {
+				push_back(val);
+				--n;
 			}
 		}
 		void	push_back(const value_type& val) {
@@ -184,6 +197,14 @@ namespace ft {
 		void	pop_back() {
 			this->_size--;
 		}
+		iterator insert (iterator position, const value_type& val) {
+			this->push_back(back()); //for empty container still needs fixing
+			for (iterator it = end() - 1; it != position; it--) {
+				*it = *it - 1;
+			}
+			*position = val;
+			return (position);
+		}
 		iterator	erase(iterator position) {
 			iterator tmp = position;
 			while (position != end()) {
@@ -191,6 +212,11 @@ namespace ft {
 				++position;
 			}
 			return tmp;
+		}
+		void swap (vector& x) {
+			vector tmp(x);
+			x = *this;
+			*this = tmp;
 		}
 		void	clear() {
 			while (this->_size)
