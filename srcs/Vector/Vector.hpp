@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 15:19:02 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/09/27 21:35:44 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/27 22:26:04 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,7 +230,25 @@ namespace ft {
 				++it;
 			}
 		}
-		iterator	erase(iterator position);
+		iterator	erase(iterator position) {
+			iterator out(position);
+			while (position != end() - 1) {
+				*position = *(position + 1);
+				++position;
+			}
+			--this->_size;
+			return out;
+		}
+		iterator	erase(iterator first, iterator last) {
+			iterator out(last);
+			while (last != end()) {
+				*first = *last;
+				++first;
+				++last;
+			}
+			this->_size -= distance(first, last);
+			return out;
+		}
 		void swap (vector& x) {
 			vector tmp(x);
 			x = *this;
@@ -247,6 +265,61 @@ namespace ft {
 		size_type		_capacity;
 		allocator_type	_alloc;
 	};
+
+template <class T, class Alloc>
+	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
+		typename vector<T,Alloc>::const_iterator lit = lhs.begin();
+		typename vector<T,Alloc>::const_iterator rit = rhs.begin();
+
+		if (lhs.size() != rhs.size())
+			return false;
+		while (lit != lhs.end() && rit != rhs.end()) {
+			if (*lit != *rit) {
+				return false;
+			}
+			++lit;
+			++rit;
+		}
+		return true;
+	}
+template <class T, class Alloc>
+	bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
+		return (!(lhs == rhs));
+	}
+template <class T, class Alloc>
+	bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
+		typename vector<T, Alloc>::const_iterator lit = lhs.begin();
+		typename vector<T, Alloc>::const_iterator rit = rhs.begin();
+		if (lhs.size() > rhs.size())
+			return false;
+		while (lit != lhs.end() && rit != rhs.end()) {
+			if (*lit != *rit)
+				return (lit < rit);
+			++lit;
+			++rit;
+		}
+		return false;
+	}
+template <class T, class Alloc>
+	bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
+		return (!(rhs < lhs));
+	}
+template <class T, class Alloc>
+	bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
+		return (rhs < lhs);
+	}
+template <class T, class Alloc>
+	bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
+		return (!(lhs < rhs));
+	}
+
+template <class T, class Alloc>
+	void swap (vector<T,Alloc>& x, vector<T,Alloc>& y) {
+	vector<T,Alloc>	tmp(x);
+	x = y;
+	y = tmp;
+}
+
 }
 
 

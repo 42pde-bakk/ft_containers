@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 21:10:23 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/09/27 21:36:07 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/27 22:59:58 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,11 @@
 #include <vector>
 #include <string>
 #include <iostream>
+#include <sys/time.h>
+
+size_t begintime;
+size_t endtime;
+struct timeval	tv;
 
 template< typename T >
 void	print_container_content(ft::vector<T> &vec, std::string name) {
@@ -53,7 +58,6 @@ void	iterators_test() {
 	ft::vector<int>::reverse_iterator		rite = hats.rend();
 	ft::vector<int>::const_reverse_iterator	crit = hats.rbegin();
 	ft::vector<int>::const_reverse_iterator	crite = hats.rend();
-	std::cout << "*rit = " << *rit << ", *rite = " << *rite << std::endl;
 	if (it == cit && cit == it)
 		std::cout << "equal works" << std::endl;
 	std::cout << "first: " << (it != cite) << ", second: " << (cite != it) << std::endl;
@@ -117,6 +121,7 @@ void	element_access_test() {
 }
 
 void	modifiers_test() {
+
 	ft::vector<int>	tocopy;
 	for (int i = 0; i < 14; ++i)
 		tocopy.push_back(14 * i);
@@ -135,16 +140,47 @@ void	modifiers_test() {
 	std::cout << "returned iterator from insert gives " << *it << std::endl;
 	tocopy.insert(tocopy.begin(), wap.begin(), wap.end() - 5);
 	print_container_content(wap, "after insert, wap");
-	// tocopy.insert(tocopy.begin(), 1);
-	print_container_content(tocopy, "after insert, tocopy");
+	
+	it = tocopy.erase(tocopy.begin());
+	std::cout << "erasing returns iterator to " << *it << std::endl;
+	print_container_content(tocopy, "after insert and erasing, tocopy");
+	it = tocopy.erase(tocopy.begin(), tocopy.begin() + 6);
+	std::cout << "erasing returns iterator to " << *it << std::endl;
+	
+	print_container_content(tocopy, "after insert and erasing, tocopy");
+
+}
+
+void	relational_operators_test() {
+	ft::vector<int>	a;
+	ft::vector<int>	b;
+	for (int i = 0; i < 8; i++) {
+		a.push_back(i);
+		b.push_back(i);
+	}
+	std::cout << "this one should return 1: " << (a == b) << ", and this one 0: " << (a != b) << std::endl;
+	std::cout << (a < b) << (b < a) << (a <= b) << (b <= a) << std::endl;
+	a.push_back(0);
+	b.push_back(5);
+	std::cout << "now vice versa, should return 0: " << (a == b) << ", and this one 1: " << (a != b) << std::endl;
+	std::cout << (a < b) << (b < a) << (a <= b) << (b <= a) << std::endl;
 	
 }
 
-int	main() {
+int	main(int argc, char **argv) {
+	if (argc == 2 && strcmp(argv[1], "time") == 0) {
+		gettimeofday(&tv, NULL);
+		begintime = tv.tv_usec;
+	}
 	// constructors_test();
-	// iterators_test();
+	iterators_test();
 	// capacity_test();
 	// element_access_test();
-	modifiers_test();
-	// peer();
+	// modifiers_test();
+	// relational_operators_test();
+	if (argc == 2 && strcmp(argv[1], "time") == 0) {
+		gettimeofday(&tv, NULL);
+		endtime = tv.tv_usec;
+		std::cout << "Time elapsed in total! = " << endtime - begintime << " nanoseconds" << std::endl;
+	}
 }

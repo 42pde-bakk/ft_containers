@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/26 14:56:37 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/27 22:25:54 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -439,15 +439,13 @@ bool operator== (const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs) {
 	
 	if (lhs.size() != rhs.size())
 		return false;
-	while (1) {
+	while (lhs != lhs.end() && rit != rhs.end()) {
 		if (*lit != *rit)
 			return false;
-		if (lit == lhs.end() && rit == rhs.end())
-			return true;
-		lit++;
-		rit++;
+		++lit;
+		++rit;
 	}
-	return false;
+	return true;
 }
 template <class T, class Alloc>
 bool operator!= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
@@ -461,11 +459,11 @@ bool operator<  (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
 		return false;
 	while (lit != lhs.end() && rit != rhs.end()) {
 		if (*lit != *rit)
-			return (*lit < *rit ? true : false);
-		lit++;
-		rit++;
+			return (lit < rit);
+		++lit;
+		++rit;
 	}
-	return true;
+	return false;
 }
 template <class T, class Alloc>
 bool operator<= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {

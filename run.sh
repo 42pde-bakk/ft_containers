@@ -6,7 +6,7 @@
 #    By: peerdb <peerdb@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/09/09 16:47:13 by peerdb        #+#    #+#                  #
-#    Updated: 2020/09/26 23:51:31 by peerdb        ########   odam.nl          #
+#    Updated: 2020/09/27 22:52:59 by peerdb        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,10 +29,10 @@ function test {
 
 	sed "s/ft::/std::/g" $1_main.cpp > $1_stdmain.cpp
 
-	make $1 STD=1 && ./containers.out > std.txt
+	make $1 STD=1 && ./containers.out $2 > std.txt
 	STATUS_STD=$?
 
-	make $1 DEBUG=1 && ./containers.out > ft.txt
+	make $1 && ./containers.out $2 > ft.txt
 	STATUS_FT=$?
 
 	echo $ECHOARG "${ORANGE}Startin testing for $1${RESET}"
@@ -50,6 +50,7 @@ function test {
 }
 
 ARG=""
+TIME=""
 if [[ $1 == "list" || $1 == "vector" || $1 == "map" ]]; then
 	ARG=$1
 else
@@ -62,12 +63,16 @@ else
 	ECHOARG=''
 fi
 
+if [[ $2 == "time" ]]; then
+	TIME=$2
+fi
+
 declare -a arr=("list" "vector" "map" "stack" "queue")
 if [[ $ARG == "all" ]]; then
 	for i in "${arr[@]}"
 	do
-		test $i
+		test $i $TIME
 	done
 else
-	test $ARG
+	test $ARG $TIME
 fi	
