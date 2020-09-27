@@ -6,7 +6,7 @@
 #    By: peerdb <peerdb@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/09/09 16:47:13 by peerdb        #+#    #+#                  #
-#    Updated: 2020/09/27 22:52:59 by peerdb        ########   odam.nl          #
+#    Updated: 2020/09/28 01:48:03 by peerdb        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,20 +19,26 @@ LIGHTPURPLE='\033[1;35m'
 CYAN='\033[0;36m'
 LIGHTCYAN='\033[1;36m'
 RESET='\033[0m'
-# echo "Passed" $# "arguments to run.sh" 
 
 function test {
-	if [[ $1 == "" ]]; then
-		exit
-	fi
+	for var in $@
+	do
+		if [[ $var == "debug" ]]; then
+			D="DEBUG=1"
+		elif [[ $var == "g++" || $var == "clang" || $var == "realg" ]]; then
+			C="$var=1"
+		elif [[ $var == "time" ]]; then
+			TIME=$var
+		fi
+	done
 	make fuckingclean
 
 	sed "s/ft::/std::/g" $1_main.cpp > $1_stdmain.cpp
 
-	make $1 STD=1 && ./containers.out $2 > std.txt
+	make $1 $C $D STD=1 && ./containers.out $TIME > std.txt
 	STATUS_STD=$?
 
-	make $1 && ./containers.out $2 > ft.txt
+	make $1 $C $D && ./containers.out $TIME > ft.txt
 	STATUS_FT=$?
 
 	echo $ECHOARG "${ORANGE}Startin testing for $1${RESET}"
@@ -49,30 +55,29 @@ function test {
 	fi	
 }
 
-ARG=""
-TIME=""
-if [[ $1 == "list" || $1 == "vector" || $1 == "map" ]]; then
-	ARG=$1
-else
-	ARG="all"
-fi
-
 if [[ $OSTYPE == *"linux"* ]]; then
 	ECHOARG='-e'
 else
 	ECHOARG=''
 fi
 
-if [[ $2 == "time" ]]; then
-	TIME=$2
-fi
-
 declare -a arr=("list" "vector" "map" "stack" "queue")
+ARG="all"
+for var in $@
+do
+	for container in "${arr[@]}"
+	do
+		if [[ $var == $container ]]; then
+			ARG=$container
+		fi
+	done
+done
+
 if [[ $ARG == "all" ]]; then
 	for i in "${arr[@]}"
 	do
-		test $i $TIME
+		test $i $2 $3 $4
 	done
 else
-	test $ARG $TIME
+	test $ARG $2 $3 $4
 fi	

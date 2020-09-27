@@ -6,27 +6,25 @@
 #    By: Peer <pde-bakk@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/25 17:28:30 by pde-bakk      #+#    #+#                  #
-#    Updated: 2020/09/27 22:57:30 by peerdb        ########   odam.nl          #
+#    Updated: 2020/09/28 01:47:41 by peerdb        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = containers.out
 
-ifeq ($(shell uname), Linux)
- CXX = g++
-else
- CXX = clang++
-endif
-ifdef REALG
+ifdef realg
  CXX = ~/.brew/bin/g++-10
 endif
-ifdef CLANG
+ifdef clang
+ CXX = clang++
+endif
+ifdef g++
  CXX = clang++
 endif
 
-FLAGS = -W -Wall -Wextra -Werror -pedantic -std=c++98 -ansi -g -fsanitize=address
+FLAGS = -W -Wall -Wextra -Werror -pedantic -std=c++98 -ansi 
 ifdef DEBUG
- FLAGS += -fsanitize=address
+ FLAGS += -g -fsanitize=address
 endif
 
 FILES = main.cpp
@@ -48,10 +46,10 @@ vector: fclean
 clean:
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
 
 fuckingclean: fclean
-	rm -f std.txt ft.txt *stdmain.cpp diff.txt
+	@rm -f std.txt ft.txt *stdmain.cpp diff.txt
 
 re: fclean
 

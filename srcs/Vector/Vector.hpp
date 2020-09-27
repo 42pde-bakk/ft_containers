@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 15:19:02 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/09/27 22:26:04 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/28 01:20:35 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ namespace ft {
 	public:
 		typedef T										value_type;
 		typedef	Alloc									allocator_type;
-		// typedef reference	allocator_type::reference;
 		typedef value_type&								reference;
 		typedef const value_type&						const_reference;
 		typedef value_type*								pointer;
