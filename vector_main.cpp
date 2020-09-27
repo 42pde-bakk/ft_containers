@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 21:10:23 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/09/27 18:24:15 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/27 21:36:07 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,9 +130,12 @@ void	modifiers_test() {
 	print_container_content(wap, "wap");
 	ft::vector<int>::iterator it = wap.begin() + 2;
 	std::cout << "*it = " << *it << std::endl;
-	wap.insert(it, 800);
+	wap.insert(it, 2, 800);
+	it = wap.insert(wap.begin() + 1, 9999);
+	std::cout << "returned iterator from insert gives " << *it << std::endl;
+	tocopy.insert(tocopy.begin(), wap.begin(), wap.end() - 5);
 	print_container_content(wap, "after insert, wap");
-	tocopy.insert(tocopy.begin(), 1);
+	// tocopy.insert(tocopy.begin(), 1);
 	print_container_content(tocopy, "after insert, tocopy");
 	
 }

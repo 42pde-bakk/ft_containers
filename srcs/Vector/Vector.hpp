@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 15:19:02 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/09/27 18:26:52 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/09/27 21:35:44 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,21 +198,39 @@ namespace ft {
 			this->_size--;
 		}
 		iterator insert (iterator position, const value_type& val) {
-			this->push_back(back()); //for empty container still needs fixing
-			for (iterator it = end() - 1; it != position; it--) {
-				*it = *it - 1;
-			}
-			*position = val;
-			return (position);
+			size_type n = distance(begin(), position);
+			insert(position, 1, val);
+			return (iterator(&this->_array[n]));
 		}
-		iterator	erase(iterator position) {
-			iterator tmp = position;
-			while (position != end()) {
-				*position = *(position + 1);
-				++position;
+		void insert (iterator position, size_type n, const value_type& val) {
+			vector tmp(position, end());
+			this->_size -= distance(position, end());
+			while (n) {
+				push_back(val);
+				--n;
 			}
-			return tmp;
+			iterator it = tmp.begin();
+			while (it != tmp.end()) {
+				push_back(*it);
+				++it;
+			}
 		}
+		template <class InputIterator>
+		void insert (iterator position, InputIterator first, InputIterator last,
+				typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) {
+			vector tmp(position, end());
+			this->_size -= distance(position, end());
+			while (first != last) {
+				push_back(*first);
+				++first;
+			}
+			iterator it = tmp.begin();
+			while (it != tmp.end()) {
+				push_back(*it);
+				++it;
+			}
+		}
+		iterator	erase(iterator position);
 		void swap (vector& x) {
 			vector tmp(x);
 			x = *this;
