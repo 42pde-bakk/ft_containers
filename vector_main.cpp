@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 21:10:23 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/03 17:26:54 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/07 17:07:44 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,13 +90,13 @@ void	iterators_test() {
 void	capacity_test() {
 	ft::vector<int>	papajohns;
 
-	std::cout << "papajohns.empty(): " << papajohns.empty() << std::endl;
+	std::cout << "papajohns.empty(): " << std::boolalpha<< papajohns.empty() << std::endl;
 	for (int i = 0; i < 10; ++i)
 		papajohns.push_back(i);
 	std::cout << "papajohns.size(): " << papajohns.size() << std::endl;
 	std::cout << "papajohns.max_size(): " << papajohns.max_size() << std::endl;
 	std::cout << "papajohns.capacacity(): " << papajohns.capacity() << std::endl;
-	std::cout << "papajohns.empty(): " << papajohns.empty() << std::endl;
+	std::cout << "papajohns.empty(): " << std::boolalpha << papajohns.empty() << std::endl;
 }
 
 void	element_access_test() {

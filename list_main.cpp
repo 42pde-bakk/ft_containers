@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:46:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/27 22:13:27 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/07 17:07:13 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,11 @@ void	iterators_test() {
 
 void	capacity_test_element_access() {
 	ft::list<std::string> mylist;
-	std::cout << "Boolean whether mylist is empty or not: " << mylist.empty() << std::endl;
+	std::cout << "Boolean whether mylist is empty or not: " << std::boolalpha << mylist.empty() << std::endl;
 	std::string	strings[] = { "kissahomie", "pogchamp" , "Queen", "Yaas" };
 	for (int i = 0; i < 4 ; i++)
 		mylist.push_front(strings[i]);
-	std::cout << "Boolean whether mylist is empty or not: " << mylist.empty() << std::endl;
+	std::cout << "Boolean whether mylist is empty or not: " << std::boolalpha << mylist.empty() << std::endl;
 	std::cout << "mylist.size() = " << mylist.size() << ", and mylist.max_size() = " << mylist.max_size() << std::endl;
 
 	std::cout << "mylist.front() = " << mylist.front() << std::endl;
