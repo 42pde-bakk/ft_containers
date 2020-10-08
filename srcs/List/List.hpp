@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/09/27 22:25:54 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/08 21:22:52 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ namespace ft {
 		typedef size_t		size_type;
 		typedef BidirectionalIterator<value_type>			iterator;
 		typedef ConstBidirectionalIterator<value_type>		const_iterator;
-		typedef RevBidirectionalIterator<value_type>			reverse_iterator;
+		typedef RevBidirectionalIterator<value_type>		reverse_iterator;
 		typedef ConstRevBidirectionalIterator<value_type>	const_reverse_iterator;
 	private:
 		node<T>		*head;

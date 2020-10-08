@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 21:10:23 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/07 22:47:49 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/08 21:16:28 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,38 +54,42 @@ void	iterators_test() {
 	ft::vector<int>::const_iterator	cit = hats.begin();
 	ft::vector<int>::const_iterator	cite = hats.end();
 									cite--;
-	std::cout << "*it = " << *cit << ", *ite = " << *cite << std::endl;
-	// ft::vector<int>::reverse_iterator		rit = hats.rbegin();
-	// ft::vector<int>::reverse_iterator		rite = hats.rend();
-	// ft::vector<int>::const_reverse_iterator	crit = hats.rbegin();
-	// ft::vector<int>::const_reverse_iterator	crite = hats.rend();
-	// if (it == cit && cit == it)
-	// 	std::cout << "equal works" << std::endl;
-	// std::cout << "first: " << (it != cite) << ", second: " << (cite != it) << std::endl;
-	// if (it != cite && cite != it)
-	// 	std::cout << "unequal works" << std::endl;
-	// if (it < cite && !(cite < it))
-	// 	std::cout << "smaller than works" << std::endl;
-	// if (it <= ite && !(cite <= it))
-	// 	std::cout << "smaller/equal works" << std::endl;
-	// if (ite > cit && !(cit > ite))
-	// 	std::cout << "bigger than works" << std::endl;
-	// if (cite >= it && !(it >= cite))
-	// 	std::cout << "bigger/equal works" << std::endl;
-	// ite = it;
-	// if (rit == crit && crit == rit)
-	// 	std::cout << "equal works" << std::endl;
-	// if (rit != crite && crite != rit)
-	// 	std::cout << "unequal works" << std::endl;
-	// if (rit < crite && !(crite < rit))
-	// 	std::cout << "smaller than works" << std::endl;
-	// if (rit <= rite && !(crite <= rit))
-	// 	std::cout << "smaller/equal works" << std::endl;
-	// if (rite > crit && !(crit > rite))
-	// 	std::cout << "bigger than works" << std::endl;
-	// if (crite >= rit && !(rit >= crite))
-	// 	std::cout << "bigger/equal works" << std::endl;
-	// std::cout << "dereference operator on iterators: " << it[2] << ", " << cit[3] << ", " << rit[4] << ", " << crit[5] << " WORK!" << std::endl;
+	std::cout << "sfhkdsfh" << std::endl;
+	std::cout << "*cit = " << *cit << ", *cite = " << *cite << std::endl;
+	ft::vector<int>::reverse_iterator		rit = hats.rbegin();
+	ft::vector<int>::reverse_iterator		rite = hats.rend();
+	ft::vector<int>::const_reverse_iterator	crit = hats.rbegin();
+	ft::vector<int>::const_reverse_iterator	crite = hats.rend();
+	if (it == cit && cit == it)
+		std::cout << "equal works" << std::endl;
+	std::cout << "first: " << (it != cite) << ", second: " << (cite != it) << std::endl;
+	if (it != cite && cite != it)
+		std::cout << "unequal works" << std::endl;
+	if (it < cite && !(cite < it))
+		std::cout << "smaller than works" << std::endl;
+	if (it <= ite && !(cite <= it))
+		std::cout << "smaller/equal works" << std::endl;
+	if (ite > cit && !(cit > ite))
+		std::cout << "bigger than works" << std::endl;
+	if (cite >= it && !(it >= cite))
+		std::cout << "bigger/equal works" << std::endl;
+	ite = it;
+	// *cit += 10;
+	// *crit += 10;
+
+	if (rit == crit && crit == rit)
+		std::cout << "equal works" << std::endl;
+	if (rit != crite && crite != rit)
+		std::cout << "unequal works" << std::endl;
+	if (rit < crite && !(crite < rit))
+		std::cout << "smaller than works" << std::endl;
+	if (rit <= rite && !(crite <= rit))
+		std::cout << "smaller/equal works" << std::endl;
+	if (rite > crit && !(crit > rite))
+		std::cout << "bigger than works" << std::endl;
+	if (crite >= rit && !(rit >= crite))
+		std::cout << "bigger/equal works" << std::endl;
+	std::cout << "dereference operator on iterators: " << it[2] << ", " << cit[3] << ", " << rit[4] << ", " << crit[5] << " WORK!" << std::endl;
 }
 
 // void	capacity_test() {

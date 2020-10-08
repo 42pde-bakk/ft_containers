@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 15:19:02 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/07 22:36:56 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/08 21:15:35 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ namespace ft {
 		typedef RandomAccessIterator<T>					iterator;
 		typedef ConstRandomAccessIterator<T>			const_iterator;
 		typedef RevRandomAccessIterator<T> 				reverse_iterator;
-		typedef RevRandomAccessIterator<const T>		const_reverse_iterator;
+		typedef ConstRevRandomAccessIterator<T>			const_reverse_iterator;
 		typedef ptrdiff_t								difference_type;
 		typedef size_t									size_type;
 
