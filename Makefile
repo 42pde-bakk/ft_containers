@@ -6,20 +6,14 @@
 #    By: Peer <pde-bakk@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/25 17:28:30 by pde-bakk      #+#    #+#                  #
-#    Updated: 2020/09/28 01:47:41 by peerdb        ########   odam.nl          #
+#    Updated: 2020/10/08 21:46:46 by pde-bakk      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = containers.out
 
-ifdef realg
- CXX = ~/.brew/bin/g++-10
-endif
-ifdef clang
- CXX = clang++
-endif
-ifdef g++
- CXX = clang++
+ifdef COMPILER
+ CXX = $(COMPILER)
 endif
 
 FLAGS = -W -Wall -Wextra -Werror -pedantic -std=c++98 -ansi 

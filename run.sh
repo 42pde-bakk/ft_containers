@@ -6,7 +6,7 @@
 #    By: peerdb <peerdb@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/09/09 16:47:13 by peerdb        #+#    #+#                  #
-#    Updated: 2020/09/28 01:48:03 by peerdb        ########   odam.nl          #
+#    Updated: 2020/10/08 21:53:43 by pde-bakk      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,8 +25,12 @@ function test {
 	do
 		if [[ $var == "debug" ]]; then
 			D="DEBUG=1"
-		elif [[ $var == "g++" || $var == "clang" || $var == "realg" ]]; then
-			C="$var=1"
+		elif [[ $var == "g++" || $var == "clang" ]]; then
+			C="COMPILER=$var"
+			echo "OSTYPE = $OSTYPE"
+			if [[ $OSTYPE == *"darwin"* && $var == "g++" ]]; then
+				C="COMPILER=$(brew --prefix)/bin/g++-10"
+			fi
 		elif [[ $var == "time" ]]; then
 			TIME=$var
 		fi

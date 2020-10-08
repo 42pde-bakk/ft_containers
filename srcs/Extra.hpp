@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/26 13:20:35 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/09/26 13:22:40 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/08 21:56:58 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ namespace ft {
 		ptrdiff_t dist = 0;
 		while (first != last) {
 			++dist;
-			first++;
+			++first;
 		}
 		return dist;
 	}
