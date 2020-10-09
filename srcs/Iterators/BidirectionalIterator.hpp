@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/09 12:20:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/09 16:50:54 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/10 00:26:52 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ namespace ft {
 		typedef node<value_type>*			node_pointer;
 		typedef size_t						size_type;
 		typedef ptrdiff_t					difference_type;
-		typedef std::bidirectional_iterator_tag	iterator_category;
+		typedef Category					iterator_category;
 		typedef BidirectionalIterator		self_type;
 
 		BidirectionalIterator() : ptr(NULL) { }
@@ -105,14 +105,16 @@ namespace ft {
 		typedef node<value_type>*	node_pointer;
 		typedef size_t				size_type;
 		typedef ptrdiff_t			difference_type;
-		typedef std::bidirectional_iterator_tag iterator_category;
+		typedef Category			iterator_category;
 	
-		ConstBidirectionalIterator() : BidirectionalIterator<T>() { }
-		ConstBidirectionalIterator(node_pointer element) : BidirectionalIterator<T>(element) {}
-		ConstBidirectionalIterator(const ConstBidirectionalIterator& other) {
+		ConstBidirectionalIterator() : BidirectionalIterator<T>() {
+		}
+		ConstBidirectionalIterator(node_pointer element) : BidirectionalIterator<T>(element) {
+		}
+		ConstBidirectionalIterator(const ConstBidirectionalIterator& other) : BidirectionalIterator<T>() {
 			*this = other;
 		}
-		ConstBidirectionalIterator(const BidirectionalIterator<T>& other) {
+		ConstBidirectionalIterator(const BidirectionalIterator<T>& other) : BidirectionalIterator<T>() {
 			*this = other;
 		}
 		ConstBidirectionalIterator&	operator=(const ConstBidirectionalIterator& other) {
@@ -146,7 +148,7 @@ namespace ft {
 		typedef node<value_type>*	node_pointer;
 		typedef size_t				size_type;
 		typedef ptrdiff_t			difference_type;
-		typedef std::bidirectional_iterator_tag iterator_category;
+		typedef Category			iterator_category;
 		// typedef RevBidirectionalIterator self_type;
 
 		RevBidirectionalIterator() : ptr(NULL) { }
@@ -217,14 +219,17 @@ namespace ft {
 		typedef node<value_type>*	node_pointer;
 		typedef size_t				size_type;
 		typedef ptrdiff_t			difference_type;
-		typedef std::bidirectional_iterator_tag iterator_category;
+		typedef Category			iterator_category;
 
-		ConstRevBidirectionalIterator() : RevBidirectionalIterator<T>() { }
-		ConstRevBidirectionalIterator(node_pointer element) : RevBidirectionalIterator<T>(element) {}
-		ConstRevBidirectionalIterator(const ConstRevBidirectionalIterator& other) {
+
+		ConstRevBidirectionalIterator() : RevBidirectionalIterator<T>() {
+		}
+		ConstRevBidirectionalIterator(node_pointer element) : RevBidirectionalIterator<T>(element) {
+		}
+		ConstRevBidirectionalIterator(const ConstRevBidirectionalIterator& other) : RevBidirectionalIterator<T>() {
 			*this = other;
 		}
-		ConstRevBidirectionalIterator(const RevBidirectionalIterator<T>& other) {
+		ConstRevBidirectionalIterator(const RevBidirectionalIterator<T>& other) : RevBidirectionalIterator<T>() {
 			*this = other;
 		}
 		ConstRevBidirectionalIterator&	operator=(const ConstRevBidirectionalIterator& other) {
