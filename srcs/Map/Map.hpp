@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/27 23:49:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/09/28 00:16:47 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/09 18:01:29 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,12 @@
 #  define PEER_MAX SIZE_T_MAX
 # endif
 
+namespace ft {
+
 template <class T> struct less : binary_function <T,T,bool> {
   bool operator() (const T& x, const T& y) const {return x<y;}
 };
 
-namespace ft {
 template < class Key, class T, class Compare = less<Key>, class Alloc = std::allocator<std::pair<const Key,T> > >
 	class map {
 		typedef Key							key_type;
@@ -48,12 +49,12 @@ template < class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		typedef	const value_type&			const_reference;
 		typedef	value_type*					pointer;
 		typedef	const value_type*			const_pointer;
-		typedef BidirectionalIterator<value_type>				iterator;
-		typedef ConstBidirectionalIterator<const value_type>	const_iterator;
-		typedef RevBidirectionalIterator<value_type>			reverse_iterator;
-		typedef ConstRevBidirectionalIterator<const value_type>	const_reverseiterator;
-		typedef	ptrdiff_t	difference_type;
-		typedef	size_t		size_type;
+		typedef BidirectionalIterator<value_type>			iterator;
+		typedef ConstBidirectionalIterator<value_type>		const_iterator;
+		typedef RevBidirectionalIterator<value_type>		reverse_iterator;
+		typedef ConstRevBidirectionalIterator<value_type>	const_reverseiterator;
+		typedef	ptrdiff_t					difference_type;
+		typedef	size_t						size_type;
 	};
 	
 }
