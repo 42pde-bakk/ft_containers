@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 15:19:02 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/08 21:55:37 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/09 16:54:42 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ namespace ft {
 		template <class InputIterator>
 		vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
 				typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) : _alloc(alloc) {
-			this->_capacity = distance(first, last);
+			this->_capacity = ft::distance(first, last);
 			this->_size = _capacity;
 			this->_array = new value_type[this->_capacity];
 			this->assign(first, last);
@@ -197,13 +197,13 @@ namespace ft {
 			this->_size--;
 		}
 		iterator insert (iterator position, const value_type& val) {
-			size_type n = distance(begin(), position);
+			size_type n = ft::distance(begin(), position);
 			insert(position, 1, val);
 			return (iterator(&this->_array[n]));
 		}
 		void insert (iterator position, size_type n, const value_type& val) {
 			vector tmp(position, end());
-			this->_size -= distance(position, end());
+			this->_size -= ft::distance(position, end());
 			while (n) {
 				push_back(val);
 				--n;
@@ -218,7 +218,7 @@ namespace ft {
 		void insert (iterator position, InputIterator first, InputIterator last,
 				typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) {
 			vector tmp(position, end());
-			this->_size -= distance(position, end());
+			this->_size -= ft::distance(position, end());
 			while (first != last) {
 				push_back(*first);
 				++first;
@@ -245,7 +245,7 @@ namespace ft {
 				++first;
 				++last;
 			}
-			this->_size -= distance(first, last);
+			this->_size -= ft::distance(first, last);
 			return out;
 		}
 		void swap (vector& x) {

@@ -6,22 +6,21 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/09 22:07:27 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/09/26 00:30:22 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/09 17:54:26 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TRAITS_HPP
 # define TRAITS_HPP
-namespace ft
-{
+namespace ft {
 
-struct random_access_iterator_tag
-{
-};
+// struct random_access_iterator_tag
+// {
+// };
 
-struct bidirectional_iterator_tag
-{
-};
+// struct bidirectional_iterator_tag
+// {
+// };
 
 // struct forward_iterator_tag
 // {
@@ -58,25 +57,25 @@ struct iterator_check : public iterator_result<false, bool>
 };
 
 template <>
-struct iterator_check<random_access_iterator_tag>
-	: public iterator_result<true, random_access_iterator_tag>
+struct iterator_check<std::random_access_iterator_tag>
+	: public iterator_result<true, std::random_access_iterator_tag>
 {
 };
 
 template <>
-struct iterator_check<bidirectional_iterator_tag>
-	: public iterator_result<true, bidirectional_iterator_tag>
+struct iterator_check<std::bidirectional_iterator_tag>
+	: public iterator_result<true, std::bidirectional_iterator_tag>
 {
 };
 
 // template <>
-// struct iterator_check<forward_iterator_tag>
+// struct iterator_check<std::forward_iterator_tag>
 // 	: public iterator_result<true, forward_iterator_tag>
 // {
 // };
 
 // template <>
-// struct iterator_check<input_iterator_tag>
+// struct iterator_check<std::input_iterator_tag>
 // 	: public iterator_result<true, input_iterator_tag>
 // {
 // };

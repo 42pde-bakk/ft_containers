@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/09 12:20:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/08 21:20:45 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/09 17:47:47 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ namespace ft {
 		typedef const value_type*			const_pointer;
 		typedef size_t						size_type;
 		typedef ptrdiff_t					difference_type;
-		typedef random_access_iterator_tag	iterator_category;
+		typedef std::random_access_iterator_tag	iterator_category;
 		typedef RandomAccessIterator 		self_type;
 
 		RandomAccessIterator() : array(0) {}
@@ -126,7 +126,7 @@ namespace ft {
 		typedef const value_type*			const_pointer;
 		typedef size_t						size_type;
 		typedef ptrdiff_t					difference_type;
-		typedef random_access_iterator_tag	iterator_category;
+		typedef std::random_access_iterator_tag	iterator_category;
 		typedef ConstRandomAccessIterator 	self_type;
 
 		ConstRandomAccessIterator() : RandomAccessIterator<T>() {}
@@ -174,7 +174,7 @@ namespace ft {
 		typedef const value_type*			const_pointer;
 		typedef size_t						size_type;
 		typedef ptrdiff_t					difference_type;
-		typedef random_access_iterator_tag	iterator_category;
+		typedef std::random_access_iterator_tag	iterator_category;
 		typedef RevRandomAccessIterator 	self_type;
 
 		RevRandomAccessIterator() : array(0) {
@@ -271,7 +271,7 @@ namespace ft {
 		typedef const value_type*			const_pointer;
 		typedef size_t						size_type;
 		typedef ptrdiff_t					difference_type;
-		typedef random_access_iterator_tag	iterator_category;
+		typedef std::random_access_iterator_tag	iterator_category;
 		typedef ConstRevRandomAccessIterator 	self_type;
 
 		ConstRevRandomAccessIterator() : RevRandomAccessIterator<T>() {}

@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 21:10:23 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/08 21:45:56 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/09 16:53:36 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ size_t endtime;
 struct timeval	tv;
 
 template< typename T >
-void	print_container_content(ft::vector<T> &vec, std::string name) {
+void	print_container_content(ft::vector<T> &vec, std::string name = "container") {
 	std::cout << name << " contains:";
 	for (ft::vector<int>::iterator it = vec.begin(); it != vec.end(); it++)
 		std::cout << ' ' << *it;
@@ -102,6 +102,7 @@ void	capacity_test() {
 	std::cout << "papajohns.max_size(): " << papajohns.max_size() << std::endl;
 	std::cout << "papajohns.capacacity(): " << papajohns.capacity() << std::endl;
 	std::cout << "papajohns.empty(): " << std::boolalpha << papajohns.empty() << std::endl;
+
 }
 
 void	element_access_test() {
@@ -172,11 +173,23 @@ void	relational_operators_test() {
 	
 }
 
+void	stl_test() {
+	// checking if I can also assign items from STL iterators
+	ft::vector<int>		wap;
+	std::vector<int>	stl;
+	for (int i = 0; i < 12; i++)
+		stl.push_back(i * 4);
+	wap.assign(stl.begin(), stl.end());
+	print_container_content(wap, "wap");
+
+}
+
 int	main(int argc, char **argv) {
 	if (argc == 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
 		begintime = tv.tv_usec;
 	}
+	stl_test();
 	constructors_test();
 	iterators_test();
 	capacity_test();

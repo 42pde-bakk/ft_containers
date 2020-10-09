@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:46:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/10/08 21:44:01 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/09 16:58:20 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 #include <cstdlib>
 
 template<typename T>
-void	print_container_content(ft::list<T>	&list, std::string name) {
+void	print_container_content(ft::list<T>	&list, std::string name = "container") {
 	std::cout << name << " contains:";
 	for (ft::list<int>::iterator it = list.begin(); it != list.end(); it++)
 		std::cout << ' ' << *it;
@@ -188,6 +188,15 @@ void	operations_test2() {
 	std::cout << std::endl;
 }
 
+void	stl_test() {
+	ft::list<int> stl;
+	ft::list<int> nonstl;
+	for (int i = 0; i < 10; i++)
+		stl.push_front(i * 3);
+	nonstl.assign(stl.begin(), stl.end());
+	print_container_content(nonstl, "nonstl");
+}
+
 int main() {
 	srand(time(0));
 	constructors_test();
@@ -196,5 +205,6 @@ int main() {
 	modifiers_test();
 	operations_test();
 	operations_test2();
+	stl_test();
 	// system("leaks containers.out | grep \"total leaked bytes\"");
 }

@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/09 12:20:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/08 21:43:15 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/09 16:50:54 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ namespace ft {
 		typedef node<value_type>*			node_pointer;
 		typedef size_t						size_type;
 		typedef ptrdiff_t					difference_type;
-		typedef bidirectional_iterator_tag	iterator_category;
+		typedef std::bidirectional_iterator_tag	iterator_category;
 		typedef BidirectionalIterator		self_type;
 
 		BidirectionalIterator() : ptr(NULL) { }
@@ -105,7 +105,7 @@ namespace ft {
 		typedef node<value_type>*	node_pointer;
 		typedef size_t				size_type;
 		typedef ptrdiff_t			difference_type;
-		typedef bidirectional_iterator_tag iterator_category;
+		typedef std::bidirectional_iterator_tag iterator_category;
 	
 		ConstBidirectionalIterator() : BidirectionalIterator<T>() { }
 		ConstBidirectionalIterator(node_pointer element) : BidirectionalIterator<T>(element) {}
@@ -146,7 +146,7 @@ namespace ft {
 		typedef node<value_type>*	node_pointer;
 		typedef size_t				size_type;
 		typedef ptrdiff_t			difference_type;
-		typedef bidirectional_iterator_tag iterator_category;
+		typedef std::bidirectional_iterator_tag iterator_category;
 		// typedef RevBidirectionalIterator self_type;
 
 		RevBidirectionalIterator() : ptr(NULL) { }
@@ -217,7 +217,8 @@ namespace ft {
 		typedef node<value_type>*	node_pointer;
 		typedef size_t				size_type;
 		typedef ptrdiff_t			difference_type;
-		typedef bidirectional_iterator_tag iterator_category;
+		typedef std::bidirectional_iterator_tag iterator_category;
+
 		ConstRevBidirectionalIterator() : RevBidirectionalIterator<T>() { }
 		ConstRevBidirectionalIterator(node_pointer element) : RevBidirectionalIterator<T>(element) {}
 		ConstRevBidirectionalIterator(const ConstRevBidirectionalIterator& other) {
