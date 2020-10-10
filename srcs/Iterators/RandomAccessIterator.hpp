@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/09 12:20:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/09 17:47:47 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/10 00:25:11 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ namespace ft {
 		typedef const value_type*			const_pointer;
 		typedef size_t						size_type;
 		typedef ptrdiff_t					difference_type;
-		typedef std::random_access_iterator_tag	iterator_category;
+		typedef	Category					iterator_category;
 		typedef RandomAccessIterator 		self_type;
 
 		RandomAccessIterator() : array(0) {}
@@ -126,17 +126,15 @@ namespace ft {
 		typedef const value_type*			const_pointer;
 		typedef size_t						size_type;
 		typedef ptrdiff_t					difference_type;
-		typedef std::random_access_iterator_tag	iterator_category;
+		typedef	Category					iterator_category;
 		typedef ConstRandomAccessIterator 	self_type;
 
 		ConstRandomAccessIterator() : RandomAccessIterator<T>() {}
-		ConstRandomAccessIterator(pointer elem) {
-			this->array = elem;
-		}
-		ConstRandomAccessIterator(const RandomAccessIterator<T>& other) {
+		ConstRandomAccessIterator(pointer elem) : RandomAccessIterator<T>(elem) { }
+		ConstRandomAccessIterator(const RandomAccessIterator<T>& other) : RandomAccessIterator<T>() {
 			*this = other;
 		}
-		ConstRandomAccessIterator(const ConstRandomAccessIterator& other) {
+		ConstRandomAccessIterator(const ConstRandomAccessIterator& other) : RandomAccessIterator<T>() {
 			*this = other;
 		}
 		self_type&	operator=(const ConstRandomAccessIterator& other) {
@@ -174,7 +172,7 @@ namespace ft {
 		typedef const value_type*			const_pointer;
 		typedef size_t						size_type;
 		typedef ptrdiff_t					difference_type;
-		typedef std::random_access_iterator_tag	iterator_category;
+		typedef	Category					iterator_category;
 		typedef RevRandomAccessIterator 	self_type;
 
 		RevRandomAccessIterator() : array(0) {
@@ -271,17 +269,17 @@ namespace ft {
 		typedef const value_type*			const_pointer;
 		typedef size_t						size_type;
 		typedef ptrdiff_t					difference_type;
-		typedef std::random_access_iterator_tag	iterator_category;
+		typedef	Category					iterator_category;
 		typedef ConstRevRandomAccessIterator 	self_type;
 
-		ConstRevRandomAccessIterator() : RevRandomAccessIterator<T>() {}
-		ConstRevRandomAccessIterator(pointer elem) {
-			this->array = elem;
+		ConstRevRandomAccessIterator() : RevRandomAccessIterator<T>() {
 		}
-		ConstRevRandomAccessIterator(const RevRandomAccessIterator<T>& other) {
+		ConstRevRandomAccessIterator(pointer elem) : RevRandomAccessIterator<T>(elem) {
+		}
+		ConstRevRandomAccessIterator(const RevRandomAccessIterator<T>& other) : RevRandomAccessIterator<T>() {
 			*this = other;
 		}
-		ConstRevRandomAccessIterator(const ConstRevRandomAccessIterator& other) {
+		ConstRevRandomAccessIterator(const ConstRevRandomAccessIterator& other) : RevRandomAccessIterator<T>() {
 			*this = other;
 		}
 		self_type&	operator=(const self_type& other) {
