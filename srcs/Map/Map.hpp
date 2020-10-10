@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/27 23:49:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/10 16:31:49 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/11 01:03:51 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,9 @@
 
 namespace ft {
 
-template <class T> struct less : std::binary_function <T,T,bool> {
-  bool operator() (const T& x, const T& y) const {return x<y;}
+template <class T>
+struct less : std::binary_function<T,T,bool> {
+	bool operator() (const T& x, const T& y) const { return (x < y); }
 };
 
 template <	class Key, class T, class Compare = less<Key>, class Alloc = std::allocator<std::pair<const Key,T> > >
@@ -50,11 +51,11 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		typedef	const value_type&			const_reference;
 		typedef	value_type*					pointer;
 		typedef	const value_type*			const_pointer;
-		typedef node<value_type, key_compare>	node;
-		typedef BidirectionalIterator<value_type, node* >			iterator;
-//		typedef ConstBidirectionalIterator<value_type>		const_iterator;
-//		typedef RevBidirectionalIterator<value_type>		reverse_iterator;
-//		typedef ConstRevBidirectionalIterator<value_type>	const_reverseiterator;
+		typedef node<value_type, key_compare>	mapnode;
+		typedef BidirectionalIterator<value_type, mapnode* >		iterator;
+		typedef ConstBidirectionalIterator<value_type, mapnode*>	const_iterator;
+		typedef RevBidirectionalIterator<value_type, mapnode*>		reverse_iterator;
+		typedef ConstRevBidirectionalIterator<value_type, mapnode*>	const_reverseiterator;
 		typedef	ptrdiff_t					difference_type;
 		typedef	size_t						size_type;
 
@@ -88,7 +89,7 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		 iterator				begin() {
 			return iterator(this->_first->parent);
 		}
-//		 const_iterator			begin() const;
+//	 const_iterator			begin() const;
 		 iterator				end() {
 			return iterator(this->_last->parent);
 		}
@@ -115,7 +116,15 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		const mapped_type&	at(const key_type& k) const;
 
 	// Modifier functions
-		// pair<iterator, bool>	insert(const value_type& val);
+		std::pair<iterator, bool>	insert(const value_type& val) {
+			if (this->_size == 0) {
+				this->_root->data = val;
+				++this->_size;
+				return (std::make_pair(iterator(this->_root), true));
+			}
+			else
+				return (std::make_pair(iterator(this->_root), false));
+		}
 		// iterator				insert(iterator position, const value_type& val);
 		// template <class InputIterator>
 		// void					insert(InputIterator first, InputIterator last);
@@ -144,16 +153,16 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		
 		private:
 			void	initmap() {
-				this->_root = new node();
-				this->_first = new node();
+				this->_root = new mapnode();
+				this->_first = new mapnode();
 				this->_first->parent = _root;
-				this->_last = new node(*this->_first);
+				this->_last = new mapnode(*this->_first);
 				this->_root->left = _first;
 				this->_root->right = _last;
 			}
-		node			*_root;
-        node			*_first;
-        node			*_last;
+		mapnode			*_root;
+        mapnode			*_first;
+        mapnode			*_last;
 		allocator_type	_alloc;
 		key_compare		_comp;
 		size_type		_size;

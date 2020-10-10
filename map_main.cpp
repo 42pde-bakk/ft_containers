@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 21:10:23 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/10 14:47:15 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/11 01:06:20 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@ void	print_container_content(std::map<K, V>& mappie, std::string name = "contain
 }
 
 void	peer() {
-	std::map<std::string, std::string> peer;
-	std::map<std::string, std::string> papa;
-	papa = peer;
+	std::map<std::string, std::string> equal;
+	std::map<std::string, std::string> oper;
+	equal = oper;
 	std::map<int, std::string> stl;
 	stl[8] = "acht";
 	stl[3] = "drie";
@@ -43,6 +43,10 @@ void	peer() {
 	stl[7] = "zeven";
 	stl[13] = "dertien";
 	print_container_content(stl, "stl");
+	ft::map<std::string, std::string> peer;
+	std::pair<ft::map<std::string, std::string>::iterator, bool> p = peer.insert(std::make_pair("hats", "pimpampet"));
+	// std::cout << "p.first: " << p.first << ", p.second: " << p->second << std::endl;
+	(void)p;
 }
 
 int	main(int argc, char **argv) {
