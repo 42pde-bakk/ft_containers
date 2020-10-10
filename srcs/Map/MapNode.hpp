@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/28 00:16:51 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/09 18:17:01 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/10 16:52:27 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,32 +21,31 @@
 # include <cstring>
 # include <climits>
 # include <string>
-# include "../Iterators/BidirectionalIterator.hpp"
+// # include "../Iterators/BidirectionalIterator.hpp"
 # include "../Traits.hpp"
 # include "../Extra.hpp"
 
 namespace ft {
 	template <typename T, class C>
-	class mapnode {
+	class node {
 	public:
-		typedef T	value_type;
-		typedef	T&	reference;
-		typedef	T*	pointer;
-		typedef	C	key_compare;
-		typedef	const pointer	const_pointer;
-		typedef const reference	const_reference;
+		typedef T			value_type;
+		typedef	T&			reference;
+		typedef const T&	const_reference;
+		typedef	T*			pointer;
+		typedef	const T*	const_pointer;
+		typedef	C			key_compare;
 		
 		value_type	data;
-		mapnode		*parent;
-		mapnode		*left;
-		mapnode 	*right;
+		node		*parent;
+		node		*left;
+		node 	*right;
 		
 		mapnode(value_type const& val = value_type()) : data(val), parent(0), left(0), right(0) { }
-		mapnode(const node& x) {
-			*this = x;
+		mapnode(const node& x) : data(x.data), parent(x.parent), left(x.left), right(x.right) {
 		}
-		~mapnode() {}
-		mapnode&	operator=(const mapnode& x) {
+		~node() {}
+		node&	operator=(const node& x) {
 			if (this != &x) {
 				this->data = x.data;
 				this->parent = x.parent;
@@ -55,7 +54,18 @@ namespace ft {
 			}
 			return *this;
 		}
-		bool	operator==(const mapnode& other);
+		bool	operator==(const node& other) {
+			return (this->data == other.data);
+		}
+		bool	operator!=(const node& other) {
+			return (this->data != other.data);
+		}
+		bool	operator>(const node& other) {
+			return (this->data > other.data);
+		}
+		bool	operator<(const node& other) {
+			return (this->data < other.data);
+		}
 	};
 }
 

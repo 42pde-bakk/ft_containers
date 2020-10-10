@@ -6,7 +6,7 @@
 #    By: Peer <pde-bakk@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/25 17:28:30 by pde-bakk      #+#    #+#                  #
-#    Updated: 2020/10/08 21:46:46 by pde-bakk      ########   odam.nl          #
+#    Updated: 2020/10/10 17:22:40 by pde-bakk      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,9 +16,9 @@ ifdef COMPILER
  CXX = $(COMPILER)
 endif
 
-FLAGS = -W -Wall -Wextra -Werror -pedantic -std=c++98 -ansi 
+CXXFLAGS = -W -Wall -Wextra -Werror -pedantic -std=c++98 -ansi 
 ifdef DEBUG
- FLAGS += -g -fsanitize=address
+ CXXFLAGS += -g -fsanitize=address
 endif
 
 FILES = main.cpp
@@ -29,13 +29,16 @@ endif
 # all: $(NAME)
 
 # $(NAME):
-# 	$(CXX) $(FILES) $(FLAGS) -o $(NAME)
+# 	$(CXX) $(FILES) $(CXXFLAGS) -o $(NAME)
 
 list: fclean
-	$(CXX) $(FLAGS) list_$(FILES) -o $(NAME)
+	$(CXX) $(CXXFLAGS) list_$(FILES) -o $(NAME)
 
 vector: fclean
-	$(CXX) $(FLAGS) vector_$(FILES) -o $(NAME)
+	$(CXX) $(CXXFLAGS) vector_$(FILES) -o $(NAME)
+
+map: fclean
+	$(CXX) $(CXXFLAGS) map_$(FILES) -o $(NAME)
 	
 clean:
 
@@ -47,3 +50,4 @@ fuckingclean: fclean
 
 re: fclean
 
+ 

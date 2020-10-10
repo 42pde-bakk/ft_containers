@@ -6,7 +6,7 @@
 #    By: peerdb <peerdb@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/09/09 16:47:13 by peerdb        #+#    #+#                  #
-#    Updated: 2020/10/08 21:53:43 by pde-bakk      ########   odam.nl          #
+#    Updated: 2020/10/10 13:37:14 by pde-bakk      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,16 +33,18 @@ function test {
 			fi
 		elif [[ $var == "time" ]]; then
 			TIME=$var
+		elif [[ $var == "leaks" ]]; then
+			LEAKS=$var
 		fi
 	done
 	make fuckingclean
 
 	sed "s/ft::/std::/g" $1_main.cpp > $1_stdmain.cpp
 
-	make $1 $C $D STD=1 && ./containers.out $TIME > std.txt
+	make $1 $C $D STD=1 && ./containers.out $TIME $LEAKS > std.txt
 	STATUS_STD=$?
 
-	make $1 $C $D && ./containers.out $TIME > ft.txt
+	make $1 $C $D && ./containers.out $TIME $LEAKS > ft.txt
 	STATUS_FT=$?
 
 	echo $ECHOARG "${ORANGE}Startin testing for $1${RESET}"
