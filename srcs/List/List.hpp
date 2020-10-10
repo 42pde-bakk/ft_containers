@@ -44,14 +44,14 @@ namespace ft {
 		typedef node<T> 	*node_pointer;
 		typedef ptrdiff_t	difference_type;
 		typedef size_t		size_type;
-		typedef BidirectionalIterator<value_type>			iterator;
-		typedef ConstBidirectionalIterator<value_type>		const_iterator;
-		typedef RevBidirectionalIterator<value_type>		reverse_iterator;
-		typedef ConstRevBidirectionalIterator<value_type>	const_reverse_iterator;
+		typedef BidirectionalIterator<value_type, node_pointer>			iterator;
+		typedef ConstBidirectionalIterator<value_type, node_pointer>	const_iterator;
+		typedef RevBidirectionalIterator<value_type, node_pointer>		reverse_iterator;
+		typedef ConstRevBidirectionalIterator<value_type, node_pointer>	const_reverse_iterator;
 	private:
-		node<T>		*head;
-		node<T>		*firstelem;
-		node<T>		*tail;
+		node_pointer		head;
+		node_pointer 		firstelem;
+		node_pointer 		tail;
 		allocator_type	alloc;
 		size_type		length;
 	public:

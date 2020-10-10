@@ -20,18 +20,29 @@ size_t begintime;
 size_t endtime;
 struct timeval	tv;
 
-// template< typename T >
-// void	print_container_content(ft::map<T> &vec, std::string name = "container") {
-// 	std::cout << name << " contains:";
-// 	for (ft::map<int>::iterator it = vec.begin(); it != vec.end(); it++)
-// 		std::cout << ' ' << *it;
-// 	std::cout << " $" << std::endl;
-// }
+template< typename K, typename V >
+void	print_container_content(std::map<K, V>& mappie, std::string name = "container") {
+	std::cout << name << " contains:";
+	for (typename std::map<K, V>::const_iterator it = mappie.begin(); it != mappie.end(); it++)
+		std::cout << ' ' << it->second;
+	std::cout << " $" << std::endl;
+}
 
 void	peer() {
-	ft::map<std::string, std::string> peer;
-	ft::map<std::string, std::string> papa;
+	std::map<std::string, std::string> peer;
+	std::map<std::string, std::string> papa;
 	papa = peer;
+	std::map<int, std::string> stl;
+	stl[8] = "acht";
+	stl[3] = "drie";
+	stl[10] = "tien";
+	stl[1] = "een";
+	stl[6] = "tien";
+	stl[14] = "veertien";
+	stl[4] = "vier";
+	stl[7] = "zeven";
+	stl[13] = "dertien";
+	print_container_content(stl, "stl");
 }
 
 int	main(int argc, char **argv) {

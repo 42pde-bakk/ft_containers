@@ -22,7 +22,7 @@
 # include <climits>
 # include <string>
 # include "MapNode.hpp"
-// # include "../Iterators/BidirectionalIterator.hpp"
+ # include "../Iterators/BidirectionalIterator.hpp"
 # include "../Traits.hpp"
 # include "../Extra.hpp"
 
@@ -50,17 +50,18 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		typedef	const value_type&			const_reference;
 		typedef	value_type*					pointer;
 		typedef	const value_type*			const_pointer;
-		// typedef BidirectionalIterator<value_type>			iterator;
-		// typedef ConstBidirectionalIterator<value_type>		const_iterator;
-		// typedef RevBidirectionalIterator<value_type>		reverse_iterator;
-		// typedef ConstRevBidirectionalIterator<value_type>	const_reverseiterator;
+		typedef node<value_type, key_compare>	node;
+		typedef BidirectionalIterator<value_type, node* >			iterator;
+//		typedef ConstBidirectionalIterator<value_type>		const_iterator;
+//		typedef RevBidirectionalIterator<value_type>		reverse_iterator;
+//		typedef ConstRevBidirectionalIterator<value_type>	const_reverseiterator;
 		typedef	ptrdiff_t					difference_type;
 		typedef	size_t						size_type;
-		typedef mapnode<value_type, key_compare>	mapnode;
 
 	// Constructors, destructors and operator=
 		explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
 				: _alloc(alloc), _comp(comp) {
+			this->_size = 0;
 			this->initmap();
 		}
 		template <class InputIterator>
@@ -84,9 +85,13 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 			return (*this);
 		}
 	// Iterator functions
-		// iterator				begin();
-		// const_iterator			begin() const;
-		// iterator				end();
+		 iterator				begin() {
+			return iterator(this->_first->parent);
+		}
+//		 const_iterator			begin() const;
+		 iterator				end() {
+			return iterator(this->_last->parent);
+		}
 		// const_iterator			end() const;
 		// reverse_iterator		rbegin();
 		// const_reverse_iterator	rbegin() const;
@@ -101,7 +106,7 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 			return this->_size;
 		}
 		size_type	max_size() const {
-			return (PEER_MAX / sizeof(pair));
+			return (PEER_MAX);
 		}
 
 	// Element access functions
@@ -139,16 +144,16 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		
 		private:
 			void	initmap() {
-				this->_root = new mapnode();
-				this->_first = new mapnode();
+				this->_root = new node();
+				this->_first = new node();
 				this->_first->parent = _root;
-				this->_last = new mapnode(*this->_first);
+				this->_last = new node(*this->_first);
 				this->_root->left = _first;
 				this->_root->right = _last;
 			}
-		mapnode			*_root;
-		mapnode			*_first;
-		mapnode			*_last;
+		node			*_root;
+        node			*_first;
+        node			*_last;
 		allocator_type	_alloc;
 		key_compare		_comp;
 		size_type		_size;

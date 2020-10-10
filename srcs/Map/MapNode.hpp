@@ -39,10 +39,10 @@ namespace ft {
 		value_type	data;
 		node		*parent;
 		node		*left;
-		node 	*right;
-		
-		mapnode(value_type const& val = value_type()) : data(val), parent(0), left(0), right(0) { }
-		mapnode(const node& x) : data(x.data), parent(x.parent), left(x.left), right(x.right) {
+		node 	    *right;
+
+        node(value_type const& val = value_type()) : data(val), parent(0), left(0), right(0) { }
+        node(const node& x) : data(x.data), parent(x.parent), left(x.left), right(x.right) {
 		}
 		~node() {}
 		node&	operator=(const node& x) {
@@ -66,6 +66,34 @@ namespace ft {
 		bool	operator<(const node& other) {
 			return (this->data < other.data);
 		}
+		bool 	operator<=(const node& other) {
+        	return (this->data <= other.data);
+        }
+        bool 	operator>=(const node&other) {
+        	return (this->data >= other.data);
+        }
+		node*   getnext() {
+        	node* it(this);
+        	if (it->right) {
+        		it = it->right;
+        		while (it->left)
+        			it = it->left;
+        	}
+        	else while (it->data <= this->data)
+        			it = it->parent;
+        	return (it);
+        }
+        node*   getprevious() {
+	        node* it(this);
+	        if (it->left) {
+		        it = it->left;
+		        while (it->right)
+			        it = it->right;
+	        }
+	        else while (it->data >= this->data)
+					it = it->parent;
+	        return (it);
+        }
 	};
 }
 
