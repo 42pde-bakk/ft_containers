@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 15:19:02 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/09 16:54:42 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/11 19:39:15 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ namespace ft {
 			this->_capacity = 0;
 		}
 		explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : _alloc(alloc) {
-			this->_array = new value_type[n];
+			this->_array = new value_type[n]();
 			this->_size = n;
 			for (size_type i = 0; i < n; i++)
 				this->_array[i] = val;

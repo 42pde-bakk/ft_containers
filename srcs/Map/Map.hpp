@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/27 23:49:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/11 18:12:15 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/11 21:08:24 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		typedef T							mapped_type;
 		typedef std::pair<const Key, T>		value_type;
 		typedef	Compare						key_compare;
+		typedef	Compare						value_compare;
 		typedef Alloc						allocator_type;
 		typedef	value_type&					reference;
 		typedef	const value_type&			const_reference;
@@ -55,7 +56,7 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		typedef BidirectionalIterator<value_type, mapnode* >		iterator;
 		typedef ConstBidirectionalIterator<value_type, mapnode*>	const_iterator;
 		typedef RevBidirectionalIterator<value_type, mapnode*>		reverse_iterator;
-		typedef ConstRevBidirectionalIterator<value_type, mapnode*>	const_reverseiterator;
+		typedef ConstRevBidirectionalIterator<value_type, mapnode*>	const_reverse_iterator;
 		typedef	ptrdiff_t					difference_type;
 		typedef	size_t						size_type;
 
@@ -86,18 +87,30 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 			return (*this);
 		}
 	// Iterator functions
-		 iterator				begin() {
+		iterator				begin() {
 			return iterator(this->_first->parent);
 		}
-//	 const_iterator			begin() const;
-		 iterator				end() {
-			return iterator(this->_last->parent);
+		const_iterator			begin() const {
+			return const_iterator(this->_first->parent);
 		}
-		// const_iterator			end() const;
-		// reverse_iterator		rbegin();
-		// const_reverse_iterator	rbegin() const;
-		// reverse_iterator		rend();
-		// const_reverse_iterator	rend() const;
+		iterator				end() {
+			return iterator(this->_last);
+		}
+		const_iterator			end() const {
+			return const_iterator(this->_last);
+		}
+		reverse_iterator		rbegin() {
+			return reverse_iterator(this->_last->parent);
+		}
+		const_reverse_iterator	rbegin() const {
+			return const_reverse_iterator(this->_last->parent);
+		}
+		reverse_iterator		rend() {
+			return reverse_iterator(this->_first);
+		}
+		const_reverse_iterator	rend() const {
+			return const_reverse_iterator(this->_first);
+		}
 
 	// Capacity functions
 		bool	empty() const {
@@ -107,19 +120,18 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 			return this->_size;
 		}
 		size_type	max_size() const {
-			return (PEER_MAX);
+			return (PEER_MAX / sizeof(value_type));
 		}
 
 	// Element access functions
-		mapped_type&	operator[](const key_type& k);
-		mapped_type&	at(const key_type& k); //C++11, throws an exception if the key_type does not exist in the container
-		const mapped_type&	at(const key_type& k) const;
+		mapped_type&		operator[](const key_type& k);
+		mapped_type&		at(const key_type& k); //C++11, throws an exception if the key_type does not exist in the container
+		const mapped_type&	at(const key_type& k) const; //C++11
 
 	// Modifier functions
 		std::pair<iterator, bool>	insert(const value_type& val) {
-			if (this->_size == 0) {
+			if (this->_size == 0)
 				return (std::make_pair(iterator(insert_root(val)), true));
-			}
 			mapnode	*it(this->_root);
 			while (it->left || it->right) {
 				if (key_compare()(val.first, it->data.first)) {
@@ -132,14 +144,32 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 						it = it->right;
 					else return std::make_pair(iterator(insert_right(it, val)), true);
 				}
-				else break ;
+				else break;
 			}
 			return std::make_pair(iterator(it), false);
-			
 		}
-		// iterator				insert(iterator position, const value_type& val);
-		// template <class InputIterator>
-		// void					insert(InputIterator first, InputIterator last);
+		iterator				insert(iterator position, const value_type& val) {
+			if (position.data < val.first) {
+				while (position.data < val.first)
+					--position;
+				return iterator(insert_left(position, val));
+			}
+			else if (position.data > val.first) {
+				while (position.data > val.first)
+					++position;
+				return iterator(insert_right(position, val));
+			}
+			return position;
+		}
+		template <class InputIterator>
+		void					insert(InputIterator first, InputIterator last) {
+			while (first != last) {
+				insert(*first);
+				// std::cout << "just inserted " << first->first << " => " << first->second << std::endl;
+				++first;
+			}
+			std::cout << "breakpoint" << std::endl;
+		}
 		// void		erase(iterator position);
 		size_type	erase(const key_type& k);
 		// void		erase(iterator first, iterator last);
@@ -150,8 +180,10 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		}
 
 	// Observer functions
-		// key_compare		key_comp() const;
-		// value_compare	value_comp() const;
+		key_compare		key_comp() const {
+			return this->_comp;
+		}
+		value_compare	value_comp() const;
 	
 	// Operation functions
 		// iterator			find(const key_type& k);

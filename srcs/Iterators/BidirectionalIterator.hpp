@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/09 12:20:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/10 00:26:52 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/11 21:02:50 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,22 +49,22 @@ namespace ft {
 
 		BidirectionalIterator	operator++(int) {
 			if (this->ptr)
-				this->ptr = this->ptr->next;
+				this->ptr = ptr->getnext();
 			return *this;
 		}
 		BidirectionalIterator&	operator++() {
 			if (this->ptr)
-				this->ptr = this->ptr->next;
+				this->ptr = ptr->getnext();
 			return *this;
 		}
 		BidirectionalIterator	operator--(int) {
 			if (this->ptr)
-				this->ptr = this->ptr->prev;
+				this->ptr = ptr->getprevious();
 			return *this;
 		}
 		BidirectionalIterator&	operator--() {
 			if (this->ptr)
-				this->ptr = this->ptr->prev;
+				this->ptr = ptr->getprevious();
 			return *this;
 		}
 		reference	operator*() {
@@ -87,10 +87,10 @@ namespace ft {
 			return this->ptr;
 		}
 		node_pointer	getnext() {
-			return this->ptr->next;
+			return this->ptr->getnext();
 		}
 		node_pointer	getprev() {
-			return this->ptr->prev;
+			return this->ptr->getprevious();
 		}
 	protected:
 		node_pointer	ptr;

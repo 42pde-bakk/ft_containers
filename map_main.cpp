@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 21:10:23 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/11 18:10:22 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/11 21:09:32 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,16 @@ size_t endtime;
 struct timeval	tv;
 
 template< typename K, typename V >
-void	print_container_content(std::map<K, V>& mappie, std::string name = "container") {
+void	print_container_content(ft::map<K, V>& mappie, std::string name = "container") {
 	std::cout << name << " contains:";
-	for (typename std::map<K, V>::const_iterator it = mappie.begin(); it != mappie.end(); it++)
-		std::cout << ' ' << it->second;
+	for (typename ft::map<K, V>::const_iterator it = mappie.begin(); it != mappie.end(); it++) {
+		std::cout << "done " << it->second << std::endl;
+	}
+		// std::cout << ' ' << it->second;
 	std::cout << " $" << std::endl;
 }
 
 void	peer() {
-	std::map<std::string, std::string> equal;
-	std::map<std::string, std::string> oper;
-	equal = oper;
 	std::map<int, std::string> stl;
 	stl[8] = "acht";
 	stl[3] = "drie";
@@ -42,14 +41,9 @@ void	peer() {
 	stl[4] = "vier";
 	stl[7] = "zeven";
 	stl[13] = "dertien";
-	print_container_content(stl, "stl");
-	ft::map<std::string, std::string> peer;
-	peer.insert(std::make_pair("hats", "pimpampet"));
-	peer.insert(std::make_pair("pampa", "pierowet"));
-	peer.insert(std::make_pair("abc", "tje"));
-	// ft::map<std::string, std::string>::iterator it = peer.begin();
-	// std::cout << "it: " << it->first << " => " << it->second << std::endl;
-	// std::cout << "it: " << (*it).first << " => " << (*it).second << std::endl;
+	ft::map<int, std::string> peer;
+	peer.insert(stl.begin(), stl.end());
+	print_container_content(peer, "peerstl");
 }
 
 int	main(int argc, char **argv) {
