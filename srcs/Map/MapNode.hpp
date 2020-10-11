@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/28 00:16:51 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/10 16:52:27 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/11 16:13:37 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ namespace ft {
 		~node() {}
 		node&	operator=(const node& x) {
 			if (this != &x) {
-				this->data = x.data;
+				this->data = x.data; //fuck
 				this->parent = x.parent;
 				this->left = x.left;
 				this->right = x.right;
@@ -69,7 +69,7 @@ namespace ft {
 		bool 	operator<=(const node& other) {
         	return (this->data <= other.data);
         }
-        bool 	operator>=(const node&other) {
+        bool 	operator>=(const node& other) {
         	return (this->data >= other.data);
         }
 		node*   getnext() {

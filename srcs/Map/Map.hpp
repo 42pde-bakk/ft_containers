@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/27 23:49:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/11 01:03:51 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/11 18:12:15 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define MAP_HPP
 
 # include <limits>
-# include <memory>
+// # include <memory>
 # include <iostream>
 # include <cstddef>
 # include <cstdlib>
@@ -70,14 +70,14 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		map (const map& x);
 		~map() {
 			this->clear();
-			delete this->_root;
+			delete this->_top;
 			delete this->_first;
 			delete this->_last;
 		}
 		map& operator= (const map& x) {
 			if (this != &x) {
 				this->clear();
-				(void)x;
+				(void)x; //this fnction is bs
 				this->_root->left = this->_first;
 				this->_root->right = this->_last;
 				this->_first->parent = this->_root;
@@ -118,12 +118,24 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 	// Modifier functions
 		std::pair<iterator, bool>	insert(const value_type& val) {
 			if (this->_size == 0) {
-				this->_root->data = val;
-				++this->_size;
-				return (std::make_pair(iterator(this->_root), true));
+				return (std::make_pair(iterator(insert_root(val)), true));
 			}
-			else
-				return (std::make_pair(iterator(this->_root), false));
+			mapnode	*it(this->_root);
+			while (it->left || it->right) {
+				if (key_compare()(val.first, it->data.first)) {
+					if (it->left && it->left != this->_first)
+						it = it->left;
+					else return std::make_pair(iterator(insert_left(it, val)), true);
+				}
+				else if (key_compare()(it->data.first, val.first)) {
+					if (it->right && it->right != this->_last)
+						it = it->right;
+					else return std::make_pair(iterator(insert_right(it, val)), true);
+				}
+				else break ;
+			}
+			return std::make_pair(iterator(it), false);
+			
 		}
 		// iterator				insert(iterator position, const value_type& val);
 		// template <class InputIterator>
@@ -133,11 +145,12 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		// void		erase(iterator first, iterator last);
 		void		swap(map& x);
 		void		clear() {
-			
+			this->clear(this->_root);
+			this->link_outer();
 		}
 
 	// Observer functions
-		key_compare		key_comp() const;
+		// key_compare		key_comp() const;
 		// value_compare	value_comp() const;
 	
 	// Operation functions
@@ -153,13 +166,55 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		
 		private:
 			void	initmap() {
-				this->_root = new mapnode();
+				this->_top = new mapnode();
 				this->_first = new mapnode();
-				this->_first->parent = _root;
+				this->_first->parent = _top;
 				this->_last = new mapnode(*this->_first);
-				this->_root->left = _first;
-				this->_root->right = _last;
+				this->_top->left = _first;
+				this->_top->right = _last;
+				this->_size = 0;
 			}
+			mapnode	*insert_root(const value_type& val) {
+				this->_root = new mapnode(val);
+				++this->_size;
+				_first->parent = _last->parent = \
+				_top->left = _top->right = _root;
+				_root->left = _first,	_root->right = _last,	_root->parent = _top;
+				return this->_root;
+			}
+			mapnode	*insert_left(mapnode *it, const value_type& val = value_type()) {
+				mapnode *insert = new mapnode(val);
+				insert->parent = it;
+				if (it->left)
+					it->left->parent = insert;
+				it->left = insert;
+				++this->_size;
+				return insert;
+			}
+			mapnode	*insert_right(mapnode *it, const value_type& val = value_type()) {
+				mapnode *insert = new mapnode(val);
+				insert->parent = it;
+				if (it->right)
+					it->right->parent = insert;
+				it->right = insert;
+				++this->_size;
+				return insert;
+			}
+			void	clear(mapnode *pos) {
+				if (!pos)
+					return ;
+				clear(pos->left);
+				clear(pos->right);
+				if (pos != _top && pos != _first && pos != _last)
+					delete pos;
+			}
+			void	link_outer() {
+				_top->left = _first;
+				_top->right = _last;
+				_first->parent = _top;
+				_last->parent = _top;
+			}
+		mapnode			*_top;
 		mapnode			*_root;
         mapnode			*_first;
         mapnode			*_last;
