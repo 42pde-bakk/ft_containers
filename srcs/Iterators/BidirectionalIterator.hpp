@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/09 12:20:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/11 21:02:50 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/12 15:45:59 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ namespace ft {
 		typedef value_type&					reference;
 		typedef value_type*					pointer;
 		typedef N                           node_pointer;
-//		typedef node<value_type>*			node_pointer;
 		typedef size_t						size_type;
 		typedef ptrdiff_t					difference_type;
 		typedef Category					iterator_category;
