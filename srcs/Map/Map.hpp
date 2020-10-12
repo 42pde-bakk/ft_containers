@@ -55,7 +55,7 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		typedef	ptrdiff_t					difference_type;
 		typedef	size_t						size_type;
 		
-		class value_compare // ngl, I ripped this class straight off http://www.cplusplus.com/reference/map/map/value_comp/
+		class value_compare // ngl, I yoinked this class straight off http://www.cplusplus.com/reference/map/map/value_comp/
 		{   // in C++98, it is required to inherit binary_function<value_type,value_type,bool>
 			friend class map;
 		protected:
@@ -72,20 +72,17 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 
 	// Constructors, destructors and operator=
 		explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
-				: _alloc(alloc), _comp(comp) {
-			this->_size = 0;
+				: _alloc(alloc), _comp(comp), _size(0){
 			this->initmap();
 		}
 		template <class InputIterator>
 		map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type(),
 					typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0)
-				: _alloc(alloc), _comp(comp) {
-			this->_size = 0;
+				: _alloc(alloc), _comp(comp), _size(0) {
 			this->initmap();
 			this->insert(first, last);
 		}
-		map (const map& x) : _alloc(x._alloc), _comp(x._comp) {
-			this->size = 0;
+		map (const map& x) : _alloc(x._alloc), _comp(x._comp), _size(0) {
 			this->initmap();
 			this->insert(x.first(), x.last());
 		}

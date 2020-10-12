@@ -33,8 +33,10 @@
 
 # bs
 .vscode
-.idea
+.idea/
 cmake-build-debug
 *.dSYM
-*.txt
+ft.txt
+std.txt
+diff.txt
 *stdmain.cpp
