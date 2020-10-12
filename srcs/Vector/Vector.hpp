@@ -13,14 +13,9 @@
 #ifndef VECTOR_HPP
 # define VECTOR_HPP
 
-# include <limits>
 # include <memory>
-# include <iostream>
 # include <cstddef>
-# include <cstdlib>
-# include <cstring>
 # include <climits>
-# include <string>
 # include "../Iterators/RandomAccessIterator.hpp"
 # include "../Traits.hpp"
 # include "../Extra.hpp"

@@ -33,6 +33,8 @@
 
 # bs
 .vscode
+.idea
+cmake-build-debug
 *.dSYM
 *.txt
 *stdmain.cpp

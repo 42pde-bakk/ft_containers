@@ -13,14 +13,9 @@
 #ifndef MAP_HPP
 # define MAP_HPP
 
-# include <limits>
-// # include <memory>
-# include <iostream>
+ # include <memory>
 # include <cstddef>
-# include <cstdlib>
-# include <cstring>
 # include <climits>
-# include <string>
 # include "MapNode.hpp"
  # include "../Iterators/BidirectionalIterator.hpp"
 # include "../Traits.hpp"
@@ -65,7 +60,7 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 			friend class map;
 		protected:
 			Compare comp;
-			value_compare (Compare c) : comp(c) {}  // constructed with map's comparison object
+			explicit value_compare (Compare c) : comp(c) {}  // constructed with map's comparison object
 		public:
 			typedef bool result_type;
 			typedef value_type first_argument_type;
