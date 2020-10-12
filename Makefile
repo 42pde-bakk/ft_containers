@@ -6,7 +6,7 @@
 #    By: Peer <pde-bakk@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/25 17:28:30 by pde-bakk      #+#    #+#                  #
-#    Updated: 2020/10/10 21:50:18 by peerdb        ########   odam.nl          #
+#    Updated: 2020/10/12 14:17:16 by pde-bakk      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ ifdef COMPILER
  CXX = $(COMPILER)
 endif
 
-CXXFLAGS = -W -Wall -Wextra -Werror -pedantic -std=c++98 -ansi 
+CXXFLAGS = -W -Wall -Wextra -Werror -pedantic -ansi -std=c++98
 ifdef DEBUG
  CXXFLAGS += -g -fsanitize=address
 endif

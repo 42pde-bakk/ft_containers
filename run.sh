@@ -6,7 +6,7 @@
 #    By: peerdb <peerdb@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/09/09 16:47:13 by peerdb        #+#    #+#                  #
-#    Updated: 2020/10/10 13:37:14 by pde-bakk      ########   odam.nl          #
+#    Updated: 2020/10/12 12:34:31 by pde-bakk      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,10 +41,10 @@ function test {
 
 	sed "s/ft::/std::/g" $1_main.cpp > $1_stdmain.cpp
 
-	make $1 $C $D STD=1 && ./containers.out $TIME $LEAKS > std.txt
+	make $1 $C $D STD=1 && ./containers.out $TIME $LEAKS > std.txt 2>&1
 	STATUS_STD=$?
 
-	make $1 $C $D && ./containers.out $TIME $LEAKS > ft.txt
+	make $1 $C $D && ./containers.out $TIME $LEAKS > ft.txt 2>&1
 	STATUS_FT=$?
 
 	echo $ECHOARG "${ORANGE}Startin testing for $1${RESET}"

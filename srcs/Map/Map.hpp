@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/27 23:49:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/11 21:08:24 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/12 14:56:08 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		typedef T							mapped_type;
 		typedef std::pair<const Key, T>		value_type;
 		typedef	Compare						key_compare;
-		typedef	Compare						value_compare;
+		// typedef	Compare						value_compare;
 		typedef Alloc						allocator_type;
 		typedef	value_type&					reference;
 		typedef	const value_type&			const_reference;
@@ -59,6 +59,21 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		typedef ConstRevBidirectionalIterator<value_type, mapnode*>	const_reverse_iterator;
 		typedef	ptrdiff_t					difference_type;
 		typedef	size_t						size_type;
+		
+		class value_compare // ngl, I ripped this class straight off http://www.cplusplus.com/reference/map/map/value_comp/
+		{   // in C++98, it is required to inherit binary_function<value_type,value_type,bool>
+			friend class map;
+		protected:
+			Compare comp;
+			value_compare (Compare c) : comp(c) {}  // constructed with map's comparison object
+		public:
+			typedef bool result_type;
+			typedef value_type first_argument_type;
+			typedef value_type second_argument_type;
+			bool operator() (const value_type& x, const value_type& y) const {
+				return comp(x.first, y.first);
+			}
+		};
 
 	// Constructors, destructors and operator=
 		explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
@@ -67,8 +82,18 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 			this->initmap();
 		}
 		template <class InputIterator>
-		map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type());
-		map (const map& x);
+		map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type(),
+					typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0)
+				: _alloc(alloc), _comp(comp) {
+			this->_size = 0;
+			this->initmap();
+			this->insert(first, last);
+		}
+		map (const map& x) : _alloc(x._alloc), _comp(x._comp) {
+			this->size = 0;
+			this->initmap();
+			this->insert(x.first(), x.last());
+		}
 		~map() {
 			this->clear();
 			delete this->_top;
@@ -78,11 +103,9 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		map& operator= (const map& x) {
 			if (this != &x) {
 				this->clear();
-				(void)x; //this fnction is bs
-				this->_root->left = this->_first;
-				this->_root->right = this->_last;
-				this->_first->parent = this->_root;
-				this->_last->parent = this->_root;				
+				this->_alloc = x._alloc;
+				this->_comp = x._comp;
+				this->insert(x.first(), x.end());
 			}
 			return (*this);
 		}
@@ -133,7 +156,7 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 			if (this->_size == 0)
 				return (std::make_pair(iterator(insert_root(val)), true));
 			mapnode	*it(this->_root);
-			while (it->left || it->right) {
+			while (it) {
 				if (key_compare()(val.first, it->data.first)) {
 					if (it->left && it->left != this->_first)
 						it = it->left;
@@ -148,7 +171,8 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 			}
 			return std::make_pair(iterator(it), false);
 		}
-		iterator				insert(iterator position, const value_type& val) {
+		iterator				insert(iterator position, const value_type& val,
+						typename enable_if<is_iterator<typename iterator::iterator_category>::value, iterator>::type * = 0) {
 			if (position.data < val.first) {
 				while (position.data < val.first)
 					--position;
@@ -162,13 +186,12 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 			return position;
 		}
 		template <class InputIterator>
-		void					insert(InputIterator first, InputIterator last) {
+		void					insert(InputIterator first, InputIterator last,
+					typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) {
 			while (first != last) {
 				insert(*first);
-				// std::cout << "just inserted " << first->first << " => " << first->second << std::endl;
 				++first;
 			}
-			std::cout << "breakpoint" << std::endl;
 		}
 		// void		erase(iterator position);
 		size_type	erase(const key_type& k);
@@ -183,7 +206,9 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		key_compare		key_comp() const {
 			return this->_comp;
 		}
-		value_compare	value_comp() const;
+		value_compare	value_comp() const {
+			return value_compare(this->_comp);
+		}
 	
 	// Operation functions
 		// iterator			find(const key_type& k);
@@ -217,6 +242,7 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 			mapnode	*insert_left(mapnode *it, const value_type& val = value_type()) {
 				mapnode *insert = new mapnode(val);
 				insert->parent = it;
+				insert->left = it->left;
 				if (it->left)
 					it->left->parent = insert;
 				it->left = insert;
@@ -226,6 +252,7 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 			mapnode	*insert_right(mapnode *it, const value_type& val = value_type()) {
 				mapnode *insert = new mapnode(val);
 				insert->parent = it;
+				insert->right = it->right;
 				if (it->right)
 					it->right->parent = insert;
 				it->right = insert;
@@ -254,7 +281,6 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		key_compare		_comp;
 		size_type		_size;
 	};
-	
 }
 
 

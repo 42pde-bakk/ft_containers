@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/28 00:16:51 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/11 16:13:37 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/12 12:59:23 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,10 @@ namespace ft {
         	return (this->data >= other.data);
         }
 		node*   getnext() {
+			using namespace std;
+			// cerr << "starting next baby" << endl;
         	node* it(this);
+			// cerr << "created node* it(this): " << it->data.first << " ==> " << it->data.second << endl;
         	if (it->right) {
         		it = it->right;
         		while (it->left)
@@ -81,6 +84,7 @@ namespace ft {
         	}
         	else while (it->data <= this->data)
         			it = it->parent;
+			// std::cerr << "got next: " << it->data.first << " ==> " << it->data.second << std::endl;
         	return (it);
         }
         node*   getprevious() {

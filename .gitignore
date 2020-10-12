@@ -33,5 +33,6 @@
 
 # bs
 .vscode
+*.dSYM
 *.txt
 *stdmain.cpp
