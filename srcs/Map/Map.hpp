@@ -84,7 +84,7 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		}
 		map (const map& x) : _alloc(x._alloc), _comp(x._comp), _size(0) {
 			this->initmap();
-			this->insert(x.first(), x.last());
+			this->insert(x.begin(), x.end());
 		}
 		~map() {
 			this->clear();
@@ -97,7 +97,7 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 				this->clear();
 				this->_alloc = x._alloc;
 				this->_comp = x._comp;
-				this->insert(x.first(), x.end());
+				this->insert(x.begin(), x.end());
 			}
 			return (*this);
 		}
@@ -178,17 +178,20 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 			return position;
 		}
 		template <class InputIterator>
-		void					insert(InputIterator first, InputIterator last,
-					typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) {
+		void					insert(InputIterator first, InputIterator last, typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) {
 			while (first != last) {
 				insert(*first);
 				++first;
 			}
 		}
-		// void		erase(iterator position);
+		 void		erase(iterator position);
 		size_type	erase(const key_type& k);
-		// void		erase(iterator first, iterator last);
-		void		swap(map& x);
+		 void		erase(iterator first, iterator last);
+		void		swap(map& x) {
+			map tmp(x);
+			x = *this;
+			*this = tmp;
+		}
 		void		clear() {
 			this->clear(this->_root);
 			this->link_outer();
@@ -203,16 +206,73 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		}
 	
 	// Operation functions
-		// iterator			find(const key_type& k);
-		// const_iterator	find(const key_type& k) const;
-		size_type	count(const key_type& k) const;
-		// iterator			lower_bound(const key_type& k);
-		// const_iterator	lower_bound(const key_type& k) const;
-		// iterator			upper_bound(const key_type& k);
-		// const_iterator	upper_bound(const key_type& k) const;
-		// pair<const_iterator,const_iterator> equal_range (const key_type& k) const;
-		// pair<iterator,iterator>             equal_range (const key_type& k);
-		
+		 iterator			find(const key_type& k) {
+			mapnode	*it(this->_root);
+			while (it && it != this->_first && it != this->_last) {
+				if (key_compare()(k, it->data.first))
+					it = it->left;
+				else if (key_compare()(it->data.first, k))
+					it = it->right;
+				else break;
+			}
+			return this->end();
+		}
+		 const_iterator	find(const key_type& k) const {
+			 mapnode	*it(this->_root);
+			 while (it && it != this->_first && it != this->_last) {
+				 if (key_compare()(k, it->data.first))
+					 it = it->left;
+				 else if (key_compare()(it->data.first, k))
+					 it = it->right;
+				 else break;
+			 }
+			 return this->end();
+		}
+		 size_type	count(const key_type& k) const {
+			return (find(k) != this->end());
+		}
+		 iterator			lower_bound(const key_type& k) {
+			iterator	it = begin(), ite = end();
+			while (it != ite) {
+				if (key_comp()(*it, k) == false)
+					break ;
+				++it;
+			}
+			return it;
+		}
+		 const_iterator	lower_bound(const key_type& k) const {
+			 const_iterator	it = begin(), ite = end();
+			 while (it != ite) {
+				 if (key_comp()(*it, k) == false)
+					 break ;
+				 ++it;
+			 }
+			 return it;
+		}
+		 iterator			upper_bound(const key_type& k) {
+			 iterator	it = begin(), ite = end();
+			 while (it != ite) {
+				 if (key_comp()(k, *it))
+					 break ;
+				 ++it;
+			 }
+			 return it;
+		}
+		const_iterator			upper_bound(const key_type& k) const {
+			const_iterator it = begin(), ite = end();
+			while (it != ite) {
+				if (key_comp()(k, *it))
+					break ;
+				++it;
+			}
+			return it;
+		}
+		 std::pair<const_iterator,const_iterator> equal_range (const key_type& k) const {
+			return std::make_pair(const_iterator(lower_bound(k)), const_iterator(upper_bound(k)));
+		}
+		 std::pair<iterator,iterator>             equal_range (const key_type& k) {
+			return std::make_pair(iterator(lower_bound(k)), iterator(upper_bound(k)));
+		}
 		private:
 			void	initmap() {
 				this->_top = new mapnode();

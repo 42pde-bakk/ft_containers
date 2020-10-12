@@ -27,7 +27,6 @@ void	print_container_content(ft::map<K, V>& mappie, std::string name = "containe
 		std::cout << ' ' << it->second;
 	std::cout << " $" << std::endl;
 }
-
 template< typename K, typename V >
 void	stl_print_container_content(std::map<K, V>& mappie, std::string name = "container") {
 	std::cout << name << " contains:";
@@ -35,7 +34,6 @@ void	stl_print_container_content(std::map<K, V>& mappie, std::string name = "con
 		std::cout << ' ' << it->second;
 	std::cout << " $" << std::endl;
 }
-
 template< typename K, typename V>
 void	compare_keys(ft::map<K, V>& mappie, K compelem = K(), std::string name = "container") {
 	typename ft::map<K, V>::key_compare kcomp = mappie.key_comp();
@@ -89,7 +87,41 @@ void	stl_compare_values(std::map<K, V>& mappie, std::pair<K, V> compelem, std::s
 	}
 }
 
+std::map<int, std::string>	getstlmap() {
+	std::map<int, std::string> stl;
+	stl[8] = "acht";
+	stl[3] = "drie";
+	stl[10] = "tien";
+	stl[1] = "een";
+	stl[6] = "zes";
+	stl[14] = "veertien";
+	stl[4] = "vier";
+	stl[7] = "zeven";
+	stl[13] = "dertien";
+	return stl;
+}
 
+void	ctors_dtor() {
+	std::map<int, std::string> stl = getstlmap();
+	ft::map<int, std::string>	mydefault; // testing default ctor
+	mydefault.insert(std::make_pair(5, "vijf"));
+	ft::map<int, std::string>	mycopy(mydefault); // testing copy ctor
+	print_container_content(mydefault);
+	print_container_content(mycopy);
+	ft::map<int, std::string> myfill(stl.begin(), stl.end());
+	print_container_content(myfill);
+}
+
+void	iterators() {
+	std::map<int, std::string>	stl;
+	ft::map<int, std::string>	peer(stl.begin(), stl.end()); // fancy huh?
+	ft::map<int, std::string>::iterator it = peer.begin();
+	std::map<int, std::string>::iterator stlit = stl.begin();
+	std::cout << "stlit gives: " << stlit->first << " ===> " << stlit->second << std::endl;
+//	std::cout << "it gives: " << it->first << " ===> " << it->second << std::endl;
+	ft::map<int, std::string>::const_iterator cit(it);
+//	std::cout << "cit gives: " << cit->first << " ===> " << cit->second << std::endl;
+}
 
 void	peer() {
 	std::map<int, std::string> stl;
@@ -102,15 +134,13 @@ void	peer() {
 	stl[4] = "vier";
 	stl[7] = "zeven";
 	stl[13] = "dertien";
-	ft::map<int, std::string> peer(stl.begin(), stl.end());
-	std::pair<int, std::string> compPair = std::make_pair(10, "tien");
-	stl_compare_values(stl, compPair, "realstl");
-	stl_compare_keys(stl, 10, "realstl");
-	std::cout << std::endl;
-	compare_values(peer, compPair, "peerstl");
-	compare_keys(peer, 10, "peerstl");
-	std::cout << std::endl;
-	// print_container_content(peer, "peerstl");
+	std::map<int, std::string> peer(stl.begin(), stl.end());
+	std::cout << "finding k3 gives: " << peer.find(3)->first << " ==> " << peer.find(3)->second << std::endl;
+//	std::cout << "finding k5 gives: " << peer.find(5)->first << " ==> " << peer.find(5)->second << std::endl;
+//	std::pair<int, std::string> compPair = std::make_pair(10, "tien");
+//	compare_values(peer, compPair, "peerstl");
+//	compare_keys(peer, 10, "peerstl");
+//	 print_container_content(peer, "peerstl");
 }
 
 int	main(int argc, char **argv) {
@@ -118,7 +148,9 @@ int	main(int argc, char **argv) {
 		gettimeofday(&tv, NULL);
 		begintime = tv.tv_usec;
 	}
-	peer();
+//	peer();
+	ctors_dtor();
+	iterators();
 	if (argc >= 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
 		endtime = tv.tv_usec;

@@ -73,10 +73,7 @@ namespace ft {
         	return (this->data >= other.data);
         }
 		node*   getnext() {
-			using namespace std;
-			// cerr << "starting next baby" << endl;
         	node* it(this);
-			// cerr << "created node* it(this): " << it->data.first << " ==> " << it->data.second << endl;
         	if (it->right) {
         		it = it->right;
         		while (it->left)
@@ -84,7 +81,6 @@ namespace ft {
         	}
         	else while (it->data <= this->data)
         			it = it->parent;
-			// std::cerr << "got next: " << it->data.first << " ==> " << it->data.second << std::endl;
         	return (it);
         }
         node*   getprevious() {

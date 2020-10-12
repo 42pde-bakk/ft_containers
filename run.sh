@@ -41,10 +41,10 @@ function test {
 
 	sed "s/ft::/std::/g" $1_main.cpp > $1_stdmain.cpp
 
-	make $1 $C $D STD=1 && ./containers.out $TIME $LEAKS > std.txt 2>&1
+	make $1 $C $D STD=1 && ./containers.out $TIME $LEAKS > std.txt #2>&1
 	STATUS_STD=$?
 
-	make $1 $C $D && ./containers.out $TIME $LEAKS > ft.txt 2>&1
+	make $1 $C $D && ./containers.out $TIME $LEAKS > ft.txt #2>&1
 	STATUS_FT=$?
 
 	echo $ECHOARG "${ORANGE}Startin testing for $1${RESET}"
