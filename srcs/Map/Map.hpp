@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/27 23:49:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/12 14:56:08 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/13 18:43:17 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		typedef ConstRevBidirectionalIterator<value_type, mapnode*>	const_reverse_iterator;
 		typedef	ptrdiff_t					difference_type;
 		typedef	size_t						size_type;
-		
+
 		class value_compare // ngl, I yoinked this class straight off http://www.cplusplus.com/reference/map/map/value_comp/
 		{   // in C++98, it is required to inherit binary_function<value_type,value_type,bool>
 			friend class map;
@@ -129,13 +129,14 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 
 	// Capacity functions
 		bool	empty() const {
-			return this->_size;
+			return !this->_size;
 		}
 		size_type	size() const {
 			return this->_size;
 		}
 		size_type	max_size() const {
-			return (PEER_MAX / sizeof(value_type));
+			// return (PEER_MAX / sizeof(mapnode));
+			return this->_alloc.max_size() / 2;
 		}
 
 	// Element access functions

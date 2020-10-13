@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 21:10:23 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/12 15:46:42 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/13 19:23:20 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,44 +113,59 @@ void	ctors_dtor() {
 }
 
 void	iterators() {
-	std::map<int, std::string>	stl;
-	ft::map<int, std::string>	peer(stl.begin(), stl.end()); // fancy huh?
+	std::map<int, std::string>	stl = getstlmap();
+	ft::map<int, std::string>	peer;
+
+	// testing if the container is empty
+	if (peer.begin() == peer.end())
+		std::cout << "begin is the same as end" << std::endl;
+	else std::cout << "begin is NOTTTT the same as end" << std::endl;
+	peer.insert(stl.begin(), stl.end());
+
 	ft::map<int, std::string>::iterator it = peer.begin();
-	std::map<int, std::string>::iterator stlit = stl.begin();
-	std::cout << "stlit gives: " << stlit->first << " ===> " << stlit->second << std::endl;
-//	std::cout << "it gives: " << it->first << " ===> " << it->second << std::endl;
-	ft::map<int, std::string>::const_iterator cit(it);
-//	std::cout << "cit gives: " << cit->first << " ===> " << cit->second << std::endl;
+	ft::map<int, std::string>::reverse_iterator rit = peer.rbegin();
+	ft::map<int, std::string>::const_reverse_iterator crit(rit);	// Just testing if you can convert a regular iterator to a const one
+	ft::map<int, std::string>::const_iterator cit(it);				// Just testing if you can convert a regular iterator to a const one
+	std::cout << "it gives: " << it->first << " ===> " << it->second << std::endl;
+	std::cout << "cit gives: " << cit->first << " ===> " << cit->second << std::endl;
+	std::cout << "rit gives: " << rit->first << " ===> " << rit->second << std::endl;
+	std::cout << "crit gives: " << crit->first << " ===> " << crit->second << std::endl;
+
+	// Testing if equal operators work
+	if (it == cit)
+		std::cout << "equal operator work on regular iterators " << it->first << " and " << cit->first << std::endl;
+	if (rit == crit)
+		std::cout << "equal operator work on reverse iterators " << rit->first << " and " << crit->first << std::endl;
+	++it;
+	it++;
+	--it;
+	it--;
+	if (it != peer.end() && cit != peer.end())
+		std::cout << "UNequal operator work on regular iterators " << (*it).first << " and " << (*cit).first << std::endl;
+	if (rit != peer.rend() && crit != peer.rend())
+		std::cout << "UNequal operator work on reverse iterators " << (*rit).first << " and " << (*crit).first << std::endl;
+	it->second = "NIEUW";
+	print_container_content(peer);
+	std::pair<int, std::string> ret = *it++;
+	std::cout << "ret: " << ret.first << " => " << ret.second << std::endl;
+	std::cout << " it: " << it->first << " => " << it->second << std::endl;
 }
 
-void	peer() {
-	std::map<int, std::string> stl;
-	stl[8] = "acht";
-	stl[3] = "drie";
-	stl[10] = "tien";
-	stl[1] = "een";
-	stl[6] = "zes";
-	stl[14] = "veertien";
-	stl[4] = "vier";
-	stl[7] = "zeven";
-	stl[13] = "dertien";
-	std::map<int, std::string> peer(stl.begin(), stl.end());
-	std::cout << "finding k3 gives: " << peer.find(3)->first << " ==> " << peer.find(3)->second << std::endl;
-//	std::cout << "finding k5 gives: " << peer.find(5)->first << " ==> " << peer.find(5)->second << std::endl;
-//	std::pair<int, std::string> compPair = std::make_pair(10, "tien");
-//	compare_values(peer, compPair, "peerstl");
-//	compare_keys(peer, 10, "peerstl");
-//	 print_container_content(peer, "peerstl");
+void 	capacity() {
+	std::map<int, std::string>	stl = getstlmap();
+	ft::map<int, std::string>	mymap(stl.begin(), stl.end());
+	std::cout << std::boolalpha << "mymap.empty() returns " << mymap.empty() << std::endl;
+	std::cout << "mymap.size() returns " << mymap.size() << std::endl;
+	std::cout << "mymap.max_size() returns " << mymap.max_size() << std::endl;
 }
-
 int	main(int argc, char **argv) {
 	if (argc >= 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
 		begintime = tv.tv_usec;
 	}
-//	peer();
-	ctors_dtor();
+	// ctors_dtor();
 	iterators();
+	capacity();
 	if (argc >= 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
 		endtime = tv.tv_usec;
