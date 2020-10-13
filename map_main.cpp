@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 21:10:23 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/13 19:23:20 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/13 20:42:47 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,8 +87,8 @@ void	stl_compare_values(std::map<K, V>& mappie, std::pair<K, V> compelem, std::s
 	}
 }
 
-std::map<int, std::string>	getstlmap() {
-	std::map<int, std::string> stl;
+ft::map<int, std::string>	getstlmap() {
+	ft::map<int, std::string> stl;
 	stl[8] = "acht";
 	stl[3] = "drie";
 	stl[10] = "tien";
@@ -102,7 +102,7 @@ std::map<int, std::string>	getstlmap() {
 }
 
 void	ctors_dtor() {
-	std::map<int, std::string> stl = getstlmap();
+	ft::map<int, std::string> stl = getstlmap();
 	ft::map<int, std::string>	mydefault; // testing default ctor
 	mydefault.insert(std::make_pair(5, "vijf"));
 	ft::map<int, std::string>	mycopy(mydefault); // testing copy ctor
@@ -113,7 +113,7 @@ void	ctors_dtor() {
 }
 
 void	iterators() {
-	std::map<int, std::string>	stl = getstlmap();
+	ft::map<int, std::string>	stl = getstlmap();
 	ft::map<int, std::string>	peer;
 
 	// testing if the container is empty
@@ -149,23 +149,62 @@ void	iterators() {
 	std::pair<int, std::string> ret = *it++;
 	std::cout << "ret: " << ret.first << " => " << ret.second << std::endl;
 	std::cout << " it: " << it->first << " => " << it->second << std::endl;
+	// Apparently *it++ still needs a bit of work like this
 }
 
 void 	capacity() {
-	std::map<int, std::string>	stl = getstlmap();
+	ft::map<int, std::string>	stl = getstlmap();
 	ft::map<int, std::string>	mymap(stl.begin(), stl.end());
 	std::cout << std::boolalpha << "mymap.empty() returns " << mymap.empty() << std::endl;
 	std::cout << "mymap.size() returns " << mymap.size() << std::endl;
 	std::cout << "mymap.max_size() returns " << mymap.max_size() << std::endl;
 }
+
+void	element_access() {
+	ft::map<int, std::string> in = getstlmap();
+	print_container_content(in);
+	try {
+		std::cout << "in.at(6) gives: " << in.at(6) << std::endl;
+		std::cout << "in.at(5) gives: " << in.at(5) << std::endl;
+	}
+	catch (std::out_of_range& e) {
+		std::cout << e.what() << std::endl;
+	}
+}
+
+void	operations() {
+	ft::map<int, std::string> mymap = getstlmap();
+	print_container_content(mymap);
+	ft::map<int, std::string>::iterator it = mymap.find(4);
+	if (it == mymap.end())
+		std::cout << "element not found!" << std::endl;
+	else std::cout << it->first << " => " << it->second << std::endl;
+	std::cout << "i have " << mymap.count(1) << " elements with key = 1" << std::endl;
+	std::cout << "i have " << mymap.count(2) << " elements with key = 2" << std::endl;
+	std::cout << "i have " << mymap.count(3) << " elements with key = 3" << std::endl;
+
+	it = mymap.lower_bound(6);
+	std::cout << "lower bound of 6 returns: " << it->first << std::endl;
+	it = mymap.upper_bound(6);
+	std::cout << "upper bound of 6 returns: " << it->first << std::endl;
+	it = mymap.upper_bound(14);
+	if (it != mymap.end())
+		std::cout << "upper bound of 14 returns: " << it->first << std::endl;
+	std::pair<ft::map<int, std::string>::iterator, ft::map<int, std::string>::iterator> peer \
+	= mymap.equal_range(10);
+	std::cout << "mymap.equal_range(10) gives a range from " << peer.first->first << " to " << peer.second->first << std::endl;
+}
+
 int	main(int argc, char **argv) {
 	if (argc >= 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
 		begintime = tv.tv_usec;
 	}
-	// ctors_dtor();
+	ctors_dtor();
 	iterators();
 	capacity();
+	element_access();
+	operations();
 	if (argc >= 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
 		endtime = tv.tv_usec;

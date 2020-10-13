@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/28 00:16:51 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/12 12:59:23 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/13 19:37:40 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ namespace ft {
 		~node() {}
 		node&	operator=(const node& x) {
 			if (this != &x) {
-				this->data = x.data; //fuck
+				this->data = x.data;
 				this->parent = x.parent;
 				this->left = x.left;
 				this->right = x.right;

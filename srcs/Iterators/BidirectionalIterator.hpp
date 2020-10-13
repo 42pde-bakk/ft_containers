@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/09 12:20:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/12 15:45:59 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/13 19:50:33 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,23 +47,21 @@ namespace ft {
 		~BidirectionalIterator() {}
 
 		BidirectionalIterator	operator++(int) {
-			if (this->ptr)
-				this->ptr = ptr->getnext();
-			return *this;
+			BidirectionalIterator	out(*this);
+			this->ptr = ptr->getnext();
+			return out;
 		}
 		BidirectionalIterator&	operator++() {
-			if (this->ptr)
-				this->ptr = ptr->getnext();
+			this->ptr = ptr->getnext();
 			return *this;
 		}
 		BidirectionalIterator	operator--(int) {
-			if (this->ptr)
-				this->ptr = ptr->getprevious();
-			return *this;
+			BidirectionalIterator	out(*this);
+			this->ptr = ptr->getprevious();
+			return out;
 		}
 		BidirectionalIterator&	operator--() {
-			if (this->ptr)
-				this->ptr = ptr->getprevious();
+			this->ptr = ptr->getprevious();
 			return *this;
 		}
 		reference	operator*() {
@@ -73,14 +71,10 @@ namespace ft {
 			return (&(this->ptr->data));
 		}
 		bool	operator==(const BidirectionalIterator& rhs) const {
-			if (this->ptr == rhs.ptr)
-				return true;
-			return false;
+			return (this->ptr == rhs.ptr);
 		}
 		bool	operator!=(const BidirectionalIterator& rhs) const {
-			if (this->ptr == rhs.ptr)
-				return false;
-			return true;
+			return (this->ptr != rhs.ptr);
 		}
 		node_pointer	getptr() const {
 			return this->ptr;
@@ -103,7 +97,6 @@ namespace ft {
 		typedef value_type*			pointer;
 		typedef const value_type*	const_pointer;
 		typedef N                   node_pointer;
-//		typedef node<value_type>*	node_pointer;
 		typedef size_t				size_type;
 		typedef ptrdiff_t			difference_type;
 		typedef Category			iterator_category;
@@ -148,7 +141,6 @@ namespace ft {
 		typedef size_t				size_type;
 		typedef ptrdiff_t			difference_type;
 		typedef Category			iterator_category;
-		// typedef RevBidirectionalIterator self_type;
 
 		RevBidirectionalIterator() : ptr(NULL) { }
 		RevBidirectionalIterator(node_pointer element) : ptr(element) { }
@@ -162,23 +154,21 @@ namespace ft {
 		}
 		~RevBidirectionalIterator() { }
 		RevBidirectionalIterator	operator++(int) {
-			if (this->ptr)
-				this->ptr = this->ptr->prev;
-			return *this;
+			RevBidirectionalIterator	out(*this);
+			this->ptr = this->ptr->prev;
+			return out;
 		}
 		RevBidirectionalIterator&	operator++() {
-			if (this->ptr)
-				this->ptr = this->ptr->prev;
+			this->ptr = this->ptr->prev;
 			return *this;
 		}
 		RevBidirectionalIterator	operator--(int) {
-			if (this->ptr)
-				this->ptr = this->ptr->next;
-			return *this;
+			RevBidirectionalIterator	out(*this);
+			this->ptr = this->ptr->next;
+			return out;
 		}
 		RevBidirectionalIterator&	operator--() {
-			if (this->ptr)
-				this->ptr = this->ptr->next;
+			this->ptr = this->ptr->next;
 			return *this;
 		}
 		reference	operator*() {
@@ -188,14 +178,10 @@ namespace ft {
 			return (&(this->ptr->data));
 		}
 		bool	operator==(const RevBidirectionalIterator& rhs) const {
-			if (this->ptr == rhs.ptr)
-				return true;
-			return false;
+			return (this->ptr == rhs.ptr);
 		}
 		bool	operator!=(const RevBidirectionalIterator& rhs) const {
-			if (this->ptr == rhs.ptr)
-				return false;
-			return true;
+			return (this->ptr != rhs.ptr);
 		}
 		node_pointer	getptr() const {
 			return this->ptr;

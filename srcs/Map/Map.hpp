@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/27 23:49:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/13 18:43:17 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/13 20:39:41 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		}
 		~map() {
 			this->clear();
-			delete this->_top;
 			delete this->_first;
 			delete this->_last;
 		}
@@ -140,10 +139,21 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		}
 
 	// Element access functions
-		mapped_type&		operator[](const key_type& k);
-		mapped_type&		at(const key_type& k); //C++11, throws an exception if the key_type does not exist in the container
-		const mapped_type&	at(const key_type& k) const; //C++11
-
+		mapped_type&		operator[](const key_type& k) {
+			return insert(std::make_pair(k, mapped_type())).first->second;
+		}
+		mapped_type&		at(const key_type& k) { //C++11, throws an exception if the key_type does not exist in the container
+			iterator it = find(k);
+			if (it == end())
+				throw std::out_of_range("map::at:  key not found");
+			return it->second;
+		}
+		const mapped_type&	at(const key_type& k) const {
+			const_iterator it = find(k);
+			if (it == end())
+				throw std::out_of_range("map::at:  key not found");
+			return it->second;
+		}
 	// Modifier functions
 		std::pair<iterator, bool>	insert(const value_type& val) {
 			if (this->_size == 0)
@@ -207,89 +217,86 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		}
 	
 	// Operation functions
-		 iterator			find(const key_type& k) {
+		iterator			find(const key_type& k) {
 			mapnode	*it(this->_root);
 			while (it && it != this->_first && it != this->_last) {
 				if (key_compare()(k, it->data.first))
 					it = it->left;
 				else if (key_compare()(it->data.first, k))
 					it = it->right;
-				else break;
+				else return iterator(it);
 			}
 			return this->end();
 		}
-		 const_iterator	find(const key_type& k) const {
-			 mapnode	*it(this->_root);
-			 while (it && it != this->_first && it != this->_last) {
-				 if (key_compare()(k, it->data.first))
-					 it = it->left;
-				 else if (key_compare()(it->data.first, k))
-					 it = it->right;
-				 else break;
-			 }
-			 return this->end();
+		const_iterator	find(const key_type& k) const {
+			mapnode	*it(this->_root);
+			while (it && it != this->_first && it != this->_last) {
+				if (key_compare()(k, it->data.first))
+					it = it->left;
+				else if (key_compare()(it->data.first, k))
+					it = it->right;
+				else return const_iterator(it);
+			}
+			return this->end();
 		}
-		 size_type	count(const key_type& k) const {
+		size_type	count(const key_type& k) const {
 			return (find(k) != this->end());
 		}
 		 iterator			lower_bound(const key_type& k) {
 			iterator	it = begin(), ite = end();
 			while (it != ite) {
-				if (key_comp()(*it, k) == false)
+				if (key_comp()(it->first, k) == false)
 					break ;
 				++it;
 			}
 			return it;
 		}
-		 const_iterator	lower_bound(const key_type& k) const {
-			 const_iterator	it = begin(), ite = end();
-			 while (it != ite) {
-				 if (key_comp()(*it, k) == false)
-					 break ;
-				 ++it;
-			 }
-			 return it;
+		const_iterator	lower_bound(const key_type& k) const {
+			const_iterator	it = begin(), ite = end();
+			while (it != ite) {
+				if (key_comp()(it->first, k) == false)
+					break ;
+				++it;
+			}
+			return it;
 		}
-		 iterator			upper_bound(const key_type& k) {
-			 iterator	it = begin(), ite = end();
-			 while (it != ite) {
-				 if (key_comp()(k, *it))
-					 break ;
-				 ++it;
-			 }
-			 return it;
+		iterator			upper_bound(const key_type& k) {
+			iterator	it = begin(), ite = end();
+			while (it != ite) {
+				if (key_comp()(k, it->first))
+					break ;
+				++it;
+			}
+			return it;
 		}
 		const_iterator			upper_bound(const key_type& k) const {
 			const_iterator it = begin(), ite = end();
 			while (it != ite) {
-				if (key_comp()(k, *it))
+				if (key_comp()(k, it->first))
 					break ;
 				++it;
 			}
 			return it;
 		}
-		 std::pair<const_iterator,const_iterator> equal_range (const key_type& k) const {
+		std::pair<const_iterator,const_iterator> equal_range (const key_type& k) const {
 			return std::make_pair(const_iterator(lower_bound(k)), const_iterator(upper_bound(k)));
 		}
-		 std::pair<iterator,iterator>             equal_range (const key_type& k) {
+		std::pair<iterator,iterator>             equal_range (const key_type& k) {
 			return std::make_pair(iterator(lower_bound(k)), iterator(upper_bound(k)));
 		}
 		private:
 			void	initmap() {
-				this->_top = new mapnode();
 				this->_first = new mapnode();
-				this->_first->parent = _top;
-				this->_last = new mapnode(*this->_first);
-				this->_top->left = _first;
-				this->_top->right = _last;
+				this->_last = new mapnode();
+				this->link_outer();
 				this->_size = 0;
 			}
 			mapnode	*insert_root(const value_type& val) {
 				this->_root = new mapnode(val);
 				++this->_size;
-				_first->parent = _last->parent = \
-				_top->left = _top->right = _root;
-				_root->left = _first,	_root->right = _last,	_root->parent = _top;
+				_first->parent = _last->parent = this->_root;
+				this->_root->left = _first;
+				this->_root->right = _last;
 				return this->_root;
 			}
 			mapnode	*insert_left(mapnode *it, const value_type& val = value_type()) {
@@ -317,19 +324,17 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 					return ;
 				clear(pos->left);
 				clear(pos->right);
-				if (pos != _top && pos != _first && pos != _last)
+				if (pos != _first && pos != _last)
 					delete pos;
 			}
 			void	link_outer() {
-				_top->left = _first;
-				_top->right = _last;
-				_first->parent = _top;
-				_last->parent = _top;
+				this->_first->parent = this->_last;
+				this->_last->parent = this->_first;
 			}
-		mapnode			*_top;
 		mapnode			*_root;
         mapnode			*_first;
         mapnode			*_last;
+
 		allocator_type	_alloc;
 		key_compare		_comp;
 		size_type		_size;
