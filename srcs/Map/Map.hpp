@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/27 23:49:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/13 20:39:41 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/14 18:01:34 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
  # include "../Iterators/BidirectionalIterator.hpp"
 # include "../Traits.hpp"
 # include "../Extra.hpp"
+#include <math.h>
 
 # if defined(unix) || defined(__unix__) || defined(__unix)
 #  define PEER_MAX SSIZE_MAX
@@ -195,17 +196,94 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 				++first;
 			}
 		}
-		 void		erase(iterator position);
-		size_type	erase(const key_type& k);
-		 void		erase(iterator first, iterator last);
+		void		erase(iterator position) {
+			mapnode	*erase = find(position);
+			if (erase == _last) 
+				return ;
+			short children = (erase->left != 0) + (erase->right != 0);
+			std::cout << erase->data.first << " has " << children << " valid children" << std::endl;	
+			std::cout << erase->data.first << " has " << erase->parent->data.first << " for a parent" << std::endl;
+			if (!erase->parent) {
+				return ;
+			}
+			std::cout << "bitch" << std::endl;
+			if (!children) {
+				if (value_comp()(erase->data, erase->parent->data))
+					erase->parent->left = erase->left;
+				else
+					erase->parent->right = erase->right;
+			}
+			else if (children == 1) {
+				if (erase->left) {
+					erase->parent->left = erase->left;
+					erase->left->parent = erase->parent;
+				}
+				else {
+					erase->parent->right = erase->right;
+					erase->right->parent = erase->parent;
+				}
+			}
+			else {
+				bool switchdirection = false;
+				if (erase->right != this->_last) {
+					std::cout << "taking the min of the bigger subtree." << std::endl;
+					mapnode	*tmp(erase->right);
+					while (tmp->left) {
+						tmp = tmp->left;
+						switchdirection = true;
+					}
+					tmp->parent = erase->parent;
+					if (switchdirection) {
+						tmp->parent->left = tmp;
+						tmp->right = erase->right;
+					}
+					else
+						tmp->parent->right = tmp;
+					tmp->left = erase->left;
+					tmp->left->parent = tmp;
+				}
+				else {
+					mapnode	*tmp(erase->left);
+					while (tmp->right) {
+						tmp = tmp->right;
+						switchdirection = true;
+					}
+					tmp->parent = erase->parent;
+					if (switchdirection) {
+						tmp->parent->right = tmp;
+						tmp->left = erase->left;
+					}
+					else
+						tmp->parent->left = tmp;
+				}
+			}
+			delete erase;
+			--this->_size;
+		}
+		size_type	erase(const key_type& k) {
+			iterator it = find(k);
+			std::cout << "finding " << k << "returns " << it->first << std::endl;
+			if (it == end())
+				return 0;
+			erase(it);
+			return 1;
+		}
+		void		erase(iterator first, iterator last) {
+			while (first != last) {
+				erase(first);
+				++first;
+			}
+		}
 		void		swap(map& x) {
 			map tmp(x);
 			x = *this;
 			*this = tmp;
 		}
 		void		clear() {
-			this->clear(this->_root);
-			this->link_outer();
+			if (!this->empty()) {
+				this->clear(this->_root);
+				this->link_outer();
+			}
 		}
 
 	// Observer functions
@@ -242,7 +320,7 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		size_type	count(const key_type& k) const {
 			return (find(k) != this->end());
 		}
-		 iterator			lower_bound(const key_type& k) {
+		iterator			lower_bound(const key_type& k) {
 			iterator	it = begin(), ite = end();
 			while (it != ite) {
 				if (key_comp()(it->first, k) == false)
@@ -284,7 +362,22 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		std::pair<iterator,iterator>             equal_range (const key_type& k) {
 			return std::make_pair(iterator(lower_bound(k)), iterator(upper_bound(k)));
 		}
+		void printBT() const {
+			printBT("", this->_root, false);
+			std::cerr << std::endl;
+		}
 		private:
+			void printBT(const std::string& prefix, const mapnode* trav, bool isLeft) const {
+				if (trav && trav != _first && trav != _last) {
+					std::cerr << prefix;
+					std::cerr << (isLeft ? "├──" : "└──" );
+					// print the value of the node
+					std::cerr << trav->data.first << std::endl;
+					// enter the next tree level - left and right branch
+					printBT( prefix + (isLeft ? "│   " : "    "), trav->left, true);
+					printBT( prefix + (isLeft ? "│   " : "    "), trav->right, false);
+				}
+			}
 			void	initmap() {
 				this->_first = new mapnode();
 				this->_last = new mapnode();
@@ -298,6 +391,14 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 				this->_root->left = _first;
 				this->_root->right = _last;
 				return this->_root;
+			}
+			void	erase_root() {
+				if (this->_size == 1) {
+					delete this->_root;
+					this->link_outer();
+					return ;
+				}
+				
 			}
 			mapnode	*insert_left(mapnode *it, const value_type& val = value_type()) {
 				mapnode *insert = new mapnode(val);
@@ -324,12 +425,25 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 					return ;
 				clear(pos->left);
 				clear(pos->right);
-				if (pos != _first && pos != _last)
+				if (pos != _first && pos != _last) {
 					delete pos;
+					--this->_size;
+				}
 			}
 			void	link_outer() {
 				this->_first->parent = this->_last;
 				this->_last->parent = this->_first;
+			}
+			mapnode			*find(iterator position) {
+				mapnode	*it(this->_root);
+				while (it && it != this->_first && it != this->_last) {
+					if (key_compare()(position->first, it->data.first))
+						it = it->left;
+					else if (key_compare()(it->data.first, position->first))
+						it = it->right;
+					else return (it);
+				}
+				return this->_last;
 			}
 		mapnode			*_root;
         mapnode			*_first;

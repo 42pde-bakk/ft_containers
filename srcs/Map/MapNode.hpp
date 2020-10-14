@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/28 00:16:51 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/13 19:37:40 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/14 17:48:54 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,5 +96,6 @@ namespace ft {
         }
 	};
 }
+
 
 #endif

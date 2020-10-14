@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 21:10:23 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/13 20:42:47 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/14 17:51:21 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ ft::map<int, std::string>	getstlmap() {
 	stl[7] = "zeven";
 	stl[13] = "dertien";
 	return stl;
-}
+}	
 
 void	ctors_dtor() {
 	ft::map<int, std::string> stl = getstlmap();
@@ -172,6 +172,19 @@ void	element_access() {
 	}
 }
 
+void	modifiers() {
+	ft::map<int, std::string> mymap = getstlmap();
+	// mymap.insert(std::make_pair(5, "vijf"));
+	// mymap.erase(mymap.find(5));
+	mymap.insert(std::make_pair<int, std::string>(12, "twaalf"));
+	// mymap.printBT();
+	mymap.erase(3);
+	// mymap.printBT();
+	print_container_content(mymap);
+	ft::map<int, std::string> secondmap(mymap.begin(), mymap.end());
+	print_container_content(secondmap);
+}
+
 void	operations() {
 	ft::map<int, std::string> mymap = getstlmap();
 	print_container_content(mymap);
@@ -200,15 +213,16 @@ int	main(int argc, char **argv) {
 		gettimeofday(&tv, NULL);
 		begintime = tv.tv_usec;
 	}
-	ctors_dtor();
-	iterators();
-	capacity();
-	element_access();
-	operations();
+	// ctors_dtor();
+	// iterators();
+	// capacity();
+	// element_access();
+	modifiers();
+	// operations();
 	if (argc >= 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
 		endtime = tv.tv_usec;
-		std::cout << "Time elapsed in total! = " << endtime - begintime << " nanoseconds" << std::endl;
+		std::cerr << "Time elapsed in total! = " << endtime - begintime << " nanoseconds" << std::endl;
 	}
 	if (argc == 3 && strcmp(argv[2], "leaks") == 0)
 		system("leaks containers.out | grep \"total leaked bytes\"");
