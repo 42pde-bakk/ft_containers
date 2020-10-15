@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 21:10:23 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/14 17:51:21 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/16 01:54:43 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,8 +178,8 @@ void	modifiers() {
 	// mymap.erase(mymap.find(5));
 	mymap.insert(std::make_pair<int, std::string>(12, "twaalf"));
 	// mymap.printBT();
-	mymap.erase(3);
-	// mymap.printBT();
+	mymap.erase(8);
+	// mymap.printBT();	
 	print_container_content(mymap);
 	ft::map<int, std::string> secondmap(mymap.begin(), mymap.end());
 	print_container_content(secondmap);

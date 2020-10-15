@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/27 23:49:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/14 18:01:34 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/16 01:55:06 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,46 +201,39 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 			if (erase == _last) 
 				return ;
 			short children = (erase->left != 0) + (erase->right != 0);
-			std::cout << erase->data.first << " has " << children << " valid children" << std::endl;	
-			std::cout << erase->data.first << " has " << erase->parent->data.first << " for a parent" << std::endl;
-			if (!erase->parent) {
-				return ;
-			}
-			std::cout << "bitch" << std::endl;
+
 			if (!children) {
-				if (value_comp()(erase->data, erase->parent->data))
+				if (erase->parent && value_comp()(erase->data, erase->parent->data))
 					erase->parent->left = erase->left;
-				else
+				else if (erase->parent)
 					erase->parent->right = erase->right;
 			}
 			else if (children == 1) {
-				if (erase->left) {
-					erase->parent->left = erase->left;
-					erase->left->parent = erase->parent;
-				}
-				else {
-					erase->parent->right = erase->right;
-					erase->right->parent = erase->parent;
-				}
+				if (erase->parent && value_comp()(erase->data, erase->parent->data))
+					erase->parent->left = (erase->left ? erase->left : erase->right);
+				else if (erase->parent)
+					erase->parent->right = (erase->left ? erase->left : erase->right);
+				erase->left ? erase->left->parent = erase->parent : erase->right->parent = erase->parent;
 			}
 			else {
 				bool switchdirection = false;
 				if (erase->right != this->_last) {
-					std::cout << "taking the min of the bigger subtree." << std::endl;
 					mapnode	*tmp(erase->right);
 					while (tmp->left) {
 						tmp = tmp->left;
 						switchdirection = true;
 					}
 					tmp->parent = erase->parent;
-					if (switchdirection) {
+					if (erase->parent && value_comp()(tmp->data, tmp->parent->data)) //node is smaller than parent
 						tmp->parent->left = tmp;
-						tmp->right = erase->right;
-					}
-					else
+					else if (erase->parent)
 						tmp->parent->right = tmp;
 					tmp->left = erase->left;
 					tmp->left->parent = tmp;
+					if (switchdirection) {
+						tmp->right = erase->right;
+						tmp->right->parent = tmp;
+					}
 				}
 				else {
 					mapnode	*tmp(erase->left);
@@ -249,12 +242,16 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 						switchdirection = true;
 					}
 					tmp->parent = erase->parent;
-					if (switchdirection) {
-						tmp->parent->right = tmp;
-						tmp->left = erase->left;
-					}
-					else
+					if (erase->parent && value_comp()(tmp->data, tmp->parent->data)) //node is smaller than parent
 						tmp->parent->left = tmp;
+					else if (erase->parent)
+						tmp->parent->right = tmp;
+					tmp->right = erase->right;
+					tmp->right->parent = tmp;
+					if (switchdirection) {
+						tmp->left = erase->left;
+						tmp->left->parent = tmp;
+					}
 				}
 			}
 			delete erase;
@@ -262,7 +259,6 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		}
 		size_type	erase(const key_type& k) {
 			iterator it = find(k);
-			std::cout << "finding " << k << "returns " << it->first << std::endl;
 			if (it == end())
 				return 0;
 			erase(it);
