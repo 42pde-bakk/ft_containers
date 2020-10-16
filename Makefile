@@ -6,7 +6,7 @@
 #    By: Peer <pde-bakk@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/25 17:28:30 by pde-bakk      #+#    #+#                  #
-#    Updated: 2020/10/16 15:03:09 by peerdb        ########   odam.nl          #
+#    Updated: 2020/10/16 15:59:04 by peerdb        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,17 +31,8 @@ endif
 # $(NAME):
 # 	$(CXX) $(FILES) $(CXXFLAGS) -o $(NAME)
 
-list: fclean
-	$(CXX) $(CXXFLAGS) list_$(FILES) -o $(NAME)
-
-vector: fclean
-	$(CXX) $(CXXFLAGS) vector_$(FILES) -o $(NAME)
-
-map: fclean
-	$(CXX) $(CXXFLAGS) map_$(FILES) -o $(NAME)
-
-stack: fclean
-	$(CXX) $(CXXFLAGS) stack_$(FILES) -o $(NAME)
+list vector map stack queue: fclean
+	$(CXX) $(CXXFLAGS) $@_$(FILES) -o $(NAME)
 	
 clean:
 
