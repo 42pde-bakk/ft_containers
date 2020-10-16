@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/10/08 21:22:52 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/16 14:41:51 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -439,7 +439,7 @@ bool operator== (const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs) {
 	
 	if (lhs.size() != rhs.size())
 		return false;
-	while (lhs != lhs.end() && rit != rhs.end()) {
+	while (lit != lhs.end() && rit != rhs.end()) {
 		if (*lit != *rit)
 			return false;
 		++lit;

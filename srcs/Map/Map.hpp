@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/27 23:49:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/16 01:55:06 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/16 14:41:42 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,13 @@ struct less : std::binary_function<T,T,bool> {
 	bool operator() (const T& x, const T& y) const { return (x < y); }
 };
 
-template <	class Key, class T, class Compare = less<Key>, class Alloc = std::allocator<std::pair<const Key,T> > >
+template < class Key, class T, class Compare = less<Key>, class Alloc = std::allocator<std::pair<const Key,T> > >
 	class map {
 	public:
 		typedef Key							key_type;
 		typedef T							mapped_type;
 		typedef std::pair<const Key, T>		value_type;
 		typedef	Compare						key_compare;
-		// typedef	Compare						value_compare;
 		typedef Alloc						allocator_type;
 		typedef	value_type&					reference;
 		typedef	const value_type&			const_reference;
@@ -201,24 +200,24 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 			if (erase == _last) 
 				return ;
 			short children = (erase->left != 0) + (erase->right != 0);
-
 			if (!children) {
-				if (erase->parent && value_comp()(erase->data, erase->parent->data))
+				if (value_comp()(erase->data, erase->parent->data))
 					erase->parent->left = erase->left;
-				else if (erase->parent)
+				else
 					erase->parent->right = erase->right;
 			}
 			else if (children == 1) {
-				if (erase->parent && value_comp()(erase->data, erase->parent->data))
+				if (value_comp()(erase->data, erase->parent->data))
 					erase->parent->left = (erase->left ? erase->left : erase->right);
-				else if (erase->parent)
+				else
 					erase->parent->right = (erase->left ? erase->left : erase->right);
 				erase->left ? erase->left->parent = erase->parent : erase->right->parent = erase->parent;
 			}
 			else {
 				bool switchdirection = false;
+				mapnode	*tmp;
 				if (erase->right != this->_last) {
-					mapnode	*tmp(erase->right);
+					tmp = erase->right;
 					while (tmp->left) {
 						tmp = tmp->left;
 						switchdirection = true;
@@ -236,7 +235,7 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 					}
 				}
 				else {
-					mapnode	*tmp(erase->left);
+					tmp= erase->left;
 					while (tmp->right) {
 						tmp = tmp->right;
 						switchdirection = true;
@@ -253,6 +252,8 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 						tmp->left->parent = tmp;
 					}
 				}
+				if (erase == this->_root)
+					this->_root = tmp;
 			}
 			delete erase;
 			--this->_size;
@@ -449,6 +450,59 @@ template <	class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		key_compare		_comp;
 		size_type		_size;
 	};
+
+/* Relational operators (map) */
+template <class Key, class T, class Compare, class Alloc>
+bool operator== (const ft::map<Key,T,Compare, Alloc>& lhs, const ft::map<Key,T,Compare, Alloc>& rhs) {
+	typename map<Key,T,Compare, Alloc>::const_iterator lit = lhs.begin();
+	typename map<Key,T,Compare, Alloc>::const_iterator rit = rhs.begin();
+	
+	if (lhs.size() != rhs.size())
+		return false;
+	while (lit != lhs.end() && rit != rhs.end()) {
+		if (*lit != *rit)
+			return false;
+		++lit;
+		++rit;
+	}
+	return true;
+}
+template <class Key, class T, class Compare, class Alloc>
+bool operator!= (const map<Key,T,Compare, Alloc>& lhs, const map<Key,T,Compare, Alloc>& rhs) {
+	return !(lhs == rhs);
+}
+template <class Key, class T, class Compare, class Alloc>
+bool operator<  (const map<Key,T,Compare, Alloc>& lhs, const map<Key,T,Compare, Alloc>& rhs) {
+	typename map<Key,T,Compare, Alloc>::const_iterator lit = lhs.begin();
+	typename map<Key,T,Compare, Alloc>::const_iterator rit = rhs.begin();
+	if (lhs.size() > rhs.size())
+		return false;
+	while (lit != lhs.end() && rit != rhs.end()) {
+		if (*lit != *rit)
+			return (lit < rit);
+		++lit;
+		++rit;
+	}
+	return false;
+}
+template <class Key, class T, class Compare, class Alloc>
+bool operator<= (const map<Key,T,Compare, Alloc>& lhs, const map<Key,T,Compare, Alloc>& rhs) {
+	return !(lhs < rhs);
+}
+template <class Key, class T, class Compare, class Alloc>
+bool operator>  (const map<Key,T,Compare, Alloc>& lhs, const map<Key,T,Compare, Alloc>& rhs) {
+	return (rhs < lhs);
+}
+template <class Key, class T, class Compare, class Alloc>
+bool operator>= (const map<Key,T,Compare, Alloc>& lhs, const map<Key,T,Compare, Alloc>& rhs) {
+	return !(lhs > rhs);
+}
+template <class Key, class T, class Compare, class Alloc>
+void swap (map<Key,T,Compare, Alloc>& x, map<Key,T,Compare, Alloc>& y) {
+	map<Key,T,Compare, Alloc> tmp(x);
+	x = y;
+	y = tmp;
+}
 }
 
 

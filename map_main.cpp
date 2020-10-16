@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 21:10:23 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/16 01:54:43 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/16 14:43:54 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,15 +174,17 @@ void	element_access() {
 
 void	modifiers() {
 	ft::map<int, std::string> mymap = getstlmap();
-	// mymap.insert(std::make_pair(5, "vijf"));
-	// mymap.erase(mymap.find(5));
-	mymap.insert(std::make_pair<int, std::string>(12, "twaalf"));
+	mymap.insert(std::make_pair(12, "twaalf"));
+	mymap.insert(std::make_pair(12, "twaalf"));
 	// mymap.printBT();
 	mymap.erase(8);
-	// mymap.printBT();	
+	mymap.erase(13);
+	mymap.erase(mymap.find(4));
+	mymap.erase(7);
+	ft::map<int, std::string> emptymap;
+	emptymap.swap(mymap);
 	print_container_content(mymap);
-	ft::map<int, std::string> secondmap(mymap.begin(), mymap.end());
-	print_container_content(secondmap);
+	print_container_content(emptymap);
 }
 
 void	operations() {
