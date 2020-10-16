@@ -6,7 +6,7 @@
 #    By: Peer <pde-bakk@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/25 17:28:30 by pde-bakk      #+#    #+#                  #
-#    Updated: 2020/10/14 17:50:58 by pde-bakk      ########   odam.nl          #
+#    Updated: 2020/10/16 15:03:09 by peerdb        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,9 @@ vector: fclean
 
 map: fclean
 	$(CXX) $(CXXFLAGS) map_$(FILES) -o $(NAME)
+
+stack: fclean
+	$(CXX) $(CXXFLAGS) stack_$(FILES) -o $(NAME)
 	
 clean:
 
