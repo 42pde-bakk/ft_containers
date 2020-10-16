@@ -6,7 +6,7 @@
 #    By: Peer <pde-bakk@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/25 17:28:30 by pde-bakk      #+#    #+#                  #
-#    Updated: 2020/10/16 15:59:04 by peerdb        ########   odam.nl          #
+#    Updated: 2020/10/16 15:59:31 by peerdb        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,11 +25,6 @@ FILES = main.cpp
 ifdef STD
  FILES = stdmain.cpp
 endif
-
-# all: $(NAME)
-
-# $(NAME):
-# 	$(CXX) $(FILES) $(CXXFLAGS) -o $(NAME)
 
 list vector map stack queue: fclean
 	$(CXX) $(CXXFLAGS) $@_$(FILES) -o $(NAME)
