@@ -6,7 +6,7 @@
 #    By: peerdb <peerdb@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/09/09 16:47:13 by peerdb        #+#    #+#                  #
-#    Updated: 2020/10/17 18:06:45 by peerdb        ########   odam.nl          #
+#    Updated: 2020/10/17 18:14:49 by peerdb        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,13 +21,10 @@ LIGHTCYAN='\033[1;36m'
 RESET='\033[0m'
 
 function test {
-	WORKFLOW="NO"
 	for var in $@
 	do
 		if [[ $var == "debug" ]]; then
 			D="DEBUG=1"
-		elif [[ $var == "workflow" ]]; then
-			WORKFLOW="YES"
 		elif [[ $var == "g++" || $var == "clang" ]]; then
 			C="COMPILER=$var"
 			echo "OSTYPE = $OSTYPE"
@@ -61,13 +58,11 @@ function test {
 	if [ $? -eq 1 ]; then
 		cat diff.txt
 		echo $ECHOARG "${RED}Diff failed${RESET}"
-		echo $ECHOARG "${RED}WOrkflow = $WORKFLOW ${RESET}"
-		if [[ $WORKFLOW == "YES" ]]; then
-			cat diff.txt
-			echo $ECHOARG "${RED}After catting diff${RESET}"
-		fi
-		echo $ECHOARG "${RED}After catting diff if statement${RESET}"
-		return 1;
+		# echo $ECHOARG "${RED}WOrkflow = $WORKFLOW ${RESET}"
+		# if [[ $WORKFLOW == "YES" ]]; then
+		# 	cat diff.txt
+		# 	echo $ECHOARG "${RED}After catting diff${RESET}"
+		# fi
 	else
 		echo $ECHOARG "${LIGHTPURPLE}Diff found no differences${RESET}"
 	fi	
