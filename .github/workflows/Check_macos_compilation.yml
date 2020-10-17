@@ -14,5 +14,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: ./run.sh
-      run: uname -m
-          ./run.sh
+      run: |
+        echo "A initial message"
+        uname -m 
+        ./run.sh
+      run: echo "One last message"
+    - run: echo "other run command"
