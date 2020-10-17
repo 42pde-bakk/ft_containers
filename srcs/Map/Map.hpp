@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/27 23:49:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/17 17:30:11 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/17 18:35:14 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include "MapNode.hpp"
  # include "../Iterators/BidirectionalIterator.hpp"
 # include "../Traits.hpp"
-# include "../Extra.hpp"
+# include "../Extra.hpp"hoe kan ik 
 #include <math.h>
 
 # if defined(unix) || defined(__unix__) || defined(__unix)
