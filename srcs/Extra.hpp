@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/26 13:20:35 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/08 21:56:58 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/17 12:57:07 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,15 @@ namespace ft {
 		S tmpvar = var1;
 		var1 = var2;
 		var2 = tmpvar;
+	}
+	template<class value_type>
+	value_type const &min(value_type const &a, value_type const &b) {
+		return (a < b ? a : b);
+	}
+
+	template<class value_type>
+	value_type const &max(value_type const &a, value_type const &b) {
+		return (a < b ? b : a);
 	}
 }
 
