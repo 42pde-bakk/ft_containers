@@ -6,7 +6,7 @@
 #    By: peerdb <peerdb@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/09/09 16:47:13 by peerdb        #+#    #+#                  #
-#    Updated: 2020/10/17 17:29:43 by peerdb        ########   odam.nl          #
+#    Updated: 2020/10/17 17:50:45 by peerdb        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -62,7 +62,9 @@ function test {
 		echo $ECHOARG "${RED}Diff failed${RESET}"
 		if [ $WORKFLOW == "YES" ]; then
 			cat diff.txt
+			echo $ECHOARG "${RED}After catting diff${RESET}"
 		fi
+		echo $ECHOARG "${RED}After catting diff if statement${RESET}"
 		return 1;
 	else
 		echo $ECHOARG "${LIGHTPURPLE}Diff found no differences${RESET}"
