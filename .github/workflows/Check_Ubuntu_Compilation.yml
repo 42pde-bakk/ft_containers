@@ -16,5 +16,5 @@ jobs:
     - name: ./run.sh
       run: |
         echo "A initial message"
-        uname
+        uname -a
         ./run.sh
