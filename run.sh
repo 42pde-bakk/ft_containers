@@ -6,7 +6,7 @@
 #    By: peerdb <peerdb@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/09/09 16:47:13 by peerdb        #+#    #+#                  #
-#    Updated: 2020/10/17 17:00:43 by peerdb        ########   odam.nl          #
+#    Updated: 2020/10/17 17:29:43 by peerdb        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,10 +21,13 @@ LIGHTCYAN='\033[1;36m'
 RESET='\033[0m'
 
 function test {
+	WORKFLOW="NO"
 	for var in $@
 	do
 		if [[ $var == "debug" ]]; then
 			D="DEBUG=1"
+		elif [[ $var == "workflow" ]]; then
+			WORKFLOW="YES"
 		elif [[ $var == "g++" || $var == "clang" ]]; then
 			C="COMPILER=$var"
 			echo "OSTYPE = $OSTYPE"
@@ -53,9 +56,13 @@ function test {
 		exit
 	fi
 
-	diff ft.txt std.txt > diff.txt;
+	echo "Container = $1" > diff.txt
+	diff ft.txt std.txt >> diff.txt;
 	if [ $? -eq 1 ]; then
 		echo $ECHOARG "${RED}Diff failed${RESET}"
+		if [ $WORKFLOW == "YES" ]; then
+			cat diff.txt
+		fi
 		return 1;
 	else
 		echo $ECHOARG "${LIGHTPURPLE}Diff found no differences${RESET}"
