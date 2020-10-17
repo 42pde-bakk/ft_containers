@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 21:10:23 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/17 15:49:37 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/17 16:54:55 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,7 +200,6 @@ void	observers() {
 	compare_values(mymap, std::make_pair(18, 45));
 	compare_values(othermap, std::make_pair(29, 76));
 }
-
 int	main(int argc, char **argv) {
 	if (argc >= 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);

@@ -6,7 +6,7 @@
 #    By: peerdb <peerdb@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/09/09 16:47:13 by peerdb        #+#    #+#                  #
-#    Updated: 2020/10/16 01:08:28 by peerdb        ########   odam.nl          #
+#    Updated: 2020/10/17 17:00:43 by peerdb        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,6 +56,7 @@ function test {
 	diff ft.txt std.txt > diff.txt;
 	if [ $? -eq 1 ]; then
 		echo $ECHOARG "${RED}Diff failed${RESET}"
+		return 1;
 	else
 		echo $ECHOARG "${LIGHTPURPLE}Diff found no differences${RESET}"
 	fi	
@@ -83,7 +84,15 @@ if [[ $ARG == "all" ]]; then
 	for i in "${arr[@]}"
 	do
 		test $i $2 $3 $4
+		if [ $? -eq 1 ]; then
+			exit 1
+		fi
 	done
 else
 	test $ARG $2 $3 $4
+	if [ $? -eq 1 ]; then
+		exit 1
+	fi
 fi	
+
+
