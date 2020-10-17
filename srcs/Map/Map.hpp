@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/27 23:49:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/17 16:55:11 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/17 17:04:52 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,6 @@ template < class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
 				: _alloc(alloc), _comp(comp), _size(0){
 			this->initmap();
-			std::cout << "init" << std::endl;
 		}
 		template <class InputIterator>
 		map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type(),
