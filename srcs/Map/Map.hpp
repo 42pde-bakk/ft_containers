@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/27 23:49:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/17 13:00:57 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/17 13:22:07 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@
 #include <math.h>
 
 # if defined(unix) || defined(__unix__) || defined(__unix)
-#  define PEER_MAX SSIZE_MAX
+#  define LINUX 1
 # else
-#  define PEER_MAX SIZE_T_MAX
+#  define LINUX 0
 # endif
 
 namespace ft {
@@ -136,7 +136,10 @@ template < class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		size_type	max_size() const {
 			std::cerr << "limit = " << std::numeric_limits<size_t>::max() << ", sizeof(mapnode) = " << sizeof(mapnode) << ", sizeof(pointer) = " << sizeof(pointer) << std::endl;
 			// return (std::numeric_limits<size_t>::max() / sizeof(mapnode));
-			return (std::numeric_limits<size_type>::max() / (2 * (sizeof(mapnode) + sizeof(pointer))));
+			if (LINUX)
+				return (std::numeric_limits<size_type>::max() / (2 * (sizeof(mapnode) + sizeof(pointer))));
+			else
+				return std::numeric_limits<size_type>::max() / sizeof(mapnode);
 		}
 
 	// Element access functions
