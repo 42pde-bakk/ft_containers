@@ -13,6 +13,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: ./run.sh workflow
-      run: ./run.sh workflow
+    - name: ./run.sh
+      run: ./run.sh
       run: cat diff.txt
