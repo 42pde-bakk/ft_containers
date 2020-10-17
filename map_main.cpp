@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 21:10:23 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/16 14:43:54 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/17 12:13:37 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -217,7 +217,7 @@ int	main(int argc, char **argv) {
 	}
 	// ctors_dtor();
 	// iterators();
-	// capacity();
+	capacity();
 	// element_access();
 	modifiers();
 	// operations();
