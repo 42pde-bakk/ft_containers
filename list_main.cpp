@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:46:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/10/09 18:05:30 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/17 18:20:19 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,11 @@
 #include <list>
 #include <string>
 #include <cstdlib>
-
+# if defined(unix) || defined(__unix__) || defined(__unix)
+#  define LINUX 1
+# else
+#  define LINUX 0
+# endif
 template<typename T>
 void	print_container_content(ft::list<T>	&list, std::string name = "container") {
 	std::cout << name << " contains:";

@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 21:10:23 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/17 16:54:55 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/17 18:19:49 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,12 @@
 #include <string>
 #include <iostream>
 #include <sys/time.h>
+
+# if defined(unix) || defined(__unix__) || defined(__unix)
+#  define LINUX 1
+# else
+#  define LINUX 0
+# endif
 
 size_t begintime;
 size_t endtime;
@@ -217,6 +223,8 @@ int	main(int argc, char **argv) {
 		endtime = tv.tv_usec;
 		std::cerr << "Time elapsed in total! = " << endtime - begintime << " nanoseconds" << std::endl;
 	}
-	if (argc == 3 && strcmp(argv[2], "leaks") == 0)
-		system("leaks containers.out | grep \"total leaked bytes\" >&2");
+	if (argc == 3 && strcmp(argv[2], "leaks") == 0 && !LINUX) {
+		int a = system("leaks containers.out | grep \"total leaked bytes\" >&2");
+		(void)a;
+	}
 }

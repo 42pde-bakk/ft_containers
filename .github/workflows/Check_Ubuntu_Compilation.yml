@@ -15,5 +15,5 @@ jobs:
     - uses: actions/checkout@v2
     - name: ./run.sh
       run: ./run.sh
-            cat diff.txt
-            uname -m
+           cat diff.txt
+           uname -m

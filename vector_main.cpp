@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 21:10:23 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/13 16:43:37 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/17 18:20:16 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,11 @@
 #include <string>
 #include <iostream>
 #include <sys/time.h>
-
+# if defined(unix) || defined(__unix__) || defined(__unix)
+#  define LINUX 1
+# else
+#  define LINUX 0
+# endif
 size_t begintime;
 size_t endtime;
 struct timeval	tv;

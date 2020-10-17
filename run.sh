@@ -6,7 +6,7 @@
 #    By: peerdb <peerdb@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/09/09 16:47:13 by peerdb        #+#    #+#                  #
-#    Updated: 2020/10/17 18:14:49 by peerdb        ########   odam.nl          #
+#    Updated: 2020/10/17 18:21:21 by peerdb        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,13 +56,9 @@ function test {
 	echo "Container = $1" > diff.txt
 	diff ft.txt std.txt >> diff.txt;
 	if [ $? -eq 1 ]; then
-		cat diff.txt
 		echo $ECHOARG "${RED}Diff failed${RESET}"
-		# echo $ECHOARG "${RED}WOrkflow = $WORKFLOW ${RESET}"
-		# if [[ $WORKFLOW == "YES" ]]; then
-		# 	cat diff.txt
-		# 	echo $ECHOARG "${RED}After catting diff${RESET}"
-		# fi
+		cat diff.txt
+		return 1
 	else
 		echo $ECHOARG "${LIGHTPURPLE}Diff found no differences${RESET}"
 	fi	
