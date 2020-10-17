@@ -15,5 +15,5 @@ jobs:
     - uses: actions/checkout@v2
     - name: make re
       run: make re
-    - name: ./run.sh
-      run: ./run.sh
+    - name: ./run.sh workflow
+      run: ./run.sh workflow
