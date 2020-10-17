@@ -16,3 +16,4 @@ jobs:
     - name: ./run.sh
       run: ./run.sh
            cat diff.txt
+           uname -m
