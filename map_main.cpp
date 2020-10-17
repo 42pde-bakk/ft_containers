@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 21:10:23 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/17 12:13:37 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/17 15:49:37 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	print_container_content(ft::map<K, V>& mappie, std::string name = "containe
 		std::cout << ' ' << it->second;
 	std::cout << " $" << std::endl;
 }
+
 template< typename K, typename V >
 void	stl_print_container_content(std::map<K, V>& mappie, std::string name = "container") {
 	std::cout << name << " contains:";
@@ -34,6 +35,7 @@ void	stl_print_container_content(std::map<K, V>& mappie, std::string name = "con
 		std::cout << ' ' << it->second;
 	std::cout << " $" << std::endl;
 }
+
 template< typename K, typename V>
 void	compare_keys(ft::map<K, V>& mappie, K compelem = K(), std::string name = "container") {
 	typename ft::map<K, V>::key_compare kcomp = mappie.key_comp();
@@ -47,37 +49,12 @@ void	compare_keys(ft::map<K, V>& mappie, K compelem = K(), std::string name = "c
 			std::cout << it->first << " is equal to " << compelem << std::endl;
 	}
 }
+
 template< typename K, typename V>
-void	stl_compare_keys(std::map<K, V>& mappie, K compelem = K(), std::string name = "container") {
-	typename std::map<K, V>::key_compare kcomp = mappie.key_comp();
-	(void)name;
-	for (typename std::map<K, V>::const_iterator it = mappie.begin(); it != mappie.end(); it++) {
-		if (kcomp(it->first, compelem))
-			std::cout << it->first << " is lower than " << compelem << std::endl;
-		else if (kcomp(compelem, it->first))
-			std::cout << it->first << " is higher than " << compelem << std::endl;
-		else
-			std::cout << it->first << " is equal to " << compelem << std::endl;
-	}
-}
-template< typename K, typename V>
-void	compare_values(ft::map<K, V>& mappie, std::pair<K, V> compelem, std::string name = "container") {
+void	compare_values(ft::map<K, V>& mappie, std::pair<K, V> compelem = std::make_pair(K(), V()), std::string name = "container") {
 	typename ft::map<K, V>::value_compare vcomp = mappie.value_comp();
 	(void)name;
 	for (typename ft::map<K, V>::const_iterator it = mappie.begin(); it != mappie.end(); it++) {
-		if (vcomp(*it, compelem))
-			std::cout << it->first << " is lower than " << compelem.first << std::endl;
-		else if (vcomp(compelem, *it))
-			std::cout << it->first << " is higher than " << compelem.first << std::endl;
-		else
-			std::cout << it->first << " is equal to " << compelem.first << std::endl;
-	}
-}
-template< typename K, typename V>
-void	stl_compare_values(std::map<K, V>& mappie, std::pair<K, V> compelem, std::string name = "container") {
-	typename std::map<K, V>::value_compare vcomp = mappie.value_comp();
-	(void)name;
-	for (typename std::map<K, V>::const_iterator it = mappie.begin(); it != mappie.end(); it++) {
 		if (vcomp(*it, compelem))
 			std::cout << it->first << " is lower than " << compelem.first << std::endl;
 		else if (vcomp(compelem, *it))
@@ -102,13 +79,14 @@ ft::map<int, std::string>	getstlmap() {
 }	
 
 void	ctors_dtor() {
-	ft::map<int, std::string> stl = getstlmap();
+	ft::map<int, std::string>	stl = getstlmap();
 	ft::map<int, std::string>	mydefault; // testing default ctor
+
 	mydefault.insert(std::make_pair(5, "vijf"));
 	ft::map<int, std::string>	mycopy(mydefault); // testing copy ctor
 	print_container_content(mydefault);
 	print_container_content(mycopy);
-	ft::map<int, std::string> myfill(stl.begin(), stl.end());
+	ft::map<int, std::string> myfill(stl.begin(), stl.end()); // testing range constructor
 	print_container_content(myfill);
 }
 
@@ -122,10 +100,10 @@ void	iterators() {
 	else std::cout << "begin is NOTTTT the same as end" << std::endl;
 	peer.insert(stl.begin(), stl.end());
 
-	ft::map<int, std::string>::iterator it = peer.begin();
-	ft::map<int, std::string>::reverse_iterator rit = peer.rbegin();
-	ft::map<int, std::string>::const_reverse_iterator crit(rit);	// Just testing if you can convert a regular iterator to a const one
-	ft::map<int, std::string>::const_iterator cit(it);				// Just testing if you can convert a regular iterator to a const one
+	ft::map<int, std::string>::iterator					it = peer.begin();
+	ft::map<int, std::string>::reverse_iterator			rit = peer.rbegin();
+	ft::map<int, std::string>::const_reverse_iterator	crit(rit);				// Just testing if you can convert a regular iterator to a const one
+	ft::map<int, std::string>::const_iterator 			cit(it);				// Just testing if you can convert a regular iterator to a const one
 	std::cout << "it gives: " << it->first << " ===> " << it->second << std::endl;
 	std::cout << "cit gives: " << cit->first << " ===> " << cit->second << std::endl;
 	std::cout << "rit gives: " << rit->first << " ===> " << rit->second << std::endl;
@@ -149,7 +127,6 @@ void	iterators() {
 	std::pair<int, std::string> ret = *it++;
 	std::cout << "ret: " << ret.first << " => " << ret.second << std::endl;
 	std::cout << " it: " << it->first << " => " << it->second << std::endl;
-	// Apparently *it++ still needs a bit of work like this
 }
 
 void 	capacity() {
@@ -168,7 +145,8 @@ void	element_access() {
 		std::cout << "in.at(5) gives: " << in.at(5) << std::endl;
 	}
 	catch (std::out_of_range& e) {
-		std::cout << e.what() << std::endl;
+		std::cout << "exception thrown" << std::endl;
+		std::cerr << e.what() << std::endl;
 	}
 }
 
@@ -210,22 +188,36 @@ void	operations() {
 	std::cout << "mymap.equal_range(10) gives a range from " << peer.first->first << " to " << peer.second->first << std::endl;
 }
 
+void	observers() {
+	ft::map<int, int>	mymap;
+	ft::map<int, int>	othermap;
+	for (size_t i = 0; i < 20; i++) {
+		mymap[i * 2] = i * 4;
+		othermap[i * 3] = i * 6;
+	}
+	compare_keys(mymap, 18);
+	compare_keys(othermap, 29);
+	compare_values(mymap, std::make_pair(18, 45));
+	compare_values(othermap, std::make_pair(29, 76));
+}
+
 int	main(int argc, char **argv) {
 	if (argc >= 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
 		begintime = tv.tv_usec;
 	}
-	// ctors_dtor();
-	// iterators();
+	ctors_dtor();
+	iterators();
 	capacity();
-	// element_access();
+	element_access();
 	modifiers();
-	// operations();
+	observers();
+	operations();
 	if (argc >= 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
 		endtime = tv.tv_usec;
 		std::cerr << "Time elapsed in total! = " << endtime - begintime << " nanoseconds" << std::endl;
 	}
 	if (argc == 3 && strcmp(argv[2], "leaks") == 0)
-		system("leaks containers.out | grep \"total leaked bytes\"");
+		system("leaks containers.out | grep \"total leaked bytes\" >&2");
 }
