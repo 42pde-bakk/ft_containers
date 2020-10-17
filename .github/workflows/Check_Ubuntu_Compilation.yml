@@ -18,5 +18,3 @@ jobs:
         echo "A initial message"
         uname -m 
         ./run.sh
-      run: echo "One last message"
-    - run: echo "other run command"
