@@ -6,7 +6,7 @@
 #    By: peerdb <peerdb@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/09/09 16:47:13 by peerdb        #+#    #+#                  #
-#    Updated: 2020/10/18 15:32:49 by peerdb        ########   odam.nl          #
+#    Updated: 2020/10/18 20:53:36 by peerdb        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,8 +66,8 @@ function test {
 
 if [[ $OSTYPE == *"linux"* ]]; then
 	ECHOARG='-e'
-else
-	ECHOARG=''
+# else
+# 	ECHOARG=''
 fi
 
 declare -a arr=("list" "vector" "map" "stack" "queue")

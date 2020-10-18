@@ -16,8 +16,7 @@ jobs:
     - name: uname
       run:  |
             uname -a
-            cat $(man echo)
-    - name: ./run.sh
+    - name: ./run.sh workflow
       run: |
         echo "Starting to run tests!"
         ./run.sh
@@ -31,8 +30,7 @@ jobs:
     - name: uname
       run:  |
             uname -a
-            cat $(man echo)
-    - name: ./run.sh
+    - name: ./run.sh workflow
       run: |
         echo "Starting to run tests!"
         ./run.sh
