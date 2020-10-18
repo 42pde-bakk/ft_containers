@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/16 14:56:39 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/17 18:20:08 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/18 20:40:23 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,15 @@ int	main(int argc, char **argv) {
 		begintime = tv.tv_usec;
 	}
 	peer();
+
 	if (argc >= 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
 		endtime = tv.tv_usec;
 		std::cerr << "Time elapsed in total! = " << endtime - begintime << " nanoseconds" << std::endl;
 	}
-	// if (argc == 3 && strcmp(argv[2], "leaks") == 0)
-	// 	system("leaks containers.out | grep \"total leaked bytes\"");
+	if (argc == 3 && strcmp(argv[2], "leaks") == 0 && !LINUX) {
+		int a = system("leaks containers.out | grep \"total leaked bytes\" >&2");
+		(void)a;
+	}
+	return 0;
 }

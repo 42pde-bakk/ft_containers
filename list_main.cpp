@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:46:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/10/17 18:20:19 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/18 20:37:56 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,18 @@
 #include <list>
 #include <string>
 #include <cstdlib>
+#include <sys/time.h>
+
 # if defined(unix) || defined(__unix__) || defined(__unix)
 #  define LINUX 1
 # else
 #  define LINUX 0
 # endif
+
+size_t begintime;
+size_t endtime;
+struct timeval	tv;
+
 template<typename T>
 void	print_container_content(ft::list<T>	&list, std::string name = "container") {
 	std::cout << name << " contains:";
@@ -92,7 +99,9 @@ void	capacity_test_element_access() {
 	for (int i = 0; i < 4 ; i++)
 		mylist.push_front(strings[i]);
 	std::cout << "Boolean whether mylist is empty or not: " << std::boolalpha << mylist.empty() << std::endl;
-	std::cout << "mylist.size() = " << mylist.size() << ", and mylist.max_size() = " << mylist.max_size() << std::endl;
+	std::cout << "mylist.size() = " << mylist.size();
+	// std::cout << ", and mylist.max_size() = " << mylist.max_size();
+	std::cout << std::endl;
 
 	std::cout << "mylist.front() = " << mylist.front() << std::endl;
 	std::cout << "mylist.back() = " << mylist.back() << std::endl << std::endl;
@@ -145,7 +154,7 @@ void	modifiers_test() {
 	std::cout << std::endl;
 }
 
-bool single_digit (const int& value) { return (value<10); }
+bool single_digit (const int& value) { return (value < 10); }
 
 void	operations_test() {
 	ft::list<int>	splicelist1(4, 0);
@@ -201,8 +210,11 @@ void	stl_test() {
 	print_container_content(nonstl, "nonstl");
 }
 
-int main() {
-	srand(time(0));
+int main(int argc, char **argv) {
+	if (argc == 2 && strcmp(argv[1], "time") == 0) {
+		gettimeofday(&tv, NULL);
+		begintime = tv.tv_usec;
+	}
 	constructors_test();
 	iterators_test();
 	capacity_test_element_access();
@@ -210,5 +222,14 @@ int main() {
 	operations_test();
 	operations_test2();
 	stl_test();
-	// system("leaks containers.out | grep \"total leaked bytes\"");
+	if (argc == 2 && strcmp(argv[1], "time") == 0) {
+		gettimeofday(&tv, NULL);
+		endtime = tv.tv_usec;
+		std::cout << "Time elapsed in total! = " << endtime - begintime << " nanoseconds" << std::endl;
+	}
+	if (argc == 3 && strcmp(argv[2], "leaks") == 0 && !LINUX) {
+		int a = system("leaks containers.out | grep \"total leaked bytes\" >&2");
+		(void)a;
+	}
+	return 0;
 }
