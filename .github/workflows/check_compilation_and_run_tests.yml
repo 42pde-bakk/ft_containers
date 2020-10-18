@@ -1,4 +1,4 @@
-name: Check_Ubuntu compilation C/C++ CI
+name: Check Ubuntu & macOS compilation C++ CI
 
 on:
   push:
