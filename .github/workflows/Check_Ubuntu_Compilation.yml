@@ -7,28 +7,30 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  jobuntu:
+    build:
 
-    runs-on: ubuntu-latest
+      runs-on: ubuntu-latest
 
-    steps:
-    - uses: actions/checkout@v2
-    - name: uname
-      run:  uname -a
-    - name: ./run.sh
-      run: |
-        echo "Starting to run tests!"
-        ./run.sh
+      steps:
+      - uses: actions/checkout@v2
+      - name: uname
+        run:  uname -a
+      - name: ./run.sh
+        run: |
+          echo "Starting to run tests!"
+          ./run.sh
 
-  build:
+  stevejobs:
+    build:
 
-    runs-on: macos-latest
+      runs-on: macos-latest
 
-    steps:
-    - uses: actions/checkout@v2
-    - name: uname
-      run:  uname -a
-    - name: ./run.sh
-      run: |
-        echo "Starting to run tests!"
-        ./run.sh
+      steps:
+      - uses: actions/checkout@v2
+      - name: uname
+        run:  uname -a
+      - name: ./run.sh
+        run: |
+          echo "Starting to run tests!"
+          ./run.sh
