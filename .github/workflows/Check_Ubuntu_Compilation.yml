@@ -19,3 +19,17 @@ jobs:
       run: |
         echo "Starting to run tests!"
         ./run.sh
+
+jobs:
+  build:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: uname
+      run:  uname -a
+    - name: ./run.sh
+      run: |
+        echo "Starting to run tests!"
+        ./run.sh
