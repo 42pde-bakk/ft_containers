@@ -6,13 +6,14 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/16 14:56:39 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/18 20:40:32 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/18 21:13:48 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "srcs/Stack/Stack.hpp"
 #include <cstring>
 #include <stack>
+#include <cstdlib>
 #include <string>
 #include <iostream>
 #include <sys/time.h>
@@ -28,18 +29,13 @@ size_t endtime;
 struct timeval	tv;
 
 void	peer() {
-	ft::stack<int>	peer;
-	ft::stack<int>	hats;
-	peer.push(8);
-	hats.push(8);
-	if (peer == hats)
-		std::cout << "yeah we equal" << std::endl;
-	else
-		std::cout << "not equal ffs" << std::endl;
-	if (peer != hats)
-		std::cout << "yeah we not equal" << std::endl;
-	else
-		std::cout << "equal ffs" << std::endl;
+	ft::stack<int>	mystack;
+	ft::stack<int>	otherstack;
+	for (size_t i = 0; i < 10; i++)
+		mystack.push(i * 8);
+	std::cout << std::boolalpha << "mystack.empty( ) = " << mystack.empty() << std::endl;
+	// std::cout << std::boolalpha << "otherstack.empty( ) = " << otherstack.empty() << std::endl;
+	// std::cout << "first top: " << mystack.top() << std::endl;
 }
 
 
