@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/27 23:49:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/18 15:37:26 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/18 17:08:43 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,8 @@ template < class Key, class T, class Compare = less<Key>, class Alloc = std::all
 			return (this->_size);
 		}
 		size_type	max_size() const {
-			return this->_alloc.max_size();
+			return this->_alloc.max_size();		// manjaro
+			return this->_alloc.max_size() / 2;	// workflows
 			// if (LINUX)
 			// 	return (std::numeric_limits<size_type>::max() / (2 * (sizeof(mapnode) + sizeof(pointer))));
 			// else
