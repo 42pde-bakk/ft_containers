@@ -13,8 +13,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: uname
+      run:  uname -a
     - name: ./run.sh
       run: |
-        echo "A initial message"
-        uname -a
+        echo "Starting to run tests!"
         ./run.sh
