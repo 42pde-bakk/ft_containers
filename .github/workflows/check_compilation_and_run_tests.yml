@@ -1,0 +1,34 @@
+name: Check_Ubuntu compilation C/C++ CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  jobuntu:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: uname
+      run:  uname -a
+    - name: ./run.sh
+      run: |
+        echo "Starting to run tests!"
+        ./run.sh
+
+  stevejobs:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: uname
+      run:  uname -a
+    - name: ./run.sh
+      run: |
+        echo "Starting to run tests!"
+        ./run.sh
