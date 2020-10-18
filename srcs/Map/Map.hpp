@@ -6,27 +6,21 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/27 23:49:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/17 18:35:14 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/18 15:37:26 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAP_HPP
 # define MAP_HPP
 
- # include <memory>
+# include <memory>
 # include <cstddef>
 # include <climits>
 # include "MapNode.hpp"
- # include "../Iterators/BidirectionalIterator.hpp"
+# include "../Iterators/BidirectionalIterator.hpp"
 # include "../Traits.hpp"
-# include "../Extra.hpp"hoe kan ik 
+# include "../Extra.hpp"
 #include <math.h>
-
-# if defined(unix) || defined(__unix__) || defined(__unix)
-#  define LINUX 1
-# else
-#  define LINUX 0
-# endif
 
 namespace ft {
 
@@ -134,10 +128,11 @@ template < class Key, class T, class Compare = less<Key>, class Alloc = std::all
 			return (this->_size);
 		}
 		size_type	max_size() const {
-			if (LINUX)
-				return (std::numeric_limits<size_type>::max() / (2 * (sizeof(mapnode) + sizeof(pointer))));
-			else
-				return (this->_alloc.max_size() / 2);
+			return this->_alloc.max_size();
+			// if (LINUX)
+			// 	return (std::numeric_limits<size_type>::max() / (2 * (sizeof(mapnode) + sizeof(pointer))));
+			// else
+			// 	return (this->_alloc.max_size() / 2);
 		}
 
 	// Element access functions

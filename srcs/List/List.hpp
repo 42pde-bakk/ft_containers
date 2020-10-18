@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/10/17 18:35:44 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/18 15:34:09 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,6 @@
 # include "../Iterators/BidirectionalIterator.hpp"
 # include "../Traits.hpp"
 # include "../Extra.hpp"
-
-# if defined(unix) || defined(__unix__) || defined(__unix)
-#  define PEER_MAX SSIZE_MAX
-# else
-#  define PEER_MAX SIZE_T_MAX
-# endif
 
 namespace ft {
 	
@@ -52,8 +46,8 @@ namespace ft {
 		node_pointer		head;
 		node_pointer 		firstelem;
 		node_pointer 		tail;
-		allocator_type	alloc;
-		size_type		length;
+		allocator_type		alloc;
+		size_type			length;
 	public:
 	
 	/* Constructors, destructor and operator= */
@@ -147,8 +141,7 @@ namespace ft {
 			return this->length;
 		}
 		size_type	max_size() const {
-			return (this->alloc.max_size() )
-			// return (PEER_MAX / sizeof(node<T>)); //size_type_max
+			return (this->alloc.max_size() );
 		}
 		
 	/* Element access */

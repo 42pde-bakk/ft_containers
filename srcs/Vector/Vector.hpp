@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 15:19:02 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/11 19:39:15 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/18 15:36:18 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,8 @@ namespace ft {
 			return this->_size;
 		}
 		size_type	max_size() const {
-			return (PEER_MAX / sizeof(T));
+			return this->_alloc.max_size();
+			// return (PEER_MAX / sizeof(T));
 		}
 		void		resize (size_type n, value_type val = value_type()) {
 			while (n < this->_size)
