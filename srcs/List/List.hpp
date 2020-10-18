@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/10/18 15:34:09 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/18 15:49:19 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,7 +141,11 @@ namespace ft {
 			return this->length;
 		}
 		size_type	max_size() const {
-			return (this->alloc.max_size() );
+			// return (this->alloc.max_size() );
+			return std::numeric_limits<size_type>::max() / sizeof(node_pointer);
+			
+		// return (ft::min((size_type) std::numeric_limits<difference_type>::max(),
+		// 				std::numeric_limits<size_type>::max() / (sizeof(node_pointer) - sizeof(pointer))));
 		}
 		
 	/* Element access */
