@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/10/18 17:00:27 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/18 17:06:32 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,8 @@ namespace ft {
 		}
 		size_type	max_size() const {
 			// return (this->alloc.max_size() );
-			return std::numeric_limits<size_type>::max() / (2 * sizeof(node<value_type>));
+			// return std::numeric_limits<size_type>::max() / (2 * sizeof(node<value_type>));	// this works for my manjaro but not for workflows
+			return std::numeric_limits<size_type>::max() / (sizeof(node<value_type>));		// this works for workflows, but not my manjaro
 			
 		// return (ft::min((size_type) std::numeric_limits<difference_type>::max(),
 		// 				std::numeric_limits<size_type>::max() / (sizeof(node_pointer) - sizeof(pointer))));
