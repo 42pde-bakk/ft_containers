@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/10/19 22:48:05 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/20 00:57:15 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -421,18 +421,7 @@ namespace ft {
 /* Relational operators (list) */
 template <class T, class Alloc>
 bool operator== (const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs) {
-	typename list<T,Alloc>::const_iterator lit = lhs.begin();
-	typename list<T,Alloc>::const_iterator rit = rhs.begin();
-	
-	if (lhs.size() != rhs.size())
-		return false;
-	while (lit != lhs.end() && rit != rhs.end()) {
-		if (*lit != *rit)
-			return false;
-		++lit;
-		++rit;
-	}
-	return (*lit == *rit);
+	return (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
 }
 template <class T, class Alloc>
 bool operator!= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
@@ -440,18 +429,7 @@ bool operator!= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
 }
 template <class T, class Alloc>
 bool operator<  (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
-	typename list<T, Alloc>::const_iterator lit = lhs.begin();
-	typename list<T, Alloc>::const_iterator rit = rhs.begin();
-
-	while (lit != lhs.end() && rit != rhs.end()) {
-		if (*lit != *rit)
-			break ;
-		++lit;
-		++rit;
-	}
-	if (lit == lhs.end() || rit == rhs.end())
-		return (lit == lhs.end());
-	return (*lit < *rit);
+	return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 }
 template <class T, class Alloc>
 bool operator>  (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {

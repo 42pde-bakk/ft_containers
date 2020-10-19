@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/26 13:20:35 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/18 15:48:20 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/20 00:55:32 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,34 @@ namespace ft {
 	const value_type&	max(const value_type& a, const value_type& b) {
 		return (a < b ? b : a);
 	}
+
+	template <class Iterator1, class Iterator2>
+	bool equal(Iterator1 first1, Iterator1 last1, Iterator2 first2)
+	{
+		while (first1 != last1)
+		{
+			if (!(*first1 == *first2))
+				return false;
+			++first1;
+			++first2;
+		}
+		return true;
+	}
+
+	template <class InputIterator1, class InputIterator2>
+	bool lexicographical_compare (InputIterator1 first1, InputIterator1 last1, InputIterator2 first2, InputIterator2 last2) {
+		while (first1 != last1)
+		{
+			if (first2 == last2 || *first2 < *first1)
+				return false;
+			else if (*first1 < *first2)
+				return true;
+			++first1;
+			++first2;
+		}
+		return (first2 != last2);
+	}
+
 }
 
 #endif
