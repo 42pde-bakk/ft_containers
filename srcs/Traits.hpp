@@ -6,33 +6,13 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/09 22:07:27 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/09 17:54:26 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/19 18:08:01 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TRAITS_HPP
 # define TRAITS_HPP
 namespace ft {
-
-// struct random_access_iterator_tag
-// {
-// };
-
-// struct bidirectional_iterator_tag
-// {
-// };
-
-// struct forward_iterator_tag
-// {
-// };
-
-// struct input_iterator_tag
-// {
-// };
-
-// struct output_iterator_tag
-// {
-// };
 
 template <bool B, class T = void>
 struct enable_if
@@ -68,17 +48,17 @@ struct iterator_check<std::bidirectional_iterator_tag>
 {
 };
 
-// template <>
-// struct iterator_check<std::forward_iterator_tag>
-// 	: public iterator_result<true, forward_iterator_tag>
-// {
-// };
+template <>
+struct iterator_check<std::forward_iterator_tag>
+	: public iterator_result<true, std::forward_iterator_tag>
+{
+};
 
-// template <>
-// struct iterator_check<std::input_iterator_tag>
-// 	: public iterator_result<true, input_iterator_tag>
-// {
-// };
+template <>
+struct iterator_check<std::input_iterator_tag>
+	: public iterator_result<true, std::input_iterator_tag>
+{
+};
 
 template <typename T>
 struct is_iterator : public iterator_check<T>

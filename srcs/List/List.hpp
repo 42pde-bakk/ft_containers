@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/10/18 17:06:32 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/19 18:37:19 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ namespace ft {
 		allocator_type		alloc;
 		size_type			length;
 	public:
-	
+
 	/* Constructors, destructor and operator= */
 		explicit list(const allocator_type& alloc = allocator_type()) : alloc(alloc) /* Default constructor */
 		{
@@ -124,29 +124,17 @@ namespace ft {
 		}
 		const_reverse_iterator	rend() const {
 			return const_reverse_iterator(this->head);
-		}
-		const_iterator	cbegin() const {
-			return const_iterator(this->head->next);
-		}
-		const_iterator	cend() const {
-			return const_iterator(this->tail);
-		}
-		
+		}		
 
 	/* Capacity */
 		bool		empty() const {
-			return !this->length;
+			return (this->length == 0);
 		}
 		size_type	size() const {
 			return this->length;
 		}
 		size_type	max_size() const {
-			// return (this->alloc.max_size() );
-			// return std::numeric_limits<size_type>::max() / (2 * sizeof(node<value_type>));	// this works for my manjaro but not for workflows
-			return std::numeric_limits<size_type>::max() / (sizeof(node<value_type>));		// this works for workflows, but not my manjaro
-			
-		// return (ft::min((size_type) std::numeric_limits<difference_type>::max(),
-		// 				std::numeric_limits<size_type>::max() / (sizeof(node_pointer) - sizeof(pointer))));
+			return (std::numeric_limits<size_type>::max() / (sizeof(node<value_type>)));
 		}
 		
 	/* Element access */
@@ -166,7 +154,7 @@ namespace ft {
 	/* Modifiers */
 		template <class InputIterator>
  		void assign(InputIterator first, InputIterator last,
-		typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) {
+				typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) {
 			this->clear();
 			while (first != last) {
 				push_back(*first);
@@ -444,7 +432,7 @@ bool operator== (const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs) {
 		++lit;
 		++rit;
 	}
-	return true;
+	return (*lit == *rit);
 }
 template <class T, class Alloc>
 bool operator!= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
@@ -454,27 +442,28 @@ template <class T, class Alloc>
 bool operator<  (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
 	typename list<T, Alloc>::const_iterator lit = lhs.begin();
 	typename list<T, Alloc>::const_iterator rit = rhs.begin();
-	if (lhs.size() > rhs.size())
-		return false;
+
 	while (lit != lhs.end() && rit != rhs.end()) {
-		if (*lit != *rit)
-			return (lit < rit);
+		if (*lit != *rit) {
+			std::cerr << "*lit = " << *lit << ", *rit = " << *rit << std::endl;
+			return (*lit < *rit);
+		}
 		++lit;
 		++rit;
 	}
-	return false;
-}
-template <class T, class Alloc>
-bool operator<= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
-	return !(lhs < rhs);
+	return (*lit < *rit);
 }
 template <class T, class Alloc>
 bool operator>  (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
 	return (rhs < lhs);
 }
 template <class T, class Alloc>
+bool operator<= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
+	return !(rhs < lhs);
+}
+template <class T, class Alloc>
 bool operator>= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
-	return !(lhs > rhs);
+	return !(lhs < rhs);
 }
 template <class T, class Alloc>
 void swap (list<T,Alloc>& x, list<T,Alloc>& y) {

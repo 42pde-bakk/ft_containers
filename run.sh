@@ -6,7 +6,7 @@
 #    By: peerdb <peerdb@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/09/09 16:47:13 by peerdb        #+#    #+#                  #
-#    Updated: 2020/10/18 20:53:36 by peerdb        ########   odam.nl          #
+#    Updated: 2020/10/19 18:12:47 by pde-bakk      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,8 +53,7 @@ function test {
 		exit
 	fi
 
-	echo "Container = $1" > diff.txt
-	diff ft.txt std.txt >> diff.txt;
+	diff ft.txt std.txt > diff.txt;
 	if [ $? -eq 1 ]; then
 		echo $ECHOARG "${RED}Diff failed${RESET}"
 		cat diff.txt

@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/16 14:56:39 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/18 20:40:23 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/19 18:21:50 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,63 @@ size_t begintime;
 size_t endtime;
 struct timeval	tv;
 
-void	peer() {
-	ft::queue<int>	peer;
-	ft::queue<int>	hats;
-	peer.push(8);
-	hats.push(8);
-	if (peer == hats)
-		std::cout << "yeah we equal" << std::endl;
-	else
-		std::cout << "not equal ffs" << std::endl;
-	if (peer != hats)
-		std::cout << "yeah we not equal" << std::endl;
-	else
-		std::cout << "equal ffs" << std::endl;
+void	telly() {
+	{
+		ft::queue<int> MyQueue;
+		std::cout << MyQueue.empty() << std::endl;
+		std::cout << MyQueue.size() << std::endl;
+	}
+	std::cout << std::endl;
+	{
+		ft::queue<int> MyQueue;
+		std::cout << MyQueue.empty() << std::endl;
+		MyQueue.push(88);
+		std::cout << MyQueue.back() << std::endl;
+		MyQueue.push(44);
+		std::cout << MyQueue.back() << std::endl;
+		std::cout << MyQueue.size() << std::endl;
+		MyQueue.pop();
+		std::cout << MyQueue.size() << std::endl;
+		std::cout << MyQueue.back() << std::endl;
+		MyQueue.pop();
+		std::cout << MyQueue.size() << std::endl;
+	}
+	std::cout << std::endl;
+	{
+		ft::queue<int> MyQueue;
+		std::cout << MyQueue.empty() << std::endl;
+		MyQueue.push(88);
+		std::cout << MyQueue.front() << std::endl;
+		MyQueue.push(44);
+		std::cout << MyQueue.front() << std::endl;
+		std::cout << MyQueue.size() << std::endl;
+		MyQueue.pop();
+		std::cout << MyQueue.size() << std::endl;
+		std::cout << MyQueue.front() << std::endl;
+		MyQueue.pop();
+		std::cout << MyQueue.size() << std::endl;
+	}
+	{
+		ft::queue<int> MyQueue1;
+		ft::queue<int> MyQueue2;
+
+		MyQueue1.push(100);
+		MyQueue1.push(44);
+
+		MyQueue2.push(100);
+		MyQueue2.push(44);
+
+		if (MyQueue1 == MyQueue2)
+			std::cout << "MyQueue1 is equal to MyQueue2" << std::endl;
+		if (MyQueue1 < MyQueue2)
+			std::cout << "MyQueue1 is smaller than MyQueue2" << std::endl;
+		if (MyQueue1 <= MyQueue2)
+			std::cout << "MyQueue1 is smaller than or equal to MyQueue2" << std::endl;
+		if (MyQueue1 > MyQueue2)
+			std::cout << "MyQueue1 is larger than MyQueue2" << std::endl;
+		if (MyQueue1 >= MyQueue2)
+			std::cout << "MyQueue1 is larger than or equal to MyQueue2" << std::endl;
+	}
 }
 
 
@@ -46,7 +90,7 @@ int	main(int argc, char **argv) {
 		gettimeofday(&tv, NULL);
 		begintime = tv.tv_usec;
 	}
-	peer();
+	telly();
 
 	if (argc >= 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);

@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:46:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/10/19 15:57:46 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/19 18:37:39 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,8 +201,26 @@ void	operations_test2() {
 	std::cout << std::endl;
 }
 
+void	relational_operators() {
+	ft::list<int> myList;//(5, 42);
+	ft::list<int> otherList(6, 43);
+
+	if (myList == otherList)
+		std::cout << "mylist == otherlist" << std::endl;
+	if (myList != otherList)
+		std::cout << "mylist != otherlist" << std::endl;
+	if (myList < otherList)
+		std::cout << "mylist < otherlist" << std::endl;
+	if (myList > otherList)
+		std::cout << "mylist > otherlist" << std::endl;
+	if (myList <= otherList)
+		std::cout << "mylist <= otherlist" << std::endl;
+	if (myList >= otherList)
+		std::cout << "mylist >= otherlist" << std::endl;
+}
+
 void	stl_test() {
-	ft::list<int> stl;
+	std::list<int> stl;
 	ft::list<int> nonstl;
 	for (int i = 0; i < 10; i++)
 		stl.push_front(i * 3);
@@ -221,6 +239,7 @@ int main(int argc, char **argv) {
 	modifiers_test();
 	operations_test();
 	operations_test2();
+	relational_operators();
 	stl_test();
 	if (argc == 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
