@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/16 14:56:39 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/18 21:13:48 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/19 15:57:36 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,8 @@ void	peer() {
 	for (size_t i = 0; i < 10; i++)
 		mystack.push(i * 8);
 	std::cout << std::boolalpha << "mystack.empty( ) = " << mystack.empty() << std::endl;
-	// std::cout << std::boolalpha << "otherstack.empty( ) = " << otherstack.empty() << std::endl;
-	// std::cout << "first top: " << mystack.top() << std::endl;
+	std::cout << std::boolalpha << "otherstack.empty( ) = " << otherstack.empty() << std::endl;
+	std::cout << "first top: " << mystack.top() << std::endl;
 }
 
 
