@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:46:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/10/19 22:48:46 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/20 00:57:22 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,7 +202,7 @@ void	operations_test2() {
 }
 
 void	relational_operators() {
-	ft::list<std::string> myList;//(5, "hats");
+	ft::list<std::string> myList(5, "hats");
 	ft::list<std::string> otherList;//(6, "");
 
 	if (myList == otherList)
@@ -249,14 +249,14 @@ int main(int argc, char **argv) {
 		gettimeofday(&tv, NULL);
 		begintime = tv.tv_usec;
 	}
-	// constructors_test();
-	// iterators_test();
-	// capacity_test_element_access();
-	// modifiers_test();
-	// operations_test();
-	// operations_test2();
+	constructors_test();
+	iterators_test();
+	capacity_test_element_access();
+	modifiers_test();
+	operations_test();
+	operations_test2();
 	relational_operators();
-	// stl_test();
+	stl_test();
 	if (argc == 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
 		endtime = tv.tv_usec;
