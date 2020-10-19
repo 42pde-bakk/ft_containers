@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/10/19 18:37:19 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/19 22:48:05 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -444,13 +444,13 @@ bool operator<  (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
 	typename list<T, Alloc>::const_iterator rit = rhs.begin();
 
 	while (lit != lhs.end() && rit != rhs.end()) {
-		if (*lit != *rit) {
-			std::cerr << "*lit = " << *lit << ", *rit = " << *rit << std::endl;
-			return (*lit < *rit);
-		}
+		if (*lit != *rit)
+			break ;
 		++lit;
 		++rit;
 	}
+	if (lit == lhs.end() || rit == rhs.end())
+		return (lit == lhs.end());
 	return (*lit < *rit);
 }
 template <class T, class Alloc>

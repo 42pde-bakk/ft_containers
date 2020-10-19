@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/09 12:20:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/13 19:50:33 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/19 19:12:55 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,20 +155,20 @@ namespace ft {
 		~RevBidirectionalIterator() { }
 		RevBidirectionalIterator	operator++(int) {
 			RevBidirectionalIterator	out(*this);
-			this->ptr = this->ptr->prev;
+			this->ptr = this->ptr->getprevious();
 			return out;
 		}
 		RevBidirectionalIterator&	operator++() {
-			this->ptr = this->ptr->prev;
+			this->ptr = this->ptr->getprevious();
 			return *this;
 		}
 		RevBidirectionalIterator	operator--(int) {
 			RevBidirectionalIterator	out(*this);
-			this->ptr = this->ptr->next;
+			this->ptr = this->ptr->getnext();
 			return out;
 		}
 		RevBidirectionalIterator&	operator--() {
-			this->ptr = this->ptr->next;
+			this->ptr = this->ptr->getnext();
 			return *this;
 		}
 		reference	operator*() {

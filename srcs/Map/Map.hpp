@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/27 23:49:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/18 17:49:50 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/19 22:21:13 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,23 +164,17 @@ template < class Key, class T, class Compare = less<Key>, class Alloc = std::all
 						it = it->right;
 					else return std::make_pair(iterator(insert_right(it, val)), true);
 				}
-				else break;
+				else break ;
 			}
 			return std::make_pair(iterator(it), false);
 		}
 		iterator				insert(iterator position, const value_type& val,
 						typename enable_if<is_iterator<typename iterator::iterator_category>::value, iterator>::type * = 0) {
-			if (position.data < val.first) {
-				while (position.data < val.first)
-					--position;
-				return iterator(insert_left(position, val));
-			}
-			else if (position.data > val.first) {
-				while (position.data > val.first)
-					++position;
-				return iterator(insert_right(position, val));
-			}
-			return position;
+			printBT();
+			// fix this ffs
+			(void)position;
+			return insert(val).first;
+
 		}
 		template <class InputIterator>
 		void					insert(InputIterator first, InputIterator last, typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) {
@@ -388,8 +382,7 @@ template < class Key, class T, class Compare = less<Key>, class Alloc = std::all
 					delete this->_root;
 					this->link_outer();
 					return ;
-				}
-				
+				}		
 			}
 			mapnode	*insert_left(mapnode *it, const value_type& val = value_type()) {
 				mapnode *insert = new mapnode(val);
@@ -450,7 +443,7 @@ template <class Key, class T, class Compare, class Alloc>
 bool operator== (const ft::map<Key,T,Compare, Alloc>& lhs, const ft::map<Key,T,Compare, Alloc>& rhs) {
 	typename map<Key,T,Compare, Alloc>::const_iterator lit = lhs.begin();
 	typename map<Key,T,Compare, Alloc>::const_iterator rit = rhs.begin();
-	
+
 	if (lhs.size() != rhs.size())
 		return false;
 	while (lit != lhs.end() && rit != rhs.end()) {
@@ -469,27 +462,26 @@ template <class Key, class T, class Compare, class Alloc>
 bool operator<  (const map<Key,T,Compare, Alloc>& lhs, const map<Key,T,Compare, Alloc>& rhs) {
 	typename map<Key,T,Compare, Alloc>::const_iterator lit = lhs.begin();
 	typename map<Key,T,Compare, Alloc>::const_iterator rit = rhs.begin();
-	if (lhs.size() > rhs.size())
-		return false;
+
 	while (lit != lhs.end() && rit != rhs.end()) {
 		if (*lit != *rit)
-			return (lit < rit);
+			return (*lit < *rit);
 		++lit;
 		++rit;
 	}
-	return false;
-}
-template <class Key, class T, class Compare, class Alloc>
-bool operator<= (const map<Key,T,Compare, Alloc>& lhs, const map<Key,T,Compare, Alloc>& rhs) {
-	return !(lhs < rhs);
+	return (*lit < *rit);
 }
 template <class Key, class T, class Compare, class Alloc>
 bool operator>  (const map<Key,T,Compare, Alloc>& lhs, const map<Key,T,Compare, Alloc>& rhs) {
 	return (rhs < lhs);
 }
 template <class Key, class T, class Compare, class Alloc>
-bool operator>= (const map<Key,T,Compare, Alloc>& lhs, const map<Key,T,Compare, Alloc>& rhs) {
+bool operator<= (const map<Key,T,Compare, Alloc>& lhs, const map<Key,T,Compare, Alloc>& rhs) {
 	return !(lhs > rhs);
+}
+template <class Key, class T, class Compare, class Alloc>
+bool operator>= (const map<Key,T,Compare, Alloc>& lhs, const map<Key,T,Compare, Alloc>& rhs) {
+	return !(lhs < rhs);
 }
 template <class Key, class T, class Compare, class Alloc>
 void swap (map<Key,T,Compare, Alloc>& x, map<Key,T,Compare, Alloc>& y) {
