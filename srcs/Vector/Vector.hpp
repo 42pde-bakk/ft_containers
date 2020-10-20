@@ -15,16 +15,9 @@
 
 # include <memory>
 # include <cstddef>
-# include <climits>
 # include "../Iterators/RandomAccessIterator.hpp"
 # include "../Traits.hpp"
 # include "../Extra.hpp"
-
-# if defined(unix) || defined(__unix__) || defined(__unix)
-#  define PEER_MAX SSIZE_MAX
-# else
-#  define PEER_MAX SIZE_T_MAX
-# endif
 
 namespace ft {
 
@@ -44,27 +37,22 @@ namespace ft {
 		typedef ptrdiff_t								difference_type;
 		typedef size_t									size_type;
 
-		explicit vector (const allocator_type& alloc = allocator_type()) : _alloc(alloc) {
-			this->_array = 0;
-			this->_size = 0;
-			this->_capacity = 0;
+		explicit vector (const allocator_type& alloc = allocator_type()) : _array(0), _size(0), _capacity(0), _alloc(alloc) {
 		}
-		explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : _alloc(alloc) {
+		explicit vector (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : _size(n), _capacity(n), _alloc(alloc) {
 			this->_array = new value_type[n]();
-			this->_size = n;
 			for (size_type i = 0; i < n; i++)
 				this->_array[i] = val;
-			this->_capacity = n;
 		}
 		template <class InputIterator>
 		vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
-				typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) : _alloc(alloc) {
+				typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) : _array(0), _size(0), _capacity(0), _alloc(alloc) {
 			this->_capacity = ft::distance(first, last);
 			this->_size = _capacity;
 			this->_array = new value_type[this->_capacity];
 			this->assign(first, last);
 		}
-		vector (const vector& x) : _array(0), _alloc(x._alloc) {
+		vector (const vector& x) : _array(0), _size(0), _capacity(0), _alloc(x._alloc) {
 			*this = x;
 		}
 		vector&	operator=(const vector& x) {

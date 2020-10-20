@@ -29,7 +29,7 @@ size_t endtime;
 struct timeval	tv;
 
 template<typename T>
-void	print_container_content(ft::list<T>	&list, std::string name = "container") {
+void	print_container_content(ft::list<T>	&list, const std::string& name = "container") {
 	std::cout << name << " contains:";
 	for (ft::list<int>::iterator it = list.begin(); it != list.end(); it++)
 		std::cout << ' ' << *it;
@@ -280,7 +280,7 @@ int main(int argc, char **argv) {
 		endtime = tv.tv_usec;
 		std::cout << "Time elapsed in total! = " << endtime - begintime << " nanoseconds" << std::endl;
 	}
-	if (argc == 3 && strcmp(argv[2], "leaks") == 0 && !LINUX) {
+	if (argc == 3 && strcmp(argv[2], "leaks") == 0) {
 		int a = system("leaks containers.out | grep \"total leaked bytes\" >&2");
 		(void)a;
 	}

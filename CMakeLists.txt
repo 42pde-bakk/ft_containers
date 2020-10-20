@@ -18,9 +18,14 @@ add_executable(ft_containers
         srcs/Map/Map.hpp
         srcs/Map/MapNode.hpp
         srcs/Vector/Vector.hpp
+        srcs/Stack/Stack.hpp
+        srcs/Queue/Queue.hpp
         srcs/Extra.hpp
         srcs/Traits.hpp
         colors.h
-        list_main.cpp
-        map_main.cpp
-        vector_main.cpp)
+        tests/list_main.cpp
+        tests/vector_main.cpp
+        tests/map_main.cpp
+        tests/stack_main.cpp
+        tests/queue_main.cpp
+        )

@@ -13,12 +13,8 @@
 #ifndef BidirectionalIterator_HPP
 # define BidirectionalIterator_HPP
 
-# include <limits>
 # include <memory>
-# include <iostream>
 # include <cstddef>
-# include <cstring>
-# include "../Traits.hpp"
 
 namespace ft {
 
@@ -39,7 +35,8 @@ namespace ft {
 		BidirectionalIterator(const BidirectionalIterator& other) {
 			*this = other;
 		}
-		BidirectionalIterator&	operator=(const BidirectionalIterator& other) {
+
+		virtual BidirectionalIterator&	operator=(const BidirectionalIterator& other) {
 			if (this != &other)
 				this->ptr = other.ptr;
 			return *this;
@@ -64,9 +61,11 @@ namespace ft {
 			this->ptr = ptr->getprevious();
 			return *this;
 		}
+
 		reference	operator*() {
 			return this->ptr->data;
 		}
+
 		pointer		operator->() {
 			return (&(this->ptr->data));
 		}
@@ -147,7 +146,8 @@ namespace ft {
 		RevBidirectionalIterator(const RevBidirectionalIterator& other) {
 			*this = other;
 		}
-		RevBidirectionalIterator&	operator=(const RevBidirectionalIterator& other) {
+
+		virtual RevBidirectionalIterator&	operator=(const RevBidirectionalIterator& other) {
 			if (this != &other)
 				this->ptr = other.ptr;
 			return *this;
@@ -171,9 +171,11 @@ namespace ft {
 			this->ptr = this->ptr->getnext();
 			return *this;
 		}
+
 		reference	operator*() {
 			return this->ptr->data;
 		}
+
 		pointer		operator->() {
 			return (&(this->ptr->data));
 		}

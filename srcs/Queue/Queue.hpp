@@ -14,8 +14,6 @@
 # define QUEUE_HPP
 
 # include "../List/List.hpp"
-# include "../Extra.hpp"
-# include "../Traits.hpp"
 
 namespace ft {
 	

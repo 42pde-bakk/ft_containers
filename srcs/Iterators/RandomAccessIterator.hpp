@@ -13,12 +13,8 @@
 #ifndef RANDOMACCESSITERATOR_HPP
 # define RANDOMACCESSITERATOR_HPP
 
-# include <limits>
 # include <memory>
-# include <iostream>
 # include <cstddef>
-# include <cstring>
-# include "../Traits.hpp"
 
 namespace ft {
 
@@ -40,7 +36,8 @@ namespace ft {
 		RandomAccessIterator(const RandomAccessIterator& other) {
 			*this = other;
 		}
-		RandomAccessIterator&	operator=(const RandomAccessIterator& other) {
+
+		virtual RandomAccessIterator&	operator=(const RandomAccessIterator& other) {
 			this->array = other.array;
 			return *this;
 		}
@@ -182,7 +179,8 @@ namespace ft {
 		RevRandomAccessIterator(const RevRandomAccessIterator& other) {
 			*this = other;
 		}
-		RevRandomAccessIterator&	operator=(const RevRandomAccessIterator& other) {
+
+		virtual RevRandomAccessIterator&	operator=(const RevRandomAccessIterator& other) {
 			if (this != &other)
 				this->array = other.array;
 			return *this;

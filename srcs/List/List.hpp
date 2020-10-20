@@ -15,10 +15,7 @@
 
 # include <limits>
 # include <memory>
-# include <iostream>
 # include <cstddef>
-# include <cstring>
-# include <climits>
 # include "ListNode.hpp"
 # include "../Iterators/BidirectionalIterator.hpp"
 # include "../Traits.hpp"
@@ -44,47 +41,42 @@ namespace ft {
 		typedef ConstRevBidirectionalIterator<value_type, node_pointer>	const_reverse_iterator;
 	private:
 		node_pointer		head;
-		node_pointer 		firstelem;
 		node_pointer 		tail;
 		allocator_type		alloc;
 		size_type			length;
 	public:
 
 	/* Constructors, destructor and operator= */
-		explicit list(const allocator_type& alloc = allocator_type()) : alloc(alloc) /* Default constructor */
+		explicit list(const allocator_type& alloc = allocator_type()) : alloc(alloc), length(0) /* Default constructor */
 		{
 			this->head = new node<T>();
 			this->tail = new node<T>();
 			this->head->next = this->tail;
 			this->tail->prev = this->head;
-			this->length = 0;
 		}
-		explicit list (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : alloc(alloc)
+		explicit list (size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type()) : alloc(alloc), length(0)
 		{
 			this->head = new node<T>();
 			this->tail = new node<T>();
 			this->head->next = this->tail;
 			this->tail->prev = this->head;
-			this->length = 0;
 			this->assign(n, val);
 		}
 		template <class InputIterator>
 		list (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), 
 				typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0)
-				: alloc(alloc) {
+				: alloc(alloc), length(0) {
 			this->head = new node<T>();
 			this->tail = new node<T>();
 			this->head->next = this->tail;
 			this->tail->prev = this->head;
-			this->length = 0;
 			this->assign(first, last);
 		}
-		list (const list& x) {
+		list (const list& x) : alloc(x.alloc), length(0) {
 			this->head = new node<T>();
 			this->tail = new node<T>();
 			this->head->next = this->tail;
 			this->tail->prev = this->head;
-			this->length = 0;
 			this->assign(x.begin(), x.end());
 		}
 		list&	operator=(const list& x) {

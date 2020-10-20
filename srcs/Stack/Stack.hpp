@@ -14,8 +14,6 @@
 # define STACK_HPP
 
 # include "../Vector/Vector.hpp"
-# include "../Extra.hpp"
-# include "../Traits.hpp"
 
 namespace ft {
 	
