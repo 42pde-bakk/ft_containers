@@ -6,12 +6,12 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:46:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/10/20 00:57:22 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/20 14:32:16 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../srcs/List/List.hpp"
 #include <iostream>
-#include "srcs/List/List.hpp"
 #include <list>
 #include <string>
 #include <cstdlib>

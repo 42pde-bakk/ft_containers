@@ -6,11 +6,11 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 21:10:23 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/19 21:05:39 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/20 14:32:13 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "srcs/Map/Map.hpp"
+#include "../srcs/Map/Map.hpp"
 #include <map>
 #include <string>
 #include <iostream>
@@ -400,8 +400,8 @@ int	main(int argc, char **argv) {
 	// modifiers();
 	// observers();
 	// operations();
-	// tellyinspired();
-	telly();
+	tellyinspired();
+	// telly();
 	if (argc >= 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
 		endtime = tv.tv_usec;

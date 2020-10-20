@@ -6,7 +6,7 @@
 #    By: peerdb <peerdb@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/09/09 16:47:13 by peerdb        #+#    #+#                  #
-#    Updated: 2020/10/19 18:12:47 by pde-bakk      ########   odam.nl          #
+#    Updated: 2020/10/20 14:20:50 by pde-bakk      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ function test {
 	done
 	make fuckingclean
 
-	sed "s/ft::/std::/g" $1_main.cpp > $1_stdmain.cpp
+	sed "s/ft::/std::/g" tests/$1_main.cpp > tests/$1_stdmain.cpp
 
 	make $1 $C $D STD=1 && ./containers.out $TIME $LEAKS > std.txt #2>&1
 	STATUS_STD=$?
@@ -63,10 +63,10 @@ function test {
 	fi	
 }
 
-if [[ $OSTYPE == *"linux"* ]]; then
+if [[ $OSTYPE == *"linux"* || $2 == "workflow" ]]; then
 	ECHOARG='-e'
-# else
-# 	ECHOARG=''
+else
+	ECHOARG=''
 fi
 
 declare -a arr=("list" "vector" "map" "stack" "queue")

@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/10/20 12:09:27 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/20 14:31:14 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -421,7 +421,7 @@ namespace ft {
 /* Relational operators (list) */
 template <class T, class Alloc>
 bool operator== (const ft::list<T,Alloc>& lhs, const ft::list<T,Alloc>& rhs) {
-	return (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+	return (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 }
 
 template <class T, class Alloc>

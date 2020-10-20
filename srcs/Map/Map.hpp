@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/27 23:49:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/20 12:09:15 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/20 14:31:39 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -441,7 +441,7 @@ template < class Key, class T, class Compare = less<Key>, class Alloc = std::all
 /* Relational operators (map) */
 template <class Key, class T, class Compare, class Alloc>
 bool operator== (const ft::map<Key,T,Compare, Alloc>& lhs, const ft::map<Key,T,Compare, Alloc>& rhs) {
-	return (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
+	return (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 }
 
 template <class Key, class T, class Compare, class Alloc>
