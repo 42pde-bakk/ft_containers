@@ -6,7 +6,7 @@
 #    By: Peer <pde-bakk@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/25 17:28:30 by pde-bakk      #+#    #+#                  #
-#    Updated: 2020/10/20 12:49:27 by pde-bakk      ########   odam.nl          #
+#    Updated: 2020/10/20 15:04:27 by pde-bakk      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ ifdef STD
 endif
 
 list vector map stack queue: fclean
-	$(CXX) $(CXXFLAGS) $(TESTDIR)/$@_$(FILES) -Isrcs/ -o $(NAME)
+	$(CXX) $(CXXFLAGS) $(TESTDIR)/$@_$(FILES) -Isrcs/$@ -o $(NAME)
 	
 clean:
 

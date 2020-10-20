@@ -6,11 +6,11 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/16 14:56:39 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/20 14:32:06 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/20 15:04:56 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../srcs/Stack/Stack.hpp"
+#include "Stack.hpp"
 #include <cstring>
 #include <stack>
 #include <cstdlib>

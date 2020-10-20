@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/09 12:20:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/19 19:12:55 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/20 14:40:10 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ namespace ft {
 				this->ptr = other.ptr;
 			return *this;
 		}
-		~BidirectionalIterator() {}
+		virtual ~BidirectionalIterator() {}
 
 		BidirectionalIterator	operator++(int) {
 			BidirectionalIterator	out(*this);
@@ -119,7 +119,7 @@ namespace ft {
 			this->ptr = other.getptr();
 			return *this;
 		}
-		~ConstBidirectionalIterator() { }
+		virtual ~ConstBidirectionalIterator() { }
 
 		const_reference	operator*() {
 			return (this->ptr->data);
@@ -152,7 +152,7 @@ namespace ft {
 				this->ptr = other.ptr;
 			return *this;
 		}
-		~RevBidirectionalIterator() { }
+		virtual ~RevBidirectionalIterator() { }
 		RevBidirectionalIterator	operator++(int) {
 			RevBidirectionalIterator	out(*this);
 			this->ptr = this->ptr->getprevious();
@@ -226,7 +226,7 @@ namespace ft {
 			this->ptr = other.getptr();
 			return *this;
 		}
-		~ConstRevBidirectionalIterator() { }
+		virtual ~ConstRevBidirectionalIterator() { }
 
 		const_reference	operator*() {
 			return (this->ptr->data);

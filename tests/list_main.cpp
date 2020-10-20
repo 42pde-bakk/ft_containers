@@ -6,11 +6,12 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:46:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/10/20 14:32:16 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/20 14:58:53 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../srcs/List/List.hpp"
+// #include "../srcs/List/List.hpp"
+#include "List.hpp"
 #include <iostream>
 #include <list>
 #include <string>
@@ -235,6 +236,22 @@ void	relational_operators() {
 		std::cout << "NOT\tmylist <= otherlist" << std::endl;
 }
 
+void	sam() {
+   ft::list<int> first (3,100);   // three ints with a value of 100
+   ft::list<int> second (5,200);  // five ints with a value of 200
+   first.swap(second);
+   std::cout << "first contains:";
+   for (ft::list<int>::iterator it=first.begin(); it!=first.end(); it++) {
+		*it = *it + 3;
+      std::cout << ' ' << *it;
+   }
+   std::cout << '\n';
+   std::cout << "second contains:";
+   for (ft::list<int>::iterator it=second.begin(); it!=second.end(); it++)
+      std::cout << ' ' << *it;
+   std::cout << '\n';
+}
+
 void	stl_test() {
 	std::list<int> stl;
 	ft::list<int> nonstl;
@@ -249,14 +266,15 @@ int main(int argc, char **argv) {
 		gettimeofday(&tv, NULL);
 		begintime = tv.tv_usec;
 	}
-	constructors_test();
-	iterators_test();
-	capacity_test_element_access();
-	modifiers_test();
-	operations_test();
-	operations_test2();
-	relational_operators();
-	stl_test();
+	// constructors_test();
+	// iterators_test();
+	// capacity_test_element_access();
+	// modifiers_test();
+	// operations_test();
+	// operations_test2();
+	// relational_operators();
+	// stl_test();
+	sam();
 	if (argc == 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
 		endtime = tv.tv_usec;
