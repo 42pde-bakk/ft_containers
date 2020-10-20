@@ -20,6 +20,8 @@
 # include "../Iterators/BidirectionalIterator.hpp"
 # include "../Traits.hpp"
 # include "../Extra.hpp"
+# include "../Colours.h"
+# include <unistd.h>
 
 namespace ft {
 
@@ -169,16 +171,17 @@ template < class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		}
 		iterator				insert(iterator position, const value_type& val,
 						typename enable_if<is_iterator<typename iterator::iterator_category>::value, iterator>::type * = 0) {
-			printBT();
 			// fix this ffs
 			(void)position;
 			return insert(val).first;
-
 		}
 		template <class InputIterator>
 		void					insert(InputIterator first, InputIterator last, typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) {
+			std::cerr << "*last points to " << last->first << std::endl;
 			while (first != last) {
 				insert(*first);
+				std::cerr << "just inserted " << first->first << std::endl;
+//				sleep(2);
 				++first;
 			}
 		}
@@ -259,9 +262,13 @@ template < class Key, class T, class Compare = less<Key>, class Alloc = std::all
 			}
 		}
 		void		swap(map& x) {
+			std::cerr << "0" << std::endl;
 			map tmp(x);
+			std::cerr << "1" << std::endl;
 			x = *this;
+			std::cerr << "2" << std::endl;
 			*this = tmp;
+			std::cerr << "3" << std::endl;
 		}
 		void		clear() {
 			if (!this->empty()) {
@@ -356,7 +363,11 @@ template < class Key, class T, class Compare = less<Key>, class Alloc = std::all
 					std::cerr << prefix;
 					std::cerr << (isLeft ? "├──" : "└──" );
 					// print the value of the node
-					std::cerr << trav->data.first << std::endl;
+					if (trav->colour == RED)
+						std::cerr << _RED;
+					else if (trav->colour == BLACK)
+						std::cerr << _IWHITE << _GREY;
+					std::cerr << trav->data.first << _END << std::endl ;
 					// enter the next tree level - left and right branch
 					printBT( prefix + (isLeft ? "│   " : "    "), trav->left, true);
 					printBT( prefix + (isLeft ? "│   " : "    "), trav->right, false);
@@ -369,7 +380,7 @@ template < class Key, class T, class Compare = less<Key>, class Alloc = std::all
 				this->_size = 0;
 			}
 			mapnode	*insert_root(const value_type& val) {
-				this->_root = new mapnode(val);
+				this->_root = new mapnode(val, BLACK);
 				++this->_size;
 				_first->parent = _last->parent = this->_root;
 				this->_root->left = _first;
@@ -391,6 +402,7 @@ template < class Key, class T, class Compare = less<Key>, class Alloc = std::all
 					it->left->parent = insert;
 				it->left = insert;
 				++this->_size;
+				fixRedBlackViolations(insert);
 				return insert;
 			}
 			mapnode	*insert_right(mapnode *it, const value_type& val = value_type()) {
@@ -401,6 +413,7 @@ template < class Key, class T, class Compare = less<Key>, class Alloc = std::all
 					it->right->parent = insert;
 				it->right = insert;
 				++this->_size;
+				fixRedBlackViolations(insert);
 				return insert;
 			}
 			void	clear(mapnode *pos) {
@@ -428,6 +441,131 @@ template < class Key, class T, class Compare = less<Key>, class Alloc = std::all
 				}
 				return this->_last;
 			}
+			void	print_node(mapnode *n) {
+				std::cerr << _CYAN;
+				if (!n) {
+					std::cerr << "n is null" << std::endl << _END;
+					return ;
+				}
+				Key k = n->data.first;
+				std::cerr << "n->first: " << k;
+				if (n->parent)
+					std::cerr << ", " << k << "'s parent: " << n->parent->data.first;
+				if (n->left)
+					std::cerr << ", " << k << "'s left: " << n->left->data.first;
+				if (n->right)
+					std::cerr << ", " << k << "'s right: " << n->right->data.first;
+				std::cerr << _END << std::endl;
+			}
+			void	left_rotation(mapnode *x) {
+//				std::cerr << _GREEN << "printing BT before left rotation" << std::endl << _END;
+//				printBT();
+				mapnode *y = x->right; // 7
+				x->right = y->left; // 6
+//				print_node(x);
+//				print_node(y);
+//				std::cerr << _PURPLE << "------" << std::endl << _END;
+				if (x->right) // 6
+					x->right->parent = x; // 5
+				y->parent = x->parent;
+				if (y->parent == 0) // x was root, now y is root
+					this->_root = y;
+				else if (x == y->parent->left) // x was left child
+					y->parent->left = y;
+				else // x was right child
+					y->parent->right = y;
+				y->left = x;
+				x->parent = y;
+//			std::cerr << _GREEN << "printing BT after left rotation" << std::endl << _END;
+//			printBT();
+		}
+		void	right_rotation(mapnode *x) {
+//			std::cerr << _PURPLE << "right_rotation." << std::endl << _END;
+//			std::cerr << _GREEN << "printing BT before right rotation" << std::endl << _END;
+//			printBT();
+			mapnode *y = x->left;
+			x->left = y->right;
+//				print_node(x);
+//				print_node(y);
+//				std::cerr << _PURPLE << "------" << std::endl << _END;
+			if (x->left)
+				x->left->parent = x;
+			y->parent = x->parent;
+			if (y->parent == 0) // x was root, now y is root
+				this->_root = y;
+			else if (x == y->parent->left) // x was left child
+				y->parent->left = y;
+			else // x was right child
+				y->parent->right = y;
+			y->right = x;
+			x->parent = y;
+//			std::cerr << _GREEN << "printing BT after right rotation" << std::endl << _END;
+//			printBT();
+		}
+		bool	is_validnode(mapnode *check) {
+			return (check && check != this->_first && check != this->_last);
+		}
+		void	fixRedBlackViolations(mapnode *z) {
+			while (z != this->_root && z->colour == RED && z->parent->colour == RED) {
+				mapnode *parent = z->parent;
+				mapnode *grandpa = parent->parent;
+
+				// Case A
+				// Parent is left child of grandpa
+				if (parent == grandpa->left) { // Case 1: uncle is red, recolour
+//					std::cerr << _RED << _BOLD << "Case A-1" << std::endl << _END;
+					mapnode *uncle = grandpa->right;
+					if (is_validnode(uncle) && uncle->colour == RED) {
+						grandpa->colour = RED;
+						parent->colour = BLACK;
+						uncle->colour = BLACK;
+						z = grandpa;
+					}
+					else {
+						if (z == parent->right) { // Case 2: node is right child of parent, left-rotation required
+//							std::cerr << _RED << _BOLD << "Case A-2 ==> left_rotation on " << parent->data.first << std::endl << _END;
+							left_rotation(parent);
+							z = parent;
+							parent = z->parent;
+						}
+						else { // Case 3: node is left child of parent, right rotation required
+//							std::cerr << _RED << _BOLD << "Case A-3 ==> right_rotation on " << grandpa->data.first << std::endl << _END;
+							right_rotation(grandpa);
+							ft::itemswap(parent->colour, grandpa->colour);
+						}
+					}
+				}
+				// Case B
+				// Parent is right child of grandparent
+				else if (parent == grandpa->right) {
+					mapnode *uncle = grandpa->left;
+
+					if (is_validnode(uncle) && uncle->colour == RED) { // Case 1: uncle is red, recolour
+//						std::cerr << _RED << _BOLD << "Case B-1" << std::endl << _END;
+						grandpa->colour = RED;
+						parent->colour = BLACK;
+						uncle->colour = BLACK;
+						z = grandpa;
+					}
+					else {
+						if (z == parent->left) { // Case 2: node is left child of parent, right-rotation required
+//							std::cerr << _RED << _BOLD << "Case B-2 ==> right rotation on " << parent->data.first << std::endl << _END;
+							right_rotation(parent);
+							z = parent;
+							parent = z->parent;
+						}
+						else {
+//							std::cerr << _RED << _BOLD << "Case B-3 ==> left rotation on " << grandpa->data.first << std::endl << _END;
+							left_rotation(grandpa);
+							ft::itemswap(parent->colour, grandpa->colour);
+							z = parent;
+						}
+					}
+				}
+				this->_root->colour = BLACK;
+			}
+		}
+
 		mapnode			*_root;
         mapnode			*_first;
         mapnode			*_last;

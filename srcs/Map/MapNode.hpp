@@ -13,7 +13,15 @@
 #ifndef MAPNODE_HPP
 # define MAPNODE_HPP
 
+# include "../Colours.h"
+
 namespace ft {
+
+	enum Col {
+		BLACK,
+		RED
+	};
+
 	template <typename T, class C>
 	class node {
 	public:
@@ -28,9 +36,10 @@ namespace ft {
 		node		*parent;
 		node		*left;
 		node 	    *right;
+		Col			colour;
 
-		explicit node(value_type const& val = value_type()) : data(val), parent(0), left(0), right(0) { }
-		node(const node& x) : data(x.data), parent(x.parent), left(x.left), right(x.right) {
+		explicit node(value_type const& val = value_type(), Col kleur = RED) : data(val), parent(0), left(0), right(0), colour(kleur) { }
+		node(const node& x) : data(x.data), parent(x.parent), left(x.left), right(x.right), colour(RED) {
 		}
 		~node() {}
 		node&	operator=(const node& x) {
@@ -39,6 +48,7 @@ namespace ft {
 				this->parent = x.parent;
 				this->left = x.left;
 				this->right = x.right;
+				this->colour = x.colour;
 			}
 			return *this;
 		}
@@ -61,6 +71,7 @@ namespace ft {
         	return (this->data >= other.data);
         }
 		node*   getnext() {
+//			std::cerr << "getnext gets called " << std::endl;
         	node* it(this);
 
         	if (it->right) {
@@ -68,13 +79,20 @@ namespace ft {
         		while (it->left)
         			it = it->left;
         	}
-        	else
-				while (it->data <= this->data)
-        			it = it->parent;
+        	else {
+        		node *tmp = it;
+        		it = it->parent;
+				while (it->left != tmp) { //it->data <= this->data)
+					tmp = it;
+					it = it->parent;
+				}
+        	}
         	return (it);
         }
         node*   getprevious() {
 			setreferencenodes();
+			if (this == this->first_node || this == this->last_node)
+				return this->parent;
 	        node* it(this);
 
 	        if (it->left) {
@@ -83,7 +101,8 @@ namespace ft {
 			        it = it->right;
 	        }
 	        else
-				it = it->parent;
+	        	while (it->data >= this->data)
+	        		it = it->parent;
 	        return (it);
         }
 	private:

@@ -161,14 +161,19 @@ void	modifiers() {
 	mymap.insert(std::make_pair(12, "twaalf"));
 	mymap.insert(std::make_pair(12, "twaalf"));
 	// mymap.printBT();
-	mymap.erase(8);
-	mymap.erase(13);
-	mymap.erase(mymap.find(4));
-	mymap.erase(7);
+//	mymap.erase(8);
+//	mymap.erase(13);
+//	mymap.erase(mymap.find(4));
+//	mymap.erase(7);
 	ft::map<int, std::string> emptymap;
-	emptymap.swap(mymap);
-	print_container_content(mymap);
-	print_container_content(emptymap);
+	for (ft::map<int, std::string>::iterator it = mymap.begin(); it != mymap.end(); it++) {
+		std::cout << "it: " << it->first << " ==> " << it->second << std::endl;
+	}
+//	std::cout << "wtf" << std::endl;
+//	emptymap.swap(mymap);
+//	std::cout << "wtf" << std::endl;
+//	print_container_content(mymap);
+//	print_container_content(emptymap);
 }
 
 void	operations() {
@@ -208,34 +213,59 @@ void	observers() {
 }
 
 void	tellyinspired() {
+	ft::map<int, int>::iterator it;
 	ft::map<int, int> mymap;
 	mymap[18] = 87;
 	mymap[30] = 67;
 	mymap[22] = 6;
-	ft::map<int, int>::iterator it = mymap.end()--;
-	std::cout << "it: " << it->first << " ==> " << it->second << std::endl;
+	mymap[17] = 238;
+	mymap[15] = 8;
+//	it = mymap.end();
+//	it--;
+//	mymap.printBT();
+	std::cerr << std::endl;
+//	std::cout << "it: " << it->first << " ==> " << it->second << std::endl;
+
+	ft::map<int, int> stdmap;
+	stdmap[14] = 14;
+	stdmap[13] = 13;
+	stdmap[10] = 10;
+	stdmap[8] = 8;
+	stdmap[3] = 3;
+	stdmap[2] = 2;
+	stdmap[6] = 6;
+	stdmap[4] = 4;
+	stdmap[7] = 7;
+//	stdmap.printBT();
+	for (size_t i = 0; i < 1000000; i++)
+		stdmap[i] = i * i;
+
+//	it = stdmap.find(13);
+//	std::cout << "*it = " << it->first << " =>> " << it->second << std::endl;
+//	it--;
+//	std::cout << "*it-- = " << it->first << " =>> " << it->second << std::endl;
 }
 
 void	telly() {
 	std::cout << std::endl;
-	// {
-	// 	ft::map<int, int> MyMap;
-	// 	MyMap.insert(std::make_pair(10, 353));
-	// 	MyMap.insert(std::make_pair(100, 4543));
-	// 	MyMap.insert(std::make_pair(1000, 34534));
-	// 	for (ft::map<int, int>::iterator it = MyMap.begin(); it != MyMap.end(); it++)
-	// 		std::cout << it->first << " => " << it->second << std::endl;
-	// }
-	// std::cout << std::endl;
-	// {
-	// 	ft::map<int, int> Range;
-	// 	Range.insert(std::make_pair(10, 99));
-	// 	Range.insert(std::make_pair(100, 999));
-	// 	Range.insert(std::make_pair(1000, 9999));
-	// 	ft::map<int, int> MyMap(Range.begin(), Range.end());
-	// 	for (ft::map<int, int>::iterator it = MyMap.begin(); it != MyMap.end(); it++)
-	// 		std::cout << it->first << " => " << it->second << std::endl;
-	// }	
+	 {
+	 	ft::map<int, int> MyMap;
+	 	MyMap.insert(std::make_pair(10, 353));
+	 	MyMap.insert(std::make_pair(100, 4543));
+	 	MyMap.insert(std::make_pair(1000, 34534));
+	 	for (ft::map<int, int>::iterator it = MyMap.begin(); it != MyMap.end(); it++)
+	 		std::cout << it->first << " => " << it->second << std::endl;
+	 }
+	 std::cout << std::endl;
+	 {
+	 	ft::map<int, int> Range;
+	 	Range.insert(std::make_pair(10, 99));
+	 	Range.insert(std::make_pair(100, 999));
+	 	Range.insert(std::make_pair(1000, 9999));
+	 	ft::map<int, int> MyMap(Range.begin(), Range.end());
+	 	for (ft::map<int, int>::iterator it = MyMap.begin(); it != MyMap.end(); it++)
+	 		std::cout << it->first << " => " << it->second << std::endl;
+	 }
 	std::cout << std::endl;
 	{
 		ft::map<int, int> Range;
@@ -253,139 +283,139 @@ void	telly() {
 			std::cout << "for:\t" << it->first << " => " << it->second << std::endl;
 	}
 	std::cout << std::endl;
-	// {
-	// 	ft::map<int, int> MyMap;
-	// 	MyMap.insert(std::make_pair(1, 80));
-	// 	MyMap.insert(std::make_pair(-10, 57758));
-	// 	MyMap.insert(std::make_pair(89, 34));
-	// 	ft::map<int, int>::iterator result = MyMap.find(89);
-	// 	std::cout << result->first << " => " << result->second << std::endl;
-	// }
-	// std::cout << std::endl;
-	// {
-	// 	ft::map<int, int> MyMap;
-	// 	MyMap.insert(std::make_pair(1, 80));
-	// 	MyMap.insert(std::make_pair(-10, 57758));
-	// 	MyMap.insert(std::make_pair(89, 34));
-	// 	std::cout << (MyMap.lower_bound(2))->first << std::endl;
-	// }
-	// std::cout << std::endl;
-	// {
-	// 	ft::map<int, int> MyMap;
-	// 	MyMap.insert(std::make_pair(1, 80));
-	// 	MyMap.insert(std::make_pair(-10, 57758));
-	// 	MyMap.insert(std::make_pair(89, 34));
-	// 	std::cout << (MyMap.lower_bound(88))->first << std::endl;
-	// }
-	// std::cout << std::endl;
-	// {
-	// 	ft::map<int, int> MyMap;
-	// 	MyMap.insert(std::make_pair(1, 80));
-	// 	MyMap.insert(std::make_pair(-10, 57758));
-	// 	MyMap.insert(std::make_pair(89, 34));
-	// 	std::cout << (MyMap.equal_range(-5)).first->first << " --- " << (MyMap.equal_range(2)).second->first << std::endl;
-	// }
-	// std::cout << std::endl;
-	// {
-	// 	ft::map<int, int> MyMap;
-	// 	MyMap.insert(std::make_pair(1, 80));
-	// 	MyMap.insert(std::make_pair(10, 57758));
-	// 	MyMap.insert(std::make_pair(100, 34));
-	// 	std::cout << MyMap[10] << std::endl;
-	// 	for (ft::map<int, int>::iterator it = MyMap.begin(); it != MyMap.end(); it++)
-	// 		std::cout << it->first << " => " << it->second << std::endl;
-	// }
-	// std::cout << std::endl;
-	// {
-	// 	ft::map<int, int> MyMap;
-	// 	MyMap.insert(std::make_pair(1, 80));
-	// 	MyMap.insert(std::make_pair(10, 57758));
-	// 	MyMap.insert(std::make_pair(100, 34));
-	// 	MyMap[10] = 99;
-	// 	for (ft::map<int, int>::iterator it = MyMap.begin(); it != MyMap.end(); it++)
-	// 		std::cout << it->first << " => " << it->second << std::endl;
-	// }
-	// std::cout << std::endl;
-	// {
-	// 	ft::map<int, int> MyMap;
-	// 	MyMap.insert(std::make_pair(1, 80));
-	// 	MyMap.insert(std::make_pair(10, 57758));
-	// 	MyMap.insert(std::make_pair(100, 34));
-	// 	MyMap[1000] = 99;
-	// 	for (ft::map<int, int>::iterator it = MyMap.begin(); it != MyMap.end(); it++)
-	// 		std::cout << it->first << " => " << it->second << std::endl;
-	// }
+	 {
+	 	ft::map<int, int> MyMap;
+	 	MyMap.insert(std::make_pair(1, 80));
+	 	MyMap.insert(std::make_pair(-10, 57758));
+	 	MyMap.insert(std::make_pair(89, 34));
+	 	ft::map<int, int>::iterator result = MyMap.find(89);
+	 	std::cout << result->first << " => " << result->second << std::endl;
+	 }
+	 std::cout << std::endl;
+	 {
+	 	ft::map<int, int> MyMap;
+	 	MyMap.insert(std::make_pair(1, 80));
+	 	MyMap.insert(std::make_pair(-10, 57758));
+	 	MyMap.insert(std::make_pair(89, 34));
+	 	std::cout << (MyMap.lower_bound(2))->first << std::endl;
+	 }
+	 std::cout << std::endl;
+	 {
+	 	ft::map<int, int> MyMap;
+	 	MyMap.insert(std::make_pair(1, 80));
+	 	MyMap.insert(std::make_pair(-10, 57758));
+	 	MyMap.insert(std::make_pair(89, 34));
+	 	std::cout << (MyMap.lower_bound(88))->first << std::endl;
+	 }
+	 std::cout << std::endl;
+	 {
+	 	ft::map<int, int> MyMap;
+	 	MyMap.insert(std::make_pair(1, 80));
+	 	MyMap.insert(std::make_pair(-10, 57758));
+	 	MyMap.insert(std::make_pair(89, 34));
+	 	std::cout << (MyMap.equal_range(-5)).first->first << " --- " << (MyMap.equal_range(2)).second->first << std::endl;
+	 }
+	 std::cout << std::endl;
+	 {
+	 	ft::map<int, int> MyMap;
+	 	MyMap.insert(std::make_pair(1, 80));
+	 	MyMap.insert(std::make_pair(10, 57758));
+	 	MyMap.insert(std::make_pair(100, 34));
+	 	std::cout << MyMap[10] << std::endl;
+	 	for (ft::map<int, int>::iterator it = MyMap.begin(); it != MyMap.end(); it++)
+	 		std::cout << it->first << " => " << it->second << std::endl;
+	 }
+	 std::cout << std::endl;
+	 {
+	 	ft::map<int, int> MyMap;
+	 	MyMap.insert(std::make_pair(1, 80));
+	 	MyMap.insert(std::make_pair(10, 57758));
+	 	MyMap.insert(std::make_pair(100, 34));
+	 	MyMap[10] = 99;
+	 	for (ft::map<int, int>::iterator it = MyMap.begin(); it != MyMap.end(); it++)
+	 		std::cout << it->first << " => " << it->second << std::endl;
+	 }
+	 std::cout << std::endl;
+	 {
+	 	ft::map<int, int> MyMap;
+	 	MyMap.insert(std::make_pair(1, 80));
+	 	MyMap.insert(std::make_pair(10, 57758));
+	 	MyMap.insert(std::make_pair(100, 34));
+	 	MyMap[1000] = 99;
+	 	for (ft::map<int, int>::iterator it = MyMap.begin(); it != MyMap.end(); it++)
+	 		std::cout << it->first << " => " << it->second << std::endl;
+	 }
 	
-	// std::cout << std::endl;
-	// {
-	// 	ft::map<int, int> MyMap; 
-	// 	MyMap.insert(std::make_pair(1, 80));
-	// 	MyMap.erase(MyMap.begin());
-	// }
-	// std::cout << std::endl;
-	// {
-	// 	ft::map<int, int> MyMap; 
-	// 	MyMap.insert(std::make_pair(1, 80));
-	// 	MyMap.insert(std::make_pair(10, 57758));
-	// 	MyMap.insert(std::make_pair(100, 34));
-	// 	MyMap.erase(MyMap.begin());
-	// 	for (ft::map<int, int>::iterator it = MyMap.begin(); it != MyMap.end(); it++)
-	// 		std::cout << it->first << " => " << it->second << std::endl;
-	// }
-	// std::cout << std::endl;
-	// {
-	// 	ft::map<int, int> MyMap; 
-	// 	MyMap.insert(std::make_pair(10, 57758));
-	// 	MyMap.insert(std::make_pair(1, 80));
-	// 	MyMap.insert(std::make_pair(100, 34));
-	// 	MyMap.erase(10);
-	// 	for (ft::map<int, int>::iterator it = MyMap.begin(); it != MyMap.end(); it++)
-	// 		std::cout << it->first << " => " << it->second << std::endl;
-	// }
-	// {
-	// 	ft::map<int, int> MyMap1; 
-	// 	MyMap1.insert(std::make_pair(10, 57758));
-	// 	MyMap1.insert(std::make_pair(1, 80));
-	// 	MyMap1.insert(std::make_pair(100, 34));
+	 std::cout << std::endl;
+	 {
+	 	ft::map<int, int> MyMap;
+	 	MyMap.insert(std::make_pair(1, 80));
+	 	MyMap.erase(MyMap.begin());
+	 }
+	 std::cout << std::endl;
+	 {
+	 	ft::map<int, int> MyMap;
+	 	MyMap.insert(std::make_pair(1, 80));
+	 	MyMap.insert(std::make_pair(10, 57758));
+	 	MyMap.insert(std::make_pair(100, 34));
+	 	MyMap.erase(MyMap.begin());
+	 	for (ft::map<int, int>::iterator it = MyMap.begin(); it != MyMap.end(); it++)
+	 		std::cout << it->first << " => " << it->second << std::endl;
+	 }
+	 std::cout << std::endl;
+	 {
+	 	ft::map<int, int> MyMap;
+	 	MyMap.insert(std::make_pair(10, 57758));
+	 	MyMap.insert(std::make_pair(1, 80));
+	 	MyMap.insert(std::make_pair(100, 34));
+	 	MyMap.erase(10);
+	 	for (ft::map<int, int>::iterator it = MyMap.begin(); it != MyMap.end(); it++)
+	 		std::cout << it->first << " => " << it->second << std::endl;
+	 }
+	 {
+	 	ft::map<int, int> MyMap1;
+	 	MyMap1.insert(std::make_pair(10, 57758));
+	 	MyMap1.insert(std::make_pair(1, 80));
+	 	MyMap1.insert(std::make_pair(100, 34));
 
 		
-	// 	ft::map<int, int> MyMap2; 
-	// 	MyMap2.insert(std::make_pair(10, 57758));
-	// 	MyMap2.insert(std::make_pair(1, 80));
-	// 	MyMap2.insert(std::make_pair(100, 34));
+	 	ft::map<int, int> MyMap2;
+	 	MyMap2.insert(std::make_pair(10, 57758));
+	 	MyMap2.insert(std::make_pair(1, 80));
+	 	MyMap2.insert(std::make_pair(100, 34));
 
-	// 	if (MyMap1 == MyMap2)
-	// 		std::cout << "MyMap1 is equal to MyMap2" << std::endl;
-	// 	if (MyMap1 < MyMap2)
-	// 		std::cout << "MyMap1 is smaller than MyMap2" << std::endl;
-	// 	if (MyMap1 <= MyMap2)
-	// 		std::cout << "MyMap1 is smaller than or equal to MyMap2" << std::endl;
-	// 	if (MyMap1 > MyMap2)
-	// 		std::cout << "MyMap1 is larger than MyMap2" << std::endl;
-	// 	if (MyMap1 >= MyMap2)
-	// 		std::cout << "MyMap1 is larger than or equal to MyMap2" << std::endl;
-	// 	MyMap1.swap(MyMap2);
-	// 	if (MyMap1 < MyMap2)
-	// 		std::cout << "MyMap1 is smaller than MyMap2" << std::endl;
-	// 	if (MyMap1 <= MyMap2)
-	// 		std::cout << "MyMap1 is smaller than or equal to MyMap2" << std::endl;
-	// 	if (MyMap1 > MyMap2)
-	// 		std::cout << "MyMap1 is larger than MyMap2" << std::endl;
-	// 	if (MyMap1 >= MyMap2)
-	// 		std::cout << "MyMap1 is larger than or equal to MyMap2" << std::endl;
-	// }
-	// {
-	// 	ft::map<int, int> MyMap; 
-	// 	MyMap.insert(std::make_pair(10, 57758));
-	// 	MyMap.insert(std::make_pair(1, 80));
-	// 	MyMap.insert(std::make_pair(100, 34));
+	 	if (MyMap1 == MyMap2)
+	 		std::cout << "MyMap1 is equal to MyMap2" << std::endl;
+	 	if (MyMap1 < MyMap2)
+	 		std::cout << "MyMap1 is smaller than MyMap2" << std::endl;
+	 	if (MyMap1 <= MyMap2)
+	 		std::cout << "MyMap1 is smaller than or equal to MyMap2" << std::endl;
+	 	if (MyMap1 > MyMap2)
+	 		std::cout << "MyMap1 is larger than MyMap2" << std::endl;
+	 	if (MyMap1 >= MyMap2)
+	 		std::cout << "MyMap1 is larger than or equal to MyMap2" << std::endl;
+	 	MyMap1.swap(MyMap2);
+	 	if (MyMap1 < MyMap2)
+	 		std::cout << "MyMap1 is smaller than MyMap2" << std::endl;
+	 	if (MyMap1 <= MyMap2)
+	 		std::cout << "MyMap1 is smaller than or equal to MyMap2" << std::endl;
+	 	if (MyMap1 > MyMap2)
+	 		std::cout << "MyMap1 is larger than MyMap2" << std::endl;
+	 	if (MyMap1 >= MyMap2)
+	 		std::cout << "MyMap1 is larger than or equal to MyMap2" << std::endl;
+	 }
+	 {
+	 	ft::map<int, int> MyMap;
+	 	MyMap.insert(std::make_pair(10, 57758));
+	 	MyMap.insert(std::make_pair(1, 80));
+	 	MyMap.insert(std::make_pair(100, 34));
 
-	// 	for (ft::map<int, int>::reverse_iterator rit = MyMap.rbegin(); rit != MyMap.rend(); rit++)
-	// 		std::cout << rit->first << " => " << rit->second << std::endl;
+	 	for (ft::map<int, int>::reverse_iterator rit = MyMap.rbegin(); rit != MyMap.rend(); rit++)
+	 		std::cout << rit->first << " => " << rit->second << std::endl;
 
-	// 	for (ft::map<int, int>::reverse_iterator rit = MyMap.rbegin(); rit != MyMap.rend(); ++rit)
-	// 		std::cout << rit->first << " => " << rit->second << std::endl;
-	// }
+	 	for (ft::map<int, int>::reverse_iterator rit = MyMap.rbegin(); rit != MyMap.rend(); ++rit)
+	 		std::cout << rit->first << " => " << rit->second << std::endl;
+	 }
 }
 
 int	main(int argc, char **argv) {
@@ -393,15 +423,15 @@ int	main(int argc, char **argv) {
 		gettimeofday(&tv, NULL);
 		begintime = tv.tv_usec;
 	}
-	// ctors_dtor();
-	// iterators();
-	// capacity();
-	// element_access();
-	// modifiers();
-	// observers();
-	// operations();
-	tellyinspired();
-	// telly();
+//	 ctors_dtor();
+//	 iterators();
+//	 capacity();
+//	 element_access();
+	 modifiers();
+//	 observers();
+//	 operations();
+//	 tellyinspired();
+//	 telly();
 	if (argc >= 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
 		endtime = tv.tv_usec;

@@ -16,7 +16,7 @@ ifdef COMPILER
  CXX = $(COMPILER)
 endif
 
-CXXFLAGS = -W -Wall -Wextra -Werror -pedantic -ansi -std=c++98 -O3
+CXXFLAGS = -W -Wall -Wextra -Werror -pedantic -ansi -std=c++98 -Ofast
 ifdef DEBUG
  CXXFLAGS += -g -fsanitize=address
 endif
