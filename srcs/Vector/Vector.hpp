@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 15:19:02 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/18 15:36:18 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/20 12:10:20 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,46 +263,28 @@ namespace ft {
 
 template <class T, class Alloc>
 	bool operator== (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
-		typename vector<T,Alloc>::const_iterator lit = lhs.begin();
-		typename vector<T,Alloc>::const_iterator rit = rhs.begin();
-
-		if (lhs.size() != rhs.size())
-			return false;
-		while (lit != lhs.end() && rit != rhs.end()) {
-			if (*lit != *rit) {
-				return false;
-			}
-			++lit;
-			++rit;
-		}
-		return true;
+		return (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin(), rhs.end()));
 	}
+
 template <class T, class Alloc>
 	bool operator!= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
 		return (!(lhs == rhs));
 	}
+
 template <class T, class Alloc>
 	bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
-		typename vector<T, Alloc>::const_iterator lit = lhs.begin();
-		typename vector<T, Alloc>::const_iterator rit = rhs.begin();
-		if (lhs.size() > rhs.size())
-			return false;
-		while (lit != lhs.end() && rit != rhs.end()) {
-			if (*lit != *rit)
-				return (lit < rit);
-			++lit;
-			++rit;
-		}
-		return false;
+		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 template <class T, class Alloc>
 	bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
 		return (!(rhs < lhs));
 	}
+
 template <class T, class Alloc>
 	bool operator>  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
 		return (rhs < lhs);
 	}
+
 template <class T, class Alloc>
 	bool operator>= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
 		return (!(lhs < rhs));
