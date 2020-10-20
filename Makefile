@@ -6,7 +6,7 @@
 #    By: Peer <pde-bakk@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/25 17:28:30 by pde-bakk      #+#    #+#                  #
-#    Updated: 2020/10/20 15:04:27 by pde-bakk      ########   odam.nl          #
+#    Updated: 2020/10/20 23:40:26 by peerdb        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,7 @@ fclean: clean
 	@rm -rf $(NAME) $(NAME).dSYM
 
 fuckingclean: fclean
-	@rm -f std.txt ft.txt *stdmain.cpp diff.txt
+	@rm -f $(TESTDIR)/std.txt $(TESTDIR)/ft.txt $(TESTDIR)/*stdmain.cpp $(TESTDIR)/diff.txt
 
 re: fclean
 

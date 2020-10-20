@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/27 23:49:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/20 14:31:39 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/21 00:02:13 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,10 +177,10 @@ template < class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		}
 		template <class InputIterator>
 		void					insert(InputIterator first, InputIterator last, typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) {
-			std::cerr << "*last points to " << last->first << std::endl;
+			// std::cerr << "*last points to " << last->first << std::endl;
 			while (first != last) {
 				insert(*first);
-				std::cerr << "just inserted " << first->first << std::endl;
+				// std::cerr << "just inserted " << first->first << std::endl;
 //				sleep(2);
 				++first;
 			}

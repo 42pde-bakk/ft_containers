@@ -6,7 +6,7 @@
 #    By: peerdb <peerdb@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/09/09 16:47:13 by peerdb        #+#    #+#                  #
-#    Updated: 2020/10/20 14:20:50 by pde-bakk      ########   odam.nl          #
+#    Updated: 2020/10/21 00:01:45 by peerdb        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,10 +41,10 @@ function test {
 
 	sed "s/ft::/std::/g" tests/$1_main.cpp > tests/$1_stdmain.cpp
 
-	make $1 $C $D STD=1 && ./containers.out $TIME $LEAKS > std.txt #2>&1
+	make $1 $C $D STD=1 && ./containers.out $TIME $LEAKS > tests/std.txt #2>&1
 	STATUS_STD=$?
 
-	make $1 $C $D && ./containers.out $TIME $LEAKS > ft.txt #2>&1
+	make $1 $C $D && ./containers.out $TIME $LEAKS > tests/ft.txt #2>&1
 	STATUS_FT=$?
 
 	echo $ECHOARG "${ORANGE}Startin testing for $1${RESET}"
@@ -53,10 +53,10 @@ function test {
 		exit
 	fi
 
-	diff ft.txt std.txt > diff.txt;
+	diff tests/ft.txt tests/std.txt > tests/diff.txt;
 	if [ $? -eq 1 ]; then
 		echo $ECHOARG "${RED}Diff failed${RESET}"
-		cat diff.txt
+		cat tests/diff.txt
 		exit 1
 	else
 		echo $ECHOARG "${LIGHTPURPLE}Diff found no differences${RESET}"
