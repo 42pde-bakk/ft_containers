@@ -399,7 +399,7 @@ template < class Key, class T, class Compare = less<Key>, class Alloc = std::all
 					it->left->parent = insert;
 				it->left = insert;
 				++this->_size;
-				// fixRedBlackViolations(insert);
+				 fixRedBlackViolations(insert);
 				return insert;
 			}
 			mapnode	*insert_right(mapnode *it, const value_type& val = value_type()) {
@@ -410,7 +410,7 @@ template < class Key, class T, class Compare = less<Key>, class Alloc = std::all
 					it->right->parent = insert;
 				it->right = insert;
 				++this->_size;
-				// fixRedBlackViolations(insert);
+				 fixRedBlackViolations(insert);
 				return insert;
 			}
 			void	clear(mapnode *pos) {
