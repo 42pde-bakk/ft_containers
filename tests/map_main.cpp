@@ -427,17 +427,17 @@ int	main(int argc, char **argv) {
 		gettimeofday(&tv, NULL);
 		begintime = tv.tv_usec;
 	}
-	// ctors_dtor();
-	// iterators();
-	// capacity();
-	// element_access();
+	 ctors_dtor();
+	 iterators();
+	 capacity();
+	 element_access();
 	modifiers();
 	std::cout << "denk ik " << std::endl;
 	std::cerr << "lmao ja" << std::endl;
-	// observers();
-	// operations();
-	// tellyinspired();
-	// telly();
+	 observers();
+	 operations();
+	 tellyinspired();
+	 telly();
 	if (argc >= 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
 		endtime = tv.tv_usec;
