@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 21:10:23 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/21 16:02:12 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/21 22:35:03 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ void 	capacity() {
 	ft::map<int, std::string>	mymap(stl.begin(), stl.end());
 	std::cout << std::boolalpha << "mymap.empty() returns " << mymap.empty() << std::endl;
 	std::cout << "mymap.size() returns " << mymap.size() << std::endl;
-	std::cout << "mymap.max_size() returns " << mymap.max_size() << std::endl;
+	// std::cout << "mymap.max_size() returns " << mymap.max_size() << std::endl;
 }
 
 void	element_access() {
