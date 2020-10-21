@@ -45,7 +45,7 @@ namespace ft {
 
 		self_type	operator++(int) {
 			self_type out(*this);
-			this->array++;
+			++this->array;
 			return out;
 		}
 		self_type&	operator++() {
@@ -63,11 +63,11 @@ namespace ft {
 		}
 		self_type	operator--(int) {
 			self_type out(*this);
-			this->array--;
+			--this->array;
 			return out;
 		}
 		self_type&	operator--() {
-			this->array--;
+			--this->array;
 			return *this;
 		}
 		self_type	operator-(difference_type n) {
@@ -189,11 +189,11 @@ namespace ft {
 
 		self_type	operator++(int) {
 			self_type out(*this);
-			this->array--;
+			--this->array;
 			return out;
 		}
 		self_type&	operator++() {
-			this->array--;
+			--this->array;
 			return *this;
 		}
 		self_type	operator+(difference_type n) {
@@ -207,16 +207,16 @@ namespace ft {
 		}
 		self_type	operator--(int) {
 			self_type out(*this);
-			this->array++;
+			++this->array;
 			return out;
 		}
 		self_type&	operator--() {
-			this->array++;
+			++this->array;
 			return *this;
 		}
 		self_type	operator-(difference_type n) {
 			self_type out(*this);
-			this += n;
+			out.array += n;
 			return out;
 		}
 		self_type	operator-=(difference_type n) {

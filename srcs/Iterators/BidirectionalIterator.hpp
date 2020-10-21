@@ -61,11 +61,9 @@ namespace ft {
 			this->ptr = ptr->getprevious();
 			return *this;
 		}
-
 		reference	operator*() {
 			return this->ptr->data;
 		}
-
 		pointer		operator->() {
 			return (&(this->ptr->data));
 		}
@@ -119,7 +117,6 @@ namespace ft {
 			return *this;
 		}
 		virtual ~ConstBidirectionalIterator() { }
-
 		const_reference	operator*() {
 			return (this->ptr->data);
 		}
@@ -171,11 +168,9 @@ namespace ft {
 			this->ptr = this->ptr->getnext();
 			return *this;
 		}
-
 		reference	operator*() {
 			return this->ptr->data;
 		}
-
 		pointer		operator->() {
 			return (&(this->ptr->data));
 		}
@@ -229,7 +224,6 @@ namespace ft {
 			return *this;
 		}
 		virtual ~ConstRevBidirectionalIterator() { }
-
 		const_reference	operator*() {
 			return (this->ptr->data);
 		}

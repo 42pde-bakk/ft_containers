@@ -34,6 +34,14 @@ void	print_container_content(ft::vector<T> &vec, std::string name = "container")
 	std::cout << " $" << std::endl;
 }
 
+template< typename T >
+void	reverse_print_container_content(ft::vector<T> &vec, const std::string& name = "container") {
+	std::cout << name << " contains:";
+	for (ft::vector<int>::reverse_iterator it = vec.rbegin(); it != vec.rend(); it++)
+		std::cout << ' ' << *it;
+	std::cout << " $" << std::endl;
+}
+
 void	constructors_test() {
 	ft::vector<int> def;
 	print_container_content(def, "default constructor");
@@ -80,6 +88,14 @@ void	iterators_test() {
 	if (cite >= it && !(it >= cite))
 		std::cout << "bigger/equal works" << std::endl;
 	ite = it;
+	std::cout << "*it++ gives: " << *it++ << ", it now is " << *it << std::endl;
+	std::cout << "*++it gives: " << *++it << ", it now is " << *it << std::endl;
+	std::cout << "*rit++ gives: " << *rit++ << ", it now is " << *rit << std::endl;
+	std::cout << "*++rit gives: " << *++rit << ", it now is " << *rit << std::endl;
+	std::cout << "*it-- gives: " << *it-- << ", it now is " << *it << std::endl;
+	std::cout << "*--it gives: " << *--it << ", it now is " << *it << std::endl;
+	std::cout << "*rit-- gives: " << *rit-- << ", it now is " << *rit << std::endl;
+	std::cout << "*--rit gives: " << *--rit << ", it now is " << *rit << std::endl;
 	// *cit += 10;
 	// *crit += 10;
 
@@ -187,7 +203,7 @@ void	stl_test() {
 		stl.push_back(i * 4);
 	wap.assign(stl.begin(), stl.end());
 	print_container_content(wap, "wap");
-
+	reverse_print_container_content(wap, "wap");
 }
 
 int	main(int argc, char **argv) {

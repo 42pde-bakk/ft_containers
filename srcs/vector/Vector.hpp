@@ -86,10 +86,10 @@ namespace ft {
 			return reverse_iterator(&this->_array[this->_size - 1]);
 		}
 		reverse_iterator		rend() {
-			return reverse_iterator(this->_array);
+			return reverse_iterator(this->_array - 1);
 		}
 		const_reverse_iterator	rend() const {
-			return reverse_iterator(this->_array);
+			return reverse_iterator(this->_array - 1);
 		}
 	/* Capacity */
 		size_type	size() const {
