@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 21:10:23 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/21 22:35:03 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/22 01:13:33 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,25 +154,26 @@ void	element_access() {
 	}
 	catch (std::out_of_range& e) {
 		std::cout << "exception thrown" << std::endl;
-		std::cerr << e.what() << std::endl;
+		// std::cerr << e.what() << std::endl;
 	}
 }
 
 void	modifiers() {
 	ft::map<int, std::string> mymap = getstlmap();
 	mymap.insert(std::make_pair(12, "twaalf"));
-	 mymap.insert(std::make_pair(12, "twaalf"));
+	mymap.insert(std::make_pair(12, "twaalf"));
+	mymap.insert(mymap.find(7), std::make_pair(2, "negen"));
 //	 mymap.printBT();
 
-	mymap.erase(1);
-	mymap.erase(13);
-//	 mymap.printBT();
-	mymap.erase(mymap.find(4));
-	mymap.erase(7);
-	ft::map<int, std::string> emptymap;
+// 	mymap.erase(1);
+// 	mymap.erase(13);
+// //	 mymap.printBT();
+// 	mymap.erase(mymap.find(4));
+// 	mymap.erase(7);
 	for (ft::map<int, std::string>::iterator it = mymap.begin(); it != mymap.end(); it++) {
 		std::cout << "it: " << it->first << " ==> " << it->second << std::endl;
 	}
+	ft::map<int, std::string> emptymap;
 	std::cout << "wtf" << std::endl;
 	emptymap.swap(mymap);
 	std::cout << "wtf" << std::endl;
