@@ -74,15 +74,15 @@ void	compare_values(ft::map<K, V>& mappie, std::pair<K, V> compelem = std::make_
 
 ft::map<int, std::string>	getstlmap() {
 	ft::map<int, std::string> stl;
-	stl[8] = "acht";
-	stl[3] = "drie";
 	stl[10] = "tien";
-	stl[1] = "een";
-	stl[6] = "zes";
-	stl[14] = "veertien";
-	stl[4] = "vier";
 	stl[7] = "zeven";
+	stl[6] = "zes";
 	stl[13] = "dertien";
+	stl[1] = "een";
+	stl[4] = "vier";
+	stl[3] = "drie";
+	stl[8] = "acht";
+	stl[14] = "veertien";
 	return stl;
 }	
 
@@ -161,11 +161,12 @@ void	element_access() {
 void	modifiers() {
 	ft::map<int, std::string> mymap = getstlmap();
 	mymap.insert(std::make_pair(12, "twaalf"));
-	// mymap.insert(std::make_pair(12, "twaalf"));
-	// mymap.printBT();
+	 mymap.insert(std::make_pair(12, "twaalf"));
+//	 mymap.printBT();
 
-	mymap.erase(8);
+	mymap.erase(1);
 	mymap.erase(13);
+//	 mymap.printBT();
 	mymap.erase(mymap.find(4));
 	mymap.erase(7);
 	ft::map<int, std::string> emptymap;

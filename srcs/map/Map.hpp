@@ -183,67 +183,73 @@ template < class Key, class T, class Compare = less<Key>, class Alloc = std::all
 			}
 		}
 		void		erase(iterator position) {
+
 			mapnode	*erase = find(position);
-			if (erase == _last) 
+			if (erase == _last)
 				return ;
-			short children = (erase->left != 0) + (erase->right != 0);
-			if (!children) {
-				if (value_comp()(erase->data, erase->parent->data))
-					erase->parent->left = erase->left;
-				else
-					erase->parent->right = erase->right;
-			}
-			else if (children == 1) {
-				if (value_comp()(erase->data, erase->parent->data))
-					erase->parent->left = (erase->left ? erase->left : erase->right);
-				else
-					erase->parent->right = (erase->left ? erase->left : erase->right);
-				erase->left ? erase->left->parent = erase->parent : erase->right->parent = erase->parent;
-			}
-			else {
-				bool switchdirection = false;
-				mapnode	*tmp;
-				if (erase->right != this->_last) {
-					tmp = erase->right;
-					while (tmp->left) {
-						tmp = tmp->left;
-						switchdirection = true;
-					}
-					tmp->parent = erase->parent;
-					if (erase->parent && value_comp()(tmp->data, tmp->parent->data)) //node is smaller than parent
-						tmp->parent->left = tmp;
-					else if (erase->parent)
-						tmp->parent->right = tmp;
-					tmp->left = erase->left;
-					tmp->left->parent = tmp;
-					if (switchdirection) {
-						tmp->right = erase->right;
-						tmp->right->parent = tmp;
-					}
-				}
-				else {
-					tmp= erase->left;
-					while (tmp->right) {
-						tmp = tmp->right;
-						switchdirection = true;
-					}
-					tmp->parent = erase->parent;
-					if (erase->parent && value_comp()(tmp->data, tmp->parent->data)) //node is smaller than parent
-						tmp->parent->left = tmp;
-					else if (erase->parent)
-						tmp->parent->right = tmp;
-					tmp->right = erase->right;
-					tmp->right->parent = tmp;
-					if (switchdirection) {
-						tmp->left = erase->left;
-						tmp->left->parent = tmp;
-					}
-				}
-				if (erase == this->_root)
-					this->_root = tmp;
-			}
+			RedBlackDelete(erase);
 			delete erase;
 			--this->_size;
+//			short children = (erase->left != 0) + (erase->right != 0);
+//			if (!children) {
+//				if (value_comp()(erase->data, erase->parent->data))
+//					erase->parent->left = erase->left;
+//				else
+//					erase->parent->right = erase->right;
+//			}
+//			else if (children == 1) {
+//				if (value_comp()(erase->data, erase->parent->data))
+//					erase->parent->left = (erase->left ? erase->left : erase->right);
+//				else
+//					erase->parent->right = (erase->left ? erase->left : erase->right);
+//				erase->left ? erase->left->parent = erase->parent : erase->right->parent = erase->parent;
+//			}
+//			else {
+//				bool switchdirection = false;
+//				mapnode	*tmp;
+//				if (erase->right != this->_last) {
+//					tmp = erase->right;
+//					while (tmp->left) {
+//						tmp = tmp->left;
+//						switchdirection = true;
+//					}
+//					tmp->parent = erase->parent;
+//					if (erase->parent && value_comp()(tmp->data, tmp->parent->data)) //node is smaller than parent
+//						tmp->parent->left = tmp;
+//					else if (erase->parent)
+//						tmp->parent->right = tmp;
+//					tmp->left = erase->left;
+//					tmp->left->parent = tmp;
+//					if (switchdirection) {
+//						tmp->right = erase->right;
+//						tmp->right->parent = tmp;
+//					}
+//				}
+//				else {
+//					tmp= erase->left;
+//					while (tmp->right) {
+//						tmp = tmp->right;
+//						switchdirection = true;
+//					}
+//					tmp->parent = erase->parent;
+//					if (erase->parent && value_comp()(tmp->data, tmp->parent->data)) //node is smaller than parent
+//						tmp->parent->left = tmp;
+//					else if (erase->parent)
+//						tmp->parent->right = tmp;
+//					tmp->right = erase->right;
+//					tmp->right->parent = tmp;
+//					if (switchdirection) {
+//						tmp->left = erase->left;
+//						tmp->left->parent = tmp;
+//					}
+//				}
+//				if (erase == this->_root)
+//					this->_root = tmp;
+//			}
+//			std::cerr << _BLUE << _BOLD << "BT after erasing." << std::endl << _END;
+//			printBT();
+//			delete erase;
+//			--this->_size;
 		}
 		size_type	erase(const key_type& k) {
 			iterator it = find(k);
@@ -352,6 +358,10 @@ template < class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		}
 		void printBT() const {
 			printBT("", this->_root, false);
+			if (this->_first->parent && this->_first->parent != this->_last)
+				std::cerr << "parent of _first: " << this->_first->parent->data.first << std::endl;
+			if (this->_last->parent && this->_last->parent != this->_first)
+				std::cerr << "parent of _last: " << this->_last->parent->data.first << std::endl;
 			std::cerr << std::endl;
 		}
 		private:
@@ -445,7 +455,7 @@ template < class Key, class T, class Compare = less<Key>, class Alloc = std::all
 					return ;
 				}
 				Key k = n->data.first;
-				std::cerr << "n->first: " << k;
+				std::cerr << "n: " << k;
 				if (n->parent)
 					std::cerr << ", " << k << "'s parent: " << n->parent->data.first;
 				if (n->left)
@@ -454,23 +464,35 @@ template < class Key, class T, class Compare = less<Key>, class Alloc = std::all
 					std::cerr << ", " << k << "'s right: " << n->right->data.first;
 				std::cerr << _END << std::endl;
 			}
-			void	left_rotation(mapnode *x) {
-				mapnode *y = x->right;
-				x->right = y->left;
-				if (x->right)
-					x->right->parent = x;
-				y->parent = x->parent;
-				if (y->parent == 0) // x was root, now y is root
-					this->_root = y;
-				else if (x == y->parent->left) // x was left child
-					y->parent->left = y;
-				else // x was right child
-					y->parent->right = y;
-				y->left = x;
-				x->parent = y;
+		void	left_rotation(mapnode *x) {
+//			std::cerr << _BLUE << "At the begin of left rotation, x: ";
+//			print_node(x);
+//			std::cerr << _GREEN << "And y: ";
+			mapnode *y = x->right;
+//			print_node(y);
+			x->right = y->left;
+			if (x->right)
+				x->right->parent = x;
+			y->parent = x->parent;
+			if (y->parent == 0) // x was root, now y is root
+				this->_root = y;
+			else if (x == y->parent->left) // x was left child
+				y->parent->left = y;
+			else // x was right child
+				y->parent->right = y;
+			y->left = x;
+			x->parent = y;
+//			std::cerr << _BLUE << "At the end of left rotation, x: ";
+//			print_node(x);
+//			std::cerr << _GREEN << "And y: ";
+//			print_node(y);
 		}
 		void	right_rotation(mapnode *x) {
+//			std::cerr << _BLUE << "At the begin of right rotation, x = ";
+//			print_node(x);
+//			std::cerr << _GREEN << " And y = ";
 			mapnode *y = x->left;
+//			print_node(y);
 			x->left = y->right;
 			if (x->left)
 				x->left->parent = x;
@@ -483,6 +505,10 @@ template < class Key, class T, class Compare = less<Key>, class Alloc = std::all
 				y->parent->right = y;
 			y->right = x;
 			x->parent = y;
+//			std::cerr << _BLUE << "At the end of right rotation, x = ";
+//			print_node(x);
+//			std::cerr << _GREEN << "And y = ";
+//			print_node(y);
 		}
 		bool	is_validnode(mapnode *check) {
 			return (check && check != this->_first && check != this->_last);
@@ -491,30 +517,36 @@ template < class Key, class T, class Compare = less<Key>, class Alloc = std::all
 			while (z != this->_root && z->colour == RED && z->parent->colour == RED) {
 				mapnode *parent = z->parent;
 				mapnode *grandpa = parent->parent;
-
 				// Case A
+//				std::cerr << _RED << _BOLD << "Red Black Insertion Fixup for " << z->data.first << std::endl << _END;
 				// Parent is left child of grandpa
-				if (parent == grandpa->left) { // Case 1: uncle is red, recolour
-//					std::cerr << _RED << _BOLD << "Case A-1" << std::endl << _END;
+				if (parent == grandpa->left) {
 					mapnode *uncle = grandpa->right;
-					if (is_validnode(uncle) && uncle->colour == RED) {
+					if (uncle && uncle->colour == RED) { // Case 1: uncle is red, recolour
+//						std::cerr << _RED << _BOLD << "Case A-1" << std::endl << _END;
+//						if (uncle == _first || uncle == _last)
+//							std::cerr << "uncle now is black" << std::endl;
 						grandpa->colour = RED;
 						parent->colour = BLACK;
 						uncle->colour = BLACK;
 						z = grandpa;
+//						std::cerr << _RED << _BOLD << "Result of Case A-1: " << std::endl << _END;
+//						printBT();
 					}
-					else {
-						if (z == parent->right) { // Case 2: node is right child of parent, left-rotation required
-//							std::cerr << _RED << _BOLD << "Case A-2 ==> left_rotation on " << parent->data.first << std::endl << _END;
-							left_rotation(parent);
-							z = parent;
-							parent = z->parent;
-						}
-						else { // Case 3: node is left child of parent, right rotation required
-//							std::cerr << _RED << _BOLD << "Case A-3 ==> right_rotation on " << grandpa->data.first << std::endl << _END;
-							right_rotation(grandpa);
-							ft::itemswap(parent->colour, grandpa->colour);
-						}
+					else if (z == parent->right) { // Case 2: node is right child of parent, left-rotation required
+//						std::cerr << _RED << _BOLD << "Case A-2 ==> left_rotation on " << parent->data.first << std::endl << _END;
+						left_rotation(parent);
+						z = parent;
+						parent = z->parent;
+//						std::cerr << _RED << _BOLD << "Result of Case A-2: " << std::endl << _END;
+//						printBT();
+					}
+					else { // Case 3: node is left child of parent, right rotation required
+//						std::cerr << _RED << _BOLD << "Case A-3 ==> right_rotation on " << grandpa->data.first << std::endl << _END;
+						right_rotation(grandpa);
+						ft::itemswap(parent->colour, grandpa->colour);
+//						std::cerr << _RED << _BOLD << "Result of Case A-3: " << std::endl << _END;
+//						printBT();
 					}
 				}
 				// Case B
@@ -522,102 +554,180 @@ template < class Key, class T, class Compare = less<Key>, class Alloc = std::all
 				else if (parent == grandpa->right) {
 					mapnode *uncle = grandpa->left;
 
-					if (is_validnode(uncle) && uncle->colour == RED) { // Case 1: uncle is red, recolour
+					if (uncle && uncle->colour == RED) { // Case 1: uncle is red, recolour
 //						std::cerr << _RED << _BOLD << "Case B-1" << std::endl << _END;
+//						if (uncle == _first || uncle == _last)
+//							std::cerr << "uncle now is black" << std::endl;
 						grandpa->colour = RED;
 						parent->colour = BLACK;
 						uncle->colour = BLACK;
 						z = grandpa;
+//						std::cerr << _RED << _BOLD << "Result of Case B-1: " << std::endl << _END;
+//						printBT();
+					}
+					else if (z == parent->left) { // Case 2: node is left child of parent, right-rotation required
+//						std::cerr << _RED << _BOLD << "Case B-2 ==> right rotation on " << parent->data.first << std::endl << _END;
+						right_rotation(parent);
+						z = parent;
+						parent = z->parent;
+//						std::cerr << _RED << _BOLD << "Result of Case B-2: " << std::endl << _END;
+//						printBT();
 					}
 					else {
-						if (z == parent->left) { // Case 2: node is left child of parent, right-rotation required
-//							std::cerr << _RED << _BOLD << "Case B-2 ==> right rotation on " << parent->data.first << std::endl << _END;
-							right_rotation(parent);
-							z = parent;
-							parent = z->parent;
-						}
-						else {
-//							std::cerr << _RED << _BOLD << "Case B-3 ==> left rotation on " << grandpa->data.first << std::endl << _END;
-							left_rotation(grandpa);
-							ft::itemswap(parent->colour, grandpa->colour);
-							z = parent;
-						}
+//						std::cerr << _RED << _BOLD << "Case B-3 ==> left rotation on " << grandpa->data.first << std::endl << _END;
+						left_rotation(grandpa);
+						ft::itemswap(parent->colour, grandpa->colour);
+						z = parent;
+//						std::cerr << _RED << _BOLD << "Result of Case B-3: " << std::endl << _END;
+//						printBT();
 					}
 				}
-				this->_root->colour = BLACK;
 			}
-			RedBlackDeleteFixup(mapnode *x) {
-				while (x != this->_root && x->colour == BLACK) {
-					if (x == x->parent->left) { // Case A
-						mapnode *w = x->parent->right;
-						if (w->colour == RED) { // Case 1
-							w->colour = BLACK;
-							x->parent->colour = RED;
-							left_rotate(x->parent);
+			this->_root->colour = BLACK;
+		}
+		void	RedBlackTransplant(mapnode *u, mapnode *v) {
+			if (u && u->parent == 0) // U is root
+				this->_root = v;
+			else if (u == u->parent->left) // u is left child
+				u->parent->left = v;
+			else // u is right child
+				u->parent->right = v;
+			if (v)
+				v->parent = u->parent;
+		}
+		mapnode*	farleft(mapnode *x) {
+			while (x->left)
+				x = x->left;
+			return x;
+		}
+		void RedBlackDelete(mapnode *z) {
+			std::cerr << _CYAN << _BOLD << "RedBlackDelete called on " << z->data.first << std::endl;
+			mapnode *y = z;
+			mapnode *x;
+			Col  y_orignal_colour = y->colour;
+			if (z->left == 0) { // no kids, or only right kid
+				std::cerr << "Case A - has no kids or a right child" << std::endl;
+				x = z->right;
+				std::cerr << "transplanting on " << z->data.first << " and " << (z->right ? z->right->data.first : 0) << std::endl;
+				RedBlackTransplant(z, z->right);
+				std::cerr << "after transplanting" << std::endl;
+			}
+			else if (z->right == 0) { // only left kid
+				std::cerr << "Case B - has a kid on his left" << std::endl;
+				x = z->left;
+				std::cerr << "transplanting on " << z->data.first << " and " << (z->left ? z->left->data.first : 0) << std::endl;
+				RedBlackTransplant(z, z->left);
+				std::cerr << "after transplanting" << std::endl;
+			}
+			else { // two kids
+				std::cerr << "Case C - has 2 kids" << std::endl;
+				y = farleft(z->right);
+				std::cerr << "farleft gives " << y->data.first << std::endl;
+				y_orignal_colour = y->colour;
+				x = y->right;
+//				std::cerr << "x is " << x->data.first << ", z is " <<z->data.first << std::endl;
+				if (y->parent == z) { // y is a direct kid of z
+					std::cerr << "Case C1 - y is a direct child of z " << std::endl;
+					if (x) {
+						std::cerr << "x = " << x->data.first << ", its new parent is " << z->data.first << std::endl;
+						x->parent = y; // changed from = z to = y
+					}
+				}
+				else {
+					std::cerr << "Case C2 - else... " << std::endl;
+					std::cerr << "transplanting on " << y->data.first << " and " << (y->right ? y->right->data.first : 0) << std::endl;
+					print_node(y);
+					print_node(y->right);
+					RedBlackTransplant(y, y->right);
+					std::cerr << "after transplanting" << std::endl;
+					print_node(y);
+					print_node(y->right);
+					y->right = z->right;
+					y->right->parent = y;
+				}
+				std::cerr << "Case C-common - transplanting on " << z->data.first << " and " << (y ? y->data.first : 0) << std::endl;
+				RedBlackTransplant(z, y);
+				std::cerr << "after transplanting" << std::endl;
+				y->left = z->left;
+				y->left->parent = y;
+				y->colour = z->colour;
+			}
+			if (y_orignal_colour == BLACK) {
+				std::cerr << "gotta fix up!" << std::endl;
+				RedBlackDeleteFixup(x);
+			}
+		}
+		void	RedBlackDeleteFixup(mapnode *x) {
+			std::cerr << _RED << _BOLD << "Red Black Delete Fixup" << std::endl << _END;
+			if (x == 0)
+				return ;
+			while (x != this->_root && x->colour == BLACK) {
+				if (x == x->parent->left) { // Case A
+					mapnode *w = x->parent->right;
+					if (w->colour == RED) { // Case 1
+						std::cerr << _RED << _BOLD << "Case A-1 ==> left rotation on " << x->parent->data.first << std::endl << _END;
+						w->colour = BLACK;
+						x->parent->colour = RED;
+						left_rotation(x->parent);
+						w = x->parent->right;
+					}
+					if (w->left->colour == BLACK && w->right->colour == BLACK) { // case 2
+						std::cerr << _RED << _BOLD << "Case A-2 ==> no rotation " << std::endl << _END;
+						w->colour = RED;
+						x = x->parent;
+					}
+					else { // Case 3 or 4
+						if (w->right->colour == BLACK) { // Case 3
+							std::cerr << _RED << _BOLD << "Case A-3 ==> right rotation on " << w->data.first << std::endl << _END;
+							w->left->colour = BLACK;
+							w->colour = RED;
+							right_rotation(w);
 							w = x->parent->right;
 						}
-						if (w->left->colour == BLACK && w->right->colour == BLACK) { // case 2
-							w->colour = RED;
-							x = x->parent;
-						}
-						else { // Case 3 or 4
-							if (w->right->colour == BLACK) { // Case 3
-								w->left->colour = BLACK;
-								w->colour = RED;
-								right_rotate(w);
-								w = x->parent->right;
-							}
-							// Case 4
+						else { // Case 4
+							std::cerr << _RED << _BOLD << "Case A-4 ==> left rotation on " << x->parent->data.first << std::endl << _END;
 							w->colour = x->parent->colour;
 							x->parent->colour = BLACK;
 							w->right->colour = BLACK;
-							left_rotate(x->parent);
+							left_rotation(x->parent);
 							x = this->_root;
 						}
 					}
-					else { // Case B
-						mapnode *w = x->parent->left;
-						if (w->colour == RED) { // Case 1
-							w->colour = BLACK;
-							x->parent->colour = RED;
-							right_rotate(x->parent);
+				}
+				else { // Case B
+					mapnode *w = x->parent->left;
+					if (w->colour == RED) { // Case 1
+						std::cerr << _RED << _BOLD << "Case B-1 ==> right rotation on " << x->parent->data.first << std::endl << _END;
+						w->colour = BLACK;
+						x->parent->colour = RED;
+						right_rotation(x->parent);
+						w = x->parent->left;
+					}
+					if (w->right->colour == BLACK && w->left->colour == BLACK) { // Case 2
+						std::cerr << _RED << _BOLD << "Case B-2 ==> no rotation" << std::endl << _END;
+						w->colour = RED;
+						x = x->parent;
+					}
+					else { // Case 3 or 4
+						if (w->left->colour == BLACK) { // Case 3
+							std::cerr << _RED << _BOLD << "Case B-3 ==> left rotation on " << w->data.first << std::endl << _END;
+							w->right->colour = BLACK;
+							w->colour = RED;
+							left_rotation(w);
 							w = x->parent->left;
 						}
-						if (w->right->colour == BLACK && w->left->colour == BLACK) { // Case 2
-							w->colour = RED;
-							x = x->parent;
-						}
-						else { // Case 3 or 4
-							if (w->left->colour == BLACK) { // Case 3
-								w->right->colour = BLACK;
-								w->colour = RED;
-								left_rotate(w);
-								w = x->parent->left;
-							}
-							// Case 4
+						else { // Case 4
+							std::cerr << _RED << _BOLD << "Case B-4 ==> right rotation on " << x->parent->data.first << std::endl << _END;
 							w->colour = x->parent->colour;
 							x->parent->colour = BLACK;
 							w->left->colour = BLACK;
-							right_rotate(x->parent);
+							right_rotation(x->parent);
 							x = this->_root;
 						}
 					}
 				}
-				x->colour = BLACK;
 			}
-			RedBlackTransplant(mapnode *u, mapnode *v)
-			{
-				if (u && u->parent == 0) { // U is root
-					this->_root = v;
-				}
-				else if (u == u->parent->left) { // u is left child
-					u->parent->left = v;
-				}
-				else { // u is right child
-					u->parent->right = v;
-				}
-				v->parent = u->parent;
-			}
+			x->colour = BLACK;
 		}
 
 		mapnode			*_root;
