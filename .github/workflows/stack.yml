@@ -1,4 +1,4 @@
-name: Queue - Check Ubuntu & macOS compilation C++ CI
+name: Stack - Check Ubuntu & macOS compilation C++ CI
 
 on:
   push:
@@ -16,7 +16,7 @@ jobs:
     - name: ./run.sh workflow
       run: |
         echo "Starting to run tests!"
-        ./run.sh queue
+        ./run.sh stack
 
   stevejobs:
 
@@ -26,4 +26,4 @@ jobs:
     - uses: actions/checkout@v2
     - name: ./run.sh workflow
       run: |
-        ./run.sh queue
+        ./run.sh stack
