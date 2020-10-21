@@ -1,0 +1,29 @@
+name: Queue - Check Ubuntu & macOS compilation C++ CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  jobuntu:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: ./run.sh workflow
+      run: |
+        echo "Starting to run tests!"
+        ./run.sh queue
+
+  stevejobs:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: ./run.sh workflow
+      run: |
+        ./run.sh queue
