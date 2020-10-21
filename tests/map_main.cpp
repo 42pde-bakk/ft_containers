@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 21:10:23 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/21 00:01:14 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/21 13:22:19 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,20 +162,21 @@ void	modifiers() {
 	ft::map<int, std::string> mymap = getstlmap();
 	mymap.insert(std::make_pair(12, "twaalf"));
 	mymap.insert(std::make_pair(12, "twaalf"));
-	// mymap.printBT();
+
 //	mymap.erase(8);
 //	mymap.erase(13);
 //	mymap.erase(mymap.find(4));
 //	mymap.erase(7);
-	ft::map<int, std::string> emptymap;
+//	ft::map<int, std::string> emptymap;
 	for (ft::map<int, std::string>::iterator it = mymap.begin(); it != mymap.end(); it++) {
+//		sleep(1);
 		std::cout << "it: " << it->first << " ==> " << it->second << std::endl;
 	}
-	std::cout << "wtf" << std::endl;
-	emptymap.swap(mymap);
-	std::cout << "wtf" << std::endl;
-	print_container_content(mymap);
-	print_container_content(emptymap);
+//	std::cout << "wtf" << std::endl;
+//	emptymap.swap(mymap);
+//	std::cout << "wtf" << std::endl;
+//	print_container_content(mymap);
+//	print_container_content(emptymap);
 }
 
 void	operations() {
@@ -425,15 +426,15 @@ int	main(int argc, char **argv) {
 		gettimeofday(&tv, NULL);
 		begintime = tv.tv_usec;
 	}
-	 ctors_dtor();
-	 iterators();
-	 capacity();
-	 element_access();
-	 modifiers();
-	 observers();
-	 operations();
-	 tellyinspired();
-	 telly();
+	// ctors_dtor();
+	// iterators();
+	// capacity();
+	// element_access();
+	modifiers();
+	// observers();
+	// operations();
+	// tellyinspired();
+	// telly();
 	if (argc >= 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
 		endtime = tv.tv_usec;

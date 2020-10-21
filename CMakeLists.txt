@@ -22,7 +22,7 @@ add_executable(ft_containers
         srcs/Queue/Queue.hpp
         srcs/Extra.hpp
         srcs/Traits.hpp
-        colors.h
+        srcs/Colours.h
         tests/list_main.cpp
         tests/vector_main.cpp
         tests/map_main.cpp
