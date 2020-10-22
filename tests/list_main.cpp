@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:46:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/10/22 18:59:02 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/22 23:08:16 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -274,7 +274,7 @@ int main(int argc, char **argv) {
 	// iterators_test();
 	// capacity_test_element_access();
 	// modifiers_test();
-	operations_test();
+	// operations_test();
 	// operations_test2();
 	// relational_operators();
 	// stl_test();

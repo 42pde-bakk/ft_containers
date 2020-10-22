@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/10/22 18:36:12 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/22 23:12:29 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ namespace ft {
 			this->assign(x.begin(), x.end());
 		}
 		list&	operator=(const list& x) {
+			std::cerr << "calling operator=" << std::endl;
 			this->clear();
 			this->head->next = this->tail;
 			this->tail->prev = this->head;
@@ -239,6 +240,9 @@ namespace ft {
 			return first;
 		}
 		void	swap(list& x) {
+			// swap(this->head, x.head);
+			// swap(this->tail, x.tail);
+			// ft::itemswap(this->length, x.length);
 			list tmp(x);
 			x = *this;
 			*this = tmp;
@@ -262,9 +266,7 @@ namespace ft {
 		}
 		void	splice(iterator position, list&x, iterator i) {
 			iterator next(i);
-			++next;
-			std::cerr << "on 2nd splice, *i = " << *i << ", *next = " << *next << std::endl;
-			this->splice(position, x, i, next);
+			this->splice(position, x, i, ++next);
 		}
 		void	splice(iterator position, list& x, iterator first, iterator last) {
 			node_pointer firstx = first.getptr();
@@ -353,9 +355,8 @@ namespace ft {
 			iterator it = begin();
 			iterator xit = x.begin();
 			while (it != end() && xit != x.end()) {
-				while (it != end() && *it < *xit) {
+				while (it != end() && *it < *xit)
 					++it;
-				}
 				++xit;
 				this->splice(it, x, xit.getprev());
 			}
@@ -367,14 +368,12 @@ namespace ft {
 			iterator it = begin();
 			iterator xit = x.begin();
 			while (it != end()) {
-				while (it != end() && comp(it, xit)) {
+				while (it != end() && comp(it, xit))
 					++it;
-				}
 				++xit;
 				this->splice(it, x, xit.getprev());
 			}
 		}
-
 		void	reverse() {
 			iterator it = begin();	
 			while (it != end()) {
