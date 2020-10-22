@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/10/20 14:31:14 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/22 18:36:12 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include "ListNode.hpp"
 # include "../Iterators/BidirectionalIterator.hpp"
 # include "../Traits.hpp"
+# include <iostream>
 # include "../Extra.hpp"
 
 namespace ft {
@@ -257,16 +258,30 @@ namespace ft {
 		}
 	/* Operations */
 		void	splice(iterator position, list& x) {
-			this->insert(position, x.begin(), x.end());
-			x.clear();			
+			splice(position, x, x.begin(), x.end());
 		}
 		void	splice(iterator position, list&x, iterator i) {
-			this->insert(position, i.getptr()->data);
-			x.erase(i);
+			iterator next(i);
+			++next;
+			std::cerr << "on 2nd splice, *i = " << *i << ", *next = " << *next << std::endl;
+			this->splice(position, x, i, next);
 		}
-		void	splice(iterator position, list&x, iterator first, iterator last) {
-			this->insert(position, first, last);
-			x.erase(first, last);
+		void	splice(iterator position, list& x, iterator first, iterator last) {
+			node_pointer firstx = first.getptr();
+			node_pointer lastx = last.getptr();
+			node_pointer lastelemx = lastx->prev;
+			difference_type	diff = ft::distance(first, last);
+			node_pointer pos = position.getptr();
+			x.length -= diff;
+			this->length += diff;
+
+			firstx->prev->next = lastx;
+			lastx->prev = firstx->prev;
+			
+			pos->prev->next = firstx;
+			firstx->prev = pos->prev;
+			pos->prev = lastelemx;
+			lastelemx->next = pos;
 		}
 		void	remove(const value_type& val) {
 			iterator	it = begin();

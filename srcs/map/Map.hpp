@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/27 23:49:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/22 01:14:11 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/22 14:23:58 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,6 @@ template < class Key, class T, class Compare = less<Key>, class Alloc = std::all
 			return (this->_size);
 		}
 		size_type	max_size() const {
-			// return this->_alloc.max_size();		// manjaro
 			return this->_alloc.max_size() / 2;	// workflows
 		}
 
@@ -499,7 +498,7 @@ template < class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		}
 		void RedBlackDelete(mapnode *z) {
 			std::cerr << _CYAN << _BOLD << "RedBlackDelete called on " << z->data.first << std::endl;
-			mapnode *y = z;
+			mapnode *y(z);
 			mapnode *x;
 			Col  y_orignal_colour = y->colour;
 			if (z->left == 0) { // no kids, or only right kid

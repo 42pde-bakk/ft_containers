@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:46:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/10/20 14:58:53 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/22 18:59:02 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "List.hpp"
 #include <iostream>
 #include <list>
+#include <cstring>
 #include <string>
 #include <cstdlib>
 #include <sys/time.h>
@@ -159,7 +160,9 @@ bool single_digit (const int& value) { return (value < 10); }
 
 void	operations_test() {
 	ft::list<int>	splicelist1(4, 0);
-	ft::list<int>	splicelist2(4, 12);
+	ft::list<int>	splicelist2;
+	for (int i = 0; i < 4; i++)
+		splicelist2.push_back(i * 4 + 1);
 	ft::list<int>	splicelist3(4, 69);
 	ft::list<int>::iterator it = splicelist3.begin();
 	ft::advance(it, 2);
@@ -177,6 +180,7 @@ void	operations_test() {
 	mylist.remove_if(single_digit);
 	print_container_content(mylist, "mylist");
 	std::cout << std::endl;
+	std::cout << "end of operations_test()" << std::endl;
 }
 
 void	operations_test2() {
@@ -270,7 +274,7 @@ int main(int argc, char **argv) {
 	// iterators_test();
 	// capacity_test_element_access();
 	// modifiers_test();
-	// operations_test();
+	operations_test();
 	// operations_test2();
 	// relational_operators();
 	// stl_test();
