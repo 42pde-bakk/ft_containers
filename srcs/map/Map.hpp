@@ -170,10 +170,7 @@ template < class Key, class T, class Compare = less<Key>, class Alloc = std::all
 		}
 		iterator				insert(iterator position, const value_type& val,
 						typename enable_if<is_iterator<typename iterator::iterator_category>::value, iterator>::type * = 0) {
-			iterator lower = lower_bound(val.first);
-			iterator upper = upper_bound(val.first);
-			std::cerr << _GREEN  << _BOLD << "when trying to do hint insertion on " << val.first << ", lower bound: " << lower->first << ", upper bound: " << upper->first << std::endl << _END;
-			(void)position; // fix this ffs
+			(void)position;
 			return insert(val).first;
 		}
 		template <class InputIterator>
@@ -497,90 +494,90 @@ template < class Key, class T, class Compare = less<Key>, class Alloc = std::all
 			return x;
 		}
 		void RedBlackDelete(mapnode *z) {
-			std::cerr << _CYAN << _BOLD << "RedBlackDelete called on " << z->data.first << std::endl;
+//			std::cerr << _CYAN << _BOLD << "RedBlackDelete called on " << z->data.first << std::endl;
 			mapnode *y(z);
 			mapnode *x;
 			Col  y_orignal_colour = y->colour;
 			if (z->left == 0) { // no kids, or only right kid
-				std::cerr << "Case A - has no kids or a right child" << std::endl;
+//				std::cerr << "Case A - has no kids or a right child" << std::endl;
 				x = z->right;
-				std::cerr << "transplanting on " << z->data.first << " and " << (z->right ? z->right->data.first : 0) << std::endl;
+//				std::cerr << "transplanting on " << z->data.first << " and " << (z->right ? z->right->data.first : 0) << std::endl;
 				RedBlackTransplant(z, z->right);
-				std::cerr << "after transplanting" << std::endl;
+//				std::cerr << "after transplanting" << std::endl;
 			}
 			else if (z->right == 0) { // only left kid
-				std::cerr << "Case B - has a kid on his left" << std::endl;
+//				std::cerr << "Case B - has a kid on his left" << std::endl;
 				x = z->left;
-				std::cerr << "transplanting on " << z->data.first << " and " << (z->left ? z->left->data.first : 0) << std::endl;
+//				std::cerr << "transplanting on " << z->data.first << " and " << (z->left ? z->left->data.first : 0) << std::endl;
 				RedBlackTransplant(z, z->left);
-				std::cerr << "after transplanting" << std::endl;
+//				std::cerr << "after transplanting" << std::endl;
 			}
 			else { // two kids
-				std::cerr << "Case C - has 2 kids" << std::endl;
+//				std::cerr << "Case C - has 2 kids" << std::endl;
 				y = farleft(z->right);
-				std::cerr << "farleft gives " << y->data.first << std::endl;
+//				std::cerr << "farleft gives " << y->data.first << std::endl;
 				y_orignal_colour = y->colour;
 				x = y->right;
 				if (y->parent == z) { // y is a direct kid of z
-					std::cerr << "Case C1 - y is a direct child of z " << std::endl;
+//					std::cerr << "Case C1 - y is a direct child of z " << std::endl;
 					if (x) {
-						std::cerr << "x = " << x->data.first << ", its new parent is " << z->data.first << std::endl;
+//						std::cerr << "x = " << x->data.first << ", its new parent is " << z->data.first << std::endl;
 						x->parent = y; // changed from = z to = y
 					}
 				}
 				else {
-					std::cerr << "Case C2 - else... " << std::endl;
-					std::cerr << "transplanting on " << y->data.first << " and " << (y->right ? y->right->data.first : 0) << std::endl;
-					print_node(y);
-					print_node(y->right);
+//					std::cerr << "Case C2 - else... " << std::endl;
+//					std::cerr << "transplanting on " << y->data.first << " and " << (y->right ? y->right->data.first : 0) << std::endl;
+//					print_node(y);
+//					print_node(y->right);
 					RedBlackTransplant(y, y->right);
-					std::cerr << "after transplanting" << std::endl;
-					print_node(y);
-					print_node(y->right);
+//					std::cerr << "after transplanting" << std::endl;
+//					print_node(y);
+//					print_node(y->right);
 					y->right = z->right;
 					y->right->parent = y;
 				}
-				std::cerr << "Case C-common - transplanting on " << z->data.first << " and " << (y ? y->data.first : 0) << std::endl;
+//				std::cerr << "Case C-common - transplanting on " << z->data.first << " and " << (y ? y->data.first : 0) << std::endl;
 				RedBlackTransplant(z, y);
-				std::cerr << "after transplanting" << std::endl;
+//				std::cerr << "after transplanting" << std::endl;
 				y->left = z->left;
 				y->left->parent = y;
 				y->colour = z->colour;
 			}
 			if (y_orignal_colour == BLACK) {
-				std::cerr << "gotta fix up!" << std::endl;
+//				std::cerr << "gotta fix up!" << std::endl;
 				RedBlackDeleteFixup(x);
 			}
 		}
 		void	RedBlackDeleteFixup(mapnode *x) {
-			std::cerr << _RED << _BOLD << "Red Black Delete Fixup" << std::endl << _END;
+//			std::cerr << _RED << _BOLD << "Red Black Delete Fixup" << std::endl << _END;
 			if (x == 0)
 				return ;
 			while (x != this->_root && x->colour == BLACK) {
 				if (x == x->parent->left) { // Case A
 					mapnode *w = x->parent->right;
 					if (w->colour == RED) { // Case 1
-						std::cerr << _RED << _BOLD << "Case A-1 ==> left rotation on " << x->parent->data.first << std::endl << _END;
+//						std::cerr << _RED << _BOLD << "Case A-1 ==> left rotation on " << x->parent->data.first << std::endl << _END;
 						w->colour = BLACK;
 						x->parent->colour = RED;
 						left_rotation(x->parent);
 						w = x->parent->right;
 					}
 					if (w->left->colour == BLACK && w->right->colour == BLACK) { // case 2
-						std::cerr << _RED << _BOLD << "Case A-2 ==> no rotation " << std::endl << _END;
+//						std::cerr << _RED << _BOLD << "Case A-2 ==> no rotation " << std::endl << _END;
 						w->colour = RED;
 						x = x->parent;
 					}
 					else { // Case 3 or 4
 						if (w->right->colour == BLACK) { // Case 3
-							std::cerr << _RED << _BOLD << "Case A-3 ==> right rotation on " << w->data.first << std::endl << _END;
+//							std::cerr << _RED << _BOLD << "Case A-3 ==> right rotation on " << w->data.first << std::endl << _END;
 							w->left->colour = BLACK;
 							w->colour = RED;
 							right_rotation(w);
 							w = x->parent->right;
 						}
 						else { // Case 4
-							std::cerr << _RED << _BOLD << "Case A-4 ==> left rotation on " << x->parent->data.first << std::endl << _END;
+//							std::cerr << _RED << _BOLD << "Case A-4 ==> left rotation on " << x->parent->data.first << std::endl << _END;
 							w->colour = x->parent->colour;
 							x->parent->colour = BLACK;
 							w->right->colour = BLACK;
@@ -592,27 +589,27 @@ template < class Key, class T, class Compare = less<Key>, class Alloc = std::all
 				else { // Case B
 					mapnode *w = x->parent->left;
 					if (w->colour == RED) { // Case 1
-						std::cerr << _RED << _BOLD << "Case B-1 ==> right rotation on " << x->parent->data.first << std::endl << _END;
+//						std::cerr << _RED << _BOLD << "Case B-1 ==> right rotation on " << x->parent->data.first << std::endl << _END;
 						w->colour = BLACK;
 						x->parent->colour = RED;
 						right_rotation(x->parent);
 						w = x->parent->left;
 					}
 					if (w->right->colour == BLACK && w->left->colour == BLACK) { // Case 2
-						std::cerr << _RED << _BOLD << "Case B-2 ==> no rotation" << std::endl << _END;
+//						std::cerr << _RED << _BOLD << "Case B-2 ==> no rotation" << std::endl << _END;
 						w->colour = RED;
 						x = x->parent;
 					}
 					else { // Case 3 or 4
 						if (w->left->colour == BLACK) { // Case 3
-							std::cerr << _RED << _BOLD << "Case B-3 ==> left rotation on " << w->data.first << std::endl << _END;
+//							std::cerr << _RED << _BOLD << "Case B-3 ==> left rotation on " << w->data.first << std::endl << _END;
 							w->right->colour = BLACK;
 							w->colour = RED;
 							left_rotation(w);
 							w = x->parent->left;
 						}
 						else { // Case 4
-							std::cerr << _RED << _BOLD << "Case B-4 ==> right rotation on " << x->parent->data.first << std::endl << _END;
+//							std::cerr << _RED << _BOLD << "Case B-4 ==> right rotation on " << x->parent->data.first << std::endl << _END;
 							w->colour = x->parent->colour;
 							x->parent->colour = BLACK;
 							w->left->colour = BLACK;
