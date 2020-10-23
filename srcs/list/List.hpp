@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/10/22 23:12:29 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/23 15:45:02 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ namespace ft {
 			this->assign(x.begin(), x.end());
 		}
 		list&	operator=(const list& x) {
-			std::cerr << "calling operator=" << std::endl;
 			this->clear();
 			this->head->next = this->tail;
 			this->tail->prev = this->head;
@@ -240,12 +239,14 @@ namespace ft {
 			return first;
 		}
 		void	swap(list& x) {
-			// swap(this->head, x.head);
-			// swap(this->tail, x.tail);
-			// ft::itemswap(this->length, x.length);
-			list tmp(x);
-			x = *this;
-			*this = tmp;
+			node_pointer tmp(this->head);
+			this->head = x.head;
+			x.head = tmp;
+			tmp = this->tail;
+			this->tail = x.tail;
+			x.tail = tmp;
+			ft::itemswap(this->length, x.length);
+			ft::itemswap(this->alloc, x.alloc);
 		}
 		void	resize(size_type n, value_type val = value_type()) {
 			while (this->length > n) {
@@ -320,7 +321,7 @@ namespace ft {
 			iterator it = begin();
 			++it;
 			while (it != end()) {
-				if (binary_pred(*it, it.getprev()->data))
+				if (binary_pred(*it, *it.getprev()->data))
 					it = erase(it);
 				else
 					++it;
@@ -342,7 +343,7 @@ namespace ft {
 			iterator it = begin();
 			++it;
 			while (it != end()) {
-				if (comp(it, it.getprev()->data)) {
+				if (comp(*it, it.getprev()->data)) {
 					this->swap(it.getptr(), it.getprev());
 					it = begin();
 				}
@@ -367,8 +368,8 @@ namespace ft {
 				return ;
 			iterator it = begin();
 			iterator xit = x.begin();
-			while (it != end()) {
-				while (it != end() && comp(it, xit))
+			while (it != end() && xit != x.end()) {
+				while (it != end() && comp(*it, *xit))
 					++it;
 				++xit;
 				this->splice(it, x, xit.getprev());
