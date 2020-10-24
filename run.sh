@@ -27,7 +27,7 @@ function test {
 			D="DEBUG=1"
 		elif [[ $var == "g++" || $var == "clang" ]]; then
 			C="COMPILER=$var"
-			echo "OSTYPE = $OSTYPE"
+			echo -e "OSTYPE = $OSTYPE"
 			if [[ $OSTYPE == *"darwin"* && $var == "g++" ]]; then
 				C="COMPILER=$(brew --prefix)/bin/g++-10"
 			fi
@@ -47,27 +47,21 @@ function test {
 	make "$1" $C $D && ./containers.out "$TIME" "$LEAKS" > tests/ft.txt #2>&1
 	STATUS_FT=$?
 
-	echo $ECHOARG "${ORANGE}Startin testing for $1${RESET}"
-	echo $ECHOARG "${PURPLE}STATUS_FT = ${STATUS_FT}, STATUS_STD = ${STATUS_STD}${RESET}"
+	echo -e "${ORANGE}Startin testing for $1${RESET}"
+	echo -e "${PURPLE}STATUS_FT = ${STATUS_FT}, STATUS_STD = ${STATUS_STD}${RESET}"
 	if [[ $STATUS_FT -ne 0 || $STATUS_STD -ne 0 ]]; then
 		exit
 	fi
 
 	diff tests/ft.txt tests/std.txt > tests/diff.txt;
 	if [ $? -eq 1 ]; then
-		echo $ECHOARG "${RED}Diff failed${RESET}"
+		echo -e "${RED}Diff failed${RESET}"
 		cat tests/diff.txt
 		exit 1
 	else
-		echo $ECHOARG "${LIGHTPURPLE}Diff found no differences${RESET}"
+		echo -e "${LIGHTPURPLE}Diff found no differences${RESET}"
 	fi	
 }
-
-#if [[ $OSTYPE == *"linux"* || $2 == "workflow" ]]; then
-	ECHOARG='-e'
-#else
-#	ECHOARG=''
-#fi
 
 declare -a arr=("list" "vector" "map" "stack" "queue" "deque" "set" "multiset" "multimap")
 ARG="all"
