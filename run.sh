@@ -1,3 +1,4 @@
+#!/bin/bash
 # **************************************************************************** #
 #                                                                              #
 #                                                         ::::::::             #
@@ -10,7 +11,6 @@
 #                                                                              #
 # **************************************************************************** #
 
-#!/bin/bash
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 ORANGE='\033[0;33m'
@@ -21,7 +21,7 @@ LIGHTCYAN='\033[1;36m'
 RESET='\033[0m'
 
 function test {
-	for var in $@
+	for var in "$@"
 	do
 		if [[ $var == "debug" ]]; then
 			D="DEBUG=1"
@@ -39,12 +39,12 @@ function test {
 	done
 	make fuckingclean
 
-	sed "s/ft::/std::/g" tests/$1_main.cpp > tests/$1_stdmain.cpp
+	sed "s/ft::/std::/g" tests/"$1"_main.cpp > tests/"$1"_stdmain.cpp
 
-	make $1 $C $D STD=1 && ./containers.out $TIME $LEAKS > tests/std.txt #2>&1
+	make "$1" $C $D STD=1 && ./containers.out "$TIME" "$LEAKS" > tests/std.txt #2>&1
 	STATUS_STD=$?
 
-	make $1 $C $D && ./containers.out $TIME $LEAKS > tests/ft.txt #2>&1
+	make "$1" $C $D && ./containers.out "$TIME" "$LEAKS" > tests/ft.txt #2>&1
 	STATUS_FT=$?
 
 	echo $ECHOARG "${ORANGE}Startin testing for $1${RESET}"
@@ -55,21 +55,21 @@ function test {
 
 	diff tests/ft.txt tests/std.txt > tests/diff.txt;
 	if [ $? -eq 1 ]; then
-		echo "$ECHOARG" "${RED}Diff failed${RESET}"
+		echo $ECHOARG "${RED}Diff failed${RESET}"
 		cat tests/diff.txt
 		exit 1
 	else
-		echo "$ECHOARG" "${LIGHTPURPLE}Diff found no differences${RESET}"
+		echo $ECHOARG "${LIGHTPURPLE}Diff found no differences${RESET}"
 	fi	
 }
 
-if [[ $OSTYPE == *"linux"* || $2 == "workflow" ]]; then
+#if [[ $OSTYPE == *"linux"* || $2 == "workflow" ]]; then
 	ECHOARG='-e'
-else
-	ECHOARG=''
-fi
+#else
+#	ECHOARG=''
+#fi
 
-declare -a arr=("list" "vector" "map" "stack" "queue" "multimap" "set" "multiset" "deque")
+declare -a arr=("list" "vector" "map" "stack" "queue" "deque" "set" "multiset" "multimap")
 ARG="all"
 for var in "$@"
 do

@@ -6,9 +6,13 @@ set(CMAKE_CXX_STANDARD 14)
 include_directories(.)
 include_directories(srcs)
 include_directories(srcs/Iterators)
-include_directories(srcs/List)
-include_directories(srcs/Map)
-include_directories(srcs/Vector)
+include_directories(srcs/utils)
+include_directories(srcs/list)
+include_directories(srcs/vector)
+include_directories(srcs/map)
+include_directories(srcs/stack)
+include_directories(srcs/queue)
+include_directories(srcs/multimap)
 
 add_executable(ft_containers
         srcs/Iterators/BidirectionalIterator.hpp

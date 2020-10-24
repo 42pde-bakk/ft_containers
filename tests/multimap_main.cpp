@@ -3,6 +3,7 @@
 //
 
 #include "Multimap.hpp"
+//#include "../srcs/multimap/Multimap.hpp"
 #include <map>
 #include <string>
 #include <iostream>
@@ -22,21 +23,21 @@ struct timeval	tv;
 
 template< typename K, typename V >
 void	print_container_content(ft::multimap<K, V>& mappie, std::string name = "container") {
-	std::cout << name << " contains:";
+	std::cout << name << " contains:\n";
 	for (typename ft::multimap<K, V>::const_iterator it = mappie.begin(); it != mappie.end(); it++)
-		std::cout << ' ' << it->second;
+		std::cout << it->first << " => " << it->second << std::endl;
 	std::cout << " $" << std::endl;
 }
 
 void 	peer() {
 	ft::multimap<char, int>	hats;
-	hats.insert(std::make_pair('a', 7));
-	hats.insert(std::make_pair('a', 5));
+	hats.insert(std::make_pair('a', 6));
+	hats.insert(std::make_pair('a', 0));
 	hats.insert(std::make_pair('b', 7));
 	hats.insert(std::make_pair('c', 9));
 	hats.insert(std::make_pair('c', 16));
 	hats.insert(std::make_pair('c', 0));
-	hats.printBT();
+//	hats.printBT();
 
 	print_container_content(hats);
 }
