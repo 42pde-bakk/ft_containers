@@ -16,10 +16,6 @@ jobs:
     - name: ./run.sh MultiMap
       run: |
         ./run.sh multimap
-        echo "now we print STL"
-        cat std.txt
-        echo "now we print mine"
-        cat ft.txt
 
   stevejobs:
 
@@ -30,7 +26,3 @@ jobs:
     - name: ./run.sh MultiMap
       run: |
         ./run.sh multimap
-        echo "now we print STL"
-        cat std.txt
-        echo "now we print mine"
-        cat ft.txt

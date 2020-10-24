@@ -33,8 +33,8 @@ void 	peer() {
 	ft::multimap<char, int>	hats;
 	hats.insert(std::make_pair('a', 6));
 	hats.insert(std::make_pair('a', 0));
-	hats.insert(std::make_pair('b', 7));
-	hats.insert(std::make_pair('c', 9));
+	hats.insert(std::make_pair('a', 7));
+	hats.insert(std::make_pair('a', 9));
 	hats.insert(std::make_pair('c', 16));
 	hats.insert(std::make_pair('c', 0));
 //	hats.printBT();

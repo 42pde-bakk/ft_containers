@@ -83,20 +83,9 @@ template < class Key, class Value, class Compare = less<Key>, class Alloc = std:
 				else break ;
 			}
 			while (it) {
-				if (val.second < it->data.second) {
-					std::cerr << "val.first " << val.first << " is equal to it->data.first " << it->data.first << std::endl;
-					std::cerr << "val.second " << val.second << " is lower than it->data.second " << it->data.second << std::endl;
-					if (it->left && it->left != this->_first)
-						it = it->left;
-					else return iterator(Base::insert_left(it, val));
-				}
-				else {
-					std::cerr << "val.first " << val.first << " is equal to it->data.first " << it->data.first << std::endl;
-					std::cerr << "val.second " << val.second << " is not lower than it->data.second " << it->data.second << std::endl;
-					if (it->right && it->right != this->_last)
-						it = it->right;
-					else return iterator(Base::insert_right(it, val));
-				}
+				if (it->right && it->right != this->_last)
+					it = it->right;
+				else return iterator(Base::insert_right(it, val));
 			}
 			return Base::end();
 		}
