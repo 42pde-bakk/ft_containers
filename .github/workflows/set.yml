@@ -1,0 +1,28 @@
+name: Set - Check Ubuntu & macOS compilation C++ CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  jobuntu:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: ./run.sh Set
+      run: |
+        ./run.sh set
+
+  stevejobs:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: ./run.sh Set
+      run: |
+        ./run.sh set
