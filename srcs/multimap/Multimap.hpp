@@ -10,15 +10,15 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MAP_HPP
-# define MAP_HPP
+#ifndef MULTIMAP_HPP
+# define MULTIMAP_HPP
 
 # include "../utils/MapBase.hpp"
 
 namespace ft {
 
 template < class Key, class Value, class Compare = less<Key>, class Alloc = std::allocator<std::pair<const Key,Value> > >
-	class map : public MapBase<Key,Value, Compare, Alloc>  {
+	class multimap : public MapBase<Key,Value, Compare, Alloc>  {
 	public:
 		typedef MapBase<Key, Value, Compare, Alloc>	Base;
 		using typename								Base::key_type;
@@ -39,22 +39,21 @@ template < class Key, class Value, class Compare = less<Key>, class Alloc = std:
 		using typename								Base::size_type;
 
 	// Constructors, destructors and operator=
-		explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
+		explicit multimap(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
 				: Base(comp, alloc) {
 		}
 		template <class InputIterator>
-		map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type(),
+		multimap (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type(),
 					typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0)
 				: Base(comp, alloc) {
 			this->insert(first, last);
 		}
-		map (const map& x) : Base() {
+		multimap (const multimap& x) : Base() {
 			this->insert(x.begin(), x.end());
 		}
+		virtual	~multimap() { }
 
-		virtual	~map() { }
-
-		map& operator= (const map& x) {
+		multimap& operator= (const multimap& x) {
 			if (this != &x) {
 				this->clear();
 				this->_alloc = x._alloc;
@@ -64,44 +63,42 @@ template < class Key, class Value, class Compare = less<Key>, class Alloc = std:
 			return (*this);
 		}
 	// Iterator functions: see MapBase
-
 	// Capacity functions: see MapBase
-
-	// Element access functions
-		mapped_type&		operator[](const key_type& k) {
-			return insert(std::make_pair(k, mapped_type())).first->second;
-		}
-		mapped_type&		at(const key_type& k) {
-			iterator it = Base::find(k);
-			if (it == Base::end())
-				throw std::out_of_range("map::at:  key not found");
-			return it->second;
-		}
-		const mapped_type&	at(const key_type& k) const {
-			const_iterator it = Base::find(k);
-			if (it == Base::end())
-				throw std::out_of_range("map::at:  key not found");
-			return it->second;
-		}
 	// Modifier functions: see Base
-		std::pair<iterator, bool>	insert(const value_type& val) {
+		iterator	insert(const value_type& val) {
 			if (this->_size == 0)
-				return (std::make_pair(iterator(Base::insert_root(val)), true));
+				return iterator(Base::insert_root(val));
 			mapnode	*it(this->_root);
 			while (it) {
 				if (key_compare()(val.first, it->data.first)) {
 					if (it->left && it->left != this->_first)
 						it = it->left;
-					else return std::make_pair(iterator(Base::insert_left(it, val)), true);
+					else return iterator(Base::insert_left(it, val));
 				}
 				else if (key_compare()(it->data.first, val.first)) {
 					if (it->right && it->right != this->_last)
 						it = it->right;
-					else return std::make_pair(iterator(Base::insert_right(it, val)), true);
+					else return iterator(Base::insert_right(it, val));
 				}
 				else break ;
 			}
-			return std::make_pair(iterator(it), false);
+			while (it) {
+				if (val.second < it->data.second) {
+					std::cerr << "val.first " << val.first << " is equal to it->data.first " << it->data.first << std::endl;
+					std::cerr << "val.second " << val.second << " is lower than it->data.second " << it->data.second << std::endl;
+					if (it->left && it->left != this->_first)
+						it = it->left;
+					else return iterator(Base::insert_left(it, val));
+				}
+				else {
+					std::cerr << "val.first " << val.first << " is equal to it->data.first " << it->data.first << std::endl;
+					std::cerr << "val.second " << val.second << " is not lower than it->data.second " << it->data.second << std::endl;
+					if (it->right && it->right != this->_last)
+						it = it->right;
+					else return iterator(Base::insert_right(it, val));
+				}
+			}
+			return Base::end();
 		}
 		iterator				insert(iterator position, const value_type& val,
 									   typename enable_if<is_iterator<typename iterator::iterator_category>::value, iterator>::type * = 0) {
@@ -115,12 +112,34 @@ template < class Key, class Value, class Compare = less<Key>, class Alloc = std:
 				++first;
 			}
 		}
+		size_type	erase(const key_type& k) {
+			size_type ret = 0;
+			mapnode	*trav(this->_root);
+			while (trav) {
+				if (key_compare()(k, trav->data.first)) {
+					trav = trav->left;
+				}
+				else if (key_compare()(trav->data.first, k))
+					trav = trav->right;
+				else {
+					mapnode	*erase(trav);
+					trav = trav->parent;
+					Base::RedBlackDelete((erase));
+					delete erase;
+					--this->_size;
+					++ret;
+					if (!trav)
+						trav = this->_root;
+				}
+			}
+			return ret;
+		}
 	// Observer functions: see Base
 
 	// Operation functions: see Base
 	};
 
-/* Relational operators (map): see Base */
+/* Relational operators (multimap): see Base */
 
 } // ft namespace
 

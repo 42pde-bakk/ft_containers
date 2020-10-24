@@ -13,19 +13,20 @@ include_directories(srcs/Vector)
 add_executable(ft_containers
         srcs/Iterators/BidirectionalIterator.hpp
         srcs/Iterators/RandomAccessIterator.hpp
-        srcs/List/List.hpp
-        srcs/List/ListNode.hpp
-        srcs/Map/Map.hpp
-        srcs/Map/MapNode.hpp
-        srcs/Vector/Vector.hpp
-        srcs/Stack/Stack.hpp
-        srcs/Queue/Queue.hpp
-        srcs/Extra.hpp
-        srcs/Traits.hpp
-        srcs/Colours.h
+        srcs/list/List.hpp
+        srcs/list/ListNode.hpp
+        srcs/map/Map.hpp
+        srcs/utils/MapNode.hpp
+        srcs/multimap/MultiMap.hpp
+        srcs/vector/Vector.hpp
+        srcs/stack/Stack.hpp
+        srcs/queue/Queue.hpp
+        srcs/utils/Extra.hpp
+        srcs/utils/Traits.hpp
+        srcs/utils/Colours.h
         tests/list_main.cpp
         tests/vector_main.cpp
         tests/map_main.cpp
         tests/stack_main.cpp
         tests/queue_main.cpp
-        )
+        tests/multimap_main.cpp)

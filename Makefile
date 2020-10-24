@@ -29,7 +29,7 @@ ifdef STD
  FILES = stdmain.cpp
 endif
 
-list vector map stack queue: fclean
+list vector map stack queue multimap set multiset deque: fclean
 	$(CXX) $(CXXFLAGS) $(TESTDIR)/$@_$(FILES) -Isrcs/$@ -o $(NAME)
 	
 clean:

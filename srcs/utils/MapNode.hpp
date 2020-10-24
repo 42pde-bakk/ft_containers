@@ -13,7 +13,7 @@
 #ifndef MAPNODE_HPP
 # define MAPNODE_HPP
 
-# include "../Colours.h"
+# include "Colours.h"
 
 namespace ft {
 

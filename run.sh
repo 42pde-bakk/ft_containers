@@ -55,11 +55,11 @@ function test {
 
 	diff tests/ft.txt tests/std.txt > tests/diff.txt;
 	if [ $? -eq 1 ]; then
-		echo $ECHOARG "${RED}Diff failed${RESET}"
+		echo "$ECHOARG" "${RED}Diff failed${RESET}"
 		cat tests/diff.txt
 		exit 1
 	else
-		echo $ECHOARG "${LIGHTPURPLE}Diff found no differences${RESET}"
+		echo "$ECHOARG" "${LIGHTPURPLE}Diff found no differences${RESET}"
 	fi	
 }
 
@@ -69,13 +69,13 @@ else
 	ECHOARG=''
 fi
 
-declare -a arr=("list" "vector" "map" "stack" "queue")
+declare -a arr=("list" "vector" "map" "stack" "queue" "multimap" "set" "multiset" "deque")
 ARG="all"
-for var in $@
+for var in "$@"
 do
 	for container in "${arr[@]}"
 	do
-		if [[ $var == $container ]]; then
+		if [[ $var == "$container" ]]; then
 			ARG=$container
 		fi
 	done
@@ -84,10 +84,10 @@ done
 if [[ $ARG == "all" ]]; then
 	for i in "${arr[@]}"
 	do
-		test $i $2 $3 $4
+		test "$i" "$2" "$3" "$"4
 	done
 else
-	test $ARG $2 $3 $4
+	test "$ARG" "$2" "$3" "$4"
 fi	
 
 
