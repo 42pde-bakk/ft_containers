@@ -20,16 +20,16 @@ size_t begintime;
 size_t endtime;
 struct timeval	tv;
 
-template< typename K, typename V >
-void	print_container_content(ft::set<K, V>& mappie, std::string name = "container") {
+template< typename K >
+void	print_container_content(ft::set<K>& mappie, const std::string& name = "container") {
 	std::cout << name << " contains:\n";
-	for (typename ft::set<K, V>::const_iterator it = mappie.begin(); it != mappie.end(); it++)
-		std::cout << it->first << " => " << it->second << std::endl;
+	for (typename ft::set<K>::const_iterator it = mappie.begin(); it != mappie.end(); it++)
+		std::cout << *it << std::endl;
 	std::cout << " $" << std::endl;
 }
 
 void 	peer() {
-	ft::set<int>	hats;
+	ft::set<char>	hats;
 	hats.insert('a');
 	hats.insert('b');
 	hats.insert('a');

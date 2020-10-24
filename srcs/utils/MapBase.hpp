@@ -97,7 +97,7 @@ template < class Key, class Value, class Compare = less<Key>, class Alloc = std:
 		size_type	max_size() const { return this->_alloc.max_size() / 2; }
 	// Modifier functions
 		void		erase(iterator position) {
-			mapnode	*erase = find(position);
+			mapnode	*erase = this->find(position);
 			if (erase == _last)
 				return ;
 			RedBlackDelete(erase);

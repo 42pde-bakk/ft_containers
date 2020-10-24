@@ -103,13 +103,12 @@ template < class Key, class Value, class Compare = less<Key>, class Alloc = std:
 			}
 			return std::make_pair(iterator(it), false);
 		}
-		iterator				insert(iterator position, const value_type& val,
-									   typename enable_if<is_iterator<typename iterator::iterator_category>::value, iterator>::type * = 0) {
+		iterator	insert(iterator position, const value_type& val, typename enable_if<is_iterator<typename iterator::iterator_category>::value, iterator>::type * = 0) {
 			(void)position;
 			return insert(val).first;
 		}
 		template <class InputIterator>
-		void					insert(InputIterator first, InputIterator last) { //, typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) {
+		void		insert(InputIterator first, InputIterator last, typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) {
 			while (first != last) {
 				insert(*first);
 				++first;

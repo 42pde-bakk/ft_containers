@@ -10,17 +10,17 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MULTIMAP_HPP
-# define MULTIMAP_HPP
+#ifndef MULTISET_HPP
+# define MULTISET_HPP
 
 # include "../utils/MapBase.hpp"
 
 namespace ft {
 
-template < class Key, class Value, class Compare = less<Key>, class Alloc = std::allocator<std::pair<const Key,Value> > >
-	class multiset : public MapBase<Key,Value, Compare, Alloc>  {
+template < class Key, class Value, class Compare = less<Key>, class Alloc = std::allocator<Key> >
+	class multiset : public MapBase<Key, Key, Compare, Alloc>  {
 	public:
-		typedef MapBase<Key, Value, Compare, Alloc>	Base;
+		typedef MapBase<Key, Key, Compare, Alloc>	Base;
 		using typename								Base::key_type;
 		using typename								Base::mapped_type;
 		using typename								Base::value_type;

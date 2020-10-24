@@ -10,33 +10,33 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MULTIMAP_HPP
-# define MULTIMAP_HPP
+#ifndef SET_HPP
+# define SET_HPP
 
 # include "../utils/MapBase.hpp"
 
 namespace ft {
 
-template < class Key, class Value, class Compare = less<Key>, class Alloc = std::allocator<std::pair<const Key,Value> > >
-	class set : public MapBase<Key,Value, Compare, Alloc>  {
+template < class Key, class Compare = less<Key>, class Alloc = std::allocator<Key> >
+	class set : public MapBase<Key, Key, Compare, Alloc>  {
 	public:
-		typedef MapBase<Key, Value, Compare, Alloc>	Base;
-		using typename								Base::key_type;
-		using typename								Base::mapped_type;
-		using typename								Base::value_type;
-		using typename								Base::key_compare;
-		using typename								Base::allocator_type;
-		using typename								Base::reference;
-		using typename								Base::const_reference;
-		using typename								Base::pointer;
-		using typename								Base::const_pointer;
-		using typename								Base::mapnode;
-		using typename								Base::iterator;
-		using typename								Base::const_iterator;
-		using typename								Base::reverse_iterator;
-		using typename								Base::const_reverse_iterator;
-		using typename								Base::difference_type;
-		using typename								Base::size_type;
+		typedef MapBase<Key, Key, Compare, Alloc>	Base;
+		typedef Key					key_type;
+		typedef Key					value_type;
+		typedef	Compare				key_compare;
+		typedef	Compare				value_compare;
+		typedef Alloc				allocator_type;
+		typedef value_type&			reference;
+		typedef const value_type&	const_reference;
+		typedef value_type*			pointer;
+		typedef	const value_type*	const_pointer;
+		using typename				Base::mapnode;
+		using typename				Base::iterator;
+		using typename				Base::const_iterator;
+		using typename				Base::reverse_iterator;
+		using typename				Base::const_reverse_iterator;
+		using typename				Base::difference_type;
+		using typename				Base::size_type;
 
 	// Constructors, destructors and operator=
 		explicit set(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
@@ -65,57 +65,35 @@ template < class Key, class Value, class Compare = less<Key>, class Alloc = std:
 	// Iterator functions: see MapBase
 	// Capacity functions: see MapBase
 	// Modifier functions: see Base
-		iterator	insert(const value_type& val) {
+		std::pair<iterator, bool>	insert(const value_type& val) {
 			if (this->_size == 0)
-				return iterator(Base::insert_root(val));
+				return (std::make_pair(iterator(Base::insert_root(std::make_pair(val, val))), true));
 			mapnode	*it(this->_root);
 			while (it) {
-				if (key_compare()(val.first, it->data.first)) {
+				if (key_compare()(val, *it)) {
 					if (it->left && it->left != this->_first)
 						it = it->left;
-					else return iterator(Base::insert_left(it, val));
+					else return std::make_pair(iterator(Base::insert_left(it, std::make_pair(val, val))), true);
 				}
-				else  {
+				else if (key_compare()(it->data, val)) {
 					if (it->right && it->right != this->_last)
 						it = it->right;
-					else return iterator(Base::insert_right(it, val));
+					else return std::make_pair(iterator(Base::insert_right(it, val)), true);
 				}
+				else break ;
 			}
-			return Base::end();
+			return std::make_pair(iterator(it), false);
 		}
-		iterator				insert(iterator position, const value_type& val,
-									   typename enable_if<is_iterator<typename iterator::iterator_category>::value, iterator>::type * = 0) {
+		iterator				insert(iterator position, const value_type& val, typename enable_if<is_iterator<typename iterator::iterator_category>::value, iterator>::type * = 0) {
 			(void)position;
 			return insert(val).first;
 		}
 		template <class InputIterator>
-		void					insert(InputIterator first, InputIterator last) { //, typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) {
+		void					insert(InputIterator first, InputIterator last, typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) {
 			while (first != last) {
 				insert(*first);
 				++first;
 			}
-		}
-		size_type	erase(const key_type& k) {
-			size_type ret = 0;
-			mapnode	*trav(this->_root);
-			while (trav) {
-				if (key_compare()(k, trav->data.first)) {
-					trav = trav->left;
-				}
-				else if (key_compare()(trav->data.first, k))
-					trav = trav->right;
-				else {
-					mapnode	*erase(trav);
-					trav = trav->parent;
-					Base::RedBlackDelete((erase));
-					delete erase;
-					--this->_size;
-					++ret;
-					if (!trav)
-						trav = this->_root;
-				}
-			}
-			return ret;
 		}
 	// Observer functions: see Base
 
