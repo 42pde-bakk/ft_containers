@@ -75,17 +75,11 @@ template < class Key, class Value, class Compare = less<Key>, class Alloc = std:
 						it = it->left;
 					else return iterator(Base::insert_left(it, val));
 				}
-				else if (key_compare()(it->data.first, val.first)) {
+				else  {
 					if (it->right && it->right != this->_last)
 						it = it->right;
 					else return iterator(Base::insert_right(it, val));
 				}
-				else break ;
-			}
-			while (it) {
-				if (it->right && it->right != this->_last)
-					it = it->right;
-				else return iterator(Base::insert_right(it, val));
 			}
 			return Base::end();
 		}
@@ -126,6 +120,17 @@ template < class Key, class Value, class Compare = less<Key>, class Alloc = std:
 	// Observer functions: see Base
 
 	// Operation functions: see Base
+		virtual size_type	count(const key_type& k) const {
+			const_iterator	it = this->begin();
+			size_type		count = 0;
+
+			while (it != this->end()) {
+				if (key_compare()(k, *it) == false && key_compare()(*it, k) == false)
+					++count;
+				++it;
+			}
+			return count;
+		}
 	};
 
 /* Relational operators (multimap): see Base */

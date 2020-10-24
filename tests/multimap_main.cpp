@@ -31,13 +31,12 @@ void	print_container_content(ft::multimap<K, V>& mappie, std::string name = "con
 
 void 	peer() {
 	ft::multimap<char, int>	hats;
-	hats.insert(std::make_pair('a', 6));
 	hats.insert(std::make_pair('a', 0));
-	hats.insert(std::make_pair('a', 7));
-	hats.insert(std::make_pair('a', 9));
-	hats.insert(std::make_pair('c', 16));
-	hats.insert(std::make_pair('c', 0));
-//	hats.printBT();
+	hats.insert(std::make_pair('a', 1));
+	hats.insert(std::make_pair('a', 2));
+	hats.insert(std::make_pair('a', 3));
+	hats.insert(std::make_pair('c', 4));
+	hats.insert(std::make_pair('c', 5));
 
 	print_container_content(hats);
 }

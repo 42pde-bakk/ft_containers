@@ -158,7 +158,7 @@ template < class Key, class Value, class Compare = less<Key>, class Alloc = std:
 			}
 			return this->end();
 		}
-		size_type	count(const key_type& k) const {
+		virtual size_type	count(const key_type& k) const {
 			return (find(k) != this->end());
 		}
 		iterator			lower_bound(const key_type& k) {
@@ -206,9 +206,9 @@ template < class Key, class Value, class Compare = less<Key>, class Alloc = std:
 		void printBT() const {
 			printBT("", this->_root, false);
 			if (this->_first->parent && this->_first->parent != this->_last)
-				std::cerr << "parent of _first: " << this->_first->parent->data.first << std::endl;
+				std::cerr << "parent of _first: " << this->_first->parent->data.first << "->" << this->_first->parent->data.second << std::endl;
 			if (this->_last->parent && this->_last->parent != this->_first)
-				std::cerr << "parent of _last: " << this->_last->parent->data.first << std::endl;
+				std::cerr << "parent of _last: " << this->_last->parent->data.first << "-->" << this->_last->parent->data.second << std::endl;
 			std::cerr << std::endl;
 		}
 
@@ -216,13 +216,13 @@ template < class Key, class Value, class Compare = less<Key>, class Alloc = std:
 			void printBT(const std::string& prefix, const mapnode* trav, bool isLeft) const {
 				if (trav && trav != _first && trav != _last) {
 					std::cerr << prefix;
-					std::cerr << (isLeft ? "├──" : "└──" );
+					std::cerr << (isLeft ? "├L─" : "└R-" );
 					// print the value of the node
 					if (trav->colour == RED)
 						std::cerr << _RED;
 					else if (trav->colour == BLACK)
 						std::cerr << _IWHITE << _GREY;
-					std::cerr << trav->data.first << _END << std::endl ;
+					std::cerr << trav->data.first <<  "-" << trav->data.second << _END << std::endl ;
 					// enter the next tree level - left and right branch
 					printBT( prefix + (isLeft ? "│   " : "    "), trav->left, true);
 					printBT( prefix + (isLeft ? "│   " : "    "), trav->right, false);
@@ -346,23 +346,28 @@ template < class Key, class Value, class Compare = less<Key>, class Alloc = std:
 				return (check && check != this->_first && check != this->_last);
 			}
 			void	fixRedBlackViolations(mapnode *z) {
+//				std::cerr << "printBT before fixviolations, z = " << z->data.first << "->>" << z->data.second << std::endl;
+//				printBT();
 				while (z != this->_root && z->colour == RED && z->parent->colour == RED) {
 					mapnode *parent = z->parent;
 					mapnode *grandpa = parent->parent;
 					if (parent == grandpa->left) {
 						mapnode *uncle = grandpa->right;
-						if (uncle && uncle->colour == RED) { // Case 1: uncle is red, recolour
+						if (is_validnode(uncle) && uncle->colour == RED) { // Case 1: uncle is red, recolour
+//							std::cerr << _RED << _BOLD << "case A-1, checking z = " << z->data.first << "->" << z->data.second << std::endl;
 							grandpa->colour = RED;
 							parent->colour = BLACK;
 							uncle->colour = BLACK;
 							z = grandpa;
 						}
 						else if (z == parent->right) { // Case 2: node is right child of parent, left-rotation required
+//							std::cerr << _RED << _BOLD << "case A-2, doing left rotation around " << parent->data.first << "->" << parent->data.second << std::endl;
 							left_rotation(parent);
 							z = parent;
 							parent = z->parent;
 						}
 						else { // Case 3: node is left child of parent, right rotation required
+//							std::cerr << _RED << _BOLD << "case A-2, doing right rotation around " << grandpa->data.first << "->" << grandpa->data.second << std::endl;
 							right_rotation(grandpa);
 							ft::itemswap(parent->colour, grandpa->colour);
 						}
@@ -372,18 +377,21 @@ template < class Key, class Value, class Compare = less<Key>, class Alloc = std:
 					else if (parent == grandpa->right) {
 						mapnode *uncle = grandpa->left;
 
-						if (uncle && uncle->colour == RED) { // Case 1: uncle is red, recolour
+						if (is_validnode(uncle) && uncle->colour == RED) { // Case 1: uncle is red, recolour
+//							std::cerr << _RED << _BOLD << "case B-1, checking z = " << z->data.first << "->" << z->data.second << std::endl;
 							grandpa->colour = RED;
 							parent->colour = BLACK;
 							uncle->colour = BLACK;
 							z = grandpa;
 						}
 						else if (z == parent->left) { // Case 2: node is left child of parent, right-rotation required
+//							std::cerr << _RED << _BOLD << "case B-2, doing right rotation around " << parent->data.first << "->" << parent->data.second << std::endl;
 							right_rotation(parent);
 							z = parent;
 							parent = z->parent;
 						}
 						else {
+//							std::cerr << _RED << _BOLD << "case B-2, doing left rotation around " << grandpa->data.first << "->" << grandpa->data.second << std::endl;
 							left_rotation(grandpa);
 							ft::itemswap(parent->colour, grandpa->colour);
 							z = parent;
