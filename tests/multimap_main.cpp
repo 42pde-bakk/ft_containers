@@ -39,6 +39,10 @@ void 	peer() {
 	hats.insert(std::make_pair('c', 5));
 
 	print_container_content(hats);
+	std::cout << "hats size = " << hats.size();
+	std::cout << "count of 'a' = " << hats.count('a');
+	std::cout << "count of 'b' = " << hats.count('b');
+	std::cout << "count of 'c' = " << hats.count('c');
 }
 
 

@@ -125,7 +125,7 @@ template < class Key, class Value, class Compare = less<Key>, class Alloc = std:
 			size_type		count = 0;
 
 			while (it != this->end()) {
-				if (key_compare()(k, *it) == false && key_compare()(*it, k) == false)
+				if (key_compare()(k, it->first) == false && key_compare()(it->first, k) == false)
 					++count;
 				++it;
 			}
