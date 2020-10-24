@@ -1,0 +1,28 @@
+name: MultiMap - Check Ubuntu & macOS compilation C++ CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  jobuntu:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: ./run.sh MultiMap
+      run: |
+        ./run.sh multimap
+
+  stevejobs:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: ./run.sh MultiMap
+      run: |
+        ./run.sh multimap
