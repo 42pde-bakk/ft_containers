@@ -14,4 +14,10 @@ Stack: ![Stack - Check Ubuntu & macOS compilation C++ CI](https://github.com/pde
 
 Queue: ![Queue - Check Ubuntu & macOS compilation C++ CI](https://github.com/pde-bakk/ft_containers/workflows/Queue%20-%20Check%20Ubuntu%20&%20macOS%20compilation%20C++%20CI/badge.svg)
 
+Deque: ![Deque - Check Ubuntu & macOS compilation C++ CI](https://github.com/pde-bakk/ft_containers/workflows/Deque%20-%20Check%20Ubuntu%20&%20macOS%20compilation%20C++%20CI/badge.svg)
+
+Set: ![Set - Check Ubuntu & macOS compilation C++ CI](https://github.com/pde-bakk/ft_containers/workflows/Set%20-%20Check%20Ubuntu%20&%20macOS%20compilation%20C++%20CI/badge.svg)
+
+MultiSet: ![MultiSet - Check Ubuntu & macOS compilation C++ CI](https://github.com/pde-bakk/ft_containers/workflows/MultiSet%20-%20Check%20Ubuntu%20&%20macOS%20compilation%20C++%20CI/badge.svg)
+
 MultiMap: ![MultiMap - Check Ubuntu & macOS compilation C++ CI](https://github.com/pde-bakk/ft_containers/workflows/MultiMap%20-%20Check%20Ubuntu%20&%20macOS%20compilation%20C++%20CI/badge.svg)
