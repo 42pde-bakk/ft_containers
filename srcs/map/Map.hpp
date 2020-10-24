@@ -25,11 +25,6 @@
 
 namespace ft {
 
-template <class T>
-struct less : std::binary_function<T,T,bool> {
-	bool operator() (const T& x, const T& y) const { return (x < y); }
-};
-
 template < class Key, class T, class Compare = less<Key>, class Alloc = std::allocator<std::pair<const Key,T> > >
 	class map {
 	public:
@@ -57,9 +52,9 @@ template < class Key, class T, class Compare = less<Key>, class Alloc = std::all
 			Compare comp;
 			explicit value_compare (Compare c) : comp(c) {}  // constructed with map's comparison object
 		public:
-			typedef bool result_type;
-			typedef value_type first_argument_type;
-			typedef value_type second_argument_type;
+//			typedef bool result_type;
+//			typedef value_type first_argument_type;
+//			typedef value_type second_argument_type;
 			bool operator() (const value_type& x, const value_type& y) const {
 				return comp(x.first, y.first);
 			}
@@ -203,9 +198,11 @@ template < class Key, class T, class Compare = less<Key>, class Alloc = std::all
 			}
 		}
 		void		swap(map& x) {
-			map tmp(x);
-			x = *this;
-			*this = tmp;
+			itemswap(this->_size, x._size);
+			itemswap(this->_first, x._first);
+			itemswap(this->_root, x._root);
+			itemswap(this->_last, x._last);
+			itemswap(this->_alloc, x._alloc);
 		}
 		void		clear() {
 			if (!this->empty()) {
@@ -664,9 +661,11 @@ bool operator>= (const map<Key,T,Compare, Alloc>& lhs, const map<Key,T,Compare, 
 
 template <class Key, class T, class Compare, class Alloc>
 void swap (map<Key,T,Compare, Alloc>& x, map<Key,T,Compare, Alloc>& y) {
-	map<Key,T,Compare, Alloc> tmp(x);
-	x = y;
-	y = tmp;
+	itemswap(x._size, y._size);
+	itemswap(x._first, y._first);
+	itemswap(x._root, y._root);
+	itemswap(x._last, y._last);
+	itemswap(x._alloc, y._alloc);
 }
 
 } // ft namespace

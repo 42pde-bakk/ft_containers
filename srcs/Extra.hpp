@@ -56,6 +56,26 @@ namespace ft {
 		return (a < b ? b : a);
 	}
 
+	template<typename value_type>
+	struct less: public std::binary_function<value_type, value_type, bool> {
+		bool	operator()(const value_type& x, const value_type& y) const {
+			return (x < y);
+		}
+	};
+
+	template<typename value_type>
+	bool	is_equal(const value_type& a, const value_type& b) {
+		return (a == b);
+	}
+	template<typename value_type>
+	bool	less_than(const value_type& a, const value_type& b) {
+		return (a < b);
+	}
+	template<typename value_type>
+	bool	more_than(const value_type& a, const value_type& b) {
+		return (a > b);
+	}
+
 	template <class Iterator1, class Iterator2>
 	bool equal(Iterator1 first1, Iterator1 last1, Iterator2 first2)
 	{

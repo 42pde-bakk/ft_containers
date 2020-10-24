@@ -239,12 +239,8 @@ namespace ft {
 			return first;
 		}
 		void	swap(list& x) {
-			node_pointer tmp(this->head);
-			this->head = x.head;
-			x.head = tmp;
-			tmp = this->tail;
-			this->tail = x.tail;
-			x.tail = tmp;
+			ft::itemswap(this->head, x.head);
+			ft::itemswap(this->tail, x.tail);
 			ft::itemswap(this->length, x.length);
 			ft::itemswap(this->alloc, x.alloc);
 		}
@@ -458,9 +454,10 @@ bool operator>= (const list<T,Alloc>& lhs, const list<T,Alloc>& rhs) {
 
 template <class T, class Alloc>
 void swap (list<T,Alloc>& x, list<T,Alloc>& y) {
-	list<T, Alloc> tmp(x);
-	x = y;
-	y = tmp;
+	ft::itemswap(x.head, y.head);
+	ft::itemswap(x.tail, y.tail);
+	ft::itemswap(x.length, y.length);
+	ft::itemswap(x.alloc, y.alloc);
 }
   
 } // namespace ft
