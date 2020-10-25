@@ -18,9 +18,9 @@
 namespace ft {
 
 template < class Key, class Value, class Compare = less<Key>, class Alloc = std::allocator<std::pair<const Key,Value> > >
-class multimap : public MapBase<Key,Value, Compare, Alloc>  {
+class multimap : public MapBase<const Key, Value, std::pair<const Key, Value>, Compare, Alloc>  {
 	public:
-		typedef MapBase<Key, Value, Compare, Alloc>	Base;
+		typedef MapBase<const Key, Value, std::pair<const Key, Value>, Compare, Alloc>	Base;
 		using typename								Base::key_type;
 		using typename								Base::mapped_type;
 		using typename								Base::value_type;
@@ -37,14 +37,12 @@ class multimap : public MapBase<Key,Value, Compare, Alloc>  {
 		using typename								Base::const_reverse_iterator;
 		using typename								Base::difference_type;
 		using typename								Base::size_type;
-
 	// Constructors, destructors and operator=
 		explicit multimap(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
 				: Base(comp, alloc) {
 		}
 		template <class InputIterator>
-		multimap (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type(),
-					typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0)
+		multimap (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type() ) //, typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0)
 				: Base(comp, alloc) {
 			this->insert(first, last);
 		}
@@ -94,6 +92,14 @@ class multimap : public MapBase<Key,Value, Compare, Alloc>  {
 				++first;
 			}
 		}
+		void		erase(iterator position) {
+			mapnode	*erase = this->find(position);
+			if (erase == this->_last)
+				return ;
+			RedBlackDelete(erase);
+			delete erase;
+			--this->_size;
+		}
 		size_type	erase(const key_type& k) {
 			size_type ret = 0;
 			mapnode	*trav(this->_root);
@@ -116,19 +122,101 @@ class multimap : public MapBase<Key,Value, Compare, Alloc>  {
 			}
 			return ret;
 		}
+		void		erase(iterator first, iterator last) {
+			while (first != last) {
+				this->erase(first);
+				++first;
+			}
+		}
 	// Observer functions: see Base
 
 	// Operation functions: see Base
+		virtual iterator			find(const key_type& k) {
+			mapnode	*it(this->_root);
+			while (it && it != this->_first && it != this->_last) {
+				if (this->key_comp()(k, it->data.first))
+					it = it->left;
+				else if (this->key_comp()(it->data.first, k))
+					it = it->right;
+				else return iterator(it);
+			}
+			return this->end();
+		}
+		virtual const_iterator	find(const key_type& k) const {
+			mapnode	*it(this->_root);
+			while (it && it != this->_first && it != this->_last) {
+				if (this->key_comp()(k, it->data.first))
+					it = it->left;
+				else if (this->key_comp()(it->data.first, k))
+					it = it->right;
+				else return const_iterator(it);
+			}
+			return this->end();
+		}
 		virtual size_type	count(const key_type& k) const {
 			const_iterator	it = this->begin();
 			size_type		count = 0;
 
 			while (it != this->end()) {
-				if (key_compare()(k, it->first) == false && key_compare()(it->first, k) == false)
+				if (this->key_comp()(k, it->first) == false && key_compare()(it->first, k) == false)
 					++count;
 				++it;
 			}
 			return count;
+		}
+		iterator			lower_bound(const key_type& k) {
+			iterator	it = Base::begin(), ite = Base::end();
+			while (it != ite) {
+				if (this->key_comp()(it->first, k) == false)
+					break ;
+				++it;
+			}
+			return it;
+		}
+		const_iterator	lower_bound(const key_type& k) const {
+			const_iterator	it = Base::begin(), ite = Base::end();
+			while (it != ite) {
+				if (this->key_comp()(it->first, k) == false)
+					break ;
+				++it;
+			}
+			return it;
+		}
+		iterator			upper_bound(const key_type& k) {
+			iterator	it = Base::begin(), ite = Base::end();
+			while (it != ite) {
+				if (this->key_comp()(k, it->first))
+					break ;
+				++it;
+			}
+			return it;
+		}
+		const_iterator			upper_bound(const key_type& k) const {
+			const_iterator it = Base::begin(), ite = Base::end();
+			while (it != ite) {
+				if (this->key_comp()(k, it->first))
+					break ;
+				++it;
+			}
+			return it;
+		}
+		std::pair<const_iterator,const_iterator> equal_range (const key_type& k) const {
+			return std::make_pair(const_iterator(lower_bound(k)), const_iterator(upper_bound(k)));
+		}
+		std::pair<iterator,iterator>             equal_range (const key_type& k) {
+			return std::make_pair(iterator(lower_bound(k)), iterator(upper_bound(k)));
+		}
+	private:
+		mapnode			*find(iterator position) {
+			mapnode	*it(this->_root);
+			while (it && it != this->_first && it != this->_last) {
+				if (this->key_comp()(position->first, it->data.first))
+					it = it->left;
+				else if (this->key_comp()(it->data.first, position->first))
+					it = it->right;
+				else return (it);
+			}
+			return this->_last;
 		}
 	};
 

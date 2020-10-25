@@ -18,9 +18,9 @@
 namespace ft {
 
 template < class Key, class Value, class Compare = less<Key>, class Alloc = std::allocator<std::pair<const Key,Value> > >
-class map : public MapBase<Key,Value, Compare, Alloc>  {
+class map : public MapBase<const Key, Value, std::pair<const Key, Value>, Compare, Alloc>  {
 	public:
-		typedef MapBase<Key, Value, Compare, Alloc>	Base;
+		typedef MapBase<const Key, Value, std::pair<const Key, Value>, Compare, Alloc>	Base;
 		using typename								Base::key_type;
 		using typename								Base::mapped_type;
 		using typename								Base::value_type;
@@ -72,13 +72,13 @@ class map : public MapBase<Key,Value, Compare, Alloc>  {
 			return insert(std::make_pair(k, mapped_type())).first->second;
 		}
 		mapped_type&		at(const key_type& k) {
-			iterator it = Base::find(k);
+			iterator it =this->find(k);
 			if (it == Base::end())
 				throw std::out_of_range("map::at:  key not found");
 			return it->second;
 		}
 		const mapped_type&	at(const key_type& k) const {
-			const_iterator it = Base::find(k);
+			const_iterator it = this->find(k);
 			if (it == Base::end())
 				throw std::out_of_range("map::at:  key not found");
 			return it->second;
@@ -114,9 +114,109 @@ class map : public MapBase<Key,Value, Compare, Alloc>  {
 				++first;
 			}
 		}
+		void		erase(iterator position) {
+			mapnode	*erase = this->find(position);
+			if (erase == this->_last)
+				return ;
+			this->RedBlackDelete(erase);
+			delete erase;
+			--this->_size;
+		}
+		virtual size_type	erase(const key_type& k) {
+			iterator it = this->find(k);
+			if (it == this->end())
+				return 0;
+			this->erase(it);
+			return 1;
+		}
+		void		erase(iterator first, iterator last) {
+			while (first != last) {
+				this->erase(first);
+				++first;
+			}
+		}
 	// Observer functions: see Base
 
-	// Operation functions: see Base
+	// Operation functions
+		virtual iterator			find(const key_type& k) {
+			mapnode	*it(this->_root);
+			while (it && it != this->_first && it != this->_last) {
+				if (this->key_comp()(k, it->data.first))
+					it = it->left;
+				else if (this->key_comp()(it->data.first, k))
+					it = it->right;
+				else return iterator(it);
+			}
+			return this->end();
+		}
+		virtual const_iterator	find(const key_type& k) const {
+			mapnode	*it(this->_root);
+			while (it && it != this->_first && it != this->_last) {
+				if (this->key_comp()(k, it->data.first))
+					it = it->left;
+				else if (this->key_comp()(it->data.first, k))
+					it = it->right;
+				else return const_iterator(it);
+			}
+			return this->end();
+		}
+		virtual size_type	count(const key_type& k) const {
+			return (find(k) != this->end());
+		}
+		iterator			lower_bound(const key_type& k) {
+			iterator	it = Base::begin(), ite = Base::end();
+			while (it != ite) {
+				if (this->key_comp()(it->first, k) == false)
+					break ;
+				++it;
+			}
+			return it;
+		}
+		const_iterator	lower_bound(const key_type& k) const {
+			const_iterator	it = Base::begin(), ite = Base::end();
+			while (it != ite) {
+				if (this->key_comp()(it->first, k) == false)
+					break ;
+				++it;
+			}
+			return it;
+		}
+		iterator			upper_bound(const key_type& k) {
+			iterator	it = Base::begin(), ite = Base::end();
+			while (it != ite) {
+				if (this->key_comp()(k, it->first))
+					break ;
+				++it;
+			}
+			return it;
+		}
+		const_iterator			upper_bound(const key_type& k) const {
+			const_iterator it = Base::begin(), ite = Base::end();
+			while (it != ite) {
+				if (this->key_comp()(k, it->first))
+					break ;
+				++it;
+			}
+			return it;
+		}
+		std::pair<const_iterator,const_iterator> equal_range (const key_type& k) const {
+			return std::make_pair(const_iterator(lower_bound(k)), const_iterator(upper_bound(k)));
+		}
+		std::pair<iterator,iterator>             equal_range (const key_type& k) {
+			return std::make_pair(iterator(lower_bound(k)), iterator(upper_bound(k)));
+		}
+	private:
+		mapnode			*find(iterator position) {
+			mapnode	*it(this->_root);
+			while (it && it != this->_first && it != this->_last) {
+				if (this->key_comp()(position->first, it->data.first))
+					it = it->left;
+				else if (this->key_comp()(it->data.first, position->first))
+					it = it->right;
+				else return (it);
+			}
+			return this->_last;
+		}
 	};
 
 /* Relational operators (map): see Base */

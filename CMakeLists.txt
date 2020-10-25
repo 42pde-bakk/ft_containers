@@ -38,7 +38,7 @@ add_executable(ft_containers
         tests/map_main.cpp
         tests/stack_main.cpp
         tests/queue_main.cpp
-#        tests/deque_main.cpp
+        tests/deque_main.cpp
         tests/set_main.cpp
         tests/multiset_main.cpp
         tests/multimap_main.cpp

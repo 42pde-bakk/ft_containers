@@ -41,9 +41,11 @@ function test {
 
 	sed "s/ft::/std::/g" tests/"$1"_main.cpp > tests/"$1"_stdmain.cpp
 
+  echo -e "${RED}Compiling and testing for the STL version of the $1 container${RESET}"
 	make "$1" $C $D STD=1 && ./containers.out "$TIME" "$LEAKS" > tests/std.txt #2>&1
 	STATUS_STD=$?
 
+  echo -e "${GREEN}Compiling and testing for my FT version of the $1 container${RESET}"
 	make "$1" $C $D && ./containers.out "$TIME" "$LEAKS" > tests/ft.txt #2>&1
 	STATUS_FT=$?
 

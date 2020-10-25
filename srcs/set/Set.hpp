@@ -18,9 +18,9 @@
 namespace ft {
 
 template < class Key, class Compare = less<Key>, class Alloc = std::allocator<Key> >
-	class set : public MapBase<Key, Key, Compare, Alloc>  {
+	class set : public MapBase<const Key, const Key, const Key, Compare, Alloc>  {
 	public:
-		typedef MapBase<Key, Key, Compare, Alloc>	Base;
+		typedef MapBase<const Key, const Key, const Key, Compare, Alloc>	Base;
 		typedef Key					key_type;
 //		typedef Key					mapped_type;
 		typedef Key					value_type;
@@ -68,18 +68,18 @@ template < class Key, class Compare = less<Key>, class Alloc = std::allocator<Ke
 	// Modifier functions: see Base
 		std::pair<iterator, bool>	insert(const value_type& val) {
 			if (this->_size == 0)
-				return (std::make_pair(iterator(Base::insert_root(std::make_pair(val, val))), true));
+				return (std::make_pair(iterator(Base::insert_root(val)), true));
 			mapnode	*it(this->_root);
 			while (it) {
-				if (key_compare()(val, it->data.first)) {
+				if (this->key_comp()(val, it->data)) {
 					if (it->left && it->left != this->_first)
 						it = it->left;
-					else return std::make_pair(iterator(Base::insert_left(it, std::make_pair(val, val))), true);
+					else return std::make_pair(iterator(Base::insert_left(it, val)), true);
 				}
-				else if (key_compare()(it->data.first, val)) {
+				else if (key_compare()(it->data, val)) {
 					if (it->right && it->right != this->_last)
 						it = it->right;
-					else return std::make_pair(iterator(Base::insert_right(it, std::make_pair(val, val))), true);
+					else return std::make_pair(iterator(Base::insert_right(it, val)), true);
 				}
 				else break ;
 			}
@@ -97,7 +97,31 @@ template < class Key, class Compare = less<Key>, class Alloc = std::allocator<Ke
 			}
 		}
 	// Observer functions: see Base
-
+		virtual iterator			find(const key_type& k) {
+			mapnode	*it(this->_root);
+			while (it && it != this->_first && it != this->_last) {
+				if (this->key_comp()(k, it->data))
+					it = it->left;
+				else if (this->key_comp()(it->data, k))
+					it = it->right;
+				else return iterator(it);
+			}
+			return this->end();
+		}
+		virtual const_iterator	find(const key_type& k) const {
+			mapnode	*it(this->_root);
+			while (it && it != this->_first && it != this->_last) {
+				if (this->key_comp()(k, it->data))
+					it = it->left;
+				else if (this->key_comp()(it->data, k))
+					it = it->right;
+				else return const_iterator(it);
+			}
+			return this->end();
+		}
+		virtual size_type	count(const key_type& k) const {
+			return (find(k) != this->end());
+		}
 	// Operation functions: see Base
 
 	};

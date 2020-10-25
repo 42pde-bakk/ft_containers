@@ -24,12 +24,12 @@
 
 namespace ft {
 
-template < class Key, class Value, class Compare = less<Key>, class Alloc = std::allocator<std::pair<const Key,Value> > >
+template < class Key, class Value, class NodeContents, class Compare = less<Key>, class Alloc = std::allocator<std::pair<const Key,Value> > >
 	class MapBase {
 	public:
 		typedef Key							key_type;
 		typedef Value						mapped_type;
-		typedef std::pair<Key, Value>		value_type;
+		typedef NodeContents				value_type;
 		typedef	Compare						key_compare;
 		typedef Alloc						allocator_type;
 		typedef	value_type&					reference;
@@ -96,27 +96,7 @@ template < class Key, class Value, class Compare = less<Key>, class Alloc = std:
 		size_type	size() const { return (this->_size); }
 		size_type	max_size() const { return this->_alloc.max_size() / 2; }
 	// Modifier functions
-		void		erase(iterator position) {
-			mapnode	*erase = this->find(position);
-			if (erase == _last)
-				return ;
-			RedBlackDelete(erase);
-			delete erase;
-			--this->_size;
-		}
-		virtual size_type	erase(const key_type& k) {
-			iterator it = this->find(k);
-			if (it == end())
-				return 0;
-			erase(it);
-			return 1;
-		}
-		void		erase(iterator first, iterator last) {
-			while (first != last) {
-				erase(first);
-				++first;
-			}
-		}
+
 		void		swap(MapBase& x) {
 			itemswap(this->_size, x._size);
 			itemswap(this->_first, x._first);
@@ -136,73 +116,7 @@ template < class Key, class Value, class Compare = less<Key>, class Alloc = std:
 		value_compare	value_comp() const { return value_compare(this->_comp); }
 	
 	// Operation functions
-		virtual iterator			find(const key_type& k) {
-			mapnode	*it(this->_root);
-			while (it && it != this->_first && it != this->_last) {
-				if (key_compare()(k, it->data.first))
-					it = it->left;
-				else if (key_compare()(it->data.first, k))
-					it = it->right;
-				else return iterator(it);
-			}
-			return this->end();
-		}
-		virtual const_iterator	find(const key_type& k) const {
-			mapnode	*it(this->_root);
-			while (it && it != this->_first && it != this->_last) {
-				if (key_compare()(k, it->data.first))
-					it = it->left;
-				else if (key_compare()(it->data.first, k))
-					it = it->right;
-				else return const_iterator(it);
-			}
-			return this->end();
-		}
-		virtual size_type	count(const key_type& k) const {
-			return (find(k) != this->end());
-		}
-		iterator			lower_bound(const key_type& k) {
-			iterator	it = begin(), ite = end();
-			while (it != ite) {
-				if (key_comp()(it->first, k) == false)
-					break ;
-				++it;
-			}
-			return it;
-		}
-		const_iterator	lower_bound(const key_type& k) const {
-			const_iterator	it = begin(), ite = end();
-			while (it != ite) {
-				if (key_comp()(it->first, k) == false)
-					break ;
-				++it;
-			}
-			return it;
-		}
-		iterator			upper_bound(const key_type& k) {
-			iterator	it = begin(), ite = end();
-			while (it != ite) {
-				if (key_comp()(k, it->first))
-					break ;
-				++it;
-			}
-			return it;
-		}
-		const_iterator			upper_bound(const key_type& k) const {
-			const_iterator it = begin(), ite = end();
-			while (it != ite) {
-				if (key_comp()(k, it->first))
-					break ;
-				++it;
-			}
-			return it;
-		}
-		std::pair<const_iterator,const_iterator> equal_range (const key_type& k) const {
-			return std::make_pair(const_iterator(lower_bound(k)), const_iterator(upper_bound(k)));
-		}
-		std::pair<iterator,iterator>             equal_range (const key_type& k) {
-			return std::make_pair(iterator(lower_bound(k)), iterator(upper_bound(k)));
-		}
+
 		void printBT() const {
 			printBT("", this->_root, false);
 			if (this->_first->parent && this->_first->parent != this->_last)
@@ -284,17 +198,6 @@ template < class Key, class Value, class Compare = less<Key>, class Alloc = std:
 			void	link_outer() {
 				this->_first->parent = this->_last;
 				this->_last->parent = this->_first;
-			}
-			mapnode			*find(iterator position) {
-				mapnode	*it(this->_root);
-				while (it && it != this->_first && it != this->_last) {
-					if (key_compare()(position->first, it->data.first))
-						it = it->left;
-					else if (key_compare()(it->data.first, position->first))
-						it = it->right;
-					else return (it);
-				}
-				return this->_last;
 			}
 			void	print_node(mapnode *n) {
 					std::cerr << _CYAN;
@@ -525,37 +428,37 @@ template < class Key, class Value, class Compare = less<Key>, class Alloc = std:
 
 /* Relational operators (map) */
 template <class Key, class Value, class Compare, class Alloc>
-bool operator== (const ft::MapBase<Key,Value,Compare, Alloc>& lhs, const ft::MapBase<Key,Value,Compare, Alloc>& rhs) {
+bool operator== (const ft::MapBase<Key,Value,std::pair<Key, Value>, Compare, Alloc>& lhs, const ft::MapBase<Key,Value,std::pair<Key, Value>, Compare, Alloc>& rhs) {
 	return (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
 }
 
 template <class Key, class Value, class Compare, class Alloc>
-bool operator!= (const MapBase<Key,Value,Compare, Alloc>& lhs, const MapBase<Key,Value,Compare, Alloc>& rhs) {
+bool operator!= (const MapBase<Key,Value,std::pair<Key, Value>, Compare, Alloc>& lhs, const MapBase<Key,Value,std::pair<Key, Value>, Compare, Alloc>& rhs) {
 	return !(lhs == rhs);
 }
 
 template <class Key, class Value, class Compare, class Alloc>
-bool operator<  (const MapBase<Key,Value,Compare, Alloc>& lhs, const MapBase<Key,Value,Compare, Alloc>& rhs) {
+bool operator<  (const MapBase<Key,Value,std::pair<Key, Value>, Compare, Alloc>& lhs, const MapBase<Key,Value,std::pair<Key, Value>, Compare, Alloc>& rhs) {
 	return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 }
 
 template <class Key, class Value, class Compare, class Alloc>
-bool operator>  (const MapBase<Key,Value,Compare, Alloc>& lhs, const MapBase<Key,Value,Compare, Alloc>& rhs) {
+bool operator>  (const MapBase<Key,Value,std::pair<Key, Value>, Compare, Alloc>& lhs, const MapBase<Key,Value,std::pair<Key, Value>, Compare, Alloc>& rhs) {
 	return (rhs < lhs);
 }
 
 template <class Key, class Value, class Compare, class Alloc>
-bool operator<= (const MapBase<Key,Value,Compare, Alloc>& lhs, const MapBase<Key,Value,Compare, Alloc>& rhs) {
+bool operator<= (const MapBase<Key,Value,std::pair<Key, Value>, Compare, Alloc>& lhs, const MapBase<Key,Value,std::pair<Key, Value>, Compare, Alloc>& rhs) {
 	return !(lhs > rhs);
 }
 
 template <class Key, class Value, class Compare, class Alloc>
-bool operator>= (const MapBase<Key,Value,Compare, Alloc>& lhs, const MapBase<Key,Value,Compare, Alloc>& rhs) {
+bool operator>= (const MapBase<Key,Value,std::pair<Key, Value>, Compare, Alloc>& lhs, const MapBase<Key,Value,std::pair<Key, Value>, Compare, Alloc>& rhs) {
 	return !(lhs < rhs);
 }
 
-template <class Key, class T, class Compare, class Alloc>
-void swap (MapBase<Key,T,Compare, Alloc>& x, MapBase<Key,T,Compare, Alloc>& y) {
+template <class Key, class Value, class Compare, class Alloc>
+void swap (MapBase<Key,Value,std::pair<Key, Value>, Compare, Alloc>& x, MapBase<Key,Value,std::pair<Key, Value>, Compare, Alloc>& y) {
 	itemswap(x._size, y._size);
 	itemswap(x._first, y._first);
 	itemswap(x._root, y._root);

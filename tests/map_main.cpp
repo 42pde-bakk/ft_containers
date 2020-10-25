@@ -87,15 +87,25 @@ ft::map<int, std::string>	getstlmap() {
 }	
 
 void	ctors_dtor() {
-	ft::map<int, std::string>	stl = getstlmap();
-	ft::map<int, std::string>	mydefault; // testing default ctor
+	ft::map<int, std::string>	mappie;
+	mappie.insert(std::make_pair(0, "nul"));
+	mappie.insert(std::make_pair(1, "een"));
+	mappie.insert(std::make_pair(1, "een-1"));
+	mappie.insert(std::make_pair(1, "een-2"));
+	mappie.insert(std::make_pair(-1, "min een"));
+	mappie.insert(std::make_pair(5, "vijf"));
 
-	mydefault.insert(std::make_pair(5, "vijf"));
-	ft::map<int, std::string>	mycopy(mydefault); // testing copy ctor
-	print_container_content(mydefault);
-	print_container_content(mycopy);
-	ft::map<int, std::string> myfill(stl.begin(), stl.end()); // testing range constructor
-	print_container_content(myfill);
+	print_container_content(mappie, "mappie");
+	ft::map<int, std::string> wappie(mappie);
+	wappie.insert(std::make_pair(8, "acht"));
+	wappie.insert(std::make_pair(7, "zeven"));
+	wappie.insert(std::make_pair(7, "zeven-1"));
+	print_container_content(wappie, "wappie");
+	ft::map<int, std::string>::iterator it = wappie.begin();
+	for (int i = 0; i < 4; i++)
+		++it;
+	ft::map<int, std::string>	range2(wappie.begin(), it);
+	print_container_content(range2, "range2");
 }
 
 void	iterators() {
@@ -131,6 +141,7 @@ void	iterators() {
 	if (rit != peer.rend() && crit != peer.rend())
 		std::cout << "UNequal operator work on reverse iterators " << (*rit).first << " and " << (*crit).first << std::endl;
 	it->second = "NIEUW";
+//	it->first = 8;
 	print_container_content(peer);
 	std::pair<int, std::string> ret = *it++;
 	std::cout << "ret: " << ret.first << " => " << ret.second << std::endl;
@@ -165,11 +176,11 @@ void	modifiers() {
 	mymap.insert(mymap.find(7), std::make_pair(2, "negen"));
 //	 mymap.printBT();
 
-// 	mymap.erase(1);
-// 	mymap.erase(13);
+ 	mymap.erase(1);
+ 	mymap.erase(13);
 // //	 mymap.printBT();
-// 	mymap.erase(mymap.find(4));
-// 	mymap.erase(7);
+ 	mymap.erase(mymap.find(4));
+ 	mymap.erase(7);
 	for (ft::map<int, std::string>::iterator it = mymap.begin(); it != mymap.end(); it++) {
 		std::cout << "it: " << it->first << " ==> " << it->second << std::endl;
 	}
@@ -428,15 +439,15 @@ int	main(int argc, char **argv) {
 		gettimeofday(&tv, NULL);
 		begintime = tv.tv_usec;
 	}
-//	 ctors_dtor();
-//	 iterators();
-//	 capacity();
-//	 element_access();
-	modifiers();
-//	 observers();
-//	 operations();
+	 ctors_dtor();
+	 iterators();
+	 capacity();
+	 element_access();
+		modifiers();
+	 observers();
+	 operations();
 //	 tellyinspired();
-//	 telly();
+	 telly();
 	if (argc >= 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
 		endtime = tv.tv_usec;
