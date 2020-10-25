@@ -136,10 +136,9 @@ template < class Key, class Value, class NodeContents, class Compare = less<Key>
 	virtual iterator			find(const key_type& k) {
 		mapnode	*it(this->_root);
 		while (it && it != this->_first && it != this->_last) {
-//			if (itemcompare(k, it->data))
-			if (this->key_comp()(k, it->data.first))
+			if (this->itemcompare(k, it->data))
 				it = it->left;
-			else if (this->key_comp()(it->data.first, k))
+			else if (this->itemcompare(it->data, k))
 				it = it->right;
 			else return iterator(it);
 		}
@@ -148,9 +147,9 @@ template < class Key, class Value, class NodeContents, class Compare = less<Key>
 	virtual const_iterator	find(const key_type& k) const {
 		mapnode	*it(this->_root);
 		while (it && it != this->_first && it != this->_last) {
-			if (this->key_comp()(k, it->data.first))
+			if (this->itemcompare(k, it->data))
 				it = it->left;
-			else if (this->key_comp()(it->data.first, k))
+			else if (this->itemcompare(it->data, k))
 				it = it->right;
 			else return const_iterator(it);
 		}
@@ -161,7 +160,7 @@ template < class Key, class Value, class NodeContents, class Compare = less<Key>
 		size_type		count = 0;
 
 		while (it != this->end()) {
-			if (this->key_comp()(k, it->first) == false && key_compare()(it->first, k) == false)
+			if (this->itemcompare(k, *it) == false && this->itemcompare(*it, k) == false)
 				++count;
 			++it;
 		}
@@ -170,7 +169,7 @@ template < class Key, class Value, class NodeContents, class Compare = less<Key>
 	virtual iterator			lower_bound(const key_type& k) {
 		iterator	it = this->begin(), ite = this->end();
 		while (it != ite) {
-			if (this->key_comp()(it->first, k) == false)
+			if (this->itemcompare(*it, k) == false)
 				break ;
 			++it;
 		}
@@ -179,7 +178,7 @@ template < class Key, class Value, class NodeContents, class Compare = less<Key>
 	virtual const_iterator	lower_bound(const key_type& k) const {
 		const_iterator	it = this->begin(), ite = this->end();
 		while (it != ite) {
-			if (this->key_comp()(it->first, k) == false)
+			if (this->itemcompare(*it, k) == false)
 				break ;
 			++it;
 		}
@@ -188,7 +187,7 @@ template < class Key, class Value, class NodeContents, class Compare = less<Key>
 	virtual iterator			upper_bound(const key_type& k) {
 		iterator	it = this->begin(), ite = this->end();
 		while (it != ite) {
-			if (this->key_comp()(k, it->first))
+			if (this->itemcompare(k, *it))
 				break ;
 			++it;
 		}
@@ -197,7 +196,7 @@ template < class Key, class Value, class NodeContents, class Compare = less<Key>
 	virtual const_iterator			upper_bound(const key_type& k) const {
 		const_iterator it = this->begin(), ite = this->end();
 		while (it != ite) {
-			if (this->key_comp()(k, it->first))
+			if (this->itemcompare(k, *it))
 				break ;
 			++it;
 		}
@@ -221,24 +220,24 @@ template < class Key, class Value, class NodeContents, class Compare = less<Key>
 		}
 
 		protected:
-			bool	itemcompare(Key k, std::pair<Key, Value> p) {
-				return key_comp()(k, p.first);
+			bool	itemcompare(const key_type& k, const std::pair<Key, Value>& p) const {
+				return this->key_comp()(k, p.first);
 			}
-			bool	itemcompare(std::pair<Key, Value> p, Key k) {
-				return key_comp()(p.first, k);
+			bool	itemcompare(const std::pair<Key, Value>& p, const key_type& k) const {
+				return this->key_comp()(p.first, k);
 			}
-			bool	itemcompare(Key k1, Key k2) {
-				return key_comp()(k1, k2);
+			bool	itemcompare(const key_type& k1, const key_type& k2) const {
+				return this->key_comp()(k1, k2);
 			}
-			bool	itemcompare(std::pair<Key, Value> p1, std::pair<Key, Value> p2) {
-				return key_comp()(p1.first, p2.first);
+			bool	itemcompare(const std::pair<Key, Value>& p1, const std::pair<Key, Value>& p2) const {
+				return this->key_comp()(p1.first, p2.first);
 			}
 			virtual mapnode			*findbyiterator(iterator position) {
 				mapnode	*it(this->_root);
 				while (it && it != this->_first && it != this->_last) {
-					if (this->key_comp()(position->first, it->data.first))
+					if (this->itemcompare(*position, it->data))
 						it = it->left;
-					else if (this->key_comp()(it->data.first, position->first))
+					else if (this->itemcompare(it->data, *position))
 						it = it->right;
 					else return (it);
 				}
@@ -253,7 +252,7 @@ template < class Key, class Value, class NodeContents, class Compare = less<Key>
 						std::cerr << _RED;
 					else if (trav->colour == BLACK)
 						std::cerr << _IWHITE << _GREY;
-					std::cerr << trav->data.first <<  "-" << trav->data.second << _END << std::endl ;
+					std::cerr << trav->data.first << _END << std::endl ;
 					// enter the next tree level - left and right branch
 					printBT( prefix + (isLeft ? "│   " : "    "), trav->left, true);
 					printBT( prefix + (isLeft ? "│   " : "    "), trav->right, false);
