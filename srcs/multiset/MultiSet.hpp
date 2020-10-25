@@ -99,14 +99,14 @@ template < class Key, class Compare = less<Key>, class Alloc = std::allocator<Ke
 			}
 		}
 		void		erase(iterator position) {
-			mapnode	*erase = this->find(position);
+			mapnode	*erase = this->findbyiterator(position);
 			if (erase == this->_last)
 				return ;
 			this->RedBlackDelete(erase);
 			delete erase;
 			--this->_size;
 		}
-		virtual size_type	erase(const key_type& k) {
+		size_type	erase(const key_type& k) {
 			size_type ret = 0;
 			mapnode	*trav(this->_root);
 			while (trav) {
@@ -128,101 +128,9 @@ template < class Key, class Compare = less<Key>, class Alloc = std::allocator<Ke
 			}
 			return ret;
 		}
-		void		erase(iterator first, iterator last) {
-			while (first != last) {
-				this->erase(first);
-				++first;
-			}
-		}
 	// Observer functions: see Base
-		virtual iterator			find(const key_type& k) {
-			mapnode	*it(this->_root);
-			while (it && it != this->_first && it != this->_last) {
-				if (this->key_comp()(k, it->data))
-					it = it->left;
-				else if (this->key_comp()(it->data, k))
-					it = it->right;
-				else return iterator(it);
-			}
-			return this->end();
-		}
-		virtual const_iterator	find(const key_type& k) const {
-			mapnode	*it(this->_root);
-			while (it && it != this->_first && it != this->_last) {
-				if (this->key_comp()(k, it->data))
-					it = it->left;
-				else if (this->key_comp()(it->data, k))
-					it = it->right;
-				else return const_iterator(it);
-			}
-			return this->end();
-		}
-		virtual size_type	count(const key_type& k) const {
-			const_iterator	it = this->begin();
-			size_type		count = 0;
 
-			while (it != this->end()) {
-				if (this->key_comp()(k, *it) == false && key_compare()(*it, k) == false)
-					++count;
-				++it;
-			}
-			return count;
-		}
-		iterator			lower_bound(const key_type& k) {
-			iterator	it = Base::begin(), ite = Base::end();
-			while (it != ite) {
-				if (this->key_comp()(*it, k) == false)
-					break ;
-				++it;
-			}
-			return it;
-		}
-		const_iterator	lower_bound(const key_type& k) const {
-			const_iterator	it = Base::begin(), ite = Base::end();
-			while (it != ite) {
-				if (this->key_comp()(*it, k) == false)
-					break ;
-				++it;
-			}
-			return it;
-		}
-		iterator			upper_bound(const key_type& k) {
-			iterator	it = Base::begin(), ite = Base::end();
-			while (it != ite) {
-				if (this->key_comp()(k, *it))
-					break ;
-				++it;
-			}
-			return it;
-		}
-		const_iterator			upper_bound(const key_type& k) const {
-			const_iterator it = Base::begin(), ite = Base::end();
-			while (it != ite) {
-				if (this->key_comp()(k, *it))
-					break ;
-				++it;
-			}
-			return it;
-		}
-		std::pair<const_iterator,const_iterator> equal_range (const key_type& k) const {
-			return std::make_pair(const_iterator(lower_bound(k)), const_iterator(upper_bound(k)));
-		}
-		std::pair<iterator,iterator>             equal_range (const key_type& k) {
-			return std::make_pair(iterator(lower_bound(k)), iterator(upper_bound(k)));
-		}
 	// Operation functions: see Base
-	private:
-		mapnode			*find(iterator position) {
-			mapnode	*it(this->_root);
-			while (it && it != this->_first && it != this->_last) {
-				if (this->key_comp()(*position, it->data))
-					it = it->left;
-				else if (this->key_comp()(it->data, *position))
-					it = it->right;
-				else return (it);
-			}
-			return this->_last;
-		}
 	};
 
 /* Relational operators (multiset): see Base */

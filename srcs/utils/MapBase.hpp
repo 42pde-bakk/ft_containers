@@ -220,16 +220,16 @@ template < class Key, class Value, class NodeContents, class Compare = less<Key>
 		}
 
 		protected:
-			bool	itemcompare(const key_type& k, const std::pair<Key, Value>& p) const {
+			inline bool	itemcompare(const key_type& k, const std::pair<Key, Value>& p) const {
 				return this->key_comp()(k, p.first);
 			}
-			bool	itemcompare(const std::pair<Key, Value>& p, const key_type& k) const {
+			inline bool	itemcompare(const std::pair<Key, Value>& p, const key_type& k) const {
 				return this->key_comp()(p.first, k);
 			}
-			bool	itemcompare(const key_type& k1, const key_type& k2) const {
+			inline bool	itemcompare(const key_type& k1, const key_type& k2) const {
 				return this->key_comp()(k1, k2);
 			}
-			bool	itemcompare(const std::pair<Key, Value>& p1, const std::pair<Key, Value>& p2) const {
+			inline bool	itemcompare(const std::pair<Key, Value>& p1, const std::pair<Key, Value>& p2) const {
 				return this->key_comp()(p1.first, p2.first);
 			}
 			virtual mapnode			*findbyiterator(iterator position) {

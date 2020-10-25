@@ -446,7 +446,7 @@ int	main(int argc, char **argv) {
 		modifiers();
 	 observers();
 	 operations();
-//	 tellyinspired();
+	 tellyinspired();
 	 telly();
 	if (argc >= 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);

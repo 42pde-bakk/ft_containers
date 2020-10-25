@@ -92,7 +92,14 @@ class multimap : public MapBase<const Key, Value, std::pair<const Key, Value>, C
 				++first;
 			}
 		}
-
+		virtual void		erase(iterator position) {
+			mapnode	*erase = this->findbyiterator(position);
+			if (erase == this->_last)
+				return ;
+			this->RedBlackDelete(erase);
+			delete erase;
+			--this->_size;
+		}
 		virtual size_type	erase(const key_type& k) {
 			size_type ret = 0;
 			mapnode	*trav(this->_root);

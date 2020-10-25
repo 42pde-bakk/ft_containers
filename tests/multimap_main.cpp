@@ -146,6 +146,7 @@ void 	modifiers() {
 	newmulti.insert(std::make_pair(8, "octo"));
 	newmulti.insert(std::make_pair(INT_MAX, "int maxie"));
 	newmulti.insert(stdmulti.begin(), stdmulti.end());
+	newmulti.erase(newmulti.find(1));
 	size_t erased = newmulti.erase(10);
 	std::cout << "erasing key1 returns: " << erased << std::endl;
 	print_container_content(newmulti, "newmulti");
