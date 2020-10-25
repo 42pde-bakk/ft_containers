@@ -65,6 +65,9 @@ template < class Key, class Compare = less<Key>, class Alloc = std::allocator<Ke
 		}
 	// Iterator functions: see MapBase
 	// Capacity functions: see MapBase
+		virtual size_type	max_size() const {
+			return this->_alloc.max_size() / sizeof(pointer);
+		}
 	// Modifier functions: see Base
 		std::pair<iterator, bool>	insert(const value_type& val) {
 			if (this->_size == 0)
@@ -96,6 +99,27 @@ template < class Key, class Compare = less<Key>, class Alloc = std::allocator<Ke
 				++first;
 			}
 		}
+		void		erase(iterator position) {
+			mapnode	*erase = this->find(position);
+			if (erase == this->_last)
+				return ;
+			this->RedBlackDelete(erase);
+			delete erase;
+			--this->_size;
+		}
+		virtual size_type	erase(const key_type& k) {
+			iterator it = this->find(k);
+			if (it == this->end())
+				return 0;
+			this->erase(it);
+			return 1;
+		}
+		void		erase(iterator first, iterator last) {
+			while (first != last) {
+				this->erase(first);
+				++first;
+			}
+		}
 	// Observer functions: see Base
 		virtual iterator			find(const key_type& k) {
 			mapnode	*it(this->_root);
@@ -122,8 +146,61 @@ template < class Key, class Compare = less<Key>, class Alloc = std::allocator<Ke
 		virtual size_type	count(const key_type& k) const {
 			return (find(k) != this->end());
 		}
+		iterator			lower_bound(const key_type& k) {
+			iterator	it = Base::begin(), ite = Base::end();
+			while (it != ite) {
+				if (this->key_comp()(*it, k) == false)
+					break ;
+				++it;
+			}
+			return it;
+		}
+		const_iterator	lower_bound(const key_type& k) const {
+			const_iterator	it = Base::begin(), ite = Base::end();
+			while (it != ite) {
+				if (this->key_comp()(*it, k) == false)
+					break ;
+				++it;
+			}
+			return it;
+		}
+		iterator			upper_bound(const key_type& k) {
+			iterator	it = Base::begin(), ite = Base::end();
+			while (it != ite) {
+				if (this->key_comp()(k, *it))
+					break ;
+				++it;
+			}
+			return it;
+		}
+		const_iterator			upper_bound(const key_type& k) const {
+			const_iterator it = Base::begin(), ite = Base::end();
+			while (it != ite) {
+				if (this->key_comp()(k, *it))
+					break ;
+				++it;
+			}
+			return it;
+		}
+		std::pair<const_iterator,const_iterator> equal_range (const key_type& k) const {
+			return std::make_pair(const_iterator(lower_bound(k)), const_iterator(upper_bound(k)));
+		}
+		std::pair<iterator,iterator>             equal_range (const key_type& k) {
+			return std::make_pair(iterator(lower_bound(k)), iterator(upper_bound(k)));
+		}
 	// Operation functions: see Base
-
+	private:
+		mapnode			*find(iterator position) {
+			mapnode	*it(this->_root);
+			while (it && it != this->_first && it != this->_last) {
+				if (this->key_comp()(*position, it->data))
+					it = it->left;
+				else if (this->key_comp()(it->data, *position))
+					it = it->right;
+				else return (it);
+			}
+			return this->_last;
+		}
 	};
 
 /* Relational operators (set): see Base */

@@ -94,7 +94,7 @@ template < class Key, class Value, class NodeContents, class Compare = less<Key>
 	// Capacity functions
 		bool	empty() const { return (this->_size == 0); }
 		size_type	size() const { return (this->_size); }
-		size_type	max_size() const { return this->_alloc.max_size() / 2; }
+		virtual size_type	max_size() const { return this->_alloc.max_size() / 2; }
 	// Modifier functions
 
 		void		swap(MapBase& x) {
@@ -199,22 +199,6 @@ template < class Key, class Value, class NodeContents, class Compare = less<Key>
 				this->_first->parent = this->_last;
 				this->_last->parent = this->_first;
 			}
-			void	print_node(mapnode *n) {
-					std::cerr << _CYAN;
-					if (!n) {
-						std::cerr << "n is null" << std::endl << _END;
-						return ;
-					}
-					Key k = n->data.first;
-					std::cerr << "n: " << k;
-					if (n->parent)
-						std::cerr << ", " << k << "'s parent: " << n->parent->data.first;
-					if (n->left)
-						std::cerr << ", " << k << "'s left: " << n->left->data.first;
-					if (n->right)
-						std::cerr << ", " << k << "'s right: " << n->right->data.first;
-					std::cerr << _END << std::endl;
-				}
 			void	left_rotation(mapnode *x) {
 				mapnode *y = x->right;
 				x->right = y->left;

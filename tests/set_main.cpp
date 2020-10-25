@@ -155,10 +155,10 @@ void	modifiers() {
 	myset.insert(myset.find(7), 2);
 //	 mymap.printBT();
 
-//	myset.erase(1);
-//	myset.erase(13);
-//	myset.erase(myset.find(4));
-//	myset.erase(7);
+	myset.erase(1);
+	myset.erase(13);
+	myset.erase(myset.find(4));
+	myset.erase(7);
 	for (ft::set<int>::iterator it = myset.begin(); it != myset.end(); it++) {
 		std::cout << "it: " << *it << std::endl;
 	}
@@ -170,28 +170,28 @@ void	modifiers() {
 	std::cout << "wtf" << std::endl;
 }
 
-//void	operations() {
-//	ft::set<int> myset = getstdset();
-//	print_container_content(myset);
-//	ft::set<int>::iterator it = myset.find(4);
-//	if (it == myset.end())
-//		std::cout << "element not found!" << std::endl;
-//	else std::cout << *it << std::endl;
-//	std::cout << "i have " << myset.count(1) << " elements with key = 1" << std::endl;
-//	std::cout << "i have " << myset.count(2) << " elements with key = 2" << std::endl;
-//	std::cout << "i have " << myset.count(3) << " elements with key = 3" << std::endl;
-//
-//	it = myset.lower_bound(6);
-//	std::cout << "lower bound of 6 returns: " << *it << std::endl;
-//	it = myset.upper_bound(6);
-//	std::cout << "upper bound of 6 returns: " << *it << std::endl;
-//	it = myset.upper_bound(14);
-//	if (it != myset.end())
-//		std::cout << "upper bound of 14 returns: " << *it << std::endl;
-//	std::pair<ft::set<int>::iterator, ft::set<int>::iterator> peer \
-//	= myset.equal_range(10);
-//	std::cout << "mymap.equal_range(10) gives a range from " << *peer.first << " to " << *peer.second << std::endl;
-//}
+void	operations() {
+	ft::set<int> myset = getstdset();
+	print_container_content(myset);
+	ft::set<int>::iterator it = myset.find(4);
+	if (it == myset.end())
+		std::cout << "element not found!" << std::endl;
+	else std::cout << *it << std::endl;
+	std::cout << "i have " << myset.count(1) << " elements with key = 1" << std::endl;
+	std::cout << "i have " << myset.count(2) << " elements with key = 2" << std::endl;
+	std::cout << "i have " << myset.count(3) << " elements with key = 3" << std::endl;
+
+	it = myset.lower_bound(6);
+	std::cout << "lower bound of 6 returns: " << *it << std::endl;
+	it = myset.upper_bound(6);
+	std::cout << "upper bound of 6 returns: " << *it << std::endl;
+	it = myset.upper_bound(14);
+	if (it != myset.end())
+		std::cout << "upper bound of 14 returns: " << *it << std::endl;
+	std::pair<ft::set<int>::iterator, ft::set<int>::iterator> peer \
+	= myset.equal_range(10);
+	std::cout << "mymap.equal_range(10) gives a range from " << *peer.first << " to " << *peer.second << std::endl;
+}
 
 void	observers() {
 	ft::set<int>	myset;
@@ -232,7 +232,7 @@ int	main(int argc, char **argv) {
 	 capacity();
 		modifiers();
 	 observers();
-//	 operations();
+	 operations();
 //	 tellyinspired();
 	if (argc >= 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
