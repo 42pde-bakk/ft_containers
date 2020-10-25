@@ -20,27 +20,17 @@ size_t begintime;
 size_t endtime;
 struct timeval	tv;
 
-template< typename K, typename V >
-void	print_container_content(ft::deque<K, V>& mappie, const std::string& name = "container") {
-	std::cout << name << " contains:\n";
-	for (typename ft::deque<K, V>::const_iterator it = mappie.begin(); it != mappie.end(); it++)
-		std::cout << it->first << " => " << it->second << std::endl;
-	std::cout << " $" << std::endl;
-}
+//template< typename K, typename V >
+//void	print_container_content(ft::deque<K, V>& mappie, const std::string& name = "container") {
+//	std::cout << name << " contains:\n";
+//	for (typename ft::deque<K, V>::const_iterator it = mappie.begin(); it != mappie.end(); it++)
+//		std::cout << it->first << " => " << it->second << std::endl;
+//	std::cout << " $" << std::endl;
+//}
 
 void 	peer() {
 	ft::deque<int>	hats;
-	hats.insert(0);
-	hats.insert(2);
-	hats.insert(4);
-	hats.insert(0);
-	hats.insert(8);
-
-	print_container_content(hats);
-	std::cout << "hats size = " << hats.size();
-	std::cout << "count of 'a' = " << hats.count('a');
-	std::cout << "count of 'b' = " << hats.count('b');
-	std::cout << "count of 'c' = " << hats.count('c');
+	hats.push_back(8);
 }
 
 
