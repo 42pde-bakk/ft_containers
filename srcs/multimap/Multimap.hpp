@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   Map.hpp                                            :+:    :+:            */
+/*   Multimap.hpp                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/27 23:49:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/22 14:23:58 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/25 13:16:24 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 namespace ft {
 
 template < class Key, class Value, class Compare = less<Key>, class Alloc = std::allocator<std::pair<const Key,Value> > >
-	class multimap : public MapBase<Key,Value, Compare, Alloc>  {
+class multimap : public MapBase<Key,Value, Compare, Alloc>  {
 	public:
 		typedef MapBase<Key, Value, Compare, Alloc>	Base;
 		using typename								Base::key_type;

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   Map.hpp                                            :+:    :+:            */
+/*   MapBase.hpp                                        :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/27 23:49:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/22 14:23:58 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/25 13:16:38 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ template < class Key, class Value, class Compare = less<Key>, class Alloc = std:
 	public:
 		typedef Key							key_type;
 		typedef Value						mapped_type;
-		typedef std::pair<const Key, Value>	value_type;
+		typedef std::pair<Key, Value>		value_type;
 		typedef	Compare						key_compare;
 		typedef Alloc						allocator_type;
 		typedef	value_type&					reference;
@@ -136,7 +136,7 @@ template < class Key, class Value, class Compare = less<Key>, class Alloc = std:
 		value_compare	value_comp() const { return value_compare(this->_comp); }
 	
 	// Operation functions
-		iterator			find(const key_type& k) {
+		virtual iterator			find(const key_type& k) {
 			mapnode	*it(this->_root);
 			while (it && it != this->_first && it != this->_last) {
 				if (key_compare()(k, it->data.first))
@@ -147,7 +147,7 @@ template < class Key, class Value, class Compare = less<Key>, class Alloc = std:
 			}
 			return this->end();
 		}
-		const_iterator	find(const key_type& k) const {
+		virtual const_iterator	find(const key_type& k) const {
 			mapnode	*it(this->_root);
 			while (it && it != this->_first && it != this->_last) {
 				if (key_compare()(k, it->data.first))

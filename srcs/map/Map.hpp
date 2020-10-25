@@ -18,7 +18,7 @@
 namespace ft {
 
 template < class Key, class Value, class Compare = less<Key>, class Alloc = std::allocator<std::pair<const Key,Value> > >
-	class map : public MapBase<Key,Value, Compare, Alloc>  {
+class map : public MapBase<Key,Value, Compare, Alloc>  {
 	public:
 		typedef MapBase<Key, Value, Compare, Alloc>	Base;
 		using typename								Base::key_type;
