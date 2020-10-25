@@ -100,7 +100,7 @@ template < class Key, class Compare = less<Key>, class Alloc = std::allocator<Ke
 			}
 		}
 		void		erase(iterator position) {
-			mapnode	*erase = this->find(position);
+			mapnode	*erase = this->findbyiterator(position);
 			if (erase == this->_last)
 				return ;
 			this->RedBlackDelete(erase);
@@ -146,7 +146,7 @@ template < class Key, class Compare = less<Key>, class Alloc = std::allocator<Ke
 		virtual size_type	count(const key_type& k) const {
 			return (find(k) != this->end());
 		}
-		iterator			lower_bound(const key_type& k) {
+		virtual iterator			lower_bound(const key_type& k) {
 			iterator	it = Base::begin(), ite = Base::end();
 			while (it != ite) {
 				if (this->key_comp()(*it, k) == false)
@@ -155,7 +155,7 @@ template < class Key, class Compare = less<Key>, class Alloc = std::allocator<Ke
 			}
 			return it;
 		}
-		const_iterator	lower_bound(const key_type& k) const {
+		virtual const_iterator	lower_bound(const key_type& k) const {
 			const_iterator	it = Base::begin(), ite = Base::end();
 			while (it != ite) {
 				if (this->key_comp()(*it, k) == false)
@@ -164,7 +164,7 @@ template < class Key, class Compare = less<Key>, class Alloc = std::allocator<Ke
 			}
 			return it;
 		}
-		iterator			upper_bound(const key_type& k) {
+		virtual iterator			upper_bound(const key_type& k) {
 			iterator	it = Base::begin(), ite = Base::end();
 			while (it != ite) {
 				if (this->key_comp()(k, *it))
@@ -173,7 +173,7 @@ template < class Key, class Compare = less<Key>, class Alloc = std::allocator<Ke
 			}
 			return it;
 		}
-		const_iterator			upper_bound(const key_type& k) const {
+		virtual const_iterator			upper_bound(const key_type& k) const {
 			const_iterator it = Base::begin(), ite = Base::end();
 			while (it != ite) {
 				if (this->key_comp()(k, *it))
@@ -182,15 +182,15 @@ template < class Key, class Compare = less<Key>, class Alloc = std::allocator<Ke
 			}
 			return it;
 		}
-		std::pair<const_iterator,const_iterator> equal_range (const key_type& k) const {
+		virtual std::pair<const_iterator,const_iterator> equal_range (const key_type& k) const {
 			return std::make_pair(const_iterator(lower_bound(k)), const_iterator(upper_bound(k)));
 		}
-		std::pair<iterator,iterator>             equal_range (const key_type& k) {
+		virtual std::pair<iterator,iterator>             equal_range (const key_type& k) {
 			return std::make_pair(iterator(lower_bound(k)), iterator(upper_bound(k)));
 		}
 	// Operation functions: see Base
 	private:
-		mapnode			*find(iterator position) {
+		mapnode			*findbyiterator(iterator position) {
 			mapnode	*it(this->_root);
 			while (it && it != this->_first && it != this->_last) {
 				if (this->key_comp()(*position, it->data))

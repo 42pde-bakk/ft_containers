@@ -51,14 +51,10 @@ template < class Key, class Value, class NodeContents, class Compare = less<Key>
 			Compare comp;
 			explicit value_compare (Compare c) : comp(c) {}  // constructed with map's comparison object
 		public:
-//			typedef bool result_type;
-//			typedef value_type first_argument_type;
-//			typedef value_type second_argument_type;
 			bool operator() (const value_type& x, const value_type& y) const {
 				return comp(x.first, y.first);
 			}
 		};
-
 	// Constructors, destructors and operator=
 		explicit MapBase(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())
 				: _alloc(alloc), _comp(comp), _size(0){
@@ -96,6 +92,27 @@ template < class Key, class Value, class NodeContents, class Compare = less<Key>
 		size_type	size() const { return (this->_size); }
 		virtual size_type	max_size() const { return this->_alloc.max_size() / 2; }
 	// Modifier functions
+		virtual void		erase(iterator position) {
+			mapnode	*erase = this->findbyiterator(position);
+			if (erase == this->_last)
+				return ;
+			this->RedBlackDelete(erase);
+			delete erase;
+			--this->_size;
+		}
+		virtual size_type	erase(const key_type& k) {
+			iterator it = this->find(k);
+			if (it == this->end())
+				return 0;
+			this->erase(it);
+			return 1;
+		}
+		virtual void		erase(iterator first, iterator last) {
+			while (first != last) {
+				this->erase(first);
+				++first;
+			}
+		}
 
 		void		swap(MapBase& x) {
 			itemswap(this->_size, x._size);
@@ -116,7 +133,84 @@ template < class Key, class Value, class NodeContents, class Compare = less<Key>
 		value_compare	value_comp() const { return value_compare(this->_comp); }
 	
 	// Operation functions
+	virtual iterator			find(const key_type& k) {
+		mapnode	*it(this->_root);
+		while (it && it != this->_first && it != this->_last) {
+//			if (itemcompare(k, it->data))
+			if (this->key_comp()(k, it->data.first))
+				it = it->left;
+			else if (this->key_comp()(it->data.first, k))
+				it = it->right;
+			else return iterator(it);
+		}
+		return this->end();
+	}
+	virtual const_iterator	find(const key_type& k) const {
+		mapnode	*it(this->_root);
+		while (it && it != this->_first && it != this->_last) {
+			if (this->key_comp()(k, it->data.first))
+				it = it->left;
+			else if (this->key_comp()(it->data.first, k))
+				it = it->right;
+			else return const_iterator(it);
+		}
+		return this->end();
+	}
+	virtual size_type	count(const key_type& k) const {
+		const_iterator	it = this->begin();
+		size_type		count = 0;
 
+		while (it != this->end()) {
+			if (this->key_comp()(k, it->first) == false && key_compare()(it->first, k) == false)
+				++count;
+			++it;
+		}
+		return count;
+	}
+	virtual iterator			lower_bound(const key_type& k) {
+		iterator	it = this->begin(), ite = this->end();
+		while (it != ite) {
+			if (this->key_comp()(it->first, k) == false)
+				break ;
+			++it;
+		}
+		return it;
+	}
+	virtual const_iterator	lower_bound(const key_type& k) const {
+		const_iterator	it = this->begin(), ite = this->end();
+		while (it != ite) {
+			if (this->key_comp()(it->first, k) == false)
+				break ;
+			++it;
+		}
+		return it;
+	}
+	virtual iterator			upper_bound(const key_type& k) {
+		iterator	it = this->begin(), ite = this->end();
+		while (it != ite) {
+			if (this->key_comp()(k, it->first))
+				break ;
+			++it;
+		}
+		return it;
+	}
+	virtual const_iterator			upper_bound(const key_type& k) const {
+		const_iterator it = this->begin(), ite = this->end();
+		while (it != ite) {
+			if (this->key_comp()(k, it->first))
+				break ;
+			++it;
+		}
+		return it;
+	}
+	virtual std::pair<const_iterator,const_iterator> equal_range (const key_type& k) const {
+		return std::make_pair(const_iterator(lower_bound(k)), const_iterator(upper_bound(k)));
+	}
+	virtual std::pair<iterator,iterator>             equal_range (const key_type& k) {
+		return std::make_pair(iterator(lower_bound(k)), iterator(upper_bound(k)));
+	}
+
+	// Extra
 		void printBT() const {
 			printBT("", this->_root, false);
 			if (this->_first->parent && this->_first->parent != this->_last)
@@ -127,6 +221,29 @@ template < class Key, class Value, class NodeContents, class Compare = less<Key>
 		}
 
 		protected:
+			bool	itemcompare(Key k, std::pair<Key, Value> p) {
+				return key_comp()(k, p.first);
+			}
+			bool	itemcompare(std::pair<Key, Value> p, Key k) {
+				return key_comp()(p.first, k);
+			}
+			bool	itemcompare(Key k1, Key k2) {
+				return key_comp()(k1, k2);
+			}
+			bool	itemcompare(std::pair<Key, Value> p1, std::pair<Key, Value> p2) {
+				return key_comp()(p1.first, p2.first);
+			}
+			virtual mapnode			*findbyiterator(iterator position) {
+				mapnode	*it(this->_root);
+				while (it && it != this->_first && it != this->_last) {
+					if (this->key_comp()(position->first, it->data.first))
+						it = it->left;
+					else if (this->key_comp()(it->data.first, position->first))
+						it = it->right;
+					else return (it);
+				}
+				return this->_last;
+			}
 			void printBT(const std::string& prefix, const mapnode* trav, bool isLeft) const {
 				if (trav && trav != _first && trav != _last) {
 					std::cerr << prefix;
