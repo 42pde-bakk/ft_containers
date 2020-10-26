@@ -62,11 +62,11 @@ namespace ft {
 
 		/* Constructors, Destructors and assignment operator */
 			explicit	deque(const allocator_type& alloc = allocator_type())
-				: start(0), finish(0), _capacity(0), _size(0), map(0), _alloc(alloc) {
+				: _capacity(0), _size(0), map(0), _alloc(alloc) {
 //				fill_initialize(2 * ARRAY_SIZE, value_type());
 			}
 			explicit	deque(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
-				: start(0), finish(0), _capacity(0), _size(0), map(0), _alloc(alloc) {
+				:  _capacity(0), _size(0), map(0), _alloc(alloc) {
 				this->assign(n, val);
 			}
 //			template<class InputIterator>
@@ -92,7 +92,6 @@ namespace ft {
 						pop_back();
 				}
 				else if (n > this->_size) {
-					if (n >= ARRAY_SIZE * map_size)
 					while (n > this->_size)
 						push_back(val);
 				}
@@ -126,7 +125,25 @@ namespace ft {
 			}
 
 			void	push_back(const value_type& val) {
+				start[this->_size] = val;
+				++this->_size;
+				std::cerr << "_size = " << _size << ", array size = " << ARRAY_SIZE << ", modulo = " << (_size % ARRAY_SIZE) << std::endl;
+				if (this->_size % ARRAY_SIZE == 0)
+					push_back_chunk();
+			}
+			void	push_back_chunk() {
+				map_pointer tmp_map = new pointer[map_size + 1]();
 
+				size_t i = 0;
+				while (i < map_size) {
+					tmp_map[i] = map[i];
+					++i;
+				}
+				tmp_map[i] = new value_type[ARRAY_SIZE]();
+				delete map;
+				map = tmp_map;
+				++this->map_size;
+				finish.set_node(map + map_size + 1);
 			}
 			void	push_front(const value_type& val);
 			void	pop_back(void) {
