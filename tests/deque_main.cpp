@@ -32,9 +32,10 @@ void 	peer() {
 	ft::deque<int>	hats(8, -42);
 	for (size_t i = 0; i < 16; i++)
 		hats[i] = i;
-	for (size_t i = 0; hats[i]; i++)
-		std::cout << ' ' << hats[i];
-	std::cout << std::endl;
+	for (ft::deque<int>::iterator it = hats.begin(); it != hats.end(); it++)
+		std::cout << ' ' << *it;
+	std::cout << "hats.front() = " << hats.front() << std::endl;
+	std::cout << "hats.back() = " << hats.back() << std::endl;
 }
 
 

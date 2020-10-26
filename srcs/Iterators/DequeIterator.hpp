@@ -22,6 +22,13 @@ struct	DequeIterator {
 	//so this pointer to the map
 	map_pointer node; // pointer to the map
 
+	bool	operator==(const iterator& rhs) {
+		return cur == rhs.cur;
+	}
+	bool	operator!=(const iterator& rhs) {
+		return !(*this == rhs);
+	}
+
 	void	set_node(map_pointer new_node) {
 		node = new_node;
 		first = *new_node;
@@ -37,6 +44,7 @@ struct	DequeIterator {
 			cur = first;
 //			last = first + buff_size;
 		}
+		return *this;
 	}
 	// postfix forms of increment
 	iterator operator++(int){

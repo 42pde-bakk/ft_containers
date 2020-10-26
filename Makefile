@@ -32,7 +32,7 @@ endif
 
 list vector map stack queue deque set multiset multimap: fclean
 	$(CXX) $(CXXFLAGS) $(TESTDIR)/$@_$(FILES) -Isrcs/$@ -Isrcs/utils -Isrcs/Iterators -o $(NAME)
-	
+
 clean:
 
 fclean: clean
@@ -42,5 +42,3 @@ fuckingclean: fclean
 	@rm -f $(TESTDIR)/std.txt $(TESTDIR)/ft.txt $(TESTDIR)/*stdmain.cpp $(TESTDIR)/diff.txt
 
 re: fclean
-
- 

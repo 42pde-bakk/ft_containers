@@ -146,6 +146,7 @@ void	element_access_test() {
 	}
 	std::cout << "kokkita.front() = " << kokkita.front() << ", constkita.front() = " << constkita.front() << std::endl;
 	std::cout << "kokkita.back() = " << kokkita.back() << ", constkita.back() = " << constkita.back() << std::endl;
+	std::cout << "kokkita[" << SIZE_MAX << "]: " << kokkita[SIZE_MAX] << std::endl;
 }
 
 void	modifiers_test() {
