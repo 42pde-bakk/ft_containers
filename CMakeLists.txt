@@ -18,19 +18,19 @@ include_directories(srcs/multiset)
 include_directories(srcs/multimap)
 
 add_executable(ft_containers
-#        srcs/Iterators/BidirectionalIterator.hpp
-#        srcs/Iterators/RandomAccessIterator.hpp
-#        srcs/list/List.hpp
-#        srcs/list/ListNode.hpp
-#        srcs/map/Map.hpp
-#        srcs/utils/MapNode.hpp
-#        srcs/multimap/MultiMap.hpp
-#        srcs/vector/Vector.hpp
-#        srcs/stack/Stack.hpp
-#        srcs/queue/Queue.hpp
-#        srcs/utils/Extra.hpp
-#        srcs/utils/Traits.hpp
-#        srcs/utils/Colours.h
+        srcs/Iterators/BidirectionalIterator.hpp
+        srcs/Iterators/RandomAccessIterator.hpp
+        srcs/list/List.hpp
+        srcs/list/ListNode.hpp
+        srcs/map/Map.hpp
+        srcs/utils/MapNode.hpp
+        srcs/multimap/MultiMap.hpp
+        srcs/vector/Vector.hpp
+        srcs/stack/Stack.hpp
+        srcs/queue/Queue.hpp
+        srcs/utils/Extra.hpp
+        srcs/utils/Traits.hpp
+        srcs/utils/Colours.h
         srcs/set/Set.hpp
         srcs/multiset/MultiSet.hpp
         tests/list_main.cpp
@@ -42,4 +42,4 @@ add_executable(ft_containers
         tests/set_main.cpp
         tests/multiset_main.cpp
         tests/multimap_main.cpp
-        )
+        srcs/Iterators/DequeIterator.hpp)

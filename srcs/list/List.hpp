@@ -17,10 +17,10 @@
 # include <memory>
 # include <cstddef>
 # include "ListNode.hpp"
-# include "../Iterators/BidirectionalIterator.hpp"
-# include "../Traits.hpp"
+# include "Iterators/BidirectionalIterator.hpp"
+# include "Traits.hpp"
 # include <iostream>
-# include "../Extra.hpp"
+# include "Extra.hpp"
 
 namespace ft {
 	

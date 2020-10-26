@@ -103,36 +103,6 @@ namespace ft {
 		return (first2 != last2);
 	}
 
-//	template <typename Compare, typename value_type>
-//	class value_compare // ngl, I yoinked this class straight off http://www.cplusplus.com/reference/map/map/value_comp/
-//	{   // in C++98, it is required to inherit binary_function<value_type,value_type,bool>
-////		friend class MapBase;
-//	protected:
-//		Compare comp;
-//		explicit value_compare (Compare c) : comp(c) {}  // constructed with map's comparison object
-//	public:
-//		bool operator() (const value_type& x, const value_type& y) const {
-//			return comp(x.first, y.first);
-//		}
-//	};
-//	template<typename Compare, typename value_type>
-//	class set_compare // ngl, I yoinked this class straight off http://www.cplusplus.com/reference/map/map/value_comp/
-//	{   // in C++98, it is required to inherit binary_function<value_type,value_type,bool>
-////		friend class MapBase;
-//	protected:
-//		Compare comp;
-//		explicit set_compare (Compare c) : comp(c) {}  // constructed with map's comparison object
-//	public:
-//		template<typename iterator>
-//		bool operator() (const value_type& x, const iterator& y) const {
-//			return comp(x, *y);
-//		}
-//		template<typename iterator>
-//		bool operator() (const iterator& x, const value_type& y) const {
-//			return comp(*x, y);
-//		}
-//	};
-
 } // ft namespace
 
 #endif

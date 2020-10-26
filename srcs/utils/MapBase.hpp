@@ -17,7 +17,7 @@
 # include <iostream>
 # include <cstddef>
 # include "MapNode.hpp"
-# include "../Iterators/BidirectionalIterator.hpp"
+# include "BidirectionalIterator.hpp"
 # include "Traits.hpp"
 # include "Extra.hpp"
 # include "Colours.h"

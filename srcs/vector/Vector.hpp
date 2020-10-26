@@ -15,9 +15,9 @@
 
 # include <memory>
 # include <cstddef>
-# include "../Iterators/RandomAccessIterator.hpp"
-# include "../Traits.hpp"
-# include "../Extra.hpp"
+# include "RandomAccessIterator.hpp"
+# include "Traits.hpp"
+# include "Extra.hpp"
 
 namespace ft {
 

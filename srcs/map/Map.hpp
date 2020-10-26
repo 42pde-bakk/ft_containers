@@ -13,7 +13,7 @@
 #ifndef MAP_HPP
 # define MAP_HPP
 
-# include "../utils/MapBase.hpp"
+# include "MapBase.hpp"
 
 namespace ft {
 

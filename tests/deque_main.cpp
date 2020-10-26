@@ -29,8 +29,12 @@ struct timeval	tv;
 //}
 
 void 	peer() {
-	ft::deque<int>	hats;
-	hats.push_back(8);
+	ft::deque<int>	hats(8, -42);
+//	for (size_t i = 0; i < 16; i++)
+//		hats[i] = i;
+	for (size_t i = 0; hats[i]; i++)
+		std::cout << ' ' << hats[i];
+	std::cout << std::endl;
 }
 
 

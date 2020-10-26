@@ -13,7 +13,7 @@
 #ifndef QUEUE_HPP
 # define QUEUE_HPP
 
-# include "../List/List.hpp"
+# include "List.hpp"
 
 namespace ft {
 	

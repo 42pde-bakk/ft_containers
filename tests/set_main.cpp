@@ -145,7 +145,7 @@ void 	capacity() {
 	ft::set<int>	mymap(stdmap.begin(), stdmap.end());
 	std::cout << std::boolalpha << "mymap.empty() returns " << mymap.empty() << std::endl;
 	std::cout << "mymap.size() returns " << mymap.size() << std::endl;
- 	std::cout << "mymap.max_size() returns " << mymap.max_size() << std::endl;
+// 	std::cout << "mymap.max_size() returns " << mymap.max_size() << std::endl;
 }
 
 void	modifiers() {

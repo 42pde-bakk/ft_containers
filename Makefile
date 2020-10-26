@@ -15,7 +15,7 @@ NAME = containers.out
 ifdef COMPILER
  CXX = $(COMPILER)
 endif
-
+INCLUDE = $(shell find srcs -type d | sed s/^/-I/)
 CXXFLAGS = -W -Wall -Wextra -Werror -pedantic -ansi -std=c++98
 ifdef DEBUG
  CXXFLAGS += -g -fsanitize=address
@@ -30,7 +30,7 @@ ifdef STD
 endif
 
 list vector map stack queue deque set multiset multimap: fclean
-	$(CXX) $(CXXFLAGS) $(TESTDIR)/$@_$(FILES) -Isrcs/$@ -o $(NAME)
+	$(CXX) $(CXXFLAGS) $(TESTDIR)/$@_$(FILES) -Isrcs/$@ -Isrcs/utils -Isrcs/Iterators -o $(NAME)
 	
 clean:
 
