@@ -23,7 +23,7 @@
 # include <algorithm>
 # include "../vector/Vector.hpp"
 # ifndef ARRAY_SIZE
-#  define ARRAY_SIZE 16
+#  define ARRAY_SIZE 8
 # endif
 
 namespace ft {
@@ -37,7 +37,7 @@ namespace ft {
 			typedef const T&		const_reference;
 			typedef T*				pointer;
 			typedef const T*		const_pointer;
-			typedef DequeIterator<T, ARRAY_SIZE>				iterator;
+			typedef DequeIterator<T>				iterator;
 //			typedef ConstRandomAccessIterator<T>		const_iterator;
 //			typedef RevRandomAccessIterator<T>			reverse_iterator;
 //			typedef ConstRevRandomAccessIterator<T>		const_reverse_iterator;
@@ -50,38 +50,38 @@ namespace ft {
 			// Allocate memory for map
 			typedef std::allocator<pointer>		mapAllocator;
 		private:
-			iterator		start;
-			iterator		finish;
-			size_type		_capacity;
+//			iterator		start;
+//			iterator		finish;
 			size_type		_size;
-			map_pointer 	map;		// pointer to the array of chunks
-			size_type		map_size;	// amount of chunks
+			size_type		_start;
+			size_type		_capacity;
+			map_pointer 	_map;		// pointer to the array of chunks
 			allocator_type	_alloc;
 
 		public:
 
 		/* Constructors, Destructors and assignment operator */
 			explicit	deque(const allocator_type& alloc = allocator_type())
-				: _capacity(0), _size(0), map(0), _alloc(alloc) {
+				: _size(0), _start(0), _capacity(0), _map(0), _alloc(alloc) {
 //				fill_initialize(2 * ARRAY_SIZE, value_type());
 			}
 			explicit	deque(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
-				:  _capacity(0), _size(0), map(0), _alloc(alloc) {
+				: _size(0), _start(0), _capacity(0), _map(0), _alloc(alloc) {
 				this->assign(n, val);
 			}
 //			template<class InputIterator>
 //			deque(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
 			deque(const deque& x);
 			virtual ~deque() {
-				for (map_pointer cur = start.node; cur <= finish.node; ++cur)
-					delete *cur;
-				delete map;
+				for (size_type i = 0; i < this->_size; ++i)
+					delete	this->_map[this->_start + i];
+				this->_size = 0;
 			}
 			deque&	operator=(const deque& x);
 
 		/* Iterator functions */
-			iterator begin() { return start; }
-			iterator end() { return finish; }
+			iterator begin() { return iterator(this->_map + this->_start); }
+			iterator end() { return iterator(this->_map + this->_start + this->_size); }
 
 		/* Capacity functions */
 			size_type	size() const { return this->_size; }
@@ -100,56 +100,61 @@ namespace ft {
 
 		/* Element access functions */
 			reference operator[](size_type n) { //random access, use __deque_iterator operator[]
-				return start[n];
+				return *this->_map[this->_start + n];
 			}
 			const_reference	operator[](size_type n) const {
-				return start[n];
+				return *this->_map[this->_start + n];
 			}
-			reference front() { return *start; }
-			reference back() {
-				iterator tmp = finish; // cant use *finish
-				--tmp;
-				return *tmp; // return finish's *cur
-			}
+			reference front() { return this->operator[](0); }
+			const_reference front() const { return this->operator[](0); }
+			reference back() { return this->operator[](this->_size - 1); }
+			const_reference back() const { return this->operator[](this->_size - 1); }
 
 		/* Modifier functions */
+			void	reserve(size_type cap) {
+				if (cap > this->_capacity) {
+					size_t	real_cap = ARRAY_SIZE; // TODO: double capacity on every new allocation
+
+					// Allocate an array of chunks
+					map_pointer tmp = new pointer[real_cap]();
+					// Offset to center the old blocks - 2 center, 1 back, 0 front
+					size_type	offset = (real_cap / 2) - (this->_size / 2);
+					std::cerr << "real cap: " << real_cap << ", this size: " << this->_size << ", offset = " << offset << std::endl;
+					// Move old blocks
+					size_t i = offset, j = this->_start;
+					while(j < this->_start + this->_size) {
+						tmp[i] = this->_map[j];
+						i++;
+						j++;
+					}
+					delete this->_map;
+					this->_map = tmp;
+					this->_capacity = real_cap;
+					this->_start = offset;
+				}
+			}
 //			template <class InputIterator>
 //			void	assign(InputIterator first, InputIterator last);
 			void	assign(size_type n, const value_type& val) {
-				create_map_and_nodes(n); // allocate memory for map and chunk and initialize pointer
+				this->clear();
+				this->reserve(n);
 
-				for (map_pointer cur = start.node; cur < finish.node; ++cur) // initialize value for the chunks
-					initialized_fill_n(*cur, ARRAY_SIZE, val);
-				// the end chunk may have space node, which don't need to have initialized value
-				initialized_fill_n(finish.first, finish.cur - finish.first, val);
-			}
+				std::cerr << "before centering, _start = " << _start << std::endl;
+				this->_start = (this->_capacity / 2) - ((this->_capacity - n) / 2);
+				std::cerr << "And after, _start = " << _start << std::endl;
 
-			void	push_back(const value_type& val) {
-				start[this->_size] = val;
-				++this->_size;
-				std::cerr << "_size = " << _size << ", array size = " << ARRAY_SIZE << ", modulo = " << (_size % ARRAY_SIZE) << std::endl;
-				if (this->_size % ARRAY_SIZE == 0)
-					push_back_chunk();
-			}
-			void	push_back_chunk() {
-				map_pointer tmp_map = new pointer[map_size + 1]();
-
-				size_t i = 0;
-				while (i < map_size) {
-					tmp_map[i] = map[i];
-					++i;
+				while (this->_size < n) {
+					std::cerr << "allocating new fixed-size array, start = " << _start << ", _size = " << _size << std::endl;
+					this->_map[this->_start + this->_size] = new value_type[this->_capacity];
+					(void)val;
+					++this->_size;
 				}
-				tmp_map[i] = new value_type[ARRAY_SIZE]();
-				delete map;
-				map = tmp_map;
-				++this->map_size;
-				finish.set_node(map + map_size + 1);
+				std::cerr << "after assign(), size = "<< _size << ", cap = " << this->_capacity << ", _start = " << _start << std::endl;
 			}
+
+			void	push_back(const value_type& val);
 			void	push_front(const value_type& val);
-			void	pop_back(void) {
-//				start[this->_size] = value_type();
-				--this->_size;
-			}
+			void	pop_back(void);
 			void	pop_front(void);
 
 			iterator	insert(iterator position, const value_type& val); // single element insert
@@ -161,42 +166,14 @@ namespace ft {
 			iterator	erase(iterator first, iterator last);
 			void		swap(deque& x); // iterators, references and pointers MUST remain valid
 			void		clear() {
-				for (map_pointer cur = start.node; cur <= finish.node; ++cur)
-					delete *cur;
-				delete map;
+				for (size_type i = 0; i < this->_size; ++i)
+					delete	this->_map[this->_start + i];
+				this->_size = 0;
+				this->_start = this->_capacity / 2;
 			}
 
 		private:
-			void	initialized_fill_n(pointer ccur, size_type n, value_type val) {
-				for (size_type i = 0; i < n; i++) {
-					ccur[i] = val;
-				}
-			}
 
-			void	create_map_and_nodes(size_t num_elements) {
-				// the needed map node = (elements nums / chunk length) + 1
-				size_type num_nodes = num_elements / ARRAY_SIZE + 1;
-				// map node num. min num is 8, max num is "needed size + 2"
-				map_size = std::max((size_t)8, num_nodes + 2);
-				std::cerr << "map_size = " << map_size << ", num_nodes = " << num_nodes << std::endl;
-				// allocate map array
-				map = new pointer[map_size]();
-
-				// tmp_start, tmp_finish pointers to the center range of map
-				map_pointer tmp_start = map + (map_size - num_nodes) / 2;
-				map_pointer tmp_finish = tmp_start + num_nodes - 1;
-
-				// allocate memory for the chunk pointered by map node
-				for (map_pointer cur = tmp_start; cur <= tmp_finish; ++cur)
-					*cur = new value_type[ARRAY_SIZE]();
-
-				// set start and end iterator
-				start.set_node(tmp_start);
-				start.cur = start.first;
-
-				finish.set_node(tmp_finish);
-				finish.cur = finish.first + num_elements % ARRAY_SIZE;
-			}
 	};
 
 } // ft namespace

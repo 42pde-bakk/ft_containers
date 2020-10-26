@@ -6,106 +6,90 @@
 #define FT_CONTAINERS_DEQUEITERATOR_H
 
 #include <cstddef>
+#include <iostream>
 
-template <class T, size_t buff_size>
-struct	DequeIterator {
-	typedef DequeIterator<T, buff_size>		iterator;
-	typedef T&								reference;
-	typedef T**								map_pointer;
+template <class T>
+class	DequeIterator {
+public:
+	typedef DequeIterator<T>	iterator;
+	typedef T					value_type;
+	typedef	size_t				size_type;
+	typedef ptrdiff_t			difference_type;
+	typedef T*					pointer;
+	typedef const T*			const_pointer;
+	typedef T&					reference;
+	typedef const T&			const_reference;
+	typedef T**					map_pointer;
+protected:
+	const pointer* p;
+public:
+	DequeIterator() : p(0) {}
+	DequeIterator(const DequeIterator& x) : p(x.p) {}
+	DequeIterator(const pointer *p) : p(p) {}
+	virtual ~DequeIterator() {}
+	reference		operator*() { return (**this->p); }
+	const_reference	operator*() const { return (**this->p); }
+	pointer			operator->() { return (*this->p); }
+	const_pointer	operator->() const { return (*this->p); }
+	reference			operator[](int n) { return (**(this->p + n)); }
+	const_reference		operator[](int n) const { return (**(this->p + n)); }
 
-	// pointer to the chunk
-	T*	cur;
-	T*	first; // The beginning of the chunk
-	T*	last; // The end of the chunk
-
-	//because the pointer may skip to other chunk
-	//so this pointer to the map
-	map_pointer node; // pointer to the map
-
-	bool	operator==(const iterator& rhs) {
-		return cur == rhs.cur;
+	DequeIterator operator++(int) {
+		DequeIterator tmp(*this);
+		++this->p;
+		return (tmp);
 	}
-	bool	operator!=(const iterator& rhs) {
-		return !(*this == rhs);
+	DequeIterator &operator++() {
+		++this->p;
+		return (*this);
 	}
-
-	void	set_node(map_pointer new_node) {
-		node = new_node;
-		first = *new_node;
-		last = first + buff_size;
+	DequeIterator operator--(int) {
+		DequeIterator tmp(*this);
+		--this->p;
+		return (tmp);
 	}
-	reference operator*() const {
-		return *cur;
-	}
-	iterator& operator++() {
-		++cur;
-		if (cur == last) {	// if it reaches the end of the chunk
-			set_node(node + 1); // skip to the next chunk
-			cur = first;
-//			last = first + buff_size;
-		}
-		return *this;
-	}
-	// postfix forms of increment
-	iterator operator++(int){
-		iterator tmp = *this;
-		++*this;//invoke prefix ++
-		return tmp;
-	}
-	iterator& operator--(){
-		if(cur == first){      // if it pointer to the begin of the chunk
-			set_node(node - 1);//skip to the prev chunk
-			cur = last;
-		}
-		--cur;
-		return *this;
+	DequeIterator &operator--() {
+		--this->p;
+		return (*this);
 	}
 
-	iterator operator--(int){
-		iterator tmp = *this;
-		--*this;
-		return tmp;
+	DequeIterator &operator+=(int value) {
+		this->p += value;
+		return (*this);
 	}
-	iterator& operator+=(ptrdiff_t n){ // n can be postive or negative
-		ptrdiff_t offset = n + (cur - first);
-		if(offset >=0 && offset < ptrdiff_t(buff_size)){
-			// in the same chunk
-			cur += n;
-		}else{//not in the same chunk
-			ptrdiff_t node_offset;
-			if (offset > 0){
-				node_offset = offset / ptrdiff_t(buff_size);
-			}else{
-				node_offset = -((-offset - 1) / ptrdiff_t(buff_size)) - 1 ;
-			}
-			// skip to the new chunk
-			set_node(node + node_offset);
-			// set new cur
-			cur = first + (offset - node_offset * buff_size);
-		}
-
-		return *this;
+	DequeIterator operator+(int value) const {
+		DequeIterator tmp(*this);
+		return (tmp += value);
+	}
+	DequeIterator &operator-=(int value) {
+		this->p -= value;
+		return (*this);
+	}
+	DequeIterator operator-(int value) const {
+		DequeIterator tmp(*this);
+		return (tmp -= value);
+	}
+	difference_type operator-(DequeIterator const &other) const {
+		return (this->p - other.p);
 	}
 
-// skip n steps
-	iterator operator+(ptrdiff_t n)const{
-		iterator tmp = *this;
-		return tmp+= n; //reuse  operator +=
+	bool operator==(DequeIterator const &other) const {
+		return (this->p == other.p);
 	}
-
-	iterator& operator-=(ptrdiff_t n){
-		return *this += -n; //reuse operator +=
+	bool operator!=(DequeIterator const &other) const {
+		return (this->p != other.p);
 	}
-
-	iterator operator-(ptrdiff_t n)const{
-		iterator tmp = *this;
-		return tmp -= n; //reuse operator +=
+	bool operator<(DequeIterator const &other) const {
+		return (this->p < other.p);
 	}
-
-// random access (iterator can skip n steps)
-// invoke operator + ,operator *
-	reference operator[](ptrdiff_t n)const{
-		return *(*this + n);
+	bool operator<=(DequeIterator const &other) const {
+		return (this->p <= other.p);
+	}
+	bool operator>(DequeIterator const &other) const {
+		return (this->p > other.p);
+	}
+	bool operator>=(DequeIterator const &other) const {
+		return (this->p >= other.p);
 	}
 };
 
