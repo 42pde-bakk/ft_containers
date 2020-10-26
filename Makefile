@@ -16,6 +16,7 @@ ifdef COMPILER
  CXX = $(COMPILER)
 endif
 INCLUDE = $(shell find srcs -type d | sed s/^/-I/)
+CXX = clang++
 CXXFLAGS = -W -Wall -Wextra -Werror -pedantic -ansi -std=c++98
 ifdef DEBUG
  CXXFLAGS += -g -fsanitize=address
