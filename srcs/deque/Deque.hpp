@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/25 18:22:37 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/10/25 18:22:37 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/29 21:51:30 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,17 +56,18 @@ namespace ft {
 			size_type		_start;
 			size_type		_capacity;
 			map_pointer 	_map;		// pointer to the array of chunks
+			size_type		_map_size;
 			allocator_type	_alloc;
 
 		public:
 
 		/* Constructors, Destructors and assignment operator */
 			explicit	deque(const allocator_type& alloc = allocator_type())
-				: _size(0), _start(0), _capacity(0), _map(0), _alloc(alloc) {
+				: _size(0), _start(0), _capacity(0), _map(0), _map_size(0), _alloc(alloc) {
 //				fill_initialize(2 * ARRAY_SIZE, value_type());
 			}
 			explicit	deque(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
-				: _size(0), _start(0), _capacity(0), _map(0), _alloc(alloc) {
+				: _size(0), _start(0), _capacity(0), _map(0), _map_size(0), _alloc(alloc) {
 				this->assign(n, val);
 			}
 //			template<class InputIterator>
@@ -111,26 +112,38 @@ namespace ft {
 			const_reference back() const { return this->operator[](this->_size - 1); }
 
 		/* Modifier functions */
-			void	reserve(size_type cap) {
-				if (cap > this->_capacity) {
-					size_t	real_cap = ARRAY_SIZE; // TODO: double capacity on every new allocation
+			void	reserve(size_type n) {
+				if (n > this->_capacity) {
+					
+					size_type num_nodes = n / ARRAY_SIZE + 1;
 
-					// Allocate an array of chunks
-					map_pointer tmp = new pointer[real_cap]();
-					// Offset to center the old blocks - 2 center, 1 back, 0 front
-					size_type	offset = (real_cap / 2) - (this->_size / 2);
-					std::cerr << "real cap: " << real_cap << ", this size: " << this->_size << ", offset = " << offset << std::endl;
-					// Move old blocks
-					size_t i = offset, j = this->_start;
-					while(j < this->_start + this->_size) {
-						tmp[i] = this->_map[j];
-						i++;
-						j++;
+					// double capacity on every new call (i think)
+					size_type oldmapsize = this->_map_size;
+					this->_map_size = std::max((size_t)8, num_nodes);
+					// this->_capacity = cap;
+
+					// allocate a new map pointer
+					map_pointer	tmp_map = new pointer[this->_map_size]();
+
+					// Copy the old map* in the new one
+					size_type i = 0;
+					while (i < oldmapsize) {
+						tmp_map[i] = this->_map[i];
+						++i;
 					}
+
+					// Add an extra empty entry at the end (/beginning)
+					while (i < this->_map_size) {
+						// std::cerr << "Just added the " << i << ((i <= 1) ? "st" : "rd") << " node.\n";
+						tmp_map[i] = new value_type[ARRAY_SIZE]();
+						++i;
+					}
+
+					// delete old map, set map to be tmp map
 					delete this->_map;
-					this->_map = tmp;
-					this->_capacity = real_cap;
-					this->_start = offset;
+					this->_map = tmp_map;
+					this->_size = n;
+					this->_start = (this->_map_size / 2) - ((this->_map_size - num_nodes) / 2);
 				}
 			}
 //			template <class InputIterator>
@@ -139,17 +152,14 @@ namespace ft {
 				this->clear();
 				this->reserve(n);
 
-				std::cerr << "before centering, _start = " << _start << std::endl;
-				this->_start = (this->_capacity / 2) - ((this->_capacity - n) / 2);
-				std::cerr << "And after, _start = " << _start << std::endl;
-
-				while (this->_size < n) {
-					std::cerr << "allocating new fixed-size array, start = " << _start << ", _size = " << _size << std::endl;
-					this->_map[this->_start + this->_size] = new value_type[this->_capacity];
-					(void)val;
-					++this->_size;
+				// std::cerr << "before centering, _start = " << _start << std::endl;
+				// std::cerr << "map size: " << this->_map_size << ", map size - n = " << _map_size - n << ", start = " << ((this->_map_size / 2) - ((this->_map_size - n) / 2)) << std::endl;
+				// this->_start = (this->_map_size / 2) - ((this->_map_size - n) / 2);
+				// std::cerr << "And after, _start = " << _start << std::endl;
+				for (size_type i = 0; i < n; ++i) {
+					*this->_map[this->_start + i] = val;
 				}
-				std::cerr << "after assign(), size = "<< _size << ", cap = " << this->_capacity << ", _start = " << _start << std::endl;
+				std::cerr << "after assign(), size = "<< _size << ", map_size = " << this->_map_size << ", _start = " << _start << std::endl;
 			}
 
 			void	push_back(const value_type& val);
@@ -169,6 +179,7 @@ namespace ft {
 				for (size_type i = 0; i < this->_size; ++i)
 					delete	this->_map[this->_start + i];
 				this->_size = 0;
+				// this->_map_size = 0;
 				this->_start = this->_capacity / 2;
 			}
 

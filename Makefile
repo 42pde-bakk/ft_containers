@@ -6,7 +6,7 @@
 #    By: Peer <pde-bakk@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/25 17:28:30 by pde-bakk      #+#    #+#                  #
-#    Updated: 2020/10/22 17:36:41 by peerdb        ########   odam.nl          #
+#    Updated: 2020/10/29 21:52:51 by peerdb        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,6 @@ ifdef COMPILER
  CXX = $(COMPILER)
 endif
 INCLUDE = $(shell find srcs -type d | sed s/^/-I/)
-CXX = clang++
 CXXFLAGS = -W -Wall -Wextra -Werror -pedantic -ansi -std=c++98
 ifdef DEBUG
  CXXFLAGS += -g -fsanitize=address
@@ -31,7 +30,8 @@ ifdef STD
 endif
 
 list vector map stack queue deque set multiset multimap: fclean
-	$(CXX) $(CXXFLAGS) $(TESTDIR)/$@_$(FILES) -Isrcs/$@ -Isrcs/utils -Isrcs/Iterators -o $(NAME)
+	$(CXX) $(CXXFLAGS) $(TESTDIR)/$@_$(FILES) -o $(NAME) \
+	-Isrcs/$@ -Isrcs/utils -Isrcs/Iterators
 
 clean:
 
@@ -39,6 +39,7 @@ fclean: clean
 	@rm -rf $(NAME) $(NAME).dSYM
 
 fuckingclean: fclean
-	@rm -f $(TESTDIR)/std.txt $(TESTDIR)/ft.txt $(TESTDIR)/*stdmain.cpp $(TESTDIR)/diff.txt
+	@rm -f $(TESTDIR)/std.txt $(TESTDIR)/ft.txt $(TESTDIR)/diff.txt \
+	$(TESTDIR)/*stdmain.cpp
 
 re: fclean

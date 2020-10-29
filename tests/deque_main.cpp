@@ -32,8 +32,12 @@ void 	peer() {
 	ft::deque<int>	hats(6, -42);
 	for (size_t i = 0; i < 4; i++)
 		hats[i] = i;
+	std::cout << "hjaja" << std::endl;
 //	for (size_t i = 0; i < 4; i++)
 //		hats.push_back(i);
+	ft::deque<int>::iterator sit = hats.begin();
+	std::cout << "sit = " << *sit << std::endl;
+	std::cout << "hats.size = " << hats.size() << std::endl;
 	for (ft::deque<int>::iterator it = hats.begin(); it != hats.end(); it++)
 		std::cout << ' ' << *it << std::endl;
 	std::cout << std::endl;
