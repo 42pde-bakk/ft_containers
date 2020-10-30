@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 15:19:02 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/30 12:33:40 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/30 22:16:55 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include "Traits.hpp"
 # include "Extra.hpp"
 # include <stdexcept>
+#include <iostream>
 
 namespace ft {
 
@@ -171,10 +172,12 @@ namespace ft {
 			}
 		}
 		void	push_back(const value_type& val) {
-			if (this->_array == 0)
-				reserve(1);
-			if (this->_size == this->_capacity)
-				reserve(this->_capacity * 2);
+			if (this->_size == this->_capacity) {
+				if (this->_size == 0)
+					reserve(1);
+				else
+					reserve(this->_capacity * 2);
+			}
 			this->_array[this->_size] = val;
 			this->_size++;
 		}
