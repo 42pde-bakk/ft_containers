@@ -81,7 +81,7 @@ done
 if [[ $ARG == "all" ]]; then
 	for i in "${arr[@]}"
 	do
-		test "$i" "$2" "$3" "$"4
+		test "$i" "$1" "$2" "$3"
 	done
 else
 	test "$ARG" "$2" "$3" "$4"
