@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/25 18:22:37 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/10/29 21:51:30 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/30 22:21:51 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ namespace ft {
 			deque(const deque& x);
 			virtual ~deque() {
 				for (size_type i = 0; i < this->_size; ++i)
-					delete	this->_map[this->_start + i];
+					delete[] this->_map[this->_start + i];
 				this->_size = 0;
 			}
 			deque&	operator=(const deque& x);
@@ -177,7 +177,7 @@ namespace ft {
 			void		swap(deque& x); // iterators, references and pointers MUST remain valid
 			void		clear() {
 				for (size_type i = 0; i < this->_size; ++i)
-					delete	this->_map[this->_start + i];
+					delete[]	this->_map[this->_start + i];
 				this->_size = 0;
 				// this->_map_size = 0;
 				this->_start = this->_capacity / 2;
