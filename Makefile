@@ -6,7 +6,7 @@
 #    By: Peer <pde-bakk@student.codam.nl>             +#+                      #
 #                                                    +#+                       #
 #    Created: 2020/07/25 17:28:30 by pde-bakk      #+#    #+#                  #
-#    Updated: 2020/10/30 22:05:06 by peerdb        ########   odam.nl          #
+#    Updated: 2020/10/30 22:34:52 by peerdb        ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ endif
 INCLUDE = $(shell find srcs -type d | sed s/^/-I/)
 CXXFLAGS = -W -Wall -Wextra -Werror -pedantic -ansi -std=c++98
 ifdef DEBUG
- CXXFLAGS += -g -fsanitize=address
+ CXXFLAGS += -g -fsanitize=address #-fsanitize=undefined -fsanitize=alignment -fsanitize=bounds -fsanitize=null -fsanitize=return
 else
  CXXFLAGS += -Ofast
 endif
