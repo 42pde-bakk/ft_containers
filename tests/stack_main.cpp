@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/16 14:56:39 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/20 15:04:56 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/30 21:59:16 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 #include <string>
 #include <iostream>
 #include <sys/time.h>
+#include <cstring> // for strcmp
+#include <stddef.h>
+#include <stdlib.h> // for system()
 
 # if defined(unix) || defined(__unix__) || defined(__unix)
 #  define LINUX 1

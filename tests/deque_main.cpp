@@ -7,8 +7,9 @@
 #include <string>
 #include <iostream>
 #include <sys/time.h>
-#include <cstring>
-#include <stdlib.h>
+#include <cstring> // for strcmp
+#include <stddef.h>
+#include <stdlib.h> // for system()
 
 # if defined(unix) || defined(__unix__) || defined(__unix)
 #  define LINUX 1

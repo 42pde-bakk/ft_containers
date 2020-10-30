@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   map_main.cpp                                       :+:    :+:            */
+/*   multiset_main.cpp                                  :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 21:10:23 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/22 01:13:33 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/30 22:01:05 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@
 #include <iostream>
 #include <sys/time.h>
 #include <cstring>
-#include <stdlib.h>
+#include <cstring> // for strcmp
+#include <stddef.h>
+#include <stdlib.h> // for system()
 
 # if defined(unix) || defined(__unix__) || defined(__unix)
 #  define LINUX 1
@@ -151,7 +153,7 @@ void 	capacity() {
 	ft::multiset<int>	mymap(stdmap.begin(), stdmap.end());
 	std::cout << std::boolalpha << "mymap.empty() returns " << mymap.empty() << std::endl;
 	std::cout << "mymap.size() returns " << mymap.size() << std::endl;
- 	std::cout << "mymap.max_size() returns " << mymap.max_size() << std::endl;
+ 	// std::cout << "mymap.max_size() returns " << mymap.max_size() << std::endl;
 }
 
 void	modifiers() {

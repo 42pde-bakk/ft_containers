@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:46:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/10/23 15:41:45 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/30 21:59:57 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 #include "List.hpp"
 #include <iostream>
 #include <list>
-#include <cstring>
 #include <string>
 #include <cstdlib>
 #include <sys/time.h>
+#include <cstring> // for strcmp
+#include <stddef.h>
+#include <stdlib.h> // for system()
 
 # if defined(unix) || defined(__unix__) || defined(__unix)
 #  define LINUX 1

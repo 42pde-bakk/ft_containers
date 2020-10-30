@@ -8,8 +8,10 @@
 #include <string>
 #include <iostream>
 #include <sys/time.h>
-#include <cstring>
 #include <stdlib.h>
+#include <cstring> // for strcmp
+#include <stddef.h>
+#include <stdlib.h> // for system()
 
 # if defined(unix) || defined(__unix__) || defined(__unix)
 #  define LINUX 1
@@ -137,14 +139,14 @@ void	capacity() {
 	peer = getstdmultimap();
 	std::cout << std::boolalpha << "is peer empty?: " << peer.empty() << std::endl;
 	std::cout << "peer.size(): " << peer.size() << std::endl;
-	std::cout << "peer.max_size(): " << peer.max_size() << std::endl;
+	// std::cout << "peer.max_size(): " << peer.max_size() << std::endl;
 }
 
 void 	modifiers() {
 	ft::multimap<int, std::string>	stdmulti = getstdmultimap();
 	ft::multimap<int, std::string>	newmulti;
 	newmulti.insert(std::make_pair(8, "octo"));
-	newmulti.insert(std::make_pair(INT_MAX, "int maxie"));
+	newmulti.insert(std::make_pair( __INT_MAX__ , "int maxie"));
 	newmulti.insert(stdmulti.begin(), stdmulti.end());
 	newmulti.erase(newmulti.find(1));
 	size_t erased = newmulti.erase(10);
