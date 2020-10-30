@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/09 12:20:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/30 12:49:10 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/30 22:09:28 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ namespace ft {
 			return *this;
 		}
 		difference_type	operator-(RandomAccessIterator it) {
-			return (ft::distance(it, *this));
+			return this->array - it.array;
 		}
 		self_type	operator-(difference_type n) {
 			self_type out(*this);
