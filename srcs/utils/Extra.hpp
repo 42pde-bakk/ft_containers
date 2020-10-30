@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/26 13:20:35 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/20 00:55:32 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/30 12:45:21 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define EXTRA_HPP
 # include "Traits.hpp"
 # include <cstddef>
+# include <functional>
 
 namespace ft {
 	template<typename Iterator>

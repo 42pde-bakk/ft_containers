@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 15:19:02 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/20 14:31:49 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/30 12:33:40 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include "RandomAccessIterator.hpp"
 # include "Traits.hpp"
 # include "Extra.hpp"
+# include <stdexcept>
 
 namespace ft {
 

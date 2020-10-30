@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 21:10:23 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/20 15:05:00 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/10/30 12:49:43 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 #include <string>
 #include <iostream>
 #include <sys/time.h>
+#include <cstring> // for strcmp
+#include <stddef.h>
+#include <stdlib.h> // for system()
 
 # if defined(unix) || defined(__unix__) || defined(__unix)
 #  define LINUX 1
@@ -146,7 +149,7 @@ void	element_access_test() {
 	}
 	std::cout << "kokkita.front() = " << kokkita.front() << ", constkita.front() = " << constkita.front() << std::endl;
 	std::cout << "kokkita.back() = " << kokkita.back() << ", constkita.back() = " << constkita.back() << std::endl;
-	std::cout << "kokkita[" << SIZE_MAX << "]: " << kokkita[SIZE_MAX] << std::endl;
+	// std::cout << "kokkita[" << 812039 << "]: " << kokkita[812039] << std::endl;
 }
 
 void	modifiers_test() {
@@ -193,7 +196,6 @@ void	relational_operators_test() {
 	b.push_back(5);
 	std::cout << "now vice versa, should return 0: " << (a == b) << ", and this one 1: " << (a != b) << std::endl;
 	std::cout << (a < b) << (b < a) << (a <= b) << (b <= a) << std::endl;
-	
 }
 
 void	stl_test() {
@@ -207,18 +209,27 @@ void	stl_test() {
 	reverse_print_container_content(wap, "wap");
 }
 
+void	sam() {
+	ft::vector<int>	sam(8, 123);
+	// int ret = sam.end() - sam.begin();
+	int ret = sam.begin() - sam.end();
+	std::cout << "ret = " << ret << std::endl;
+}
+
+
 int	main(int argc, char **argv) {
 	if (argc == 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
 		begintime = tv.tv_usec;
 	}
-	stl_test();
-	constructors_test();
-	iterators_test();
-	capacity_test();
-	element_access_test();
-	modifiers_test();
-	relational_operators_test();
+	// stl_test();
+	// constructors_test();
+	// iterators_test();
+	// capacity_test();
+	// element_access_test();
+	// modifiers_test();
+	// relational_perators_test();
+	sam();
 	if (argc == 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
 		endtime = tv.tv_usec;

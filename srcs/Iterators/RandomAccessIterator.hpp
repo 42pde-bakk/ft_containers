@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/09 12:20:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/10 00:25:11 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/30 12:49:10 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <memory>
 # include <cstddef>
+# include "Extra.hpp"
 
 namespace ft {
 
@@ -69,6 +70,9 @@ namespace ft {
 		self_type&	operator--() {
 			--this->array;
 			return *this;
+		}
+		difference_type	operator-(RandomAccessIterator it) {
+			return (ft::distance(it, *this));
 		}
 		self_type	operator-(difference_type n) {
 			self_type out(*this);
