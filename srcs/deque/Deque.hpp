@@ -144,20 +144,18 @@ namespace ft {
 //			const_reference back() const { return this->operator[](this->_size - 1); }
 
 		/* Modifier functions */
-			void	reserve(size_type n) {
-				if (n > this->_capacity) {
+			void	reserve(size_type nodes_needed) {
+				if (nodes_needed > this->_map_size) {
 
-					this->_num_nodes = (n / ARRAY_SIZE) + 1;
-//					std::cerr << _RED _BOLD << "_capacity: " << _capacity << ", n = " << n << std::endl;
-//					std::cerr << "num_nodes: " << this->_num_nodes << std::endl;
+					this->_num_nodes = nodes_needed;
 
-					// double capacity on every new call (i think)
 					size_type oldmapsize = this->_map_size;
 					this->_map_size = std::max((size_t)8, this->_num_nodes);
 					std::cerr << "oldmapsize: " << oldmapsize << ", new _map_size: " << _map_size << std::endl;
 
 					// allocate a new map pointer
 					map_pointer	tmp_map = new pointer[this->_map_size]();
+					std::cerr << _RED << "_map at " << tmp_map << std::endl;
 					this->_start = (this->_map_size - this->_num_nodes) / 2;
 					map_pointer tmp_start = tmp_map + this->_start;
 					map_pointer tmp_finish = tmp_start + this->_num_nodes - 1;
@@ -171,23 +169,16 @@ namespace ft {
 					// Add an extra empty entry at the end (/beginning)
 					for (map_pointer c = tmp_start; c <= tmp_finish; ++c) {
 						*c = new value_type [ARRAY_SIZE]();
-//						std::cerr << _PURPLE << "new subarray at " << *c << std::endl << _END;
+						std::cerr << _PURPLE << "new subarray at " << *c << std::endl << _END;
 					}
-//					for (size_t i = 0; i < this->_map_size; ++i) {
-//						std::cerr << "ptr at tmp_map[" << i << "] is: " << tmp_map[i] << std::endl;
-//					}
 					// set start and end iterator
 					start.set_node(tmp_start);
 					start.cur = start.first;
 
 					finish.set_node(tmp_finish);
-					finish.cur = finish.first + (n % ARRAY_SIZE);
-					// delete old map, set map to be tmp map
+					// not setting finish.cur in this function
 					delete this->_map;
 					this->_map = tmp_map;
-					this->_size = n;
-//					this->_start = ((this->_map_size / 2) - ((this->_map_size - num_nodes) / 2)) * ARRAY_SIZE;
-//					std::cerr << "_size: " << _size << ", _start: " << _start << std::endl;
 					std::cerr << _END;
 				}
 			}
@@ -195,21 +186,14 @@ namespace ft {
 //			void	assign(InputIterator first, InputIterator last);
 			void	assign(size_type n, const value_type& val) {
 				this->clear();
-				this->reserve(n);
+				this->reserve(n / ARRAY_SIZE + 1);
+				finish.cur = finish.first + (n % ARRAY_SIZE);
 
 				for (iterator it = start; it != finish; ++it) {
+//					std::cerr << "it: " << it.cur << std::endl;
 					*it = val;
 				}
-				iterator finishminone = finish;
-				--finishminone;
-//				std::cerr << "finish.cur: " << finish.cur << ", .first: " << finish.first << ", .last: " << finish.last << std::endl;
-//				std::cerr << "*finish = " << *finish << std::endl;
-//				std::cerr << "start.cur: " << start.cur << ", .start: " << start.first << ", .last: " << start.last << std::endl;
-//				std::cerr << "*start = " << *start << std::endl;
-//				std::cerr << "finishminone.cur: " << finishminone.cur << ", .finishminone: " << finishminone.first << ", .last: " << finishminone.last << std::endl;
-//				std::cerr << "*finishminone = " << *finishminone << std::endl;
-
-			std::cerr << _RED << "end of iter " << std::endl << std::endl << _END;
+				this->_size = n;
 			}
 			void	push_back(const value_type& val) {
 //				std::cerr << "starting push_back( val )" << std::endl;
@@ -256,11 +240,12 @@ namespace ft {
 			iterator	erase(iterator first, iterator last);
 			void		swap(deque& x); // iterators, references and pointers MUST remain valid
 			void		clear() {
-				for (size_type i = 0; i < this->_size; ++i)
-					delete[] this->_map[this->_start + i];
+				for (size_type i = 0; i < this->_map_size; ++i) {
+					delete[] this->_map[i];
+				}
 				this->_size = 0;
-				this->_map_size = 0;
-				this->_start = this->_capacity / 2;
+				delete[] this->_map;
+				this->_start = this->_map_size / 2;
 			}
 
 		private:
