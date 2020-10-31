@@ -19,6 +19,7 @@
 # include "DequeIterator.hpp"
 # include "Traits.hpp"
 # include "Extra.hpp"
+# include "Colours.h"
 # include <iostream>
 # include <algorithm>
 # include "../vector/Vector.hpp"
@@ -74,9 +75,11 @@ namespace ft {
 //			deque(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
 			deque(const deque& x);
 			virtual ~deque() {
-				for (size_type i = 0; i < this->_size; ++i)
-					delete[] this->_map[this->_start + i];
+				for (size_type i = 0; i < this->_map_size; ++i) {
+					delete[] this->_map[i];
+				}
 				this->_size = 0;
+				delete[] this->_map;
 			}
 			deque&	operator=(const deque& x);
 
