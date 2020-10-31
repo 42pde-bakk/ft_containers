@@ -38,7 +38,7 @@ namespace ft {
 			typedef const T&		const_reference;
 			typedef T*				pointer;
 			typedef const T*		const_pointer;
-			typedef DequeIterator<T>				iterator;
+			typedef DequeIterator<T, ARRAY_SIZE>				iterator;
 //			typedef ConstRandomAccessIterator<T>		const_iterator;
 //			typedef RevRandomAccessIterator<T>			reverse_iterator;
 //			typedef ConstRevRandomAccessIterator<T>		const_reverse_iterator;
@@ -51,29 +51,34 @@ namespace ft {
 			// Allocate memory for map
 			typedef std::allocator<pointer>		mapAllocator;
 		private:
-//			iterator		start;
-//			iterator		finish;
-			size_type		_size;
-			size_type		_start;
-			size_type		_capacity;
+			size_type		_size;		// amount of elements in the deque
+			size_type		_start;		// offset to the start of the elements
+			size_type		_num_nodes;
+			size_type		_capacity;	// amount of possible elements in the entire deque
 			map_pointer 	_map;		// pointer to the array of chunks
-			size_type		_map_size;
+			size_type		_map_size;	// amount of sub-arrays
 			allocator_type	_alloc;
+			iterator		start;		// iterator to the start
+			iterator		finish;		// iterator to the past-the-end element
 
 		public:
 
 		/* Constructors, Destructors and assignment operator */
 			explicit	deque(const allocator_type& alloc = allocator_type())
-				: _size(0), _start(0), _capacity(0), _map(0), _map_size(0), _alloc(alloc) {
+				: _size(0), _start(0), _num_nodes(0), _capacity(0), _map(0), _map_size(0), _alloc(alloc) {
+				start();
+				finish();
 //				fill_initialize(2 * ARRAY_SIZE, value_type());
 			}
 			explicit	deque(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
-				: _size(0), _start(0), _capacity(0), _map(0), _map_size(0), _alloc(alloc) {
+				: _size(0), _start(0), _num_nodes(0), _capacity(0), _map(0), _map_size(0), _alloc(alloc), start(), finish() {
 				this->assign(n, val);
 			}
 //			template<class InputIterator>
 //			deque(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
-			deque(const deque& x);
+			deque(const deque& x) : _size(0), _start(0), _num_nodes(0), _capacity(0), _map(0), _map_size(0), _alloc(x.alloc), start(), finish() {
+				*this = x;
+			}
 			virtual ~deque() {
 				for (size_type i = 0; i < this->_map_size; ++i) {
 					delete[] this->_map[i];
@@ -81,11 +86,17 @@ namespace ft {
 				this->_size = 0;
 				delete[] this->_map;
 			}
-			deque&	operator=(const deque& x);
+			deque&	operator=(const deque& x) {
+				if (this != &x) {
+					this->assign(x.begin(), x.end());
+				}
+			}
 
 		/* Iterator functions */
-			iterator begin() { return iterator(this->_map + this->_start); }
-			iterator end() { return iterator(this->_map + this->_start + this->_size); }
+//			iterator begin() { return iterator(this->_map + this->_start); }
+			iterator begin() { return start; }
+//			iterator end() { return iterator(this->_map + this->_start + this->_size); }
+			iterator end() { return finish; }
 
 		/* Capacity functions */
 			size_type	size() const { return this->_size; }
@@ -103,30 +114,53 @@ namespace ft {
 			bool		empty() const { return (this->_size == 0); }
 
 		/* Element access functions */
-			reference operator[](size_type n) { //random access, use __deque_iterator operator[]
-				return *this->_map[this->_start + n];
+			reference		operator[](size_type n) { //random access, use __deque_iterator operator[]
+				return start[n];
+//				return *this->_map[this->_start + n];
 			}
 			const_reference	operator[](size_type n) const {
-				return *this->_map[this->_start + n];
+				return start[n];
+//				return *this->_map[this->_start + n];
 			}
-			reference front() { return this->operator[](0); }
-			const_reference front() const { return this->operator[](0); }
-			reference back() { return this->operator[](this->_size - 1); }
-			const_reference back() const { return this->operator[](this->_size - 1); }
+			reference		at(size_type n) {
+				if (n >= this->_size)
+					throw std::out_of_range("Deque index out of range");
+				return start[n];
+			}
+			const_reference		at(size_type n) const {
+				if (n >= this->_size)
+					throw std::out_of_range("Deque index out of range");
+				return start[n];
+			}
+//			reference front() { return this->operator[](0); }
+			reference front() { return *start; }
+//			const_reference front() const { return this->operator[](0); }
+//			reference back() { return this->operator[](this->_size - 1); }
+			reference back() {
+				iterator tmp = finish;
+				--tmp;
+				return *tmp; // return finish's *cur
+			}
+//			const_reference back() const { return this->operator[](this->_size - 1); }
 
 		/* Modifier functions */
 			void	reserve(size_type n) {
 				if (n > this->_capacity) {
-					
-					size_type num_nodes = n / ARRAY_SIZE + 1;
+
+					this->_num_nodes = (n / ARRAY_SIZE) + 1;
+//					std::cerr << _RED _BOLD << "_capacity: " << _capacity << ", n = " << n << std::endl;
+//					std::cerr << "num_nodes: " << this->_num_nodes << std::endl;
 
 					// double capacity on every new call (i think)
 					size_type oldmapsize = this->_map_size;
-					this->_map_size = std::max((size_t)8, num_nodes);
-					// this->_capacity = cap;
+					this->_map_size = std::max((size_t)8, this->_num_nodes);
+					std::cerr << "oldmapsize: " << oldmapsize << ", new _map_size: " << _map_size << std::endl;
 
 					// allocate a new map pointer
 					map_pointer	tmp_map = new pointer[this->_map_size]();
+					this->_start = (this->_map_size - this->_num_nodes) / 2;
+					map_pointer tmp_start = tmp_map + this->_start;
+					map_pointer tmp_finish = tmp_start + this->_num_nodes - 1;
 
 					// Copy the old map* in the new one
 					size_type i = 0;
@@ -134,19 +168,27 @@ namespace ft {
 						tmp_map[i] = this->_map[i];
 						++i;
 					}
-
 					// Add an extra empty entry at the end (/beginning)
-					while (i < this->_map_size) {
-						// std::cerr << "Just added the " << i << ((i <= 1) ? "st" : "rd") << " node.\n";
-						tmp_map[i] = new value_type[ARRAY_SIZE]();
-						++i;
+					for (map_pointer c = tmp_start; c <= tmp_finish; ++c) {
+						*c = new value_type [ARRAY_SIZE]();
+//						std::cerr << _PURPLE << "new subarray at " << *c << std::endl << _END;
 					}
+//					for (size_t i = 0; i < this->_map_size; ++i) {
+//						std::cerr << "ptr at tmp_map[" << i << "] is: " << tmp_map[i] << std::endl;
+//					}
+					// set start and end iterator
+					start.set_node(tmp_start);
+					start.cur = start.first;
 
+					finish.set_node(tmp_finish);
+					finish.cur = finish.first + (n % ARRAY_SIZE);
 					// delete old map, set map to be tmp map
 					delete this->_map;
 					this->_map = tmp_map;
 					this->_size = n;
-					this->_start = (this->_map_size / 2) - ((this->_map_size - num_nodes) / 2);
+//					this->_start = ((this->_map_size / 2) - ((this->_map_size - num_nodes) / 2)) * ARRAY_SIZE;
+//					std::cerr << "_size: " << _size << ", _start: " << _start << std::endl;
+					std::cerr << _END;
 				}
 			}
 //			template <class InputIterator>
@@ -155,18 +197,53 @@ namespace ft {
 				this->clear();
 				this->reserve(n);
 
-				// std::cerr << "before centering, _start = " << _start << std::endl;
-				// std::cerr << "map size: " << this->_map_size << ", map size - n = " << _map_size - n << ", start = " << ((this->_map_size / 2) - ((this->_map_size - n) / 2)) << std::endl;
-				// this->_start = (this->_map_size / 2) - ((this->_map_size - n) / 2);
-				// std::cerr << "And after, _start = " << _start << std::endl;
-				for (size_type i = 0; i < n; ++i) {
-					*this->_map[this->_start + i] = val;
+				for (iterator it = start; it != finish; ++it) {
+					*it = val;
 				}
-				std::cerr << "after assign(), size = "<< _size << ", map_size = " << this->_map_size << ", _start = " << _start << std::endl;
-			}
+				iterator finishminone = finish;
+				--finishminone;
+//				std::cerr << "finish.cur: " << finish.cur << ", .first: " << finish.first << ", .last: " << finish.last << std::endl;
+//				std::cerr << "*finish = " << *finish << std::endl;
+//				std::cerr << "start.cur: " << start.cur << ", .start: " << start.first << ", .last: " << start.last << std::endl;
+//				std::cerr << "*start = " << *start << std::endl;
+//				std::cerr << "finishminone.cur: " << finishminone.cur << ", .finishminone: " << finishminone.first << ", .last: " << finishminone.last << std::endl;
+//				std::cerr << "*finishminone = " << *finishminone << std::endl;
 
-			void	push_back(const value_type& val);
-			void	push_front(const value_type& val);
+			std::cerr << _RED << "end of iter " << std::endl << std::endl << _END;
+			}
+			void	push_back(const value_type& val) {
+//				std::cerr << "starting push_back( val )" << std::endl;
+				if (finish.last - finish.cur == 1) {
+//					std::cerr << "its time to push back a new array.\n";
+					*(this->_map + this->_start + this->_num_nodes) = new value_type [ARRAY_SIZE]();
+					++this->_num_nodes;
+//					std::cerr << "num_nodes now is [" << _num_nodes << "], allocated new subarray at " << *(_map + _start + _num_nodes - 1) << std::endl;
+					for (size_t i = 0; i < this->_map_size; ++i) {
+						std::cerr << _CYAN << "ptr at tmp_map[" << i << "] is: " <<this->_map[i] << std::endl << _END;
+					}
+				}
+//				std::cerr << "trying to give " << finish.cur << " the value of " << val << std::endl;
+				*finish = val;
+//				std::cerr << "*finish = " << *finish << std::endl;
+//				std::cerr << "before incrementing finish iterator\n";
+				++finish;
+//				std::cerr << "after incrementing finish iterator\n";
+				++this->_size;
+			}
+			void	push_front(const value_type& val) {
+				if (start.cur == start.first) {
+					*(this->_map + this->_start - 1) = new value_type [ARRAY_SIZE]();
+					++this->_num_nodes;
+					for (size_t i = 0; i < this->_map_size; ++i) {
+						std::cerr << _CYAN << "ptr at tmp_map[" << i << "] is: " <<this->_map[i] << std::endl << _END;
+					}
+				}
+				--start;
+				--this->_start;
+//				std::cerr << "decremented start, start.first: " << start.first << ", .cur: " << start.cur << ", .last: " << start.last << std::endl;
+				*start = val;
+				++this->_size;
+			}
 			void	pop_back(void);
 			void	pop_front(void);
 
@@ -180,9 +257,9 @@ namespace ft {
 			void		swap(deque& x); // iterators, references and pointers MUST remain valid
 			void		clear() {
 				for (size_type i = 0; i < this->_size; ++i)
-					delete[]	this->_map[this->_start + i];
+					delete[] this->_map[this->_start + i];
 				this->_size = 0;
-				// this->_map_size = 0;
+				this->_map_size = 0;
 				this->_start = this->_capacity / 2;
 			}
 
