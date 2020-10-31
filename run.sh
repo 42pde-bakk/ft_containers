@@ -44,15 +44,15 @@ function test {
 
   echo -e "${RED}Compiling and testing for the STL version of the $1 container${RESET}"
 	make "$1" $C $D STD=1 && ./containers.out "$TIME" "$LEAKS" > tests/std.txt #2>&1
-	STATUS_STD=$?
+	STATUS_STL=$?
 
   echo -e "${GREEN}Compiling and testing for my FT version of the $1 container${RESET}"
 	make "$1" $C $D && ./containers.out "$TIME" "$LEAKS" > tests/ft.txt #2>&1
 	STATUS_FT=$?
 
-	echo -e "${ORANGE}Startin testing for $1${RESET}"
-	echo -e "${PURPLE}STATUS_FT = ${STATUS_FT}, STATUS_STD = ${STATUS_STD}${RESET}"
-	if [[ $STATUS_FT -ne 0 || $STATUS_STD -ne 0 ]]; then
+#	echo -e "${ORANGE}Startin testing for $1${RESET}"
+	echo -e "${PURPLE}STATUS_FT = ${STATUS_FT}, STATUS_STL = ${STATUS_STL}${RESET}"
+	if [[ $STATUS_FT -ne 0 || $STATUS_STL -ne 0 ]]; then
 		exit
 	fi
 
