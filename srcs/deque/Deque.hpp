@@ -85,6 +85,7 @@ namespace ft {
 				}
 				this->_size = 0;
 				delete[] this->_map;
+				std::cerr << "end of ~deque( )\n";
 			}
 			deque&	operator=(const deque& x) {
 				if (this != &x) {
@@ -157,9 +158,10 @@ namespace ft {
 					map_pointer	tmp_map = new pointer[this->_map_size]();
 					std::cerr << _RED << "_map at " << tmp_map << std::endl;
 					this->_start = (this->_map_size - this->_num_nodes) / 2;
+					std::cerr << "_start = " << _start << std::endl;
 					map_pointer tmp_start = tmp_map + this->_start;
 					map_pointer tmp_finish = tmp_start + this->_num_nodes - 1;
-
+					std::cerr << "tmp_start = " << tmp_start << ", tmp_finish = " << tmp_finish << std::endl;
 					// Copy the old map* in the new one
 					size_type i = 0;
 					while (i < oldmapsize) {
@@ -174,6 +176,7 @@ namespace ft {
 					// set start and end iterator
 					start.set_node(tmp_start);
 					start.cur = start.first;
+					std::cerr << "*start = " << *start << std::endl;
 
 					finish.set_node(tmp_finish);
 					// not setting finish.cur in this function
@@ -186,6 +189,7 @@ namespace ft {
 //			void	assign(InputIterator first, InputIterator last);
 			void	assign(size_type n, const value_type& val) {
 				this->clear();
+				std::cerr << "trying to reserve, n = " << n << " num_nodes: " << (n / ARRAY_SIZE + 1) << std::endl;
 				this->reserve(n / ARRAY_SIZE + 1);
 				finish.cur = finish.first + (n % ARRAY_SIZE);
 
@@ -241,11 +245,18 @@ namespace ft {
 			void		swap(deque& x); // iterators, references and pointers MUST remain valid
 			void		clear() {
 				for (size_type i = 0; i < this->_map_size; ++i) {
+//					std::cerr << "trying to delete subarray _map["<<i<<"] at " << _map[i] << std::endl;
 					delete[] this->_map[i];
+//					this->_map[i] = 0;
 				}
 				this->_size = 0;
+				this->_num_nodes = 0;
+				this->_capacity = 0;
+//				std::cerr << "trying to delete map at " << _map << std::endl;
 				delete[] this->_map;
-				this->_start = this->_map_size / 2;
+//				this->_map = 0;
+				this->_start = 0;
+				this->_map_size = 0;
 			}
 
 		private:
