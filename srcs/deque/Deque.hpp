@@ -205,17 +205,12 @@ namespace ft {
 //					std::cerr << "its time to push back a new array.\n";
 					*(this->_map + this->_start + this->_num_nodes) = new value_type [ARRAY_SIZE]();
 					++this->_num_nodes;
-//					std::cerr << "num_nodes now is [" << _num_nodes << "], allocated new subarray at " << *(_map + _start + _num_nodes - 1) << std::endl;
 					for (size_t i = 0; i < this->_map_size; ++i) {
 						std::cerr << _CYAN << "ptr at tmp_map[" << i << "] is: " <<this->_map[i] << std::endl << _END;
 					}
 				}
-//				std::cerr << "trying to give " << finish.cur << " the value of " << val << std::endl;
 				*finish = val;
-//				std::cerr << "*finish = " << *finish << std::endl;
-//				std::cerr << "before incrementing finish iterator\n";
 				++finish;
-//				std::cerr << "after incrementing finish iterator\n";
 				++this->_size;
 			}
 			void	push_front(const value_type& val) {
@@ -254,7 +249,7 @@ namespace ft {
 				this->_capacity = 0;
 //				std::cerr << "trying to delete map at " << _map << std::endl;
 				delete[] this->_map;
-//				this->_map = 0;
+				this->_map = 0;
 				this->_start = 0;
 				this->_map_size = 0;
 			}

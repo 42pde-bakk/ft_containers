@@ -31,16 +31,16 @@ struct timeval	tv;
 
 void 	peer() {
 	ft::deque<int>	hats(6, -42);
-//	for (size_t i = 0; i < 4; i++)
-//		hats[i] = i;
+	for (size_t i = 0; i < 4; i++)
+		hats[i] = i;
 	std::cout << "hjaja" << std::endl;
 	ft::deque<int>::iterator sit = hats.begin();
 	std::cout << "sit = " << *sit << std::endl;
-//	hats.push_front(87);
+	hats.push_front(87);
 	std::cout << "hats.front() = " << hats.front() << std::endl;
 	std::cout << "hats.size = " << hats.size() << std::endl;
-//	for (size_t i = 0; i < 4; i++)
-//		hats.push_back(i);
+	for (size_t i = 0; i < 4; i++)
+		hats.push_back(i);
 	hats.assign(4, 39127);
 	for (ft::deque<int>::iterator it = hats.begin(); it != hats.end(); it++)
 		std::cout << ' ' << *it << std::endl;
