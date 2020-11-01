@@ -200,7 +200,7 @@ namespace ft {
 			}
 			void	push_back(const value_type& val) {
 //				std::cerr << "starting push_back( val )" << std::endl;
-				if (finish.last - finish.cur == 1) { // We need a new array at the back
+				if (finish.last - finish.cur == 1 ) { // We need a new array at the back
 					std::cerr << "its time to push back a new array. _start + _num_nodes = " << _start + _num_nodes << std::endl;
 					if (this->_start + this->_num_nodes == _map_size) {
 						std::cerr << "we need to realloc our parent array\n";
@@ -218,6 +218,8 @@ namespace ft {
 			}
 			void	push_front(const value_type& val) {
 				if (start.cur == start.first) { // we need a new array at the front
+					if (this->_start == 0)
+						this->reserve(_size, _map_size);
 					*(this->_map + this->_start - 1) = new value_type [ARRAY_SIZE]();
 					++this->_num_nodes;
 					for (size_t i = 0; i < this->_map_size; ++i) {
