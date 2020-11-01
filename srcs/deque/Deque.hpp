@@ -145,76 +145,79 @@ namespace ft {
 //			const_reference back() const { return this->operator[](this->_size - 1); }
 
 		/* Modifier functions */
-			void	reserve(size_type nodes_needed) {
+			void	reserve(const size_type& num_elements, const size_type& nodes_needed) {
 				if (nodes_needed > this->_map_size) {
-
-					this->_num_nodes = nodes_needed;
-
 					size_type oldmapsize = this->_map_size;
-					this->_map_size = std::max((size_t)8, this->_num_nodes);
-					std::cerr << "oldmapsize: " << oldmapsize << ", new _map_size: " << _map_size << std::endl;
+					size_type oldoffset = this->_start;
+					size_type oldnumnodes = this->_num_nodes;
+					this->_num_nodes = nodes_needed;
+					this->_map_size = std::max((size_t)8, this->_num_nodes + 2);
 
 					// allocate a new map pointer
 					map_pointer	tmp_map = new pointer[this->_map_size]();
-					std::cerr << _RED << "_map at " << tmp_map << std::endl;
 					this->_start = (this->_map_size - this->_num_nodes) / 2;
-					std::cerr << "_start = " << _start << std::endl;
 					map_pointer tmp_start = tmp_map + this->_start;
 					map_pointer tmp_finish = tmp_start + this->_num_nodes - 1;
-					std::cerr << "tmp_start = " << tmp_start << ", tmp_finish = " << tmp_finish << std::endl;
-					// Copy the old map* in the new one
-					size_type i = 0;
-					while (i < oldmapsize) {
-						tmp_map[i] = this->_map[i];
-						++i;
+
+					if (oldmapsize) {
+						map_pointer oldc = this->_map + oldoffset;
+						map_pointer oldfinish = this->_map + oldoffset + oldnumnodes - 1;
+						for (map_pointer c = tmp_start; oldc <= oldfinish; ++c) {
+							*c = *oldc;
+//							std::cerr << "copied [" << *c << "] over in new array.\n";
+							++oldc;
+						}
 					}
-					// Add an extra empty entry at the end (/beginning)
-					for (map_pointer c = tmp_start; c <= tmp_finish; ++c) {
-						*c = new value_type [ARRAY_SIZE]();
-						std::cerr << _PURPLE << "new subarray at " << *c << std::endl << _END;
+					else  {
+						for (map_pointer c = tmp_start; c <= tmp_finish; ++c) {
+							*c = new value_type [ARRAY_SIZE]();
+//							std::cerr << _PURPLE << "new subarray at " << *c << std::endl << _END;
+						}
 					}
 					// set start and end iterator
 					start.set_node(tmp_start);
 					start.cur = start.first;
-					std::cerr << "*start = " << *start << std::endl;
 
 					finish.set_node(tmp_finish);
-					// not setting finish.cur in this function
+					finish.cur = finish.first + (num_elements % ARRAY_SIZE);
 					delete this->_map;
 					this->_map = tmp_map;
-					std::cerr << _END;
+					for (size_t i = 0; i < this->_map_size; ++i) {
+						std::cerr << _CYAN << "ptr at tmp_map[" << i << "] is: " <<this->_map[i] << std::endl << _END;
+					}
 				}
 			}
 //			template <class InputIterator>
 //			void	assign(InputIterator first, InputIterator last);
 			void	assign(size_type n, const value_type& val) {
 				this->clear();
-				std::cerr << "trying to reserve, n = " << n << " num_nodes: " << (n / ARRAY_SIZE + 1) << std::endl;
-				this->reserve(n / ARRAY_SIZE + 1);
-				finish.cur = finish.first + (n % ARRAY_SIZE);
+				this->reserve(n, n / ARRAY_SIZE + 1);
 
 				for (iterator it = start; it != finish; ++it) {
-//					std::cerr << "it: " << it.cur << std::endl;
 					*it = val;
 				}
 				this->_size = n;
 			}
 			void	push_back(const value_type& val) {
 //				std::cerr << "starting push_back( val )" << std::endl;
-				if (finish.last - finish.cur == 1) {
-//					std::cerr << "its time to push back a new array.\n";
+				if (finish.last - finish.cur == 1) { // We need a new array at the back
+					std::cerr << "its time to push back a new array. _start + _num_nodes = " << _start + _num_nodes << std::endl;
+					if (this->_start + this->_num_nodes == _map_size) {
+						std::cerr << "we need to realloc our parent array\n";
+						this->reserve(_size, _map_size);
+					}
 					*(this->_map + this->_start + this->_num_nodes) = new value_type [ARRAY_SIZE]();
 					++this->_num_nodes;
-					for (size_t i = 0; i < this->_map_size; ++i) {
-						std::cerr << _CYAN << "ptr at tmp_map[" << i << "] is: " <<this->_map[i] << std::endl << _END;
-					}
+//					for (size_t i = 0; i < this->_map_size; ++i) {
+//						std::cerr << _CYAN << "ptr at tmp_map[" << i << "] is: " <<this->_map[i] << std::endl << _END;
+//					}
 				}
 				*finish = val;
 				++finish;
 				++this->_size;
 			}
 			void	push_front(const value_type& val) {
-				if (start.cur == start.first) {
+				if (start.cur == start.first) { // we need a new array at the front
 					*(this->_map + this->_start - 1) = new value_type [ARRAY_SIZE]();
 					++this->_num_nodes;
 					for (size_t i = 0; i < this->_map_size; ++i) {

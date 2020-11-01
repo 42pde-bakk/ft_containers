@@ -40,16 +40,13 @@ public:
 		last = first + buff_size;
 	}
 	reference operator*() const {
-//		std::cerr << _UNDER << "cur: " << cur << ", first: " << first << ", and finally last: " << last << std::endl << _END;
 		return *cur;
 	}
 	self& operator++() {
 		++cur;
 		if (cur == last) {      //if it reach the end of the chunk
-			std::cerr << "before jumping " << node << ", cur: " << cur << ", first: " << first << ", last: " << last << std::endl;
-			set_node(node + 1);//skip to the next chunk
+			set_node(node + 1); //skip to the next chunk
 			cur = first;
-			std::cerr << "jumped to next node " << node << ", cur: " << cur << ", first: " << first << ", last: " << last << std::endl;
 		}
 		return *this;
 	}
