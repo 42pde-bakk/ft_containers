@@ -27,7 +27,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: ./run.sh MultiMap
       run: |
-        ./run.sh multimap debug
+        ./run.sh multimap
 
   stevejobs:
 
@@ -37,4 +37,4 @@ jobs:
     - uses: actions/checkout@v2
     - name: ./run.sh MultiMap
       run: |
-        ./run.sh multimap debug
+        ./run.sh multimap

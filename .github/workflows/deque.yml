@@ -27,7 +27,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: ./run.sh Deque
       run: |
-        ./run.sh deque debug
+        ./run.sh deque
 
   stevejobs:
 
@@ -37,4 +37,4 @@ jobs:
     - uses: actions/checkout@v2
     - name: ./run.sh Deque
       run: |
-        ./run.sh deque debug
+        ./run.sh deque

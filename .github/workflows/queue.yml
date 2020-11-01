@@ -28,7 +28,7 @@ jobs:
     - name: ./run.sh workflow
       run: |
         echo "Starting to run tests!"
-        ./run.sh queue debug
+        ./run.sh queue
 
   stevejobs:
 
@@ -38,4 +38,4 @@ jobs:
     - uses: actions/checkout@v2
     - name: ./run.sh workflow
       run: |
-        ./run.sh queue debug
+        ./run.sh queue
