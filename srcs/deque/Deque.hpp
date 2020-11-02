@@ -146,6 +146,7 @@ namespace ft {
 
 		/* Modifier functions */
 			void	reserve(const size_type& num_elements, const size_type& num_nodes, const size_type& wantedmapsize) {
+				(void)num_elements;
 				if (wantedmapsize > this->_map_size) {
 					std::cerr << "reserving for " << num_nodes << std::endl;
 					size_type oldmapsize = this->_map_size;		// making backups
@@ -178,11 +179,14 @@ namespace ft {
 						}
 					}
 					// set start and end iterator
+					size_type diff = start.cur - start.first;
 					start.set_node(tmp_start);
 					start.cur = start.first;
-
-					finish.set_node(tmp_finish);
-					finish.cur = finish.first + (num_elements % ARRAY_SIZE);
+					while (diff > 0) {
+						++start.cur;
+						--diff;
+					}
+					finish = start + num_elements;
 					delete this->_map;
 					this->_map = tmp_map;
 //					for (size_t i = 0; i < this->_map_size; ++i) {
@@ -195,8 +199,9 @@ namespace ft {
 			void	assign(size_type n, const value_type& val) {
 				this->clear();
 				this->reserve(n, n / ARRAY_SIZE + 1, std::max((size_t)8, (n / ARRAY_SIZE) + 1) );
+				finish.cur = finish.first + (n % ARRAY_SIZE);
 
-				for (iterator it = start; it != finish; ++it) {
+			for (iterator it = start; it != finish; ++it) {
 					*it = val;
 				}
 				this->_size = n;
@@ -223,8 +228,6 @@ namespace ft {
 //						std::cerr << _CYAN << "ptr at tmp_map[" << i << "] is: " <<this->_map[i] << std::endl << _END;
 //					}
 				}
-				std::cerr << _YELLOW "after pushing back " << val << ", front is " << this->front() << std::endl << _END;
-				std::cerr << std::endl;
 				*finish = val;
 				++finish;
 				++this->_size;

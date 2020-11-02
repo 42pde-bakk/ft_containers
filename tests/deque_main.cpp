@@ -37,7 +37,7 @@ void 	peer() {
 	hats.push_front(87);
 	std::cout << "hats.front() = " << hats.front() << std::endl;
 	std::cout << "hats.size = " << hats.size() << std::endl;
-	for (size_t i = 0; i < 35; i++)
+	for (size_t i = 0; i < 23; i++)
 		hats.push_back(i);
 //	hats.assign(4, 39127);
 	for (ft::deque<int>::iterator it = hats.begin(); it != hats.end(); it++)
