@@ -185,9 +185,9 @@ namespace ft {
 					finish.cur = finish.first + (num_elements % ARRAY_SIZE);
 					delete this->_map;
 					this->_map = tmp_map;
-					for (size_t i = 0; i < this->_map_size; ++i) {
-						std::cerr << _CYAN << "ptr at tmp_map[" << i << "] is: " << this->_map[i] << std::endl << _END;
-					}
+//					for (size_t i = 0; i < this->_map_size; ++i) {
+//						std::cerr << _CYAN << "ptr at tmp_map[" << i << "] is: " << this->_map[i] << std::endl << _END;
+//					}
 				}
 			}
 //			template <class InputIterator>
@@ -213,9 +213,9 @@ namespace ft {
 						std::cerr << "we need to realloc our parent array\n";
 						this->reserve(_size, _num_nodes, _map_size + 2);
 					}
-					for (size_t i = 0; i < this->_map_size; ++i) {
-						std::cerr << _GREEN << "ptr at tmp_map[" << i << "] is: " <<this->_map[i] << std::endl << _END;
-					}
+//					for (size_t i = 0; i < this->_map_size; ++i) {
+//						std::cerr << _GREEN << "ptr at tmp_map[" << i << "] is: " <<this->_map[i] << std::endl << _END;
+//					}
 					std::cerr << "allocating a new subarray to push back, _start = " << _start << ", _num_nodes = " << _num_nodes << ", _map_size: " << _map_size << std::endl;
 					*(this->_map + this->_start + this->_num_nodes) = new value_type [ARRAY_SIZE]();
 					++this->_num_nodes;
@@ -223,6 +223,8 @@ namespace ft {
 //						std::cerr << _CYAN << "ptr at tmp_map[" << i << "] is: " <<this->_map[i] << std::endl << _END;
 //					}
 				}
+				std::cerr << _YELLOW "after pushing back " << val << ", front is " << this->front() << std::endl << _END;
+				std::cerr << std::endl;
 				*finish = val;
 				++finish;
 				++this->_size;
