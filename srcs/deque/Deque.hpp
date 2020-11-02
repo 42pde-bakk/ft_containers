@@ -85,7 +85,6 @@ namespace ft {
 				}
 				this->_size = 0;
 				delete[] this->_map;
-				std::cerr << "end of ~deque( )\n";
 			}
 			deque&	operator=(const deque& x) {
 				if (this != &x) {
@@ -160,15 +159,12 @@ namespace ft {
 					this->_start = (this->_map_size - this->_num_nodes) / 2;
 					map_pointer tmp_start = tmp_map + this->_start;
 					map_pointer tmp_finish = tmp_start + this->_num_nodes - 1;
-//					std::cerr << "old: mapsize=" << oldmapsize << ", offset=" << oldoffset << ", numnodes=" << oldnumnodes << std::endl;
-//					std::cerr << "new: mapsize=" << _map_size << ", offset=" << _start << ", numnodes=" << _num_nodes << std::endl;
 
 					if (oldmapsize) {
 						map_pointer oldc = this->_map + oldoffset;
 						map_pointer oldfinish = this->_map + oldoffset + oldnumnodes - 1;
 						for (map_pointer c = tmp_start; oldc <= oldfinish; ++c) {
 							*c = *oldc;
-//							std::cerr << "copied [" << *c << "] over in new array.\n";
 							++oldc;
 						}
 					}
@@ -201,32 +197,21 @@ namespace ft {
 				this->reserve(n, n / ARRAY_SIZE + 1, std::max((size_t)8, (n / ARRAY_SIZE) + 1) );
 				finish.cur = finish.first + (n % ARRAY_SIZE);
 
-			for (iterator it = start; it != finish; ++it) {
+				for (iterator it = start; it != finish; ++it) {
 					*it = val;
 				}
 				this->_size = n;
 			}
 			void	push_back(const value_type& val) {
-//				std::cerr << "starting push_back( val )" << std::endl;
 				if (finish.last - finish.cur == 1 ) { // We need a new array at the back
-//					std::cerr << "its time to push back a new subarray. _start= " << _start << ", num_nodes: " << _num_nodes << ", _map_size: " << _map_size << std::endl;
-//					std::cerr << "_map_size: " << _map_size << ", cap: " << _capacity << std::endl;
-					if (this->_start + this->_num_nodes == _map_size) {
-						for (size_t i = 0; i < this->_map_size; ++i) {
-							std::cerr << _CYAN << "ptr at tmp_map[" << i << "] is: " <<this->_map[i] << std::endl << _END;
-						}
-						std::cerr << "we need to realloc our parent array\n";
+					if (this->_start + this->_num_nodes == _map_size)
 						this->reserve(_size, _num_nodes, _map_size + 2);
+					iterator  tmp = finish;
+					++tmp;
+					if (tmp.first == 0) {
+						*(this->_map + this->_start + this->_num_nodes) = new value_type [ARRAY_SIZE]();
+						++this->_num_nodes;
 					}
-//					for (size_t i = 0; i < this->_map_size; ++i) {
-//						std::cerr << _GREEN << "ptr at tmp_map[" << i << "] is: " <<this->_map[i] << std::endl << _END;
-//					}
-					std::cerr << "allocating a new subarray to push back, _start = " << _start << ", _num_nodes = " << _num_nodes << ", _map_size: " << _map_size << std::endl;
-					*(this->_map + this->_start + this->_num_nodes) = new value_type [ARRAY_SIZE]();
-					++this->_num_nodes;
-//					for (size_t i = 0; i < this->_map_size; ++i) {
-//						std::cerr << _CYAN << "ptr at tmp_map[" << i << "] is: " <<this->_map[i] << std::endl << _END;
-//					}
 				}
 				*finish = val;
 				++finish;
@@ -236,20 +221,33 @@ namespace ft {
 				if (start.cur == start.first) { // we need a new array at the front
 					if (this->_start == 0)
 						this->reserve(_size, _num_nodes, _map_size + 2);
-					*(this->_map + this->_start - 1) = new value_type [ARRAY_SIZE]();
-					++this->_num_nodes;
-//					for (size_t i = 0; i < this->_map_size; ++i) {
-//						std::cerr << _CYAN << "ptr at tmp_map[" << i << "] is: " <<this->_map[i] << std::endl << _END;
-//					}
+					iterator tmp = start;
+					--tmp;
+					if (tmp.first == 0) {
+						*(this->_map + this->_start - 1) = new value_type [ARRAY_SIZE]();
+						++this->_num_nodes;
+					}
 				}
 				--start;
 				--this->_start;
-//				std::cerr << "decremented start, start.first: " << start.first << ", .cur: " << start.cur << ", .last: " << start.last << std::endl;
 				*start = val;
 				++this->_size;
 			}
-			void	pop_back(void);
-			void	pop_front(void);
+			void	pop_back(void) {
+				if (this->_size) {
+					--this->finish;
+					--this->_size;
+				}
+			}
+			void	pop_front(void) {
+				if (this->_size) {
+					std::cerr << "popping front\n";
+					++this->start;
+					if (this->start.cur == this->start.first)
+						++this->_start;
+					--this->_size;
+				}
+			}
 
 			iterator	insert(iterator position, const value_type& val); // single element insert
 			void		insert(iterator position, size_type n, const value_type& val); // fill insert
@@ -274,9 +272,6 @@ namespace ft {
 				this->_start = 0;
 				this->_map_size = 0;
 			}
-
-		private:
-
 	};
 
 } // ft namespace
