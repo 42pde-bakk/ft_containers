@@ -116,6 +116,10 @@ public:
 
 	bool	operator==(const DequeIterator& rhs) { return (this->cur == rhs.cur); }
 	bool	operator!=(const DequeIterator& rhs) { return !(*this == rhs); }
+	bool	operator<(const DequeIterator& rhs) { return this->cur < rhs.cur; }
+	bool	operator>(const DequeIterator& rhs) { return this->cur > rhs.cur; }
+	bool	operator<=(const DequeIterator& rhs) { return this->cur <= rhs.cur; }
+	bool	operator>=(const DequeIterator& rhs) { return this->cur >= rhs.cur; }
 };
 
 //template <class T>

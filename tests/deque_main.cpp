@@ -30,7 +30,7 @@ struct timeval	tv;
 //}
 
 void 	peer() {
-	ft::deque<int>	hats(6, -42);
+	ft::deque<int>	hats(1, -42);
 	std::cout << "hjaja" << std::endl;
 	ft::deque<int>::iterator sit = hats.begin();
 	std::cout << "sit = " << *sit << std::endl;
@@ -39,13 +39,14 @@ void 	peer() {
 	hats.push_front(88);
 	std::cout << "hats.front() = " << hats.front() << std::endl;
 	std::cout << "hats.size = " << hats.size() << std::endl;
-//	for (size_t i = 0; i < 23; i++)
-//		hats.push_back(i);
+	for (size_t i = 0; i < 8; i++)
+		hats.push_back(i);
 //	hats.assign(4, 39127);
 //	for (int i = 0; i < 10; ++i)
 //		hats.pop_back();
-	ft::deque<int>::iterator it = hats.insert(hats.begin() + 4, 900);
-	std::cerr << "dereferencing it gives: " << *it << std::endl;
+	hats.insert(hats.begin() + 2, 8, 678);
+	// ft::deque<int>::iterator it = hats.insert(hats.begin() + 4, 900);
+	// std::cerr << "dereferencing it gives: " << *it << std::endl;
 	for (ft::deque<int>::iterator it = hats.begin(); it != hats.end(); it++)
 		std::cout << ' ' << *it << std::endl;
 	std::cout << std::endl;

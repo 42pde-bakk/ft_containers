@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/25 18:22:37 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/11/03 15:06:49 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/11/03 15:53:58 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,35 +207,31 @@ namespace ft {
 				}
 			}
 
-			iterator	insert(iterator position, const value_type& val) { // single element insert
-				iterator it(position);
-				value_type tmp, tmp2;
-				push_back(value_type());
-				while (it != finish) {
-					tmp = *it;
-					++it;
-					tmp2 = *it;
-					*it = tmp;
-					tmp = tmp2;
-				}
-				*position = val;
-				return position;		
+			iterator	insert(iterator position, const value_type& val) {
+				insert(position, 1, val);
+				return position;
 			}
 			void		insert(iterator position, size_type n, const value_type& val) {
-				iterator it(position);
-				value_type tmp, tmp2;
 				for (size_type i = 0; i < n; ++i)
 					push_back(value_type());
-				while (it != finish) {
-					tmp = *it;
-					it += n;
-					tmp2 = *it;
-					*it = tmp;
-					tmp = tmp2;
+				iterator it(finish);
+				--it;
+				while (it - n >= position) {
+					*it = *(it - n);
+					--it;					
+				}
+				for (size_type i = 0; i < n; i++) {
+					*position = val;
+					++position;
 				}
 			}
-//			template <class InputIterator>
-//			void		insert(iterator position, InputIterator first, InputIterator last); // range insert
+			template <class InputIterator>
+			void		insert(iterator position, InputIterator first, InputIterator last, typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) {
+				while (first != last) {
+					--last;
+					insert(last, 1, *last);
+				}
+			}
 
 			iterator	erase(iterator position);
 			iterator	erase(iterator first, iterator last);
