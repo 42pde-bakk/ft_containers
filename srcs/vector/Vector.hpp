@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 15:19:02 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/30 22:16:55 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/11/03 22:45:25 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,8 @@ namespace ft {
 		}
 		template <class InputIterator>
 		void insert (iterator position, InputIterator first, InputIterator last,
-				typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) {
+				typename enable_if<	is_iterator<typename InputIterator::iterator_category>::value, InputIterator >::type * = 0)
+				{
 			vector tmp(position, end());
 			this->_size -= ft::distance(position, end());
 			while (first != last) {
@@ -217,6 +218,21 @@ namespace ft {
 				++it;
 			}
 		}
+		// template <class InputIterator>
+		// void insert (iterator position, InputIterator first, InputIterator last, 
+		// 		typename enable_if<is_pointer<InputIterator>::value, InputIterator>::type * = 0) {
+		// 	vector tmp(position, end());
+		// 	this->_size -= ft::distance(position, end());
+		// 	while (first != last) {
+		// 		push_back(*first);
+		// 		++first;
+		// 	}
+		// 	iterator it = tmp.begin();
+		// 	while (it != tmp.end()) {
+		// 		push_back(*it);
+		// 		++it;
+		// 	}
+		// }	
 		iterator	erase(iterator position) {
 			iterator out(position);
 			while (position != end() - 1) {

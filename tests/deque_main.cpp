@@ -24,7 +24,15 @@ struct timeval	tv;
 template< typename T>
 void	print_container_content(ft::deque<T>& d, const std::string& name = "container") {
 	std::cout << name << " contains:\n";
-	for (typename ft::deque<T>::iterator it = d.begin(); it != d.end(); it++)
+	for (typename ft::deque<T>::const_iterator it = d.begin(); it != d.end(); it++)
+		std::cout << *it << std::endl;
+	std::cout << " $" << std::endl;
+}
+
+template< typename T>
+void	reverse_print_container_content(ft::deque<T>& d, const std::string& name = "container") {
+	std::cout << name << " in reverse contains:\n";
+	for (typename ft::deque<T>::const_reverse_iterator it = d.rbegin(); it != d.rend(); it++)
 		std::cout << *it << std::endl;
 	std::cout << " $" << std::endl;
 }
@@ -84,6 +92,17 @@ void	eraser() {
 
 }
 
+void	iterators() {
+	ft::deque<int> d;
+	for (int i = 0; i < 8; ++i)
+		d.push_back(i * 2);
+	// ft::deque<int>::iterator it = d.begin();
+	// ft::deque<int>::const_iterator cit = d.end();
+	// ft::deque<int>::reverse_iterator rit = d.rbegin();
+	// ft::deque<int>::const_reverse_iterator crit(it);
+	print_container_content(d, "d");
+	reverse_print_container_content(d, "d");
+}
 
 int	main(int argc, char **argv) {
 	if (argc >= 2 && strcmp(argv[1], "time") == 0) {
@@ -93,7 +112,8 @@ int	main(int argc, char **argv) {
 	// ctors_dtors();
 	// capacity();
 	// element_access();
-	eraser();
+	// eraser();
+	iterators();
 	if (argc >= 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
 		endtime = tv.tv_usec;

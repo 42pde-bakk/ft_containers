@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/09 12:20:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/30 22:09:28 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/11/03 23:45:16 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,7 +155,7 @@ namespace ft {
 		const_pointer		operator->() const {
 			return *(&(this->array));
 		}
-		const_reference		operator[](int n) const {
+		const_reference		operator[](difference_type n) const {
 			return (*(this->array + n));
 		}
 		const_pointer		data() const {

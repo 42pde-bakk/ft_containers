@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 21:10:23 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/30 22:10:23 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/11/03 22:45:07 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,13 +222,13 @@ int	main(int argc, char **argv) {
 		gettimeofday(&tv, NULL);
 		begintime = tv.tv_usec;
 	}
-	stl_test();
-	constructors_test();
-	iterators_test();
-	capacity_test();
-	element_access_test();
-	modifiers_test();
-	relational_operators_test();
+	// stl_test();
+	// constructors_test();
+	// iterators_test();
+	// capacity_test();
+	// element_access_test();
+	// modifiers_test();
+	// relational_operators_test();
 	sam();
 	if (argc == 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);

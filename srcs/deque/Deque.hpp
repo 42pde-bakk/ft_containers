@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/25 18:22:37 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/11/03 18:11:05 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/11/04 00:24:17 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ namespace ft {
 			typedef const T&		const_reference;
 			typedef T*				pointer;
 			typedef const T*		const_pointer;
-			typedef DequeIterator<T, ARRAY_SIZE>				iterator;
-//			typedef ConstRandomAccessIterator<T>		const_iterator;
-//			typedef RevRandomAccessIterator<T>			reverse_iterator;
-//			typedef ConstRevRandomAccessIterator<T>		const_reverse_iterator;
+			typedef DequeIterator<T, ARRAY_SIZE>			iterator;
+			typedef ConstDequeIterator<T, ARRAY_SIZE>		const_iterator;
+			typedef RevDequeIterator<T, ARRAY_SIZE>			reverse_iterator;
+			typedef ConstRevDequeIterator<T, ARRAY_SIZE>	const_reverse_iterator;
 			typedef ptrdiff_t		difference_type;
 			typedef	size_t			size_type;
 		protected:
@@ -54,7 +54,6 @@ namespace ft {
 			size_type		_size;		// amount of elements in the deque
 			size_type		_start;		// offset to the start of the elements
 			size_type		_num_nodes;	// amount of allocated sub arrays
-			size_type		_capacity;	// amount of possible elements in the entire deque
 			map_pointer 	_map;		// pointer to the array of chunks
 			size_type		_map_size;	// amount of sub-arrays (both allocated and nullptrs)
 			allocator_type	_alloc;
@@ -65,17 +64,19 @@ namespace ft {
 
 		/* Constructors, Destructors and assignment operator */
 			explicit	deque(const allocator_type& alloc = allocator_type())
-				: _size(0), _start(0), _num_nodes(0), _capacity(0), _map(0), _map_size(0), _alloc(alloc), start(), finish() {
+				: _size(0), _start(0), _num_nodes(0), _map(0), _map_size(0), _alloc(alloc), start(), finish() {
 				this->assign(0, value_type());
-//				fill_initialize(2 * ARRAY_SIZE, value_type());
 			}
 			explicit	deque(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
-				: _size(0), _start(0), _num_nodes(0), _capacity(0), _map(0), _map_size(0), _alloc(alloc), start(), finish() {
+				: _size(0), _start(0), _num_nodes(0), _map(0), _map_size(0), _alloc(alloc), start(), finish() {
 				this->assign(n, val);
 			}
-//			template<class InputIterator>
-//			deque(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type());
-			deque(const deque& x) : _size(0), _start(0), _num_nodes(0), _capacity(0), _map(0), _map_size(0), _alloc(x.alloc), start(), finish() {
+			template<class InputIterator>
+			deque(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) 
+				: _size(0), _start(0), _num_nodes(0), _map(0), _map_size(0), _alloc(alloc), start(), finish() {
+				this->assign(first, last);
+			}
+			deque(const deque& x) : _size(0), _start(0), _num_nodes(0), _map(0), _map_size(0), _alloc(x.alloc), start(), finish() {
 				*this = x;
 			}
 			virtual ~deque() {
@@ -92,10 +93,14 @@ namespace ft {
 			}
 
 		/* Iterator functions */
-//			iterator begin() { return iterator(this->_map + this->_start); }
-			iterator begin() { return start; }
-//			iterator end() { return iterator(this->_map + this->_start + this->_size); }
-			iterator end() { return finish; }
+			iterator		begin()			{ return start; }
+			const_iterator	begin()	const	{ return start; }
+			iterator		end()			{ return finish; }
+			const_iterator	end()	const	{ return finish; }
+			reverse_iterator		rbegin()		{ return finish - 1;}
+			const_reverse_iterator	rbegin() const	{ return finish - 1;}
+			reverse_iterator		rend()			{ return start - 1;}
+			const_reverse_iterator	rend()   const	{ return start - 1;}
 
 		/* Capacity functions */
 			size_type	size() const { return this->_size; }
@@ -110,16 +115,16 @@ namespace ft {
 						push_back(val);
 				}
 			}
-			bool		empty() const { return (this->_size == 0); }
+			bool		empty() const {
+				return (this->_size == 0);
+				}
 
 		/* Element access functions */
-			reference		operator[](size_type n) { //random access, use __deque_iterator operator[]
+			reference		operator[](size_type n) {
 				return start[n];
-//				return *this->_map[this->_start + n];
 			}
 			const_reference	operator[](size_type n) const {
 				return start[n];
-//				return *this->_map[this->_start + n];
 			}
 			reference		at(size_type n) {
 				if (n >= this->_size)
@@ -147,11 +152,20 @@ namespace ft {
 			}
 
 		/* Modifier functions */
-//			template <class InputIterator>
-//			void	assign(InputIterator first, InputIterator last);
+			template <class InputIterator>
+			void	assign(InputIterator first, InputIterator last, typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) {
+				this->clear();
+				size_type dist = ft::distance(first, last);
+				this->reserve(dist, dist / ARRAY_SIZE + 1, std::max((size_t)8, dist / ARRAY_SIZE + 1) );
+				finish.cur = finish.first + (dist % ARRAY_SIZE);
+				for (iterator it = start; first != last; ++it) {
+					*it = *first;
+					++first;
+				}
+			}
 			void	assign(size_type n, const value_type& val) {
 				this->clear();
-				this->reserve(n, n / ARRAY_SIZE + 1, std::max((size_t)8, (n / ARRAY_SIZE) + 1) );
+				this->reserve(n, n / ARRAY_SIZE + 1, std::max((size_t)8, n / ARRAY_SIZE + 1) );
 				finish.cur = finish.first + (n % ARRAY_SIZE);
 
 				for (iterator it = start; it != finish; ++it) {
@@ -253,7 +267,6 @@ namespace ft {
 				ft::itemswap(_size, x._size);
 				ft::itemswap(_start, x._start);
 				ft::itemswap(_num_nodes, x._num_nodes);
-				ft::itemswap(_capacity, x._capacity);
 				ft::itemswap(_map, x._map);
 				ft::itemswap(_alloc, x._alloc);
 				ft::itemswap(start, x.start);
@@ -265,7 +278,6 @@ namespace ft {
 				}
 				this->_size = 0;
 				this->_num_nodes = 0;
-				this->_capacity = 0;
 				delete[] this->_map;
 				this->_map = 0;
 				this->_start = 0;
