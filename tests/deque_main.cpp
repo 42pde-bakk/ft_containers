@@ -72,15 +72,28 @@ void	element_access() {
 	std::cout << "deque.back(): " << oldtoothbrush.back() << std::endl;
 }
 
+void	eraser() {
+	ft::deque<int> e;
+	for (int i = 0; i < 19; i++)
+		e.push_front(i);
+	ft::deque<int>::iterator it = e.erase(e.begin() + 8, e.begin() + 12);
+	std::cout << "return from erase gives: " << *it << std::endl;
+	it = e.erase(e.begin() + 3);
+	std::cout << "return from erase gives: " << *it << std::endl;
+	print_container_content(e, "e");
+
+}
+
 
 int	main(int argc, char **argv) {
 	if (argc >= 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
 		begintime = tv.tv_usec;
 	}
-	ctors_dtors();
-	capacity();
-	element_access();
+	// ctors_dtors();
+	// capacity();
+	// element_access();
+	eraser();
 	if (argc >= 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
 		endtime = tv.tv_usec;

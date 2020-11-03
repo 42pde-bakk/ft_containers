@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/25 18:22:37 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/11/03 17:47:31 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/11/03 18:11:05 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,14 +236,18 @@ namespace ft {
 				return this->erase(position, position + 1);
 			}
 			iterator	erase(iterator first, iterator last) {
+				iterator ret(first);
 				size_type dist = ft::distance(first, last);
 				while (last != this->end()) {
 					*first = *last;
 					++first;
 					++last;
 				}
-				while (dist)
+				while (dist) {
 					this->pop_back();
+					--dist;
+				}
+				return ret;
 			}
 			void		swap(deque& x) { // iterators, references and pointers MUST remain valid
 				ft::itemswap(_size, x._size);
@@ -272,7 +276,6 @@ private:
 				if (wantedmapsize > this->_map_size) {
 					// std::cerr << "reserving for " << num_nodes << std::endl;
 					size_type oldmapsize = this->_map_size;		// making backups
-					std::cerr << _GREEN "oldmapsize = " << oldmapsize << std::endl;
 					size_type oldoffset = this->_start;
 					size_type oldnumnodes = this->_num_nodes;
 					this->_num_nodes = num_nodes;
@@ -281,7 +284,6 @@ private:
 					// allocate a new map pointer
 					map_pointer	tmp_map = new pointer[this->_map_size]();
 					this->_start = (this->_map_size - this->_num_nodes) / 2;
-					std::cerr << "_start = " << _start << " cus _mapsize = " << _map_size << " and numnodes = " << _num_nodes << std::endl << _END;
 					map_pointer tmp_start = tmp_map + this->_start;
 					map_pointer tmp_finish = tmp_start + this->_num_nodes - 1;
 

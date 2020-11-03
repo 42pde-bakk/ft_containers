@@ -9,7 +9,7 @@
 #include <iostream>
 #include "Colours.h"
 
-template <class T, size_t buff_size>
+template <class T, size_t buff_size, class Category = std::random_access_iterator_tag >
 class DequeIterator {
 public:
 	typedef DequeIterator<T, buff_size>			iterator;
@@ -18,7 +18,7 @@ public:
 	typedef	DequeIterator	self;
 	typedef ptrdiff_t		difference_type;
 	typedef	size_t			size_type;
-
+	typedef	Category		iterator_category;
 	// pointer to the chunk
 	T* cur;
 	T* first;		// the begin of the chunk
