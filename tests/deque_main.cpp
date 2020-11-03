@@ -44,6 +44,8 @@ void 	peer() {
 //	hats.assign(4, 39127);
 //	for (int i = 0; i < 10; ++i)
 //		hats.pop_back();
+	ft::deque<int>::iterator it = hats.insert(hats.begin() + 4, 900);
+	std::cerr << "dereferencing it gives: " << *it << std::endl;
 	for (ft::deque<int>::iterator it = hats.begin(); it != hats.end(); it++)
 		std::cout << ' ' << *it << std::endl;
 	std::cout << std::endl;

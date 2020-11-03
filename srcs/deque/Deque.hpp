@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/25 18:22:37 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/10/30 22:21:51 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/11/03 15:06:49 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,62 +134,20 @@ namespace ft {
 			}
 //			reference front() { return this->operator[](0); }
 			reference front() { return *start; }
-//			const_reference front() const { return this->operator[](0); }
+			const_reference front() const { return *start; }
 //			reference back() { return this->operator[](this->_size - 1); }
 			reference back() {
 				iterator tmp = finish;
 				--tmp;
 				return *tmp; // return finish's *cur
 			}
-//			const_reference back() const { return this->operator[](this->_size - 1); }
+			const_reference back() const {
+				iterator tmp = finish;
+				--tmp;
+				return *tmp;
+			}
 
 		/* Modifier functions */
-			void	reserve(const size_type& num_elements, const size_type& num_nodes, const size_type& wantedmapsize) {
-				(void)num_elements;
-				if (wantedmapsize > this->_map_size) {
-					std::cerr << "reserving for " << num_nodes << std::endl;
-					size_type oldmapsize = this->_map_size;		// making backups
-					size_type oldoffset = this->_start;
-					size_type oldnumnodes = this->_num_nodes;
-					this->_num_nodes = num_nodes;
-					this->_map_size = wantedmapsize;
-
-					// allocate a new map pointer
-					map_pointer	tmp_map = new pointer[this->_map_size]();
-					this->_start = (this->_map_size - this->_num_nodes) / 2;
-					map_pointer tmp_start = tmp_map + this->_start;
-					map_pointer tmp_finish = tmp_start + this->_num_nodes - 1;
-
-					if (oldmapsize) {
-						map_pointer oldc = this->_map + oldoffset;
-						map_pointer oldfinish = this->_map + oldoffset + oldnumnodes - 1;
-						for (map_pointer c = tmp_start; oldc <= oldfinish; ++c) {
-							*c = *oldc;
-							++oldc;
-						}
-					}
-					else  {
-						for (map_pointer c = tmp_start; c <= tmp_finish; ++c) {
-							*c = new value_type [ARRAY_SIZE]();
-//							std::cerr << _PURPLE << "new subarray at " << *c << std::endl << _END;
-						}
-					}
-					// set start and end iterator
-					size_type diff = start.cur - start.first;
-					start.set_node(tmp_start);
-					start.cur = start.first;
-					while (diff > 0) {
-						++start.cur;
-						--diff;
-					}
-					finish = start + num_elements;
-					delete this->_map;
-					this->_map = tmp_map;
-//					for (size_t i = 0; i < this->_map_size; ++i) {
-//						std::cerr << _CYAN << "ptr at tmp_map[" << i << "] is: " << this->_map[i] << std::endl << _END;
-//					}
-				}
-			}
 //			template <class InputIterator>
 //			void	assign(InputIterator first, InputIterator last);
 			void	assign(size_type n, const value_type& val) {
@@ -249,8 +207,33 @@ namespace ft {
 				}
 			}
 
-			iterator	insert(iterator position, const value_type& val); // single element insert
-			void		insert(iterator position, size_type n, const value_type& val); // fill insert
+			iterator	insert(iterator position, const value_type& val) { // single element insert
+				iterator it(position);
+				value_type tmp, tmp2;
+				push_back(value_type());
+				while (it != finish) {
+					tmp = *it;
+					++it;
+					tmp2 = *it;
+					*it = tmp;
+					tmp = tmp2;
+				}
+				*position = val;
+				return position;		
+			}
+			void		insert(iterator position, size_type n, const value_type& val) {
+				iterator it(position);
+				value_type tmp, tmp2;
+				for (size_type i = 0; i < n; ++i)
+					push_back(value_type());
+				while (it != finish) {
+					tmp = *it;
+					it += n;
+					tmp2 = *it;
+					*it = tmp;
+					tmp = tmp2;
+				}
+			}
 //			template <class InputIterator>
 //			void		insert(iterator position, InputIterator first, InputIterator last); // range insert
 
@@ -259,21 +242,66 @@ namespace ft {
 			void		swap(deque& x); // iterators, references and pointers MUST remain valid
 			void		clear() {
 				for (size_type i = 0; i < this->_map_size; ++i) {
-//					std::cerr << "trying to delete subarray _map["<<i<<"] at " << _map[i] << std::endl;
 					delete[] this->_map[i];
-//					this->_map[i] = 0;
 				}
 				this->_size = 0;
 				this->_num_nodes = 0;
 				this->_capacity = 0;
-//				std::cerr << "trying to delete map at " << _map << std::endl;
 				delete[] this->_map;
 				this->_map = 0;
 				this->_start = 0;
 				this->_map_size = 0;
 			}
+private:
+			void	reserve(const size_type& num_elements, const size_type& num_nodes, const size_type& wantedmapsize) {
+				if (wantedmapsize > this->_map_size) {
+					std::cerr << "reserving for " << num_nodes << std::endl;
+					size_type oldmapsize = this->_map_size;		// making backups
+					size_type oldoffset = this->_start;
+					size_type oldnumnodes = this->_num_nodes;
+					this->_num_nodes = num_nodes;
+					this->_map_size = wantedmapsize;
+
+					// allocate a new map pointer
+					map_pointer	tmp_map = new pointer[this->_map_size]();
+					this->_start = (this->_map_size - this->_num_nodes) / 2;
+					map_pointer tmp_start = tmp_map + this->_start;
+					map_pointer tmp_finish = tmp_start + this->_num_nodes - 1;
+
+					if (oldmapsize) {
+						map_pointer oldc = this->_map + oldoffset;
+						map_pointer oldfinish = this->_map + oldoffset + oldnumnodes - 1;
+						for (map_pointer c = tmp_start; oldc <= oldfinish; ++c) {
+							*c = *oldc;
+							++oldc;
+						}
+					}
+					else  {
+						for (map_pointer c = tmp_start; c <= tmp_finish; ++c) {
+							*c = new value_type [ARRAY_SIZE]();
+//							std::cerr << _PURPLE << "new subarray at " << *c << std::endl << _END;
+						}
+					}
+					// set start and end iterator
+					size_type diff = start.cur - start.first;
+					start.set_node(tmp_start);
+					start.cur = start.first;
+					while (diff > 0) {
+						++start.cur;
+						--diff;
+					}
+					finish = start + num_elements;
+					delete this->_map;
+					this->_map = tmp_map;
+//					for (size_t i = 0; i < this->_map_size; ++i) {
+//						std::cerr << _CYAN << "ptr at tmp_map[" << i << "] is: " << this->_map[i] << std::endl << _END;
+//					}
+				}
+			}
+
 	};
 
+	
 } // ft namespace
 
 #endif
