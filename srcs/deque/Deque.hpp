@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/25 18:22:37 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/11/03 15:53:58 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/11/03 17:47:31 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,8 @@ namespace ft {
 
 		/* Constructors, Destructors and assignment operator */
 			explicit	deque(const allocator_type& alloc = allocator_type())
-				: _size(0), _start(0), _num_nodes(0), _capacity(0), _map(0), _map_size(0), _alloc(alloc) {
-				start();
-				finish();
+				: _size(0), _start(0), _num_nodes(0), _capacity(0), _map(0), _map_size(0), _alloc(alloc), start(), finish() {
+				this->assign(0, value_type());
 //				fill_initialize(2 * ARRAY_SIZE, value_type());
 			}
 			explicit	deque(size_type n, const value_type& val = value_type(), const allocator_type& alloc = allocator_type())
@@ -100,7 +99,7 @@ namespace ft {
 
 		/* Capacity functions */
 			size_type	size() const { return this->_size; }
-			size_type	max_size() const;
+			size_type	max_size() const { return this->_alloc.max_size(); }
 			void		resize(size_type n, value_type val = value_type()) {
 				if (n < this->_size) {
 					while (n < this->_size)
@@ -184,10 +183,10 @@ namespace ft {
 					if (tmp.first == 0) {
 						*(this->_map + this->_start - 1) = new value_type [ARRAY_SIZE]();
 						++this->_num_nodes;
+						--this->_start;
 					}
 				}
 				--start;
-				--this->_start;
 				*start = val;
 				++this->_size;
 			}
@@ -233,9 +232,29 @@ namespace ft {
 				}
 			}
 
-			iterator	erase(iterator position);
-			iterator	erase(iterator first, iterator last);
-			void		swap(deque& x); // iterators, references and pointers MUST remain valid
+			iterator	erase(iterator position) {
+				return this->erase(position, position + 1);
+			}
+			iterator	erase(iterator first, iterator last) {
+				size_type dist = ft::distance(first, last);
+				while (last != this->end()) {
+					*first = *last;
+					++first;
+					++last;
+				}
+				while (dist)
+					this->pop_back();
+			}
+			void		swap(deque& x) { // iterators, references and pointers MUST remain valid
+				ft::itemswap(_size, x._size);
+				ft::itemswap(_start, x._start);
+				ft::itemswap(_num_nodes, x._num_nodes);
+				ft::itemswap(_capacity, x._capacity);
+				ft::itemswap(_map, x._map);
+				ft::itemswap(_alloc, x._alloc);
+				ft::itemswap(start, x.start);
+				ft::itemswap(finish, x.finish);
+			}
 			void		clear() {
 				for (size_type i = 0; i < this->_map_size; ++i) {
 					delete[] this->_map[i];
@@ -251,8 +270,9 @@ namespace ft {
 private:
 			void	reserve(const size_type& num_elements, const size_type& num_nodes, const size_type& wantedmapsize) {
 				if (wantedmapsize > this->_map_size) {
-					std::cerr << "reserving for " << num_nodes << std::endl;
+					// std::cerr << "reserving for " << num_nodes << std::endl;
 					size_type oldmapsize = this->_map_size;		// making backups
+					std::cerr << _GREEN "oldmapsize = " << oldmapsize << std::endl;
 					size_type oldoffset = this->_start;
 					size_type oldnumnodes = this->_num_nodes;
 					this->_num_nodes = num_nodes;
@@ -261,6 +281,7 @@ private:
 					// allocate a new map pointer
 					map_pointer	tmp_map = new pointer[this->_map_size]();
 					this->_start = (this->_map_size - this->_num_nodes) / 2;
+					std::cerr << "_start = " << _start << " cus _mapsize = " << _map_size << " and numnodes = " << _num_nodes << std::endl << _END;
 					map_pointer tmp_start = tmp_map + this->_start;
 					map_pointer tmp_finish = tmp_start + this->_num_nodes - 1;
 
@@ -287,7 +308,7 @@ private:
 						--diff;
 					}
 					finish = start + num_elements;
-					delete this->_map;
+					delete[] this->_map;
 					this->_map = tmp_map;
 //					for (size_t i = 0; i < this->_map_size; ++i) {
 //						std::cerr << _CYAN << "ptr at tmp_map[" << i << "] is: " << this->_map[i] << std::endl << _END;
@@ -297,6 +318,34 @@ private:
 
 	};
 
+template <class T, class Alloc>
+  bool operator== (const deque<T,Alloc>& lhs, const deque<T,Alloc>& rhs) {
+	return (lhs.size() == rhs.size() && ft::equal(lhs.begin(), lhs.end(), rhs.begin()));
+  }
+template <class T, class Alloc>
+  bool operator!= (const deque<T,Alloc>& lhs, const deque<T,Alloc>& rhs) {
+	return !(lhs == rhs);
+  }
+template <class T, class Alloc>
+  bool operator<  (const deque<T,Alloc>& lhs, const deque<T,Alloc>& rhs) {
+	return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
+  }
+template <class T, class Alloc>
+  bool operator<= (const deque<T,Alloc>& lhs, const deque<T,Alloc>& rhs) {
+	return !(rhs < lhs);
+  }
+template <class T, class Alloc>
+  bool operator>  (const deque<T,Alloc>& lhs, const deque<T,Alloc>& rhs) {
+	return (rhs < lhs);
+  }
+template <class T, class Alloc>
+  bool operator>= (const deque<T,Alloc>& lhs, const deque<T,Alloc>& rhs) {
+	return !(lhs < rhs);
+  }
+template <class T, class Alloc>
+  void swap (deque<T,Alloc>& x, deque<T,Alloc>& y) {
+	x.swap(y);
+  }
 	
 } // ft namespace
 

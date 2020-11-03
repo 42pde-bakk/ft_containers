@@ -28,7 +28,7 @@ public:
 	//so this pointer to the map
 	map_pointer	node;	// pointer to the map
 
-	DequeIterator() {}
+	DequeIterator() : cur(NULL), first(NULL), last(NULL), node(NULL) {}
 
 	explicit DequeIterator(map_pointer new_node) : node(new_node) {
 		first = *new_node;
@@ -74,7 +74,7 @@ public:
 	self& operator+=(difference_type n) { // n can be postive or negative
 		difference_type offset = n + (cur - first);
 
-		if (offset >=0 && offset < difference_type(buff_size)) { // in the same chunk
+		if (offset >= 0 && offset < difference_type(buff_size)) { // in the same chunk
 			cur += n;
 		}
 		else {//not in the same chunk
@@ -96,7 +96,7 @@ public:
 	// skip n steps
 	self operator+(difference_type n) const {
 		self tmp = *this;
-		return tmp+= n; //reuse  operator +=
+		return tmp += n; //reuse  operator +=
 	}
 
 	self& operator-=(difference_type n) {
@@ -122,89 +122,6 @@ public:
 	bool	operator>=(const DequeIterator& rhs) { return this->cur >= rhs.cur; }
 };
 
-//template <class T>
-//class	DequeIterator {
-//public:
-//	typedef DequeIterator<T>	iterator;
-//	typedef T					value_type;
-//	typedef	size_t				size_type;
-//	typedef ptrdiff_t			difference_type;
-//	typedef T*					pointer;
-//	typedef const T*			const_pointer;
-//	typedef T&					reference;
-//	typedef const T&			const_reference;
-//	typedef T**					map_pointer;
-//protected:
-//	const pointer* p;
-//public:
-//	DequeIterator() : p(0) {}
-//	DequeIterator(const DequeIterator& x) : p(x.p) {}
-//	DequeIterator(const pointer *p) : p(p) {}
-//	virtual ~DequeIterator() {}
-//	reference		operator*() { return (**this->p); }
-//	const_reference	operator*() const { return (**this->p); }
-//	pointer			operator->() { return (*this->p); }
-//	const_pointer	operator->() const { return (*this->p); }
-//	reference			operator[](int n) { return (**(this->p + n)); }
-//	const_reference		operator[](int n) const { return (**(this->p + n)); }
-//
-//	DequeIterator operator++(int) {
-//		DequeIterator tmp(*this);
-//		++this->p;
-//		return (tmp);
-//	}
-//	DequeIterator &operator++() {
-//		++this->p;
-//		return (*this);
-//	}
-//	DequeIterator operator--(int) {
-//		DequeIterator tmp(*this);
-//		--this->p;
-//		return (tmp);
-//	}
-//	DequeIterator &operator--() {
-//		--this->p;
-//		return (*this);
-//	}
-//
-//	DequeIterator &operator+=(int value) {
-//		this->p += value;
-//		return (*this);
-//	}
-//	DequeIterator operator+(int value) const {
-//		DequeIterator tmp(*this);
-//		return (tmp += value);
-//	}
-//	DequeIterator &operator-=(int value) {
-//		this->p -= value;
-//		return (*this);
-//	}
-//	DequeIterator operator-(int value) const {
-//		DequeIterator tmp(*this);
-//		return (tmp -= value);
-//	}
-//	difference_type operator-(DequeIterator const &other) const {
-//		return (this->p - other.p);
-//	}
-//
-//	bool operator==(DequeIterator const &other) const {
-//		return (this->p == other.p);
-//	}
-//	bool operator!=(DequeIterator const &other) const {
-//		return (this->p != other.p);
-//	}
-//	bool operator<(DequeIterator const &other) const {
-//		return (this->p < other.p);
-//	}
-//	bool operator<=(DequeIterator const &other) const {
-//		return (this->p <= other.p);
-//	}
-//	bool operator>(DequeIterator const &other) const {
-//		return (this->p > other.p);
-//	}
-//	bool operator>=(DequeIterator const &other) const {
-//		return (this->p >= other.p);
-//	}
-//};
+
 
 #endif //FT_CONTAINERS_DEQUEITERATOR_H
