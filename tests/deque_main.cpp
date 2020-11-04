@@ -89,17 +89,17 @@ void	eraser() {
 	it = e.erase(e.begin() + 3);
 	std::cout << "return from erase gives: " << *it << std::endl;
 	print_container_content(e, "e");
-
 }
 
 void	iterators() {
 	ft::deque<int> d;
 	for (int i = 0; i < 8; ++i)
 		d.push_back(i * 2);
-	// ft::deque<int>::iterator it = d.begin();
+	ft::deque<int>::iterator it = d.begin();
 	// ft::deque<int>::const_iterator cit = d.end();
 	// ft::deque<int>::reverse_iterator rit = d.rbegin();
-	// ft::deque<int>::const_reverse_iterator crit(it);
+	ft::deque<int>::const_reverse_iterator crit(it);
+	(void) crit;
 	print_container_content(d, "d");
 	reverse_print_container_content(d, "d");
 }
