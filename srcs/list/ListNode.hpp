@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/09 12:18:41 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/11 21:03:46 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/11/04 16:38:05 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ namespace ft {
 	class node {
 	public:
 		T			data;
-		node		*next;
-		node		*prev;
+		node*		next;
+		node*		prev;
 
 		explicit node(const T &val = T()) : data(val), next(0), prev(0) { }
 		node(const node &other) : data(other.data), next(other.next), prev(other.prev) { }
@@ -39,10 +39,10 @@ namespace ft {
 		bool	operator!=(const node& rhs) const {
 			return *this != rhs;
 		}
-		node	*getnext() {
+		node*	getnext() {
 			return this->next;
 		}
-		node	*getprevious() {
+		node*	getprevious() {
 			return this->prev;
 		}
 	};

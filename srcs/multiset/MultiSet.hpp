@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   Set.hpp                                            :+:    :+:            */
+/*   MultiSet.hpp                                       :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/27 23:49:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/25 13:16:31 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/11/04 16:51:02 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ template < class Key, class Compare = less<Key>, class Alloc = std::allocator<Ke
 		}
 		template <class InputIterator>
 		multiset (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type(),
-					typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0)
+					typename ft::check_type<typename ft::iterator_traits<Iterator>::iterator_category>::type* = 0)
 				: Base(comp, alloc) {
 			this->insert(first, last);
 		}
@@ -87,12 +87,12 @@ template < class Key, class Compare = less<Key>, class Alloc = std::allocator<Ke
 			}
 			return std::make_pair(iterator(it), false);
 		}
-		iterator				insert(iterator position, const value_type& val, typename enable_if<is_iterator<typename iterator::iterator_category>::value, iterator>::type * = 0) {
+		iterator				insert(iterator position, const value_type& val, typename ft::check_type<typename ft::iterator_traits<Iterator>::iterator_category>::type* = 0) {
 			(void)position;
 			return this->insert(val).first;
 		}
 		template <class InputIterator>
-		void					insert(InputIterator first, InputIterator last, typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) {
+		void					insert(InputIterator first, InputIterator last, typename ft::check_type<typename ft::iterator_traits<Iterator>::iterator_category>::type* = 0) {
 			while (first != last) {
 				this->insert(*first);
 				++first;

@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/27 23:49:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/10/25 13:16:38 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/11/04 16:47:23 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,16 +210,11 @@ template < class Key, class Value, class NodeContents, class Compare = less<Key>
 	}
 
 	// Extra
-		void printBT() const {
-			printBT("", this->_root, false);
-			if (this->_first->parent && this->_first->parent != this->_last)
-				std::cerr << "parent of _first: " << this->_first->parent->data.first << "->" << this->_first->parent->data.second << std::endl;
-			if (this->_last->parent && this->_last->parent != this->_first)
-				std::cerr << "parent of _last: " << this->_last->parent->data.first << "-->" << this->_last->parent->data.second << std::endl;
-			std::cerr << std::endl;
-		}
-
 		protected:
+			void printBT() const {
+				printBT("", this->_root, false);
+				std::cerr << std::endl;
+			}
 			inline bool	itemcompare(const key_type& k, const std::pair<Key, Value>& p) const {
 				return this->key_comp()(k, p.first);
 			}

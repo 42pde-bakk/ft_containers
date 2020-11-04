@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/25 18:22:37 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/11/04 00:24:17 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/11/04 15:44:13 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ namespace ft {
 				this->assign(n, val);
 			}
 			template<class InputIterator>
-			deque(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) 
+			deque(InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), typename ft::check_type<typename ft::iterator_traits<InputIterator>::iterator_category>::type* = 0) 
 				: _size(0), _start(0), _num_nodes(0), _map(0), _map_size(0), _alloc(alloc), start(), finish() {
 				this->assign(first, last);
 			}
@@ -153,7 +153,7 @@ namespace ft {
 
 		/* Modifier functions */
 			template <class InputIterator>
-			void	assign(InputIterator first, InputIterator last, typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) {
+			void	assign(InputIterator first, InputIterator last, typename ft::check_type<typename ft::iterator_traits<InputIterator>::iterator_category>::type* = 0) {
 				this->clear();
 				size_type dist = ft::distance(first, last);
 				this->reserve(dist, dist / ARRAY_SIZE + 1, std::max((size_t)8, dist / ARRAY_SIZE + 1) );
@@ -239,7 +239,7 @@ namespace ft {
 				}
 			}
 			template <class InputIterator>
-			void		insert(iterator position, InputIterator first, InputIterator last, typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) {
+			void		insert(iterator position, InputIterator first, InputIterator last, typename ft::check_type<typename ft::iterator_traits<InputIterator>::iterator_category>::type* = 0) {
 				while (first != last) {
 					--last;
 					insert(last, 1, *last);

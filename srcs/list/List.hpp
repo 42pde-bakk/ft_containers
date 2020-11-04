@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/10/23 15:45:02 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/11/04 15:42:55 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ namespace ft {
 		}
 		template <class InputIterator>
 		list (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(), 
-				typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0)
+				typename ft::check_type<typename ft::iterator_traits<InputIterator>::iterator_category>::type* = 0)
 				: alloc(alloc), length(0) {
 			this->head = new node<T>();
 			this->tail = new node<T>();
@@ -147,7 +147,7 @@ namespace ft {
 	/* Modifiers */
 		template <class InputIterator>
  		void assign(InputIterator first, InputIterator last,
-				typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) {
+				typename ft::check_type<typename ft::iterator_traits<InputIterator>::iterator_category>::type* = 0) {
 			this->clear();
 			while (first != last) {
 				push_back(*first);
@@ -214,7 +214,7 @@ namespace ft {
 		}
 		template <class InputIterator>
 		void		insert(iterator position, InputIterator first, InputIterator last,
-		typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) {
+				typename ft::check_type<typename ft::iterator_traits<InputIterator>::iterator_category>::type* = 0) {
 			while (first != last) {
 				insert(position, *first);
 				first++;

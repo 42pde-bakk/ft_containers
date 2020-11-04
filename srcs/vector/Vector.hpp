@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 15:19:02 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/11/03 22:45:25 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/11/04 15:33:07 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ namespace ft {
 		}
 		template <class InputIterator>
 		vector (InputIterator first, InputIterator last, const allocator_type& alloc = allocator_type(),
-				typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) : _array(0), _size(0), _capacity(0), _alloc(alloc) {
+				typename ft::check_type<typename ft::iterator_traits<InputIterator>::iterator_category>::type* = 0) : _array(0), _size(0), _capacity(0), _alloc(alloc) {
 			this->_capacity = ft::distance(first, last);
 			this->_size = _capacity;
 			this->_array = new value_type[this->_capacity];
@@ -99,7 +99,6 @@ namespace ft {
 		}
 		size_type	max_size() const {
 			return this->_alloc.max_size();
-			// return (PEER_MAX / sizeof(T));
 		}
 		void		resize (size_type n, value_type val = value_type()) {
 			while (n < this->_size)
@@ -157,7 +156,7 @@ namespace ft {
 	/* Modifiers */
 		template <class InputIterator>
 		void	assign (InputIterator first, InputIterator last,
-						typename enable_if<is_iterator<typename InputIterator::iterator_category>::value, InputIterator>::type * = 0) {
+				typename ft::check_type<typename ft::iterator_traits<InputIterator>::iterator_category>::type* = 0) {
 			this->clear();
 			while (first != last) {
 				push_back(*first);
@@ -204,8 +203,7 @@ namespace ft {
 		}
 		template <class InputIterator>
 		void insert (iterator position, InputIterator first, InputIterator last,
-				typename enable_if<	is_iterator<typename InputIterator::iterator_category>::value, InputIterator >::type * = 0)
-				{
+				typename ft::check_type<typename ft::iterator_traits<InputIterator>::iterator_category>::type* = 0) {
 			vector tmp(position, end());
 			this->_size -= ft::distance(position, end());
 			while (first != last) {
@@ -283,6 +281,7 @@ template <class T, class Alloc>
 	bool operator<  (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
 		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
+
 template <class T, class Alloc>
 	bool operator<= (const vector<T,Alloc>& lhs, const vector<T,Alloc>& rhs) {
 		return (!(rhs < lhs));
