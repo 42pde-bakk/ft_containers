@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/26 13:20:35 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/11/04 15:32:25 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/11/04 17:03:09 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@
 
 namespace ft {
 	template<typename Iterator>
-	ptrdiff_t distance(Iterator first, Iterator last,
-			typename ft::check_type<typename ft::iterator_traits<Iterator>::iterator_category>::type* = 0) {
+	ptrdiff_t distance(Iterator first, Iterator last) { //, typename ft::check_type<typename ft::iterator_traits<Iterator>::iterator_category>::type* = 0) {
 		ptrdiff_t dist = 0;
 		while (first != last) {
 			++dist;
@@ -28,8 +27,7 @@ namespace ft {
 		return dist;
 	}
 	template <class InputIterator, class Distance>
-	void advance (InputIterator& it, Distance n,
-			typename ft::check_type<typename ft::iterator_traits<InputIterator>::iterator_category>::type* = 0) {
+	void advance (InputIterator& it, Distance n) { //typename ft::check_type<typename ft::iterator_traits<InputIterator>::iterator_category>::type* = 0) {
 		while (n) {
 			if (n > 0) {
 				++it;

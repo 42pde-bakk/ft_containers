@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/25 18:22:37 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/11/04 15:44:13 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/11/04 16:55:20 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,17 +136,15 @@ namespace ft {
 					throw std::out_of_range("Deque index out of range");
 				return start[n];
 			}
-//			reference front() { return this->operator[](0); }
 			reference front() { return *start; }
 			const_reference front() const { return *start; }
-//			reference back() { return this->operator[](this->_size - 1); }
 			reference back() {
-				iterator tmp = finish;
+				iterator tmp(finish);
 				--tmp;
 				return *tmp; // return finish's *cur
 			}
 			const_reference back() const {
-				iterator tmp = finish;
+				iterator tmp(finish);
 				--tmp;
 				return *tmp;
 			}
@@ -158,6 +156,7 @@ namespace ft {
 				size_type dist = ft::distance(first, last);
 				this->reserve(dist, dist / ARRAY_SIZE + 1, std::max((size_t)8, dist / ARRAY_SIZE + 1) );
 				finish.cur = finish.first + (dist % ARRAY_SIZE);
+
 				for (iterator it = start; first != last; ++it) {
 					*it = *first;
 					++first;
@@ -212,7 +211,6 @@ namespace ft {
 			}
 			void	pop_front(void) {
 				if (this->_size) {
-					std::cerr << "popping front\n";
 					++this->start;
 					if (this->start.cur == this->start.first)
 						++this->_start;

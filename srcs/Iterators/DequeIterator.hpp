@@ -11,7 +11,7 @@
 
 namespace ft {
 
-template <class T, size_t buff_size, class Category = std::random_access_iterator_tag >
+template <class T, size_t buff_size, class Category = random_access_iterator_tag >
 class DequeIterator {
 public:
 	typedef DequeIterator<T, buff_size>			iterator;
@@ -141,7 +141,7 @@ public:
 	virtual bool	operator>=(const DequeIterator& rhs) { return this->cur >= rhs.cur; }
 };
 
-template <class T, size_t buff_size, class Category = std::random_access_iterator_tag >
+template <class T, size_t buff_size, class Category = random_access_iterator_tag >
 class ConstDequeIterator : public DequeIterator<T, buff_size> {
 public:
 	typedef DequeIterator<T, buff_size>			Base;
