@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/09 12:20:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/11/06 03:02:57 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/11/06 14:41:11 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,8 @@ namespace ft {
 		using typename Base::difference_type;
 		typedef ReverseMapIterator	self_type;
 		typedef Category					iterator_category;
-		typedef ReverseMapIterator<T, P, R, Comp>					this_type;
-		typedef ReverseMapIterator <T,T*, T&, Comp >				iterator;
+		typedef ReverseMapIterator<T,  P,  R,  Comp>					this_type;
+		typedef ReverseMapIterator <T, T*, T&, Comp >				iterator;
 		typedef ReverseMapIterator <T, const T*, const T&, Comp >	const_iterator;
 
 		ReverseMapIterator() : Base() { }
@@ -122,20 +122,15 @@ namespace ft {
 		ReverseMapIterator(const iterator& x) : Base() {
 			*this = x;
 		}
-		// RevBidirectionalIterator(const Base& x) : Base() {
-		// 	*this = x;
-		// }
 		virtual this_type&	operator=(const iterator& x) {
 			Base::operator=(x);
 			return *this;
 		}
-		// virtual self_type&	operator=(const Base& x) {
-		// 	Base::operator=(x);
-		// 	return *this;
-		// }
 		virtual ~ReverseMapIterator() { }
-		this_type	operator++(int n) {
-			return Base::operator--(n);
+		this_type	operator++(int) {
+			this_type	out(*this);
+			this->ptr = this->ptr->getprevious();
+			return out;
 		}
 		this_type&	operator++() {
 			Base::operator--();
