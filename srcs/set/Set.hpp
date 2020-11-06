@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/27 23:49:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/11/04 16:51:42 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/11/06 18:10:35 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ template < class Key, class Compare = less<Key>, class Alloc = std::allocator<Ke
 		}
 		template <class InputIterator>
 		set (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type(),
-					typename ft::check_type<typename ft::iterator_traits<Iterator>::iterator_category>::type* = 0)
+					typename ft::check_type<typename ft::iterator_traits<InputIterator>::iterator_category>::type* = 0)
 				: Base(comp, alloc) {
 			this->insert(first, last);
 		}
@@ -88,12 +88,12 @@ template < class Key, class Compare = less<Key>, class Alloc = std::allocator<Ke
 			}
 			return std::make_pair(iterator(it), false);
 		}
-		iterator				insert(iterator position, const value_type& val, typename ft::check_type<typename ft::iterator_traits<Iterator>::iterator_category>::type* = 0) {
+		iterator				insert(iterator position, const value_type& val) {
 			(void)position;
 			return this->insert(val).first;
 		}
 		template <class InputIterator>
-		void					insert(InputIterator first, InputIterator last, typename ft::check_type<typename ft::iterator_traits<Iterator>::iterator_category>::type* = 0) {
+		void					insert(InputIterator first, InputIterator last, typename ft::check_type<typename ft::iterator_traits<InputIterator>::iterator_category>::type* = 0) {
 			while (first != last) {
 				this->insert(*first);
 				++first;

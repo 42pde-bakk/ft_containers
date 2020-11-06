@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:46:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/10/30 21:59:57 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/11/06 18:11:57 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -272,14 +272,14 @@ int main(int argc, char **argv) {
 		gettimeofday(&tv, NULL);
 		begintime = tv.tv_usec;
 	}
-	// constructors_test();
-	// iterators_test();
-	// capacity_test_element_access();
-	// modifiers_test();
-	// operations_test();
-	// operations_test2();
-	// relational_operators();
-	// stl_test();
+	constructors_test();
+	iterators_test();
+	capacity_test_element_access();
+	modifiers_test();
+	operations_test();
+	operations_test2();
+	relational_operators();
+	stl_test();
 	sam();
 	if (argc == 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
