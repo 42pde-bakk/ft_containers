@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/05 22:22:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/11/05 23:07:22 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/11/06 01:55:20 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ struct ListIterator
 {
 	typedef ListIterator<T, Pointer, Reference>			this_type;
 	typedef ListIterator<T, T*, T&>						iterator;
-	typedef ListIterator<T, const T*, const T&>			const_iterator;
+	// typedef ListIterator<T, const T*, const T&>			const_iterator;
 	typedef size_t										size_type;
 	typedef ptrdiff_t									difference_type;
 	typedef T											value_type;
-	typedef node<T>										node_type;
+	// typedef node<T>										node_type;
 	typedef node<T>*									node_pointer;
 	typedef Pointer										pointer;
 	typedef Reference									reference;
@@ -82,15 +82,15 @@ struct ReverseListIterator : public ListIterator<T, Pointer, Reference>
 	typedef	ListIterator<T, Pointer, Reference>					Base;
 	typedef ReverseListIterator<T, Pointer, Reference>			this_type;
 	typedef ReverseListIterator<T, T*, T&>						iterator;
-	typedef ReverseListIterator<T, const T*, const T&>			const_iterator;
+	// typedef ReverseListIterator<T, const T*, const T&>			const_iterator;
 	using typename Base::size_type;
 	using typename Base::difference_type;
 	using typename Base::value_type;
-	using typename Base::node_type;
+	// using typename Base::node_type;
 	using typename Base::node_pointer;
+	using typename Base::iterator_category;
 	typedef Pointer										pointer;
 	typedef Reference									reference;
-	typedef std::bidirectional_iterator_tag				iterator_category;
 public:
 	ReverseListIterator( ) : Base() { }
 	ReverseListIterator(const node_pointer elem) : Base(elem) { }

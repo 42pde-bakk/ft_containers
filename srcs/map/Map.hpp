@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/27 23:49:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/11/04 16:45:44 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/11/06 02:55:02 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ class map : public MapBase<const Key, Value, std::pair<const Key, Value>, Compar
 		}
 		template <class InputIterator>
 		map (InputIterator first, InputIterator last, const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type(),
-					typename ft::check_type<typename ft::iterator_traits<Iterator>::iterator_category>::type* = 0)
+					typename ft::check_type<typename ft::iterator_traits<InputIterator>::iterator_category>::type* = 0)
 				: Base(comp, alloc) {
 			this->insert(first, last);
 		}
@@ -103,12 +103,12 @@ class map : public MapBase<const Key, Value, std::pair<const Key, Value>, Compar
 			}
 			return std::make_pair(iterator(it), false);
 		}
-		iterator	insert(iterator position, const value_type& val, typename ft::check_type<typename ft::iterator_traits<Iterator>::iterator_category>::type* = 0) {
+		iterator	insert(iterator position, const value_type& val, typename ft::check_type<typename ft::iterator_traits<iterator>::iterator_category>::type* = 0) {
 			(void)position;
 			return insert(val).first;
 		}
 		template <class InputIterator>
-		void		insert(InputIterator first, InputIterator last, typename ft::check_type<typename ft::iterator_traits<Iterator>::iterator_category>::type* = 0) {
+		void		insert(InputIterator first, InputIterator last, typename ft::check_type<typename ft::iterator_traits<InputIterator>::iterator_category>::type* = 0) {
 			while (first != last) {
 				insert(*first);
 				++first;
