@@ -1,14 +1,6 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        ::::::::            */
-/*   DequeIterator.hpp                                  :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2020/11/05 21:54:40 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/11/05 21:58:58 by peerdb        ########   odam.nl         */
-/*                                                                            */
-/* ************************************************************************** */
+//
+// Created by Peer De bakker on 10/26/20.
+//
 
 #ifndef FT_CONTAINERS_DEQUEITERATOR_HPP
 #define FT_CONTAINERS_DEQUEITERATOR_HPP

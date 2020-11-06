@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/28 00:16:51 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/11/06 01:57:22 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/10/19 22:20:18 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ namespace ft {
 		Col			colour;
 
 		explicit node(value_type const& val = value_type(), Col kleur = RED) : data(val), parent(0), left(0), right(0), colour(kleur) { }
-		node(const node& x) : data(x.data), parent(x.parent), left(x.left), right(x.right), colour(RED) { }
+		node(const node& x) : data(x.data), parent(x.parent), left(x.left), right(x.right), colour(RED) {
+		}
 		~node() {}
 		node&	operator=(const node& x) {
 			if (this != &x) {
@@ -70,6 +71,7 @@ namespace ft {
         	return (this->data >= other.data);
         }
 		node*   getnext() {
+//			std::cerr << "getnext gets called " << std::endl;
         	node* it(this);
 
         	if (it->right) {
@@ -80,7 +82,7 @@ namespace ft {
         	else {
         		node *tmp = it;
         		it = it->parent;
-				while (it->left != tmp) {
+				while (it->left != tmp) { //it->data <= this->data)
 					tmp = it;
 					it = it->parent;
 				}
@@ -117,7 +119,7 @@ namespace ft {
 				tmp = tmp->right;
 			this->last_node = tmp;
 		}
-
+	// ?
 	node		*root_node;
 	node		*first_node;
 	node		*last_node;

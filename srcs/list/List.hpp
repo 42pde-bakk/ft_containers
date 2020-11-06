@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/11/05 22:57:50 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/11/04 15:42:55 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@
 # include <memory>
 # include <cstddef>
 # include "ListNode.hpp"
-// # include "BidirectionalIterator.hpp"
-#include "ListIterator.hpp"
+# include "BidirectionalIterator.hpp"
 # include "Traits.hpp"
 # include <iostream>
 # include "Extra.hpp"
@@ -37,10 +36,10 @@ namespace ft {
 		typedef node<T> 	*node_pointer;
 		typedef ptrdiff_t	difference_type;
 		typedef size_t		size_type;
-		typedef ListIterator<T, T*, T& >					iterator;
-		typedef ListIterator<T, const T*, const T&>			const_iterator;
-		typedef ReverseListIterator<T, T*, T& >				reverse_iterator;
-		typedef ReverseListIterator<T, const T*, const T& >	const_reverse_iterator;
+		typedef BidirectionalIterator<value_type, node_pointer>			iterator;
+		typedef ConstBidirectionalIterator<value_type, node_pointer>	const_iterator;
+		typedef RevBidirectionalIterator<value_type, node_pointer>		reverse_iterator;
+		typedef ConstRevBidirectionalIterator<value_type, node_pointer>	const_reverse_iterator;
 	private:
 		node_pointer		head;
 		node_pointer 		tail;

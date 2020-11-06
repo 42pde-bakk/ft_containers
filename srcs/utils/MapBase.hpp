@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/27 23:49:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/11/06 02:54:54 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/11/04 16:47:23 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,10 @@ template < class Key, class Value, class NodeContents, class Compare = less<Key>
 		typedef	value_type*					pointer;
 		typedef	const value_type*			const_pointer;
 		typedef node<value_type, key_compare>	mapnode;
-		typedef MapIterator<value_type, pointer, reference, key_compare >					iterator;
-		typedef MapIterator<value_type, const_pointer, const_reference, key_compare >		const_iterator;
-		typedef ReverseMapIterator<value_type, pointer, reference, key_compare >				reverse_iterator;
-		typedef ReverseMapIterator<value_type, const_pointer, const_reference, key_compare >	const_reverse_iterator;
+		typedef BidirectionalIterator<value_type, mapnode* >		iterator;
+		typedef ConstBidirectionalIterator<value_type, mapnode*>	const_iterator;
+		typedef RevBidirectionalIterator<value_type, mapnode*>		reverse_iterator;
+		typedef ConstRevBidirectionalIterator<value_type, mapnode*>	const_reverse_iterator;
 		typedef	ptrdiff_t					difference_type;
 		typedef	size_t						size_type;
 
