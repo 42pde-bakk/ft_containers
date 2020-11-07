@@ -237,8 +237,36 @@ public:
 		inline bool operator>=(const ReverseDequeIterator& rhs) {
 			return (this->base() >= rhs.base());
 		}
-
 	};
+template <typename Iterator>
+inline bool	operator==(const ReverseDequeIterator<Iterator>& lhs, const ReverseDequeIterator<Iterator>& rhs) {
+	return (lhs.base() == rhs.base());
+}
+template <typename Iterator>
+inline bool	operator<(const ReverseDequeIterator<Iterator>& lhs, const ReverseDequeIterator<Iterator>& rhs) {
+	return (lhs.base() < rhs.base());
+}
+template <typename Iterator>
+inline bool	operator!=(const ReverseDequeIterator<Iterator>& lhs, const ReverseDequeIterator<Iterator>& rhs) {
+	return !(lhs.base() == rhs.base());
+}
+template <typename Iterator>
+inline bool	operator>(const ReverseDequeIterator<Iterator>& lhs, const ReverseDequeIterator<Iterator>& rhs) {
+	return (rhs.base() < lhs.base());
+}
+template <typename Iterator>
+inline bool	operator<=(const ReverseDequeIterator<Iterator>& lhs, const ReverseDequeIterator<Iterator>& rhs) {
+	return !(rhs.base() < lhs.base());
+}
+template <typename Iterator>
+inline bool	operator>=(const ReverseDequeIterator<Iterator>& lhs, const ReverseDequeIterator<Iterator>& rhs) {
+	return !(lhs.base() < rhs.base());
+}
+// Comparison of reverse_iterator to const reverse iterator
+template <typename IteratorL, typename IteratorR>
+inline bool operator==(const ReverseDequeIterator<IteratorL>& lhs, const ReverseDequeIterator<IteratorR>& rhs) {
+	return (lhs.base() == rhs.base());
+}
 
 } // namespace ft
 
