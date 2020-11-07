@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/27 23:49:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/11/06 18:09:49 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/11/07 01:08:23 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,25 @@ class map : public MapBase<const Key, Value, std::pair<const Key, Value>, Compar
 			return std::make_pair(iterator(it), false);
 		}
 		iterator	insert(iterator position, const value_type& val) {
-			(void)position;
+			Base::printBT();
+			mapnode*	pos_ptr = position.getptr();
+			iterator	nextpos(position);
+			iterator	prevpos(position);
+			--prevpos;
+			++nextpos;
+			bool	next_is_end = (nextpos == this->end());
+			bool	prev_is_first = (prevpos == this->begin()--);
+			std::cerr << _YELLOW << "pos_ptr = " << pos_ptr << ", first keycomp = " << std::boolalpha << " key_compare()(" << position->first << ", " << val.first << "): " << key_compare()(position->first, val.first) << std::endl;
+			std::cerr << _YELLOW << "next_is_end = " << next_is_end << ", second keycomp = " << std::boolalpha << " key_compare()(" << val.first << ", " << nextpos->first << "): " << key_compare()(val.first, nextpos->first) << std::endl << _END;
+			if (pos_ptr && key_compare()(position->first, val.first) && (next_is_end || key_compare()(val.first, nextpos->first))) {
+				// insert
+				std::cerr << _CYAN "case 1, position is valid hint. inserting right\n" _END;
+				return iterator(Base::insert_right(pos_ptr, val));
+			}
+			else if (pos_ptr && key_compare()(val.first, position->first) && (prev_is_first || key_compare()(prevpos->first, val.first))) {
+				std::cerr << _CYAN "case 2, position is valid hint, inserting left\n";
+				return iterator(Base::insert_left(pos_ptr, val));
+			}
 			return insert(val).first;
 		}
 		template <class InputIterator>

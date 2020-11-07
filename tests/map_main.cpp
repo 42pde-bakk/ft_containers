@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 21:10:23 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/11/06 18:08:59 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/11/07 01:08:06 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -436,20 +436,31 @@ void	telly() {
 	 }
 }
 
+void	hint() {
+	ft::map<int, std::string> hats;
+	hats[8] = "acht";
+	hats[15] = "vijftien";
+	hats[4] = "vier";
+	hats[12] = "twaalf";
+	hats.insert(hats.find(4), std::make_pair(3, "drie"));
+	print_container_content(hats, "hats");
+}
+
 int	main(int argc, char **argv) {
 	if (argc >= 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
 		begintime = tv.tv_usec;
 	}
-	 ctors_dtor();
-	 iterators();
-	 capacity();
-	 element_access();
-		modifiers();
-	 observers();
-	 operations();
-	 tellyinspired();
-	 telly();
+	//  ctors_dtor();
+	//  iterators();
+	//  capacity();
+	//  element_access();
+	// 	modifiers();
+	//  observers();
+	//  operations();
+	//  tellyinspired();
+	//  telly();
+	hint();
 	if (argc >= 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
 		endtime = tv.tv_usec;
