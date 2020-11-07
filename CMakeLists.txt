@@ -42,4 +42,4 @@ add_executable(ft_containers
         tests/set_main.cpp
         tests/multiset_main.cpp
         tests/multimap_main.cpp
-        srcs/Iterators/DequeIterator.hpp)
+        srcs/Iterators/DequeIterator.hpp srcs/Iterators/ReverseIterator.hpp)
