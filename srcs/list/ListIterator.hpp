@@ -37,8 +37,10 @@ public:
 	typedef Reference									reference;
 	typedef std::bidirectional_iterator_tag				iterator_category;
 	template <class T2, class A>						friend class list;
-	template <class T2, class P2, class R2>				friend class ReverseListIterator;
-public:
+	template <class T2, class P, class R>				friend class ListIterator;
+	template <class T2, class P, class R>				friend class ReverseListIterator;
+
+protected:
 	node_pointer	ptr;
 public:
 	ListIterator( ) : ptr(NULL) { }
