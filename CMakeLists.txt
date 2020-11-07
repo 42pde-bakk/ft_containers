@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.17)
 project(ft_containers)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 98)
 
 include_directories(.)
 include_directories(srcs)
@@ -40,4 +40,6 @@ add_executable(ft_containers
         tests/set_main.cpp
         tests/multiset_main.cpp
         tests/multimap_main.cpp
-        srcs/Iterators/DequeIterator.hpp srcs/Iterators/ReverseIterator.hpp srcs/utils/Pair.hpp)
+        srcs/Iterators/DequeIterator.hpp
+		srcs/Iterators/ReverseIterator.hpp
+		srcs/utils/Pair.hpp)

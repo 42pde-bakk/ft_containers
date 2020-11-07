@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/27 23:49:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/11/06 18:09:49 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/11/07 23:41:31 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,25 @@
 namespace ft {
 
 template < class Key, class Value, class Compare = less<Key>, class Alloc = std::allocator<ft::pair<const Key,Value> > >
-class map : public MapBase<const Key, Value, ft::pair<const Key, Value>, Compare, Alloc>  {
+class map : public MapBase<const Key, Value, ft::pair<const Key, Value>, Compare, Alloc> {
 	public:
 		typedef MapBase<const Key, Value, ft::pair<const Key, Value>, Compare, Alloc>	Base;
-		using typename								Base::key_type;
-		using typename								Base::mapped_type;
-		using typename								Base::value_type;
-		using typename								Base::key_compare;
-		using typename								Base::allocator_type;
-		using typename								Base::reference;
-		using typename								Base::const_reference;
-		using typename								Base::pointer;
-		using typename								Base::const_pointer;
-		using typename								Base::mapnode;
-		using typename								Base::iterator;
-		using typename								Base::const_iterator;
-		using typename								Base::reverse_iterator;
-		using typename								Base::const_reverse_iterator;
-		using typename								Base::difference_type;
-		using typename								Base::size_type;
+		using typename	Base::key_type;
+		using typename	Base::mapped_type;
+		using typename	Base::value_type;
+		using typename	Base::key_compare;
+		using typename	Base::allocator_type;
+		using typename	Base::reference;
+		using typename	Base::const_reference;
+		using typename	Base::pointer;
+		using typename	Base::const_pointer;
+		using typename	Base::mapnode;
+		using typename	Base::iterator;
+		using typename	Base::const_iterator;
+		using typename	Base::reverse_iterator;
+		using typename	Base::const_reverse_iterator;
+		using typename	Base::difference_type;
+		using typename	Base::size_type;
 
 	// Constructors, destructors and operator=
 		explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type())

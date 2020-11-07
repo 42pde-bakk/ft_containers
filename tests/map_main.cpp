@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/25 21:10:23 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/11/06 18:08:59 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/11/07 23:57:48 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 #include <string>
 #include <iostream>
 #include <sys/time.h>
-
+#include "Pair.hpp"
+// #define PAIR ft
 #include <cstring> // for strcmp
 #include <stddef.h>
 #include <stdlib.h> // for system()
@@ -53,7 +54,7 @@ void	compare_keys(ft::map<K, V>& mappie, K compelem = K(), std::string name = "c
 }
 
 template< typename K, typename V>
-void	compare_values(ft::map<K, V>& mappie, std::pair<K, V> compelem = std::make_pair(K(), V()), std::string name = "container") {
+void	compare_values(ft::map<K, V>& mappie, ft::pair<K, V> compelem = ft::make_pair(K(), V()), std::string name = "container") {
 	typename ft::map<K, V>::value_compare vcomp = mappie.value_comp();
 	(void)name;
 	for (typename ft::map<K, V>::const_iterator it = mappie.begin(); it != mappie.end(); it++) {
@@ -83,17 +84,17 @@ ft::map<int, std::string>	getstlmap() {
 void	ctors_dtor() {
 	ft::map<int, std::string>	mappie;
 	mappie.insert(std::make_pair(0, "nul"));
-	mappie.insert(std::make_pair(1, "een"));
-	mappie.insert(std::make_pair(1, "een-1"));
-	mappie.insert(std::make_pair(1, "een-2"));
-	mappie.insert(std::make_pair(-1, "min een"));
-	mappie.insert(std::make_pair(5, "vijf"));
+	mappie.insert(ft::make_pair(1, "een"));
+	mappie.insert(ft::make_pair(1, "een-1"));
+	mappie.insert(ft::make_pair(1, "een-2"));
+	mappie.insert(ft::make_pair(-1, "min een"));
+	mappie.insert(ft::make_pair(5, "vijf"));
 
 	print_container_content(mappie, "mappie");
 	ft::map<int, std::string> wappie(mappie);
-	wappie.insert(std::make_pair(8, "acht"));
-	wappie.insert(std::make_pair(7, "zeven"));
-	wappie.insert(std::make_pair(7, "zeven-1"));
+	wappie.insert(ft::make_pair(8, "acht"));
+	wappie.insert(ft::make_pair(7, "zeven"));
+	wappie.insert(ft::make_pair(7, "zeven-1"));
 	print_container_content(wappie, "wappie");
 	ft::map<int, std::string>::iterator it = wappie.begin();
 	for (int i = 0; i < 4; i++)
@@ -137,7 +138,7 @@ void	iterators() {
 	it->second = "NIEUW";
 //	it->first = 8;
 	print_container_content(peer);
-	std::pair<int, std::string> ret = *it++;
+	ft::pair<int, std::string> ret = *it++;
 	std::cout << "ret: " << ret.first << " => " << ret.second << std::endl;
 	std::cout << " it: " << it->first << " => " << it->second << std::endl;
 }
@@ -167,9 +168,9 @@ void	element_access() {
 
 void	modifiers() {
 	ft::map<int, std::string> mymap = getstlmap();
-	mymap.insert(std::make_pair(12, "twaalf"));
-	mymap.insert(std::make_pair(12, "twaalf"));
-	mymap.insert(mymap.find(7), std::make_pair(2, "negen"));
+	mymap.insert(ft::make_pair(12, "twaalf"));
+	mymap.insert(ft::make_pair(12, "twaalf"));
+	mymap.insert(mymap.find(7), ft::make_pair(2, "negen"));
 //	 mymap.printBT();
 
  	mymap.erase(1);
@@ -206,7 +207,7 @@ void	operations() {
 	it = mymap.upper_bound(14);
 	if (it != mymap.end())
 		std::cout << "upper bound of 14 returns: " << it->first << std::endl;
-	std::pair<ft::map<int, std::string>::iterator, ft::map<int, std::string>::iterator> peer \
+	ft::pair<ft::map<int, std::string>::iterator, ft::map<int, std::string>::iterator> peer \
 	= mymap.equal_range(10);
 	std::cout << "mymap.equal_range(10) gives a range from " << peer.first->first << " to " << peer.second->first << std::endl;
 }
@@ -220,8 +221,8 @@ void	observers() {
 	}
 	compare_keys(mymap, 18);
 	compare_keys(othermap, 29);
-	compare_values(mymap, std::make_pair(18, 45));
-	compare_values(othermap, std::make_pair(29, 76));
+	compare_values(mymap, ft::make_pair(18, 45));
+	compare_values(othermap, ft::make_pair(29, 76));
 }
 
 void	tellyinspired() {
@@ -262,18 +263,18 @@ void	telly() {
 	std::cout << std::endl;
 	 {
 	 	ft::map<int, int> MyMap;
-	 	MyMap.insert(std::make_pair(10, 353));
-	 	MyMap.insert(std::make_pair(100, 4543));
-	 	MyMap.insert(std::make_pair(1000, 34534));
+	 	MyMap.insert(ft::make_pair(10, 353));
+	 	MyMap.insert(ft::make_pair(100, 4543));
+	 	MyMap.insert(ft::make_pair(1000, 34534));
 	 	for (ft::map<int, int>::iterator it = MyMap.begin(); it != MyMap.end(); it++)
 	 		std::cout << it->first << " => " << it->second << std::endl;
 	 }
 	 std::cout << std::endl;
 	 {
 	 	ft::map<int, int> Range;
-	 	Range.insert(std::make_pair(10, 99));
-	 	Range.insert(std::make_pair(100, 999));
-	 	Range.insert(std::make_pair(1000, 9999));
+	 	Range.insert(ft::make_pair(10, 99));
+	 	Range.insert(ft::make_pair(100, 999));
+	 	Range.insert(ft::make_pair(1000, 9999));
 	 	ft::map<int, int> MyMap(Range.begin(), Range.end());
 	 	for (ft::map<int, int>::iterator it = MyMap.begin(); it != MyMap.end(); it++)
 	 		std::cout << it->first << " => " << it->second << std::endl;
@@ -281,15 +282,15 @@ void	telly() {
 	std::cout << std::endl;
 	{
 		ft::map<int, int> Range;
-		Range.insert(std::make_pair(1, 80));
-		Range.insert(std::make_pair(-10, 57758));
-		Range.insert(std::make_pair(89, 34));
+		Range.insert(ft::make_pair(1, 80));
+		Range.insert(ft::make_pair(-10, 57758));
+		Range.insert(ft::make_pair(89, 34));
 		std::cout << "distance: " << ft::distance(Range.begin(), Range.end()) << std::endl;
 		ft::map<int, int> MyMap(Range.begin(), Range.end());
 		std::cout << "haha" << std::endl;
 		ft::map<int, int>::iterator it = --MyMap.end();
 		std::cout << "it: " << it->first << " => " << it->second << std::endl;
-		ft::map<int, int>::iterator result = MyMap.insert(it, std::make_pair(-666, 33333));
+		ft::map<int, int>::iterator result = MyMap.insert(it, ft::make_pair(-666, 33333));
 		std::cout << result->first << " => " << result->second << std::endl;
 		for (ft::map<int, int>::iterator it = MyMap.begin(); it != MyMap.end(); it++)
 			std::cout << "for:\t" << it->first << " => " << it->second << std::endl;
@@ -297,42 +298,42 @@ void	telly() {
 	std::cout << std::endl;
 	 {
 	 	ft::map<int, int> MyMap;
-	 	MyMap.insert(std::make_pair(1, 80));
-	 	MyMap.insert(std::make_pair(-10, 57758));
-	 	MyMap.insert(std::make_pair(89, 34));
+	 	MyMap.insert(ft::make_pair(1, 80));
+	 	MyMap.insert(ft::make_pair(-10, 57758));
+	 	MyMap.insert(ft::make_pair(89, 34));
 	 	ft::map<int, int>::iterator result = MyMap.find(89);
 	 	std::cout << result->first << " => " << result->second << std::endl;
 	 }
 	 std::cout << std::endl;
 	 {
 	 	ft::map<int, int> MyMap;
-	 	MyMap.insert(std::make_pair(1, 80));
-	 	MyMap.insert(std::make_pair(-10, 57758));
-	 	MyMap.insert(std::make_pair(89, 34));
+	 	MyMap.insert(ft::make_pair(1, 80));
+	 	MyMap.insert(ft::make_pair(-10, 57758));
+	 	MyMap.insert(ft::make_pair(89, 34));
 	 	std::cout << (MyMap.lower_bound(2))->first << std::endl;
 	 }
 	 std::cout << std::endl;
 	 {
 	 	ft::map<int, int> MyMap;
-	 	MyMap.insert(std::make_pair(1, 80));
-	 	MyMap.insert(std::make_pair(-10, 57758));
-	 	MyMap.insert(std::make_pair(89, 34));
+	 	MyMap.insert(ft::make_pair(1, 80));
+	 	MyMap.insert(ft::make_pair(-10, 57758));
+	 	MyMap.insert(ft::make_pair(89, 34));
 	 	std::cout << (MyMap.lower_bound(88))->first << std::endl;
 	 }
 	 std::cout << std::endl;
 	 {
 	 	ft::map<int, int> MyMap;
-	 	MyMap.insert(std::make_pair(1, 80));
-	 	MyMap.insert(std::make_pair(-10, 57758));
-	 	MyMap.insert(std::make_pair(89, 34));
+	 	MyMap.insert(ft::make_pair(1, 80));
+	 	MyMap.insert(ft::make_pair(-10, 57758));
+	 	MyMap.insert(ft::make_pair(89, 34));
 	 	std::cout << (MyMap.equal_range(-5)).first->first << " --- " << (MyMap.equal_range(2)).second->first << std::endl;
 	 }
 	 std::cout << std::endl;
 	 {
 	 	ft::map<int, int> MyMap;
-	 	MyMap.insert(std::make_pair(1, 80));
-	 	MyMap.insert(std::make_pair(10, 57758));
-	 	MyMap.insert(std::make_pair(100, 34));
+	 	MyMap.insert(ft::make_pair(1, 80));
+	 	MyMap.insert(ft::make_pair(10, 57758));
+	 	MyMap.insert(ft::make_pair(100, 34));
 	 	std::cout << MyMap[10] << std::endl;
 	 	for (ft::map<int, int>::iterator it = MyMap.begin(); it != MyMap.end(); it++)
 	 		std::cout << it->first << " => " << it->second << std::endl;
@@ -340,9 +341,9 @@ void	telly() {
 	 std::cout << std::endl;
 	 {
 	 	ft::map<int, int> MyMap;
-	 	MyMap.insert(std::make_pair(1, 80));
-	 	MyMap.insert(std::make_pair(10, 57758));
-	 	MyMap.insert(std::make_pair(100, 34));
+	 	MyMap.insert(ft::make_pair(1, 80));
+	 	MyMap.insert(ft::make_pair(10, 57758));
+	 	MyMap.insert(ft::make_pair(100, 34));
 	 	MyMap[10] = 99;
 	 	for (ft::map<int, int>::iterator it = MyMap.begin(); it != MyMap.end(); it++)
 	 		std::cout << it->first << " => " << it->second << std::endl;
@@ -350,9 +351,9 @@ void	telly() {
 	 std::cout << std::endl;
 	 {
 	 	ft::map<int, int> MyMap;
-	 	MyMap.insert(std::make_pair(1, 80));
-	 	MyMap.insert(std::make_pair(10, 57758));
-	 	MyMap.insert(std::make_pair(100, 34));
+	 	MyMap.insert(ft::make_pair(1, 80));
+	 	MyMap.insert(ft::make_pair(10, 57758));
+	 	MyMap.insert(ft::make_pair(100, 34));
 	 	MyMap[1000] = 99;
 	 	for (ft::map<int, int>::iterator it = MyMap.begin(); it != MyMap.end(); it++)
 	 		std::cout << it->first << " => " << it->second << std::endl;
@@ -361,15 +362,15 @@ void	telly() {
 	 std::cout << std::endl;
 	 {
 	 	ft::map<int, int> MyMap;
-	 	MyMap.insert(std::make_pair(1, 80));
+	 	MyMap.insert(ft::make_pair(1, 80));
 	 	MyMap.erase(MyMap.begin());
 	 }
 	 std::cout << std::endl;
 	 {
 	 	ft::map<int, int> MyMap;
-	 	MyMap.insert(std::make_pair(1, 80));
-	 	MyMap.insert(std::make_pair(10, 57758));
-	 	MyMap.insert(std::make_pair(100, 34));
+	 	MyMap.insert(ft::make_pair(1, 80));
+	 	MyMap.insert(ft::make_pair(10, 57758));
+	 	MyMap.insert(ft::make_pair(100, 34));
 	 	MyMap.erase(MyMap.begin());
 	 	for (ft::map<int, int>::iterator it = MyMap.begin(); it != MyMap.end(); it++)
 	 		std::cout << it->first << " => " << it->second << std::endl;
@@ -377,24 +378,24 @@ void	telly() {
 	 std::cout << std::endl;
 	 {
 	 	ft::map<int, int> MyMap;
-	 	MyMap.insert(std::make_pair(10, 57758));
-	 	MyMap.insert(std::make_pair(1, 80));
-	 	MyMap.insert(std::make_pair(100, 34));
+	 	MyMap.insert(ft::make_pair(10, 57758));
+	 	MyMap.insert(ft::make_pair(1, 80));
+	 	MyMap.insert(ft::make_pair(100, 34));
 	 	MyMap.erase(10);
 	 	for (ft::map<int, int>::iterator it = MyMap.begin(); it != MyMap.end(); it++)
 	 		std::cout << it->first << " => " << it->second << std::endl;
 	 }
 	 {
 	 	ft::map<int, int> MyMap1;
-	 	MyMap1.insert(std::make_pair(10, 57758));
-	 	MyMap1.insert(std::make_pair(1, 80));
-	 	MyMap1.insert(std::make_pair(100, 34));
+	 	MyMap1.insert(ft::make_pair(10, 57758));
+	 	MyMap1.insert(ft::make_pair(1, 80));
+	 	MyMap1.insert(ft::make_pair(100, 34));
 
 
 	 	ft::map<int, int> MyMap2;
-	 	MyMap2.insert(std::make_pair(10, 57758));
-	 	MyMap2.insert(std::make_pair(1, 80));
-	 	MyMap2.insert(std::make_pair(100, 34));
+	 	MyMap2.insert(ft::make_pair(10, 57758));
+	 	MyMap2.insert(ft::make_pair(1, 80));
+	 	MyMap2.insert(ft::make_pair(100, 34));
 
 	 	if (MyMap1 == MyMap2)
 	 		std::cout << "MyMap1 is equal to MyMap2" << std::endl;
@@ -418,9 +419,9 @@ void	telly() {
 	 }
 	 {
 	 	ft::map<int, int> MyMap;
-	 	MyMap.insert(std::make_pair(10, 57758));
-	 	MyMap.insert(std::make_pair(1, 80));
-	 	MyMap.insert(std::make_pair(100, 34));
+	 	MyMap.insert(ft::make_pair(10, 57758));
+	 	MyMap.insert(ft::make_pair(1, 80));
+	 	MyMap.insert(ft::make_pair(100, 34));
 
 	 	for (ft::map<int, int>::reverse_iterator rit = MyMap.rbegin(); rit != MyMap.rend(); rit++)
 	 		std::cout << rit->first << " => " << rit->second << std::endl;

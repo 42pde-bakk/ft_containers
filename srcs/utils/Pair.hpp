@@ -6,12 +6,13 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/07 22:13:04 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/11/07 22:13:04 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/11/07 23:57:22 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_CONTAINERS_PAIR_HPP
 # define FT_CONTAINERS_PAIR_HPP
+# include <utility>
 
 namespace ft {
 
@@ -26,10 +27,12 @@ namespace ft {
 		pair() : first(), second() {}
 
 		template<class U, class V>
-		explicit pair(const pair<U, V> &pr) : first(), second() {
-			*this = pr;
-		}
-
+		pair(const pair<U, V>& pr) : first(pr.first), second(pr.second) { }
+		
+		template<class U, class V>
+		pair(const std::pair<U, V>& pr) : first(pr.first), second(pr.second) { }
+		
+		
 		pair(const first_type &a, const second_type &b) : first(a), second(b) {}
 
 		pair &operator=(const pair &x) {
