@@ -32,8 +32,9 @@ namespace ft {
 		typedef Reference	reference;
 		// typedef C			key_compare;
 		typedef node<T, C>*	node_pointer;
-		typedef std::bidirectional_iterator_tag		iterator_category;
-	public:
+		typedef std::bidirectional_iterator_tag				iterator_category;
+		template <class T2, class P, class R, class C2>		friend class MapIterator;
+	protected:
 		node_pointer	ptr;
 	public:
 
