@@ -126,6 +126,16 @@ void	iterators() {
 	print_container_content(d);
 }
 
+void	bs() {
+	ft::deque<int> d;
+	for (int i = 0; i < 12; i++)
+		d.push_front(i);
+	ft::deque<int>::iterator it(d.begin());
+	ft::deque<int>::reverse_iterator revit = d.rbegin();
+	(void)it;
+	(void)revit;
+}
+
 int	main(int argc, char **argv) {
 	if (argc >= 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
@@ -136,6 +146,7 @@ int	main(int argc, char **argv) {
 	 element_access();
 	 eraser();
 	iterators();
+	bs();
 	if (argc >= 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
 		endtime = tv.tv_usec;

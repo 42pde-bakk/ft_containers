@@ -40,17 +40,12 @@ namespace ft {
 			typedef const T*		const_pointer;
 			typedef DequeIterator<T, pointer, reference, ARRAY_SIZE>					iterator;
 			typedef DequeIterator<T, const_pointer, const_reference, ARRAY_SIZE>		const_iterator;
-//			typedef RevDequeIterator<T, ARRAY_SIZE>			reverse_iterator;
-//			typedef ConstRevDequeIterator<T, ARRAY_SIZE>	const_reverse_iterator;
+			typedef ReverseDequeIterator<T, pointer, reference, ARRAY_SIZE>				reverse_iterator;
+			typedef ReverseDequeIterator<T, const_pointer, const_reference, ARRAY_SIZE>	const_reverse_iterator;
 			typedef ptrdiff_t		difference_type;
 			typedef	size_t			size_type;
-		protected:
-			typedef pointer*					map_pointer;
-			// Allocate memory for the chunk
-			typedef std::allocator<value_type>	dataAllocator;
-			// Allocate memory for map
-			typedef std::allocator<pointer>		mapAllocator;
 		private:
+			typedef pointer*					map_pointer;
 			size_type		_size;		// amount of elements in the deque
 			size_type		_start;		// offset to the start of the elements
 			size_type		_num_nodes;	// amount of allocated sub arrays
@@ -97,10 +92,10 @@ namespace ft {
 			const_iterator	begin()	const	{ return start; }
 			iterator		end()			{ return finish; }
 			const_iterator	end()	const	{ return finish; }
-//			reverse_iterator		rbegin()		{ return finish - 1;}
-//			const_reverse_iterator	rbegin() const	{ return finish - 1;}
-//			reverse_iterator		rend()			{ return start - 1;}
-//			const_reverse_iterator	rend()   const	{ return start - 1;}
+			reverse_iterator		rbegin()		{ return finish - 1;}
+			const_reverse_iterator	rbegin() const	{ return finish - 1;}
+			reverse_iterator		rend()			{ return start - 1;}
+			const_reverse_iterator	rend()   const	{ return start - 1;}
 
 		/* Capacity functions */
 			size_type	size() const { return this->_size; }
