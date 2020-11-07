@@ -53,7 +53,7 @@ public:
 		*this = x;
 	}
 	this_type& operator=(const iterator& x) {
-//		if (this != &x) {
+//		if (this != static_cast<this_type*>(&x)) {
 			this->first = x.first;
 			this->cur = x.cur;
 			this->last = x.last;

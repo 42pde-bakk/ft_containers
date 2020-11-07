@@ -131,10 +131,10 @@ int	main(int argc, char **argv) {
 		gettimeofday(&tv, NULL);
 		begintime = tv.tv_usec;
 	}
-	// ctors_dtors();
-	// capacity();
-	// element_access();
-	// eraser();
+	 ctors_dtors();
+	 capacity();
+	 element_access();
+	 eraser();
 	iterators();
 	if (argc >= 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
