@@ -38,14 +38,6 @@ void	print_container_content(ft::map<K, V>& mappie, std::string name = "containe
 	std::cout << " $" << std::endl;
 }
 
-template< typename K, typename V >
-void	stl_print_container_content(std::map<K, V>& mappie, std::string name = "container") {
-	std::cout << name << " contains:";
-	for (typename std::map<K, V>::const_iterator it = mappie.begin(); it != mappie.end(); it++)
-		std::cout << ' ' << it->second;
-	std::cout << " $" << std::endl;
-}
-
 template< typename K, typename V>
 void	compare_keys(ft::map<K, V>& mappie, K compelem = K(), std::string name = "container") {
 	typename ft::map<K, V>::key_compare kcomp = mappie.key_comp();
@@ -363,7 +355,7 @@ void	telly() {
 	 	for (ft::map<int, int>::iterator it = MyMap.begin(); it != MyMap.end(); it++)
 	 		std::cout << it->first << " => " << it->second << std::endl;
 	 }
-	
+
 	 std::cout << std::endl;
 	 {
 	 	ft::map<int, int> MyMap;
@@ -396,7 +388,7 @@ void	telly() {
 	 	MyMap1.insert(std::make_pair(1, 80));
 	 	MyMap1.insert(std::make_pair(100, 34));
 
-		
+
 	 	ft::map<int, int> MyMap2;
 	 	MyMap2.insert(std::make_pair(10, 57758));
 	 	MyMap2.insert(std::make_pair(1, 80));
@@ -436,6 +428,12 @@ void	telly() {
 	 }
 }
 
+void	bs() {
+	ft::map<int, std::string> hats = getstlmap();
+	ft::map<int, std::string>::iterator it = hats.begin();
+	ft::map<int, std::string>::const_iterator cit = it;
+	(void)cit;
+}
 int	main(int argc, char **argv) {
 	if (argc >= 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
@@ -450,6 +448,7 @@ int	main(int argc, char **argv) {
 	 operations();
 	 tellyinspired();
 	 telly();
+	bs();
 	if (argc >= 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
 		endtime = tv.tv_usec;

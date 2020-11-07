@@ -16,6 +16,7 @@
 # include <memory>
 # include <cstddef>
 # include "RandomAccessIterator.hpp"
+# include "ReverseIterator.hpp"
 # include "Traits.hpp"
 # include "Extra.hpp"
 # include <stdexcept>
@@ -32,10 +33,10 @@ namespace ft {
 		typedef const value_type&						const_reference;
 		typedef value_type*								pointer;
 		typedef const value_type*						const_pointer;
-		typedef RandomAccessIterator<T>					iterator;
-		typedef ConstRandomAccessIterator<T>			const_iterator;
-		typedef RevRandomAccessIterator<T> 				reverse_iterator;
-		typedef ConstRevRandomAccessIterator<T>			const_reverse_iterator;
+		typedef RandomAccessIterator<T, T*, T&>								iterator;
+		typedef RandomAccessIterator<T, const T*, const T&>					const_iterator;
+		typedef ReverseRAI<RandomAccessIterator<T, T*, T&> >				reverse_iterator;
+		typedef ReverseRAI<RandomAccessIterator<T, const T*, const T&> >	const_reverse_iterator;
 		typedef ptrdiff_t								difference_type;
 		typedef size_t									size_type;
 

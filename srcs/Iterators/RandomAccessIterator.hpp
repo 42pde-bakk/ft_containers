@@ -15,71 +15,73 @@
 
 # include <memory>
 # include <cstddef>
-# include "Extra.hpp"
 
 namespace ft {
 
-	template < typename T, class Category = std::random_access_iterator_tag >
+	template < typename T, typename Pointer, typename Reference, class Category = std::random_access_iterator_tag >
 	class RandomAccessIterator {
 	public:
-		typedef T							value_type;
-		typedef value_type&					reference;
-		typedef const value_type&			const_reference;
-		typedef value_type*					pointer;
-		typedef const value_type*			const_pointer;
-		typedef size_t						size_type;
-		typedef ptrdiff_t					difference_type;
-		typedef	Category					iterator_category;
-		typedef RandomAccessIterator 		self_type;
+		typedef RandomAccessIterator<T, Pointer, Reference>	this_type;
+		typedef RandomAccessIterator<T, T*, T&>				iterator;
+		typedef RandomAccessIterator<T, const T*, const T&>	const_iterator;
+		typedef T				value_type;
+		typedef Pointer			pointer;
+		typedef Reference		reference;
+		typedef size_t			size_type;
+		typedef ptrdiff_t		difference_type;
+		typedef	Category		iterator_category;
+		template <class T2, class A>					friend class vector;
+		template <class T2, class P, class R, class C>	friend class RandomAccessIterator;
+	protected:
+		pointer	array;
+	public:
 
-		RandomAccessIterator() : array(0) {}
-		RandomAccessIterator(pointer elem) : array(elem) {}
-		RandomAccessIterator(const RandomAccessIterator& other) {
-			*this = other;
-		}
-
-		RandomAccessIterator&	operator=(const RandomAccessIterator& other) {
-			this->array = other.array;
-			return *this;
-		}
+		RandomAccessIterator() : array(NULL) {}
+		RandomAccessIterator(const pointer elem) : array(elem) {}
+		RandomAccessIterator(const iterator& x) : array(const_cast<pointer>(x.array)) { }
 		virtual ~RandomAccessIterator() {}
 
-		self_type	operator++(int) {
-			self_type out(*this);
+		this_type&	operator=(const iterator& x) {
+			this->array = x.array;
+			return *this;
+		}
+
+		this_type	operator++(int) {
+			this_type out(*this);
 			++this->array;
 			return out;
 		}
-		self_type&	operator++() {
+		this_type&	operator++() {
 			this->array++;
 			return *this;
 		}
-		self_type	operator+(difference_type n) {
-			self_type out(*this);
+		this_type	operator+(difference_type n) const {
+			this_type out(*this);
 			out.array += n;
 			return out;
 		}
-		self_type	operator+=(difference_type n) {
+		this_type&	operator+=(difference_type n) {
 			this->array += n;
 			return *this;
 		}
-		self_type	operator--(int) {
-			self_type out(*this);
+		this_type	operator--(int) {
+			this_type out(*this);
 			--this->array;
 			return out;
 		}
-		self_type&	operator--() {
+		this_type&	operator--() {
 			--this->array;
 			return *this;
 		}
-		difference_type	operator-(RandomAccessIterator it) {
+		difference_type	operator-(RandomAccessIterator it) const {
 			return this->array - it.array;
 		}
-		self_type	operator-(difference_type n) {
-			self_type out(*this);
+		this_type	operator-(difference_type n) const {
+			this_type out(*this);
 			out -= n;
 			return out;
 		}
-		self_type	operator-=(difference_type n) {
+		this_type&	operator-=(difference_type n) {
 			this->array -= n;
 			return *this;
 		}
@@ -89,22 +91,22 @@ namespace ft {
 		pointer		operator->() {
 			return *(&(this->array));
 		}
-		bool	operator==(const RandomAccessIterator& rhs) const {
+		bool	operator==(const const_iterator& rhs) const {
 			return (this->array == rhs.array);
 		}
-		bool	operator!=(const RandomAccessIterator& rhs) const {
+		bool	operator!=(const const_iterator& rhs) const {
 			return (this->array != rhs.array);
 		}
-		bool	operator<(const RandomAccessIterator& rhs) const {
+		bool	operator<(const const_iterator& rhs) const {
 			return (this->array < rhs.array);
 		}
-		bool	operator<=(const RandomAccessIterator& rhs) const {
+		bool	operator<=(const const_iterator& rhs) const {
 			return (this->array <= rhs.array);
 		}
-		bool	operator>(const RandomAccessIterator& rhs) const {
+		bool	operator>(const const_iterator& rhs) const {
 			return (this->array > rhs.array);
 		}
-		bool	operator>=(const RandomAccessIterator& rhs) const {
+		bool	operator>=(const const_iterator& rhs) const {
 			return (this->array >= rhs.array);
 		}
 		reference	operator[](difference_type n) {
@@ -113,198 +115,8 @@ namespace ft {
 		pointer		data() const {
 			return this->array;
 		}
-	protected:
-		pointer	array;
 	};
 
-	template < typename T, class Category = std::random_access_iterator_tag >
-	class ConstRandomAccessIterator : public RandomAccessIterator<T> {
-	public:
-		typedef T							value_type;
-		typedef value_type&					reference;
-		typedef const value_type&			const_reference;
-		typedef value_type*					pointer;
-		typedef const value_type*			const_pointer;
-		typedef size_t						size_type;
-		typedef ptrdiff_t					difference_type;
-		typedef	Category					iterator_category;
-		typedef ConstRandomAccessIterator 	self_type;
-
-		ConstRandomAccessIterator() : RandomAccessIterator<T>() {}
-		ConstRandomAccessIterator(pointer elem) : RandomAccessIterator<T>(elem) { }
-		ConstRandomAccessIterator(const RandomAccessIterator<T>& other) : RandomAccessIterator<T>() {
-			*this = other;
-		}
-		ConstRandomAccessIterator(const ConstRandomAccessIterator& other) : RandomAccessIterator<T>() {
-			*this = other;
-		}
-		self_type&	operator=(const ConstRandomAccessIterator& other) {
-			this->array = other.array;
-			return *this;
-		}
-		self_type&	operator=(const RandomAccessIterator<T>& other) {
-			if (this != &other)
-				this->array = other.data();
-			return *this;
-		}
-		virtual ~ConstRandomAccessIterator() {}		
-	
-		const_reference		operator*() const {
-			return *this->array;
-		}
-		const_pointer		operator->() const {
-			return *(&(this->array));
-		}
-		const_reference		operator[](difference_type n) const {
-			return (*(this->array + n));
-		}
-		const_pointer		data() const {
-			return this->array;
-		}
-	};
-
-	template < typename T, class Category = std::random_access_iterator_tag >
-	class RevRandomAccessIterator {
-	public:
-		typedef T							value_type;
-		typedef value_type&					reference;
-		typedef const value_type&			const_reference;
-		typedef value_type*					pointer;
-		typedef const value_type*			const_pointer;
-		typedef size_t						size_type;
-		typedef ptrdiff_t					difference_type;
-		typedef	Category					iterator_category;
-		typedef RevRandomAccessIterator 	self_type;
-
-		RevRandomAccessIterator() : array(0) {
-		}
-		RevRandomAccessIterator(pointer elem) : array(elem) {
-		}
-		RevRandomAccessIterator(const RevRandomAccessIterator& other) {
-			*this = other;
-		}
-
-		virtual RevRandomAccessIterator&	operator=(const RevRandomAccessIterator& other) {
-			if (this != &other)
-				this->array = other.array;
-			return *this;
-		}
-		~RevRandomAccessIterator() {}
-
-		self_type	operator++(int) {
-			self_type out(*this);
-			--this->array;
-			return out;
-		}
-		self_type&	operator++() {
-			--this->array;
-			return *this;
-		}
-		self_type	operator+(difference_type n) {
-			self_type out(*this);
-			out.array -= n;
-			return out;
-		}
-		self_type	operator+=(difference_type n) {
-			this->array -= n;
-			return *this;
-		}
-		self_type	operator--(int) {
-			self_type out(*this);
-			++this->array;
-			return out;
-		}
-		self_type&	operator--() {
-			++this->array;
-			return *this;
-		}
-		self_type	operator-(difference_type n) {
-			self_type out(*this);
-			out.array += n;
-			return out;
-		}
-		self_type	operator-=(difference_type n) {
-			this->array += n;
-			return *this;
-		}
-		reference	operator*() {
-			return *this->array;
-		}
-		pointer		operator->() {
-			return *(&(this->array));
-		}
-		bool	operator==(const RevRandomAccessIterator& rhs) const {
-			return (this->array == rhs.array);
-		}
-		bool	operator!=(const RevRandomAccessIterator& rhs) const {
-			return (this->array != rhs.array);
-		}
-		bool	operator<(const RevRandomAccessIterator& rhs) const {
-			return (rhs.array < this->array);
-		}
-		bool	operator<=(const RevRandomAccessIterator& rhs) const {
-			return (rhs.array <= this->array);
-		}
-		bool	operator>(const RevRandomAccessIterator& rhs) const {
-			return (rhs.array > this->array);
-		}
-		bool	operator>=(const RevRandomAccessIterator& rhs) const {
-			return (rhs.array >= this->array);
-		}
-		reference	operator[](difference_type n) {
-			return (*(this->array - n));
-		}
-		pointer		data() const {
-			return this->array;
-		}
-	protected:
-		pointer	array;
-	};
-	
-	template < typename T, class Category = std::random_access_iterator_tag >
-	class ConstRevRandomAccessIterator : public RevRandomAccessIterator<T> {
-	public:
-		typedef T							value_type;
-		typedef value_type&					reference;
-		typedef const value_type&			const_reference;
-		typedef value_type*					pointer;
-		typedef const value_type*			const_pointer;
-		typedef size_t						size_type;
-		typedef ptrdiff_t					difference_type;
-		typedef	Category					iterator_category;
-		typedef ConstRevRandomAccessIterator 	self_type;
-
-		ConstRevRandomAccessIterator() : RevRandomAccessIterator<T>() {
-		}
-		ConstRevRandomAccessIterator(pointer elem) : RevRandomAccessIterator<T>(elem) {
-		}
-		ConstRevRandomAccessIterator(const RevRandomAccessIterator<T>& other) : RevRandomAccessIterator<T>() {
-			*this = other;
-		}
-		ConstRevRandomAccessIterator(const ConstRevRandomAccessIterator& other) : RevRandomAccessIterator<T>() {
-			*this = other;
-		}
-		self_type&	operator=(const self_type& other) {
-			this->array = other.array;
-			return *this;
-		}
-		self_type&	operator=(const RevRandomAccessIterator<T>& other) {
-			if (this != &other)
-				this->array = other.data();
-			return *this;
-		}
-		virtual ~ConstRevRandomAccessIterator() {}		
-	
-		const_reference		operator*() const {
-			return *this->array;
-		}
-		const_pointer		operator->() const {
-			return *(&(this->array));
-		}
-		const_reference		operator[](int n) const {
-			return (*(this->array - n));
-		}
-	};
 }
 
 #endif

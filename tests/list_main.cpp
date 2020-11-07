@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:46:40 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/11/06 18:11:57 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/11/06 16:49:36 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,7 +216,7 @@ void	relational_operators() {
 		std::cout << "\tmylist == otherlist" << std::endl;
 	else
 		std::cout << "NOT\tmylist == otherlist" << std::endl;
-	
+
 	if (myList != otherList)
 		std::cout << "\tmylist != otherlist" << std::endl;
 	else
@@ -267,6 +267,18 @@ void	stl_test() {
 	print_container_content(nonstl, "nonstl");
 }
 
+void	extra() {
+	ft::list<int> test(6, 42);
+	ft::list<int>::iterator it = test.begin();
+	ft::list<int>::const_iterator constit = it;
+//	ft::list<int>::reverse_iterator revit(test.end());
+//	 ft::list<int>::iterator anotherit(test.rend());
+//	 it = revit;
+	(void)it;
+//	(void)revit;
+	(void)constit;
+}
+
 int main(int argc, char **argv) {
 	if (argc == 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
@@ -281,6 +293,7 @@ int main(int argc, char **argv) {
 	relational_operators();
 	stl_test();
 	sam();
+	extra();
 	if (argc == 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
 		endtime = tv.tv_usec;

@@ -17,7 +17,8 @@
 # include <memory>
 # include <cstddef>
 # include "ListNode.hpp"
-# include "BidirectionalIterator.hpp"
+# include "ListIterator.hpp"
+# include "ReverseIterator.hpp"
 # include "Traits.hpp"
 # include <iostream>
 # include "Extra.hpp"
@@ -36,10 +37,10 @@ namespace ft {
 		typedef node<T> 	*node_pointer;
 		typedef ptrdiff_t	difference_type;
 		typedef size_t		size_type;
-		typedef BidirectionalIterator<value_type, node_pointer>			iterator;
-		typedef ConstBidirectionalIterator<value_type, node_pointer>	const_iterator;
-		typedef RevBidirectionalIterator<value_type, node_pointer>		reverse_iterator;
-		typedef ConstRevBidirectionalIterator<value_type, node_pointer>	const_reverse_iterator;
+		typedef ListIterator<value_type, pointer, reference>							iterator;
+		typedef ListIterator<value_type, const_pointer, const_reference>				const_iterator;
+		typedef ReverseBI<ListIterator<value_type, pointer, reference> >				reverse_iterator;
+		typedef ReverseBI<ListIterator<value_type, const_pointer, const_reference> >	const_reverse_iterator;
 	private:
 		node_pointer		head;
 		node_pointer 		tail;

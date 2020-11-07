@@ -17,7 +17,8 @@
 # include <iostream>
 # include <cstddef>
 # include "MapNode.hpp"
-# include "BidirectionalIterator.hpp"
+# include "MapIterator.hpp"
+# include "ReverseIterator.hpp"
 # include "Traits.hpp"
 # include "Extra.hpp"
 # include "Colours.h"
@@ -37,10 +38,10 @@ template < class Key, class Value, class NodeContents, class Compare = less<Key>
 		typedef	value_type*					pointer;
 		typedef	const value_type*			const_pointer;
 		typedef node<value_type, key_compare>	mapnode;
-		typedef BidirectionalIterator<value_type, mapnode* >		iterator;
-		typedef ConstBidirectionalIterator<value_type, mapnode*>	const_iterator;
-		typedef RevBidirectionalIterator<value_type, mapnode*>		reverse_iterator;
-		typedef ConstRevBidirectionalIterator<value_type, mapnode*>	const_reverse_iterator;
+		typedef MapIterator<value_type, pointer, reference, Compare >							iterator;
+		typedef MapIterator<value_type, const_pointer, const_reference, Compare >				const_iterator;
+		typedef ReverseBI<MapIterator<value_type, pointer, reference, Compare > >				reverse_iterator;
+		typedef ReverseBI<MapIterator<value_type, const_pointer, const_reference, Compare > >	const_reverse_iterator;
 		typedef	ptrdiff_t					difference_type;
 		typedef	size_t						size_type;
 
