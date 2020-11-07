@@ -38,10 +38,10 @@ namespace ft {
 			typedef const T&		const_reference;
 			typedef T*				pointer;
 			typedef const T*		const_pointer;
-			typedef DequeIterator<T, ARRAY_SIZE>			iterator;
-			typedef ConstDequeIterator<T, ARRAY_SIZE>		const_iterator;
-			typedef RevDequeIterator<T, ARRAY_SIZE>			reverse_iterator;
-			typedef ConstRevDequeIterator<T, ARRAY_SIZE>	const_reverse_iterator;
+			typedef DequeIterator<T, pointer, reference, ARRAY_SIZE>					iterator;
+			typedef DequeIterator<T, const_pointer, const_reference, ARRAY_SIZE>		const_iterator;
+//			typedef RevDequeIterator<T, ARRAY_SIZE>			reverse_iterator;
+//			typedef ConstRevDequeIterator<T, ARRAY_SIZE>	const_reverse_iterator;
 			typedef ptrdiff_t		difference_type;
 			typedef	size_t			size_type;
 		protected:
@@ -97,10 +97,10 @@ namespace ft {
 			const_iterator	begin()	const	{ return start; }
 			iterator		end()			{ return finish; }
 			const_iterator	end()	const	{ return finish; }
-			reverse_iterator		rbegin()		{ return finish - 1;}
-			const_reverse_iterator	rbegin() const	{ return finish - 1;}
-			reverse_iterator		rend()			{ return start - 1;}
-			const_reverse_iterator	rend()   const	{ return start - 1;}
+//			reverse_iterator		rbegin()		{ return finish - 1;}
+//			const_reverse_iterator	rbegin() const	{ return finish - 1;}
+//			reverse_iterator		rend()			{ return start - 1;}
+//			const_reverse_iterator	rend()   const	{ return start - 1;}
 
 		/* Capacity functions */
 			size_type	size() const { return this->_size; }
@@ -240,7 +240,7 @@ namespace ft {
 			void		insert(iterator position, InputIterator first, InputIterator last, typename ft::check_type<typename ft::iterator_traits<InputIterator>::iterator_category>::type* = 0) {
 				while (first != last) {
 					--last;
-					insert(last, 1, *last);
+					insert(position, 1, *last);
 				}
 			}
 

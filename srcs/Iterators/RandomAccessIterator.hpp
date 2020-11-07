@@ -38,7 +38,7 @@ namespace ft {
 			*this = other;
 		}
 
-		virtual RandomAccessIterator&	operator=(const RandomAccessIterator& other) {
+		RandomAccessIterator&	operator=(const RandomAccessIterator& other) {
 			this->array = other.array;
 			return *this;
 		}

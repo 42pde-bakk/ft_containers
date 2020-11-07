@@ -1,6 +1,14 @@
-//
-// Created by Peer De bakker on 10/26/20.
-//
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   DequeIterator.hpp                                  :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2020/11/07 16:36:12 by pde-bakk      #+#    #+#                 */
+/*   Updated: 2020/11/07 16:36:12 by pde-bakk      ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
 
 #ifndef FT_CONTAINERS_DEQUEITERATOR_HPP
 #define FT_CONTAINERS_DEQUEITERATOR_HPP
@@ -11,20 +19,20 @@
 
 namespace ft {
 
-template <class T, size_t buff_size, class Category = random_access_iterator_tag >
+template <class T, class Pointer, class Reference, size_t buff_size, class Category = std::random_access_iterator_tag >
 class DequeIterator {
 public:
-	typedef DequeIterator<T, buff_size>			iterator;
-	typedef T**									map_pointer;
-	typedef T*									pointer;
-	typedef const T*							const_pointer;
-	typedef T&									reference;
-	typedef const T&							const_reference;
-	typedef	DequeIterator						self_type;
-	typedef ptrdiff_t							difference_type;
-	typedef	size_t								size_type;
-	typedef	Category							iterator_category;
+	typedef DequeIterator<T, Pointer, Reference, buff_size>	this_type;
+	typedef DequeIterator<T, T*, T&, buff_size>				iterator;
+	typedef	DequeIterator<T, const T*, const T&, buff_size>	const_iterator;
+	typedef T**			map_pointer;
+	typedef Pointer		pointer;
+	typedef Reference	reference;
+	typedef ptrdiff_t	difference_type;
+	typedef	size_t		size_type;
+	typedef	Category	iterator_category;
 	template <class T2, class A> friend class	deque;
+	template <class T2, class P, class R, size_t B, class C> friend class DequeIterator;
 
 protected:
 	pointer cur;
@@ -41,32 +49,34 @@ public:
 		first = *new_node;
 		last = first + buff_size;
 	}
-	DequeIterator(const self_type& x) {
+	DequeIterator(const iterator& x) {
 		*this = x;
 	}
-	virtual self_type& operator=(const self_type& x) {
-		if (this != &x) {
+	this_type& operator=(const iterator& x) {
+//		if (this != &x) {
 			this->first = x.first;
 			this->cur = x.cur;
 			this->last = x.last;
 			this->node = x.node;
-		}
+//		}
 		return *this;
 	}
-	virtual ~DequeIterator() { }
+	~DequeIterator() { }
 
+protected:
 	void set_node(map_pointer new_node) {
 		node = new_node;
 		first = *new_node;
 		last = first + buff_size;
 	}
+public:
 	reference	operator*() {
 		return *cur;
 	}
 	pointer		operator->() {
 		return &(*cur);
 	}
-	self_type& operator++() {
+	this_type& operator++() {
 		++cur;
 		if (cur == last) {      //if it reach the end of the chunk
 			set_node(node + 1); //skip to the next chunk
@@ -76,12 +86,12 @@ public:
 	}
 
 // postfix forms of increment
-	self_type operator++(int) {
-		self_type tmp = *this;
+	this_type operator++(int) {
+		this_type tmp = *this;
 		++*this;//invoke prefix ++
 		return tmp;
 	}
-	self_type& operator--() {
+	this_type& operator--() {
 		if(cur == first) { // if it pointer to the begin of the chunk
 			set_node(node - 1);//skip to the prev chunk
 			cur = last;
@@ -90,12 +100,12 @@ public:
 		return *this;
 	}
 
-	self_type operator--(int) {
-		self_type tmp = *this;
+	this_type operator--(int) {
+		this_type tmp = *this;
 		--*this;
 		return tmp;
 	}
-	self_type& operator+=(difference_type n) { // n can be postive or negative
+	this_type& operator+=(difference_type n) { // n can be postive or negative
 		difference_type offset = n + (cur - first);
 
 		if (offset >= 0 && offset < difference_type(buff_size)) // in the same chunk
@@ -114,184 +124,167 @@ public:
 		return *this;
 	}
 
-	// skip n steps
-	self_type operator+(difference_type n) const {
-		self_type tmp = *this;
-		return tmp += n; //reuse  operator +=
+	this_type operator+(difference_type n) const {
+		this_type tmp = *this;
+		return tmp += n;
 	}
 
-	self_type& operator-=(difference_type n) {
-		return *this += -n; //reuse operator +=
+	this_type& operator-=(difference_type n) {
+		return *this += -n;
 	}
 
-	self_type operator-(difference_type n) const{
-		self_type tmp = *this;
-		return tmp -= n; //reuse operator +=
+	this_type operator-(difference_type n) const{
+		this_type tmp = *this;
+		return tmp -= n;
 	}
-
+	difference_type	operator-(const const_iterator& rhs) {
+		return this->cur - rhs.cur;
+	}
 	reference operator[](difference_type n) {
 		return *(*this + n);
 	}
 
-	virtual bool	operator==(const DequeIterator& rhs) { return (this->cur == rhs.cur); }
-	virtual bool	operator!=(const DequeIterator& rhs) { return !(*this == rhs); }
-	virtual bool	operator<(const DequeIterator& rhs) { return this->cur < rhs.cur; }
-	virtual bool	operator>(const DequeIterator& rhs) { return this->cur > rhs.cur; }
-	virtual bool	operator<=(const DequeIterator& rhs) { return this->cur <= rhs.cur; }
-	virtual bool	operator>=(const DequeIterator& rhs) { return this->cur >= rhs.cur; }
+	bool	operator==(const const_iterator& rhs) { return (this->cur == rhs.cur); }
+	bool	operator!=(const const_iterator& rhs) { return (this->cur != rhs.cur); }
+	bool	operator<(const const_iterator& rhs) { return (this->cur < rhs.cur); }
+	bool	operator>(const const_iterator& rhs) { return (this->cur > rhs.cur); }
+	bool	operator<=(const const_iterator& rhs) { return (this->cur <= rhs.cur); }
+	bool	operator>=(const const_iterator& rhs) { return (this->cur >= rhs.cur); }
 };
 
-template <class T, size_t buff_size, class Category = random_access_iterator_tag >
-class ConstDequeIterator : public DequeIterator<T, buff_size> {
-public:
-	typedef DequeIterator<T, buff_size>			Base;
-	using typename	Base::map_pointer;
-	using typename	Base::const_pointer;
-	using typename	Base::reference;
-	using typename	Base::const_reference;
-	using typename	Base::difference_type;
-	using typename	Base::size_type;
-	typedef ConstDequeIterator					self_type;
-	typedef	Category							iterator_category;
-	template <class T2, class A> friend class deque;
+	template <class T, class Pointer, class Reference, size_t buff_size, class Category = std::random_access_iterator_tag >
+	class ReverseDequeIterator {
+	public:
+		typedef ReverseDequeIterator<T, Pointer, Reference, buff_size>	this_type;
+		typedef ReverseDequeIterator<T, T*, T&, buff_size>				iterator;
+		typedef	ReverseDequeIterator<T, const T*, const T&, buff_size>	const_iterator;
+		typedef T**			map_pointer;
+		typedef Pointer		pointer;
+		typedef Reference	reference;
+		typedef ptrdiff_t	difference_type;
+		typedef	size_t		size_type;
+		typedef	Category	iterator_category;
+		template <class T2, class A> friend class	deque;
+		template <class T2, class P, class R, size_t B, class C> friend class ReverseDequeIterator;
+//	friend class DequeIterator;
+	protected:
+		pointer cur;
+		pointer first;		// the begin of the chunk
+		pointer	last;		// the end of the chunk
+		//because the pointer may skip to other chunk
+		//so this pointer to the map
+		map_pointer	node;	// pointer to the map
 
-	ConstDequeIterator() : Base() { }
-	ConstDequeIterator(map_pointer new_node) : Base(new_node) { }
-	ConstDequeIterator(const Base& x) : Base() {
-		*this = x;
-	}
-	ConstDequeIterator(const self_type& x) : Base() {
-		*this = x;
-	}
-	virtual self_type& operator=(const Base& x) {
-		Base::operator=(x);
-		return *this;
-	}
-	virtual self_type&	operator=(const self_type& x) {
-		Base::operator=(x);
-		return *this;
-	}
-	virtual ~ConstDequeIterator() { }
+	public:
+		ReverseDequeIterator() : cur(NULL), first(NULL), last(NULL), node(NULL) {}
 
-	const_reference	operator*() const {
-		return *this->cur;
-	}
-	const_pointer	operator->() const {
-		return *(&this->cur);
-	}
-	const_reference	operator[](size_type n) const {
-		return *(*this + n);
-	}
-};
+		explicit ReverseDequeIterator(map_pointer new_node) : node(new_node) {
+			first = *new_node;
+			last = first + buff_size;
+		}
+		ReverseDequeIterator(const iterator& x) {
+			*this = x;
+		}
+		this_type& operator=(const iterator& x) {
+//		if (this != &x) {
+			this->first = x.first;
+			this->cur = x.cur;
+			this->last = x.last;
+			this->node = x.node;
+//		}
+			return *this;
+		}
+		~ReverseDequeIterator() { }
 
-template <class T, size_t buff_size, class Category = std::random_access_iterator_tag >
-class RevDequeIterator : public DequeIterator<T, buff_size> {
-public:
-	typedef DequeIterator<T, buff_size>			Base;
-	using typename	Base::map_pointer;
-	using typename	Base::const_pointer;
-	using typename	Base::reference;
-	using typename	Base::const_reference;
-	using typename	Base::difference_type;
-	using typename	Base::size_type;
-	typedef RevDequeIterator					self_type;
-	typedef	Category							iterator_category;
-	template <class T2, class A> friend class deque;
+	protected:
+		void set_node(map_pointer new_node) {
+			node = new_node;
+			first = *new_node;
+			last = first + buff_size;
+		}
+	public:
+		reference	operator*() {
+			return *cur;
+		}
+		pointer		operator->() {
+			return &(*cur);
+		}
+		this_type& operator++() {
+			if(cur == first) { // if it pointer to the begin of the chunk
+				set_node(node - 1);//skip to the prev chunk
+				cur = last;
+			}
+			--cur;
+			return *this;
+		}
 
-	RevDequeIterator() : Base() { }
-	explicit RevDequeIterator(map_pointer new_node) : Base(new_node) { }
-	RevDequeIterator(const self_type& x) : Base() {
-		*this = x;
-	}
-	RevDequeIterator(const Base& x) : Base() {
-		*this = x;
-	}
-	virtual self_type& operator=(const self_type& x) {
-		Base::operator=(x);
-		return *this;
-	}
-	virtual self_type& operator=(const Base& x) {
-		Base::operator=(x);
-		return *this;
-	}
-	virtual ~RevDequeIterator() { }
+// postfix forms of increment
+		this_type operator++(int) {
+			this_type tmp = *this;
+			--*this;//invoke prefix ++
+			return tmp;
+		}
+		this_type& operator--() {
+			++cur;
+			if (cur == last) {      //if it reach the end of the chunk
+				set_node(node + 1); //skip to the next chunk
+				cur = first;
+			}
+			return *this;
+		}
 
-	self_type&	operator++() {
-		Base::operator--();
-		return *this;
-	}
-	self_type	operator++(int n) {
-		return Base::operator--(n);
-	}
-	self_type&	operator--() {
-		Base::operator++();
-		return *this;
-	}
-	self_type	operator--(int n) {
-		return Base::operator++(n);
-	}
-	self_type&	operator+=(difference_type n) {
-		Base::operator-=(n);
-		return *this;
-	}
-	self_type	operator+(difference_type n) const {
-		return Base::operator-(n);
-	}
-	self_type&	operator-=(difference_type n) {
-		Base::operator+=(n);
-		return *this;
-	}
-	self_type	operator-(difference_type n) const {
-		return Base::operator+(n);
-	}
-	reference	operator[](difference_type n) {
-		return Base::operator[](-n);
-	}
-	virtual bool	operator<(const self_type& rhs) { return Base::operator>=(rhs); }
-	virtual bool	operator>(const self_type& rhs) { return Base::operator<(rhs); }
-	virtual bool	operator<=(const self_type& rhs) { return Base::operator>(rhs); }
-	virtual bool	operator>=(const self_type& rhs) { return Base::operator<(rhs); }
-};
+		this_type operator--(int) {
+			this_type tmp = *this;
+			++*this;
+			return tmp;
+		}
+		this_type& operator+=(difference_type n) { // n can be postive or negative
+			n *= -1;
+			difference_type offset = n + (cur - first);
 
+			if (offset >= 0 && offset < difference_type(buff_size)) // in the same chunk
+				cur += n;
+			else { //not in the same chunk
+				difference_type node_offset;
+				if (offset > 0) {
+					node_offset = offset / difference_type(buff_size);
+				}
+				else {
+					node_offset = -((-offset - 1) / difference_type(buff_size)) - 1 ;
+				}
+				set_node(node + node_offset); // skip to the new chunk
+				cur = first + (offset - node_offset * buff_size);
+			}
+			return *this;
+		}
 
-template <class T, size_t buff_size, class Category = std::random_access_iterator_tag >
-class ConstRevDequeIterator : public RevDequeIterator<T, buff_size> {
-public:
-	typedef RevDequeIterator<T, buff_size>			Base;
-	using typename	Base::map_pointer;
-	using typename	Base::const_pointer;
-	using typename	Base::reference;
-	using typename	Base::const_reference;
-	using typename	Base::difference_type;
-	using typename	Base::size_type;
-	typedef ConstRevDequeIterator					self_type;
-	typedef	Category							iterator_category;
-	template <class T2, class A> friend class	deque;
+		this_type operator+(difference_type n) const {
+			this_type tmp = *this;
+			return tmp -= n;
+		}
 
-	ConstRevDequeIterator() : Base() { }
-	ConstRevDequeIterator(map_pointer new_node) : Base(new_node) { }
-	ConstRevDequeIterator(const Base& x) : Base(x) { }
-	ConstRevDequeIterator(const self_type& x) : Base(x) { }
-	virtual self_type&	operator=(const Base& x) {
-		Base::operator=(x);
-		return *this;
-	}
-	virtual	self_type&	operator=(const self_type& x) {
-		Base::operator=(x);
-		return *this;
-	}
-	virtual ~ConstRevDequeIterator() { }
-	const_reference	operator*() const {
-		return *this->cur;
-	}
-	const_pointer	operator->() const {
-		return *(&this->cur);
-	}
-	const_reference	operator[](difference_type n) const {
-		return *(*this - n);
-	}
+		this_type& operator-=(difference_type n) {
+			return *this -= n;
+		}
 
-};
+		this_type operator-(difference_type n) const{
+			this_type tmp = *this;
+			return tmp += n;
+		}
+		difference_type	operator-(const const_iterator& rhs) {
+			return this->cur + rhs.cur;
+		}
+		reference operator[](difference_type n) {
+			return *(*this - n);
+		}
+
+		bool	operator==(const const_iterator& rhs) { return (this->cur == rhs.cur); }
+		bool	operator!=(const const_iterator& rhs) { return (this->cur != rhs.cur); }
+		bool	operator<(const const_iterator& rhs) { return (rhs.cur < this->cur); }
+		bool	operator>(const const_iterator& rhs) { return (rhs.cur > this->cur); }
+		bool	operator<=(const const_iterator& rhs) { return (rhs.cur <= this->cur); }
+		bool	operator>=(const const_iterator& rhs) { return (rhs.cur >= this->cur); }
+	};
 
 } // namespace ft
 
