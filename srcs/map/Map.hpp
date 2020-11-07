@@ -17,10 +17,10 @@
 
 namespace ft {
 
-template < class Key, class Value, class Compare = less<Key>, class Alloc = std::allocator<std::pair<const Key,Value> > >
-class map : public MapBase<const Key, Value, std::pair<const Key, Value>, Compare, Alloc>  {
+template < class Key, class Value, class Compare = less<Key>, class Alloc = std::allocator<ft::pair<const Key,Value> > >
+class map : public MapBase<const Key, Value, ft::pair<const Key, Value>, Compare, Alloc>  {
 	public:
-		typedef MapBase<const Key, Value, std::pair<const Key, Value>, Compare, Alloc>	Base;
+		typedef MapBase<const Key, Value, ft::pair<const Key, Value>, Compare, Alloc>	Base;
 		using typename								Base::key_type;
 		using typename								Base::mapped_type;
 		using typename								Base::value_type;
@@ -69,8 +69,10 @@ class map : public MapBase<const Key, Value, std::pair<const Key, Value>, Compar
 
 	// Element access functions
 		mapped_type&		operator[](const key_type& k) {
-			return insert(std::make_pair(k, mapped_type())).first->second;
+			return insert(ft::make_pair(k, mapped_type())).first->second;
 		}
+
+# if __cplusplus >= 201103L
 		mapped_type&		at(const key_type& k) {
 			iterator it =this->find(k);
 			if (it == Base::end())
@@ -83,25 +85,26 @@ class map : public MapBase<const Key, Value, std::pair<const Key, Value>, Compar
 				throw std::out_of_range("map::at:  key not found");
 			return it->second;
 		}
+#endif
 	// Modifier functions: see Base
-		std::pair<iterator, bool>	insert(const value_type& val) {
+		ft::pair<iterator, bool>	insert(const value_type& val) {
 			if (this->_size == 0)
-				return (std::make_pair(iterator(Base::insert_root(val)), true));
+				return (ft::make_pair(iterator(Base::insert_root(val)), true));
 			mapnode	*it(this->_root);
 			while (it) {
 				if (key_compare()(val.first, it->data.first)) {
 					if (it->left && it->left != this->_first)
 						it = it->left;
-					else return std::make_pair(iterator(Base::insert_left(it, val)), true);
+					else return ft::make_pair(iterator(Base::insert_left(it, val)), true);
 				}
 				else if (key_compare()(it->data.first, val.first)) {
 					if (it->right && it->right != this->_last)
 						it = it->right;
-					else return std::make_pair(iterator(Base::insert_right(it, val)), true);
+					else return ft::make_pair(iterator(Base::insert_right(it, val)), true);
 				}
 				else break ;
 			}
-			return std::make_pair(iterator(it), false);
+			return ft::make_pair(iterator(it), false);
 		}
 		iterator	insert(iterator position, const value_type& val) {
 			(void)position;

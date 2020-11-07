@@ -153,6 +153,7 @@ void 	capacity() {
 void	element_access() {
 	ft::map<int, std::string> in = getstlmap();
 	print_container_content(in);
+# if __cplusplus >= 201103L
 	try {
 		std::cout << "in.at(6) gives: " << in.at(6) << std::endl;
 		std::cout << "in.at(5) gives: " << in.at(5) << std::endl;
@@ -161,6 +162,7 @@ void	element_access() {
 		std::cout << "exception thrown" << std::endl;
 		// std::cerr << e.what() << std::endl;
 	}
+# endif
 }
 
 void	modifiers() {
