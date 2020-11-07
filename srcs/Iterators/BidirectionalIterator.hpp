@@ -44,7 +44,7 @@ namespace ft {
 			*this = other;
 		}
 
-		virtual this_type&	operator=(const iterator& other) {
+		this_type&	operator=(const iterator& other) {
 			// if (this != &other)
 			this->ptr = other.ptr;
 			return *this;
