@@ -29,13 +29,13 @@ void	print_container_content(ft::deque<T>& d, const std::string& name = "contain
 	std::cout << " $" << std::endl;
 }
 
-template< typename T>
-void	reverse_print_container_content(ft::deque<T>& d, const std::string& name = "container") {
-	std::cout << name << " in reverse contains:\n";
-	for (typename ft::deque<T>::const_reverse_iterator it = d.rbegin(); it != d.rend(); it++)
-		std::cout << *it << std::endl;
-	std::cout << " $" << std::endl;
-}
+//template< typename T>
+//void	reverse_print_container_content(ft::deque<T>& d, const std::string& name = "container") {
+//	std::cout << name << " in reverse contains:\n";
+//	for (typename ft::deque<T>::const_reverse_iterator it = d.rbegin(); it != d.rend(); it++)
+//		std::cout << *it << std::endl;
+//	std::cout << " $" << std::endl;
+//}
 
 void	ctors_dtors() {
 	ft::deque<int> def;
@@ -96,12 +96,34 @@ void	iterators() {
 	for (int i = 0; i < 8; ++i)
 		d.push_back(i * 2);
 	ft::deque<int>::iterator it = d.begin();
-	// ft::deque<int>::const_iterator cit = d.end();
-	// ft::deque<int>::reverse_iterator rit = d.rbegin();
-	ft::deque<int>::const_reverse_iterator crit(it);
-	(void) crit;
-	print_container_content(d, "d");
-	reverse_print_container_content(d, "d");
+	ft::deque<int>::const_iterator cit(it++);
+	cit = it + 2;
+	std::cout << "operator==() gives " << std::boolalpha << (cit - 2 == it) << std::endl;
+	std::cout << "operator!=() gives " << std::boolalpha << (cit - 2 != it) << std::endl;
+	std::cout << "*cit = " << *cit << std::endl;
+	*it = -1200;
+	std::cout << "*it = -1200: " << *it << std::endl;
+	std::cout << "++cit = " << *(++cit) << std::endl;
+	std::cout << "cit++ = " << *(cit++) << std::endl;
+	std::cout << "--cit = " << *(--cit) << std::endl;
+	std::cout << "cit-- = " << *(cit--) << std::endl;
+	std::cout << "*(cit + n) = " << *(cit + 4) << std::endl;
+	std::cout << "*(cit - n) = " << *(cit - 1) << std::endl;
+	std::cout << "cit - (cit - 2) = " << (cit - (cit - 2)) << std::endl;
+
+	cit += 3;
+	std::cout << "*cit = " << *cit << std::endl;
+	cit -= 1;
+	std::cout << "*cit = " << *cit << std::endl;
+	std::cout << "it[3] = " << (it[3]) << std::endl;
+
+// relational operators
+	std::cout << "operator<() gives " << std::boolalpha << (cit - 2 < it) << std::endl;
+	std::cout << "operator>() gives " << std::boolalpha << (cit - 2 > it) << std::endl;
+	std::cout << "operator<=() gives " << std::boolalpha << (cit - 2 <= it) << std::endl;
+	std::cout << "operator>=() gives " << std::boolalpha << (cit - 2 >= it) << std::endl;
+//	std::cout << "*(cit + n) = " << *(3 + cit) << std::endl; //maybe handle this one too
+	print_container_content(d);
 }
 
 int	main(int argc, char **argv) {
