@@ -40,8 +40,8 @@ namespace ft {
 			typedef const T*		const_pointer;
 			typedef DequeIterator<T, pointer, reference, ARRAY_SIZE>					iterator;
 			typedef DequeIterator<T, const_pointer, const_reference, ARRAY_SIZE>		const_iterator;
-			typedef ReverseDequeIterator<DequeIterator<T, pointer, reference, ARRAY_SIZE> >				reverse_iterator;
-			typedef ReverseDequeIterator<DequeIterator<T, const_pointer, const_reference, ARRAY_SIZE> >	const_reverse_iterator;
+			typedef ReverseRAI<DequeIterator<T, pointer, reference, ARRAY_SIZE> >				reverse_iterator;
+			typedef ReverseRAI<DequeIterator<T, const_pointer, const_reference, ARRAY_SIZE> >	const_reverse_iterator;
 			typedef ptrdiff_t		difference_type;
 			typedef	size_t			size_type;
 		private:

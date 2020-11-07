@@ -104,7 +104,7 @@ void	capacity_test_element_access() {
 		mylist.push_front(strings[i]);
 	std::cout << "Boolean whether mylist is empty or not: " << std::boolalpha << mylist.empty() << std::endl;
 	std::cout << "mylist.size() = " << mylist.size();
-	std::cout << ", and mylist.max_size() = " << mylist.max_size();
+//	std::cout << ", and mylist.max_size() = " << mylist.max_size();
 	std::cout << std::endl;
 
 	std::cout << "mylist.front() = " << mylist.front() << std::endl;

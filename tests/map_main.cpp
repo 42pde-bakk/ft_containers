@@ -439,15 +439,15 @@ int	main(int argc, char **argv) {
 		gettimeofday(&tv, NULL);
 		begintime = tv.tv_usec;
 	}
-	 ctors_dtor();
-	 iterators();
-	 capacity();
-	 element_access();
-		modifiers();
-	 observers();
-	 operations();
-	 tellyinspired();
-	 telly();
+	ctors_dtor();
+	iterators();
+	capacity();
+	element_access();
+	modifiers();
+	observers();
+	operations();
+	tellyinspired();
+	telly();
 	bs();
 	if (argc >= 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);

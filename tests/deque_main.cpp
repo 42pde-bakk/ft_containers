@@ -29,13 +29,13 @@ void	print_container_content(ft::deque<T>& d, const std::string& name = "contain
 	std::cout << " $" << std::endl;
 }
 
-//template< typename T>
-//void	reverse_print_container_content(ft::deque<T>& d, const std::string& name = "container") {
-//	std::cout << name << " in reverse contains:\n";
-//	for (typename ft::deque<T>::const_reverse_iterator it = d.rbegin(); it != d.rend(); it++)
-//		std::cout << *it << std::endl;
-//	std::cout << " $" << std::endl;
-//}
+template< typename T>
+void	reverse_print_container_content(ft::deque<T>& d, const std::string& name = "container") {
+	std::cout << name << " in reverse contains:\n";
+	for (typename ft::deque<T>::const_reverse_iterator it = d.rbegin(); it != d.rend(); it++)
+		std::cout << *it << std::endl;
+	std::cout << " $" << std::endl;
+}
 
 void	ctors_dtors() {
 	ft::deque<int> def;
@@ -141,11 +141,11 @@ int	main(int argc, char **argv) {
 		gettimeofday(&tv, NULL);
 		begintime = tv.tv_usec;
 	}
-//	 ctors_dtors();
-//	 capacity();
-//	 element_access();
-//	 eraser();
-//	iterators();
+	ctors_dtors();
+	capacity();
+	element_access();
+	eraser();
+	iterators();
 	bs();
 	if (argc >= 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);

@@ -75,21 +75,16 @@ void	iterators_test() {
 	std::cout << "*cit = " << *cit << ", *cite = " << *cite << std::endl;
 	ft::vector<int>::reverse_iterator		rit = hats.rbegin();
 	ft::vector<int>::reverse_iterator		rite = hats.rend();
+	(void)rite;
 	ft::vector<int>::const_reverse_iterator	crit = hats.rbegin();
 	ft::vector<int>::const_reverse_iterator	crite = hats.rend();
-	if (it == cit && cit == it)
-		std::cout << "equal works" << std::endl;
-	std::cout << "first: " << (it != cite) << ", second: " << (cite != it) << std::endl;
-	if (it != cite && cite != it)
-		std::cout << "unequal works" << std::endl;
-	if (it < cite && !(cite < it))
-		std::cout << "smaller than works" << std::endl;
-	if (it <= ite && !(cite <= it))
-		std::cout << "smaller/equal works" << std::endl;
-	if (ite > cit && !(cit > ite))
-		std::cout << "bigger than works" << std::endl;
-	if (cite >= it && !(it >= cite))
-		std::cout << "bigger/equal works" << std::endl;
+	std::cout << "regular iterators:" << std::endl;
+	std::cout << "reg: operator==(): " << std::boolalpha << (it == cit) << ", " << (cit == it) << std::endl;
+	std::cout << "reg: operator!=(): " << std::boolalpha << (it != cite) << ", " << (cite != it) << std::endl;
+	std::cout << "reg: operator<(): " << std::boolalpha << (it < cite) << ", " << (cite < it) << std::endl;
+	std::cout << "reg: operator<=(): " << std::boolalpha << (it <= cite) << ", " << (cite <= it) << std::endl;
+	std::cout << "reg: operator>(): " << std::boolalpha << (it > cite) << ", " << (cite > it) << std::endl;
+	std::cout << "reg: operator>=(): " << std::boolalpha << (it >= cite) << ", " << (cite >= it) << std::endl;
 	ite = it;
 	std::cout << "*it++ gives: " << *it++ << ", it now is " << *it << std::endl;
 	std::cout << "*++it gives: " << *++it << ", it now is " << *it << std::endl;
@@ -101,19 +96,13 @@ void	iterators_test() {
 	std::cout << "*--rit gives: " << *--rit << ", it now is " << *rit << std::endl;
 	// *cit += 10;
 	// *crit += 10;
-
-	if (rit == crit && crit == rit)
-		std::cout << "equal works" << std::endl;
-	if (rit != crite && crite != rit)
-		std::cout << "unequal works" << std::endl;
-	if (rit < crite && !(crite < rit))
-		std::cout << "smaller than works" << std::endl;
-	if (rit <= rite && !(crite <= rit))
-		std::cout << "smaller/equal works" << std::endl;
-	if (rite > crit && !(crit > rite))
-		std::cout << "bigger than works" << std::endl;
-	if (crite >= rit && !(rit >= crite))
-		std::cout << "bigger/equal works" << std::endl;
+	std::cout << "reverse iterators:" << std::endl;
+	std::cout << "reverse: operator==(): " << std::boolalpha << (rit == crit) << ", " << (crit == rit) << std::endl;
+	std::cout << "reverse: operator!=(): " << std::boolalpha << (rit != crite) << ", " << (crite != rit) << std::endl;
+	std::cout << "reverse: operator<(): " << std::boolalpha << (rit < crite) << ", " << (crite < rit) << std::endl;
+	std::cout << "reverse: operator<=(): " << std::boolalpha << (rit <= crite) << ", " << (crite <= rit) << std::endl;
+	std::cout << "reverse: operator>(): " << std::boolalpha << (rit > crite) << ", " << (crite > rit) << std::endl;
+	std::cout << "reverse: operator>=(): " << std::boolalpha << (rit >= crite) << ", " << (crite >= rit) << std::endl;
 	std::cout << "dereference operator on iterators: " << it[2] << ", " << cit[3] << ", " << rit[4] << ", " << crit[5] << " WORK!" << std::endl;
 }
 
@@ -222,13 +211,13 @@ int	main(int argc, char **argv) {
 		gettimeofday(&tv, NULL);
 		begintime = tv.tv_usec;
 	}
-	// stl_test();
-	// constructors_test();
-	// iterators_test();
-	// capacity_test();
-	// element_access_test();
-	// modifiers_test();
-	// relational_operators_test();
+	 stl_test();
+	 constructors_test();
+	 iterators_test();
+	 capacity_test();
+	 element_access_test();
+	 modifiers_test();
+	 relational_operators_test();
 	sam();
 	if (argc == 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);

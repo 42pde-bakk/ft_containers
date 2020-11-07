@@ -40,18 +40,18 @@ public:
 		return *this;
 	}
 	ReverseBI	operator++(int) {
-		ReverseBI	tmp(*this);
+		ReverseBI	out(*this);
 		--current;
-		return tmp;
+		return out;
 	}
 	ReverseBI&	operator--() {
 		++current;
 		return *this;
 	}
 	ReverseBI	operator--(int) {
-		ReverseBI	tmp(*this);
+		ReverseBI	out(*this);
 		++current;
-		return *this;
+		return out;
 	}
 };
 template <typename Iterator>
@@ -60,7 +60,7 @@ inline bool	operator==(const ReverseBI<Iterator>& lhs, const ReverseBI<Iterator>
 }
 template <typename Iterator>
 inline bool	operator<(const ReverseBI<Iterator>& lhs, const ReverseBI<Iterator>& rhs) {
-	return (lhs.base() < rhs.base());
+	return (rhs.base() < lhs.base());
 }
 template <typename Iterator>
 inline bool	operator!=(const ReverseBI<Iterator>& lhs, const ReverseBI<Iterator>& rhs) {
@@ -85,7 +85,7 @@ inline bool operator==(const ReverseBI<IteratorL>& lhs, const ReverseBI<Iterator
 }
 template <typename IteratorL, typename IteratorR>
 inline bool operator<(const ReverseBI<IteratorL>& lhs, const ReverseBI<IteratorR>& rhs) {
-	return (lhs.base() < rhs.base());
+	return (rhs.base() < lhs.base());
 }
 template <typename IteratorL, typename IteratorR>
 inline bool operator!=(const ReverseBI<IteratorL>& lhs, const ReverseBI<IteratorR>& rhs) {
@@ -146,7 +146,7 @@ class ReverseRAI : public ReverseBI<Iterator> {
 			return *this;
 		}
 		reference	operator[](difference_type n) {
-			return *(*this - n);
+			return *(*this + n);
 		}
 };
 
