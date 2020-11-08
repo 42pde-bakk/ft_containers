@@ -62,13 +62,6 @@ public:
 	}
 	~DequeIterator() { }
 
-protected:
-	void set_node(map_pointer new_node) {
-		node = new_node;
-		first = *new_node;
-		last = first + buff_size;
-	}
-public:
 	reference	operator*() {
 		return *cur;
 	}
@@ -143,12 +136,32 @@ public:
 		return *(*this + n);
 	}
 
-	bool	operator==(const const_iterator& rhs) { return (this->cur == rhs.cur); }
-	bool	operator!=(const const_iterator& rhs) { return (this->cur != rhs.cur); }
-	bool	operator<(const const_iterator& rhs) { return (this->cur < rhs.cur); }
-	bool	operator>(const const_iterator& rhs) { return (this->cur > rhs.cur); }
-	bool	operator<=(const const_iterator& rhs) { return (this->cur <= rhs.cur); }
-	bool	operator>=(const const_iterator& rhs) { return (this->cur >= rhs.cur); }
+	template<typename T2, typename P, typename R, typename P2, typename R2, size_t buf>
+	friend inline bool operator==(const DequeIterator<T2, P, R, buf>& lhs, const DequeIterator<T2, P2, R2, buf>& rhs) {
+		return (lhs.cur == rhs.cur);
+	}
+	template<typename T2, typename P, typename R, typename P2, typename R2, size_t buf>
+	friend inline bool operator!=(const DequeIterator<T2, P, R, buf>& lhs, const DequeIterator<T2, P2, R2, buf>& rhs) { return !(lhs == rhs); }
+
+	template<typename T2, typename P, typename R, typename P2, typename R2, size_t buf>
+	friend inline bool operator<(const DequeIterator<T2, P, R, buf>& lhs, const DequeIterator<T2, P2, R2, buf>& rhs) {
+		return (lhs.cur < rhs.cur);
+	}
+	template<typename T2, typename P, typename R, typename P2, typename R2, size_t buf>
+	friend inline bool operator>(const DequeIterator<T2, P, R, buf>& lhs, const DequeIterator<T2, P2, R2, buf>& rhs) { return (rhs < lhs); }
+
+	template<typename T2, typename P, typename R, typename P2, typename R2, size_t buf>
+	friend inline bool operator<=(const DequeIterator<T2, P, R, buf>& lhs, const DequeIterator<T2, P2, R2, buf>& rhs) { return !(rhs < lhs); }
+
+	template<typename T2, typename P, typename R, typename P2, typename R2, size_t buf>
+	friend inline bool operator>=(const DequeIterator<T2, P, R, buf>& lhs, const DequeIterator<T2, P2, R2, buf>& rhs) { return !(lhs < rhs); }
+
+protected:
+	void set_node(map_pointer new_node) {
+		node = new_node;
+		first = *new_node;
+		last = first + buff_size;
+	}
 };
 
 } // namespace ft

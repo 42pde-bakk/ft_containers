@@ -37,10 +37,10 @@ namespace ft {
 		typedef node<T> 	*node_pointer;
 		typedef ptrdiff_t	difference_type;
 		typedef size_t		size_type;
-		typedef ListIterator<value_type, pointer, reference>							iterator;
-		typedef ListIterator<value_type, const_pointer, const_reference>				const_iterator;
-		typedef ReverseBI<ListIterator<value_type, pointer, reference> >				reverse_iterator;
-		typedef ReverseBI<ListIterator<value_type, const_pointer, const_reference> >	const_reverse_iterator;
+		typedef ListIterator<value_type, pointer, reference>				iterator;
+		typedef ListIterator<value_type, const_pointer, const_reference>	const_iterator;
+		typedef ReverseBI<iterator >										reverse_iterator;
+		typedef ReverseBI<const_iterator >									const_reverse_iterator;
 	private:
 		node_pointer		head;
 		node_pointer 		tail;
@@ -232,10 +232,7 @@ namespace ft {
 		}
 		iterator	erase(iterator first, iterator last) {
 			while (first != last) {
-				if (first != this->head && first != this->tail)
-					first = erase(first);
-				else
-					first++;
+				this->erase(first++);
 			}
 			return first;
 		}

@@ -196,7 +196,7 @@ void	operations() {
 	it = mymultiset.upper_bound(14);
 	if (it != mymultiset.end())
 		std::cout << "upper bound of 14 returns: " << *it << std::endl;
-	std::pair<ft::multiset<int>::iterator, ft::multiset<int>::iterator> peer \
+	ft::pair<ft::multiset<int>::iterator, ft::multiset<int>::iterator> peer \
 	= mymultiset.equal_range(10);
 	std::cout << "mymap.equal_range(10) gives a range from " << *peer.first << " to " << *peer.second << std::endl;
 }

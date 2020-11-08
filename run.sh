@@ -27,7 +27,7 @@ function test {
 			D="DEBUG=1"
 		elif [[ $var == "g++" || $var == "clang++" ]]; then
 			C="COMPILER=$var"
-			echo -e "${LIGHPURPLE}COMPILER = $var ${RESET}"
+			echo -e "${LIGHTPURPLE}COMPILER = $var ${RESET}"
 			echo -e "OSTYPE = $OSTYPE"
 			if [[ $OSTYPE == *"darwin"* && $var == "g++" ]]; then
 				C="COMPILER=$(brew --prefix)/bin/g++-10"

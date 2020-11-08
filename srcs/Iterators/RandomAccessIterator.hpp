@@ -91,32 +91,30 @@ namespace ft {
 		pointer		operator->() {
 			return *(&(this->array));
 		}
-		bool	operator==(const const_iterator& rhs) const {
-			return (this->array == rhs.array);
+		template<typename T2, typename P, typename R, typename P2, typename R2, class C2>
+		friend inline bool operator==(const RandomAccessIterator<T2, P, R, C2>& lhs, const RandomAccessIterator<T2, P2, R2, C2>& rhs) {
+			return (lhs.array == rhs.array);
 		}
-		bool	operator!=(const const_iterator& rhs) const {
-			return (this->array != rhs.array);
+		template<typename T2, typename P, typename R, typename P2, typename R2, class C2>
+		friend inline bool operator!=(const RandomAccessIterator<T2, P, R, C2>& lhs, const RandomAccessIterator<T2, P2, R2, C2>& rhs) { return !(lhs == rhs); }
+
+		template<typename T2, typename P, typename R, typename P2, typename R2, class C2>
+		friend inline bool operator<(const RandomAccessIterator<T2, P, R, C2>& lhs, const RandomAccessIterator<T2, P2, R2, C2>& rhs) {
+			return (lhs.array < rhs.array);
 		}
-		bool	operator<(const const_iterator& rhs) const {
-			return (this->array < rhs.array);
-		}
-		bool	operator<=(const const_iterator& rhs) const {
-			return (this->array <= rhs.array);
-		}
-		bool	operator>(const const_iterator& rhs) const {
-			return (this->array > rhs.array);
-		}
-		bool	operator>=(const const_iterator& rhs) const {
-			return (this->array >= rhs.array);
-		}
+		template<typename T2, typename P, typename R, typename P2, typename R2, class C2>
+		friend inline bool operator>(const RandomAccessIterator<T2, P, R, C2>& lhs, const RandomAccessIterator<T2, P2, R2, C2>& rhs) { return (rhs < lhs); }
+
+		template<typename T2, typename P, typename R, typename P2, typename R2, class C2>
+		friend inline bool operator<=(const RandomAccessIterator<T2, P, R, C2>& lhs, const RandomAccessIterator<T2, P2, R2, C2>& rhs) { return !(rhs < lhs); }
+
+		template<typename T2, typename P, typename R, typename P2, typename R2, class C2>
+		friend inline bool operator>=(const RandomAccessIterator<T2, P, R, C2>& lhs, const RandomAccessIterator<T2, P2, R2, C2>& rhs) { return !(lhs < rhs); }
+
 		reference	operator[](difference_type n) {
 			return (*(this->array + n));
 		}
-		pointer		data() const {
-			return this->array;
-		}
 	};
-
 }
 
 #endif

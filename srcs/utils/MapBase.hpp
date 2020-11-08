@@ -38,13 +38,13 @@ template < class Key, class Value, class NodeContents, class Compare = less<Key>
 		typedef	const value_type&			const_reference;
 		typedef	value_type*					pointer;
 		typedef	const value_type*			const_pointer;
-		typedef node<value_type, key_compare>	mapnode;
-		typedef MapIterator<value_type, pointer, reference, Compare >							iterator;
-		typedef MapIterator<value_type, const_pointer, const_reference, Compare >				const_iterator;
-		typedef ReverseBI<MapIterator<value_type, pointer, reference, Compare > >				reverse_iterator;
-		typedef ReverseBI<MapIterator<value_type, const_pointer, const_reference, Compare > >	const_reverse_iterator;
 		typedef	ptrdiff_t					difference_type;
 		typedef	size_t						size_type;
+		typedef node<value_type, key_compare>	mapnode;
+		typedef MapIterator<value_type, pointer, reference, Compare >				iterator;
+		typedef MapIterator<value_type, const_pointer, const_reference, Compare >	const_iterator;
+		typedef ReverseBI<iterator>													reverse_iterator;
+		typedef ReverseBI<const_iterator>											const_reverse_iterator;
 
 		class value_compare // ngl, I yoinked this class straight off http://www.cplusplus.com/reference/map/map/value_comp/
 		{   // in C++98, it is required to inherit binary_function<value_type,value_type,bool>
@@ -64,7 +64,6 @@ template < class Key, class Value, class NodeContents, class Compare = less<Key>
 		}
 		MapBase (const MapBase& x) : _alloc(x._alloc), _comp(x._comp), _size(0) {
 			this->initmap();
-//			this->insert(x.begin(), x.end());
 		}
 		virtual	~MapBase() {
 			this->clear();

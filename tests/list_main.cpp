@@ -60,40 +60,18 @@ void	constructors_test() {
 }
 
 void	iterators_test() {
-	ft::list<int> mylist(10, 42);
-	int i = 0;
-	for (ft::list<int>::iterator it = mylist.begin(); it != mylist.end(); it++) {
-		*it += i;
-		++i;
-	}
-	ft::list<int> mysecondlist = mylist;
-	ft::list<int>::const_iterator it = mylist.begin();
-	std::cout << "mylist contains:";
-	while (it != mylist.end())
-	{
-		std::cout << ' ' << *it;
-		// *it = 0; // wont compile because the iterator is const
-		++it;
-	}
-	std::cout << std::endl;
-	ft::list<int>::reverse_iterator rit = mylist.rbegin();
-	ft::list<int>::reverse_iterator ritend = mylist.rend();
-	std::cout << "mylist.reverse contains:";
-	while (rit != ritend)
-	{
-		std::cout << ' ' << *rit;
-		++rit;
-	}
-	std::cout << std::endl;
-	ft::list<int>::const_reverse_iterator crit = mylist.rbegin();
-	std::cout << "mylist.ConstReverse contains:";
-	while (crit != ritend)
-	{
-		std::cout << ' ' << *crit;
-		// *crit = 0; // wont compile because this iterator too is const
-		++crit;
-	}
-	std::cout << std::endl << std::endl;
+	ft::list<int> hats;
+	for (int i = 0; i < 12; ++i)
+		hats.push_back(i);
+	ft::list<int>::iterator it = hats.begin(), ite = hats.end();
+	ft::list<int>::const_iterator cit(it), cite(ite);
+	ft::list<int>::reverse_iterator rit = hats.rbegin(), rite(it);
+	ft::list<int>::const_reverse_iterator crit(rit), crite(it);
+	std::cout << "regular operator==(): " << std::boolalpha << (it == ite) << ", " << (it == cit) << ", " << (it == cite) << ", " << (cite == cit) << ", " << (cite == ite) << std::endl;
+	std::cout << "regular operator!=(): " << std::boolalpha << (it != ite) << ", " << (it != cit) << ", " << (it != cite) << ", " << (cite != cit) << ", " << (cite != ite) << std::endl;
+	std::cout << "reverse operator==(): " << std::boolalpha << (rit == rite) << ", " << (rit == crit) << ", " << (rit == crite) << ", " << (crite == crit) << ", " << (crite == rite) << std::endl;
+	std::cout << "reverse operator!=(): " << std::boolalpha << (rit != rite) << ", " << (rit != crit) << ", " << (rit != crite) << ", " << (crite != crit) << ", " << (crite != rite) << std::endl;
+
 }
 
 void	capacity_test_element_access() {
@@ -267,18 +245,6 @@ void	stl_test() {
 	print_container_content(nonstl, "nonstl");
 }
 
-void	extra() {
-	ft::list<int> test(6, 42);
-	ft::list<int>::iterator it = test.begin();
-	ft::list<int>::const_iterator constit = it;
-//	ft::list<int>::reverse_iterator revit(test.end());
-//	 ft::list<int>::iterator anotherit(test.rend());
-//	 it = revit;
-	(void)it;
-//	(void)revit;
-	(void)constit;
-}
-
 int main(int argc, char **argv) {
 	if (argc == 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
@@ -293,7 +259,6 @@ int main(int argc, char **argv) {
 	relational_operators();
 	stl_test();
 	sam();
-	extra();
 	if (argc == 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
 		endtime = tv.tv_usec;

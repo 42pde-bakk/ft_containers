@@ -190,7 +190,7 @@ void	operations() {
 	it = myset.upper_bound(14);
 	if (it != myset.end())
 		std::cout << "upper bound of 14 returns: " << *it << std::endl;
-	std::pair<ft::set<int>::iterator, ft::set<int>::iterator> peer \
+	ft::pair<ft::set<int>::iterator, ft::set<int>::iterator> peer \
 	= myset.equal_range(10);
 	std::cout << "mymap.equal_range(10) gives a range from " << *peer.first << " to " << *peer.second << std::endl;
 }

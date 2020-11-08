@@ -46,9 +46,10 @@ void	reverse_print_container_content(ft::vector<T> &vec, const std::string& name
 }
 
 void	constructors_test() {
+	int i = 8;
 	ft::vector<int> def;
 	print_container_content(def, "default constructor");
-	ft::vector<int>	fill(8, 42);
+	ft::vector<int>	fill(i, 42);
 	for (int i = 0; i < 8; i++)
 		fill.push_back( i );
 	print_container_content(fill, "fill constructor");

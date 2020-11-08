@@ -27,18 +27,18 @@ namespace ft {
 	template<class T, class Alloc = std::allocator<T> >
 	class vector {
 	public:
-		typedef T										value_type;
-		typedef	Alloc									allocator_type;
-		typedef value_type&								reference;
-		typedef const value_type&						const_reference;
-		typedef value_type*								pointer;
-		typedef const value_type*						const_pointer;
-		typedef RandomAccessIterator<T, T*, T&>								iterator;
-		typedef RandomAccessIterator<T, const T*, const T&>					const_iterator;
-		typedef ReverseRAI<RandomAccessIterator<T, T*, T&> >				reverse_iterator;
-		typedef ReverseRAI<RandomAccessIterator<T, const T*, const T&> >	const_reverse_iterator;
-		typedef ptrdiff_t								difference_type;
-		typedef size_t									size_type;
+		typedef T												value_type;
+		typedef	Alloc											allocator_type;
+		typedef value_type&										reference;
+		typedef const value_type&								const_reference;
+		typedef value_type*										pointer;
+		typedef const value_type*								const_pointer;
+		typedef ptrdiff_t										difference_type;
+		typedef size_t											size_type;
+		typedef RandomAccessIterator<T, T*, T&>					iterator;
+		typedef RandomAccessIterator<T, const T*, const T&>		const_iterator;
+		typedef ReverseRAI<iterator>							reverse_iterator;
+		typedef ReverseRAI<const_iterator >						const_reverse_iterator;
 
 		explicit vector (const allocator_type& alloc = allocator_type()) : _array(0), _size(0), _capacity(0), _alloc(alloc) {
 		}
@@ -217,21 +217,6 @@ namespace ft {
 				++it;
 			}
 		}
-		// template <class InputIterator>
-		// void insert (iterator position, InputIterator first, InputIterator last, 
-		// 		typename enable_if<is_pointer<InputIterator>::value, InputIterator>::type * = 0) {
-		// 	vector tmp(position, end());
-		// 	this->_size -= ft::distance(position, end());
-		// 	while (first != last) {
-		// 		push_back(*first);
-		// 		++first;
-		// 	}
-		// 	iterator it = tmp.begin();
-		// 	while (it != tmp.end()) {
-		// 		push_back(*it);
-		// 		++it;
-		// 	}
-		// }	
 		iterator	erase(iterator position) {
 			iterator out(position);
 			while (position != end() - 1) {

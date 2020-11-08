@@ -17,10 +17,10 @@
 
 namespace ft {
 
-template < class Key, class Value, class Compare = less<Key>, class Alloc = std::allocator<std::pair<const Key,Value> > >
-class multimap : public MapBase<const Key, Value, std::pair<const Key, Value>, Compare, Alloc>  {
+template < class Key, class Value, class Compare = less<Key>, class Alloc = std::allocator<ft::pair<const Key,Value> > >
+class multimap : public MapBase<const Key, Value, ft::pair<const Key, Value>, Compare, Alloc>  {
 	public:
-		typedef MapBase<const Key, Value, std::pair<const Key, Value>, Compare, Alloc>	Base;
+		typedef MapBase<const Key, Value, ft::pair<const Key, Value>, Compare, Alloc>	Base;
 		using typename								Base::key_type;
 		using typename								Base::mapped_type;
 		using typename								Base::value_type;

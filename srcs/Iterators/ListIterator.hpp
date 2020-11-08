@@ -24,7 +24,7 @@ class ListIterator {
 public:
 	typedef ListIterator<T, Pointer, Reference>			this_type;
 	typedef ListIterator<T, T*, T&>						iterator;
-	// typedef ListIterator<T, const T*, const T&>			const_iterator;
+	typedef ListIterator<T, const T*, const T&>			const_iterator;
 	typedef size_t										size_type;
 	typedef ptrdiff_t									difference_type;
 	typedef T											value_type;
@@ -70,9 +70,13 @@ public:
 		ptr = ptr->prev;
 		return out;
 	}
-	
-	bool	operator==(const this_type& rhs) { return (ptr == rhs.ptr); }
-	bool	operator!=(const this_type& rhs) { return (ptr != rhs.ptr); }
+
+	template<typename T2, typename P, typename R, typename P2, typename R2>
+	friend inline bool operator==(const ListIterator<T2, P, R>& lhs, const ListIterator<T2, P2, R2>& rhs) {
+		return (lhs.ptr == rhs.ptr);
+	}
+	template<typename T2, typename P, typename R, typename P2, typename R2>
+	friend inline bool operator!=(const ListIterator<T2, P, R>& lhs, const ListIterator<T2, P2, R2>& rhs) { return !(lhs == rhs); }
 
 protected:
 	node_pointer	getnext() const { return ptr->next; }

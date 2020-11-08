@@ -69,7 +69,7 @@ template < class Key, class Compare = less<Key>, class Alloc = std::allocator<Ke
 			return this->_alloc.max_size() / sizeof(pointer);
 		}
 	// Modifier functions: see Base
-		std::pair<iterator, bool>	insert(const value_type& val) {
+		ft::pair<iterator, bool>	insert(const value_type& val) {
 			if (this->_size == 0)
 				return (std::make_pair(iterator(Base::insert_root(val)), true));
 			mapnode	*it(this->_root);

@@ -40,12 +40,12 @@ namespace ft {
 			typedef const T*		const_pointer;
 			typedef DequeIterator<T, pointer, reference, ARRAY_SIZE>					iterator;
 			typedef DequeIterator<T, const_pointer, const_reference, ARRAY_SIZE>		const_iterator;
-			typedef ReverseRAI<DequeIterator<T, pointer, reference, ARRAY_SIZE> >				reverse_iterator;
-			typedef ReverseRAI<DequeIterator<T, const_pointer, const_reference, ARRAY_SIZE> >	const_reverse_iterator;
+			typedef ReverseRAI<iterator >												reverse_iterator;
+			typedef ReverseRAI<const_iterator >											const_reverse_iterator;
 			typedef ptrdiff_t		difference_type;
 			typedef	size_t			size_type;
 		private:
-			typedef pointer*					map_pointer;
+			typedef pointer*		map_pointer;
 			size_type		_size;		// amount of elements in the deque
 			size_type		_start;		// offset to the start of the elements
 			size_type		_num_nodes;	// amount of allocated sub arrays

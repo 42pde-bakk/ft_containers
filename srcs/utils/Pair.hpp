@@ -31,8 +31,7 @@ namespace ft {
 		
 		template<class U, class V>
 		pair(const std::pair<U, V>& pr) : first(pr.first), second(pr.second) { }
-		
-		
+
 		pair(const first_type &a, const second_type &b) : first(a), second(b) {}
 
 		pair &operator=(const pair &x) {

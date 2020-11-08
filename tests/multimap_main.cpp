@@ -46,7 +46,7 @@ void	compare_keys(ft::multimap<K, V>& mappie, K compelem = K(), const std::strin
 }
 
 template< typename K, typename V>
-void	compare_values(ft::multimap<K, V>& mappie, std::pair<K, V> compelem = std::make_pair(K(), V()), const std::string& name = "container") {
+void	compare_values(ft::multimap<K, V>& mappie, ft::pair<K, V> compelem = ft::make_pair(K(), V()), const std::string& name = "container") {
 	typename ft::multimap<K, V>::value_compare vcomp = mappie.value_comp();
 	(void)name;
 	for (typename ft::multimap<K, V>::const_iterator it = mappie.begin(); it != mappie.end(); it++) {
@@ -61,36 +61,36 @@ void	compare_values(ft::multimap<K, V>& mappie, std::pair<K, V> compelem = std::
 
 ft::multimap<int, std::string>	getstdmultimap() {
 	ft::multimap<int, std::string> ret;
-	ret.insert(std::make_pair(0, "nul"));
-	ret.insert(std::make_pair(10, "tien"));
-	ret.insert(std::make_pair(6, "zes"));
-	ret.insert(std::make_pair(5, "vijf"));
-	ret.insert(std::make_pair(-2, "min twee"));
-	ret.insert(std::make_pair(1, "een"));
-	ret.insert(std::make_pair(0, "nul-1"));
-	ret.insert(std::make_pair(9, "negen"));
-	ret.insert(std::make_pair(10, "tien-1"));
-	ret.insert(std::make_pair(3, "drie"));
-	ret.insert(std::make_pair(-5, "min vijf"));
-	ret.insert(std::make_pair(-5 , "min vijf-1"));
-	ret.insert(std::make_pair(-5 , "min vijf-2"));
+	ret.insert(ft::make_pair(0, "nul"));
+	ret.insert(ft::make_pair(10, "tien"));
+	ret.insert(ft::make_pair(6, "zes"));
+	ret.insert(ft::make_pair(5, "vijf"));
+	ret.insert(ft::make_pair(-2, "min twee"));
+	ret.insert(ft::make_pair(1, "een"));
+	ret.insert(ft::make_pair(0, "nul-1"));
+	ret.insert(ft::make_pair(9, "negen"));
+	ret.insert(ft::make_pair(10, "tien-1"));
+	ret.insert(ft::make_pair(3, "drie"));
+	ret.insert(ft::make_pair(-5, "min vijf"));
+	ret.insert(ft::make_pair(-5 , "min vijf-1"));
+	ret.insert(ft::make_pair(-5 , "min vijf-2"));
 	return ret;
 }
 
 void 	ctors_dtors() {
 	ft::multimap<int, std::string>	mappie;
-	mappie.insert(std::make_pair(0, "nul"));
-	mappie.insert(std::make_pair(1, "een"));
-	mappie.insert(std::make_pair(1, "een-1"));
-	mappie.insert(std::make_pair(1, "een-2"));
-	mappie.insert(std::make_pair(-1, "min een"));
-	mappie.insert(std::make_pair(5, "vijf"));
+	mappie.insert(ft::make_pair(0, "nul"));
+	mappie.insert(ft::make_pair(1, "een"));
+	mappie.insert(ft::make_pair(1, "een-1"));
+	mappie.insert(ft::make_pair(1, "een-2"));
+	mappie.insert(ft::make_pair(-1, "min een"));
+	mappie.insert(ft::make_pair(5, "vijf"));
 
 	print_container_content(mappie, "mappie");
 	ft::multimap<int, std::string> wappie(mappie);
-	wappie.insert(std::make_pair(8, "acht"));
-	wappie.insert(std::make_pair(7, "zeven"));
-	wappie.insert(std::make_pair(7, "zeven-1"));
+	wappie.insert(ft::make_pair(8, "acht"));
+	wappie.insert(ft::make_pair(7, "zeven"));
+	wappie.insert(ft::make_pair(7, "zeven-1"));
 	print_container_content(wappie, "wappie");
 	ft::multimap<int, std::string>::iterator it = wappie.begin();
 	for (int i = 0; i < 4; i++)
@@ -128,7 +128,7 @@ void	iterators() {
 		std::cout << "UNequal operator work on reverse iterators " << (*rit).first << " and " << (*crite).first << std::endl;
 	it->second = "NIEUEEEEW";
 	print_container_content(mappie, "mappie");
-	std::pair<int, std::string> ret = *it++;
+	ft::pair<int, std::string> ret = *it++;
 	std::cout << "ret: " << ret.first << " => " << ret.second << std::endl;
 	std::cout << " it: " << it->first << " => " << it->second << std::endl;
 }
@@ -145,8 +145,8 @@ void	capacity() {
 void 	modifiers() {
 	ft::multimap<int, std::string>	stdmulti = getstdmultimap();
 	ft::multimap<int, std::string>	newmulti;
-	newmulti.insert(std::make_pair(8, "octo"));
-	newmulti.insert(std::make_pair( __INT_MAX__ , "int maxie"));
+	newmulti.insert(ft::make_pair(8, "octo"));
+	newmulti.insert(ft::make_pair( __INT_MAX__ , "int maxie"));
 	newmulti.insert(stdmulti.begin(), stdmulti.end());
 	newmulti.erase(newmulti.find(1));
 	size_t erased = newmulti.erase(10);
@@ -159,13 +159,13 @@ void	observers() {
 	ft::multimap<int, int>	mymap;
 	ft::multimap<int, int>	othermap;
 	for (size_t i = 0; i < 20; i++) {
-		mymap.insert(std::make_pair(i * 2, i * 4));
-		mymap.insert(std::make_pair(i * 3, i * 6));
+		mymap.insert(ft::make_pair(i * 2, i * 4));
+		mymap.insert(ft::make_pair(i * 3, i * 6));
 	}
 	compare_keys(mymap, 18);
 	compare_keys(othermap, 29);
-	compare_values(mymap, std::make_pair(18, 45));
-	compare_values(othermap, std::make_pair(29, 76));
+	compare_values(mymap, ft::make_pair(18, 45));
+	compare_values(othermap, ft::make_pair(29, 76));
 }
 
 void	operations() {
@@ -180,7 +180,7 @@ void	operations() {
 	std::cout << "it = map.lower_bound(6), it: " << it->first << " => " << it->second << std::endl;
 	it = mymap.upper_bound(6);
 	std::cout << "it = map.upper_bound(6), it: " << it->first << " => " << it->second << std::endl;
-	std::pair<ft::multimap<int, std::string>::iterator, ft::multimap<int, std::string>::iterator> itpair = mymap.equal_range(
+	ft::pair<ft::multimap<int, std::string>::iterator, ft::multimap<int, std::string>::iterator> itpair = mymap.equal_range(
 			-5);
 	std::cout << "it = map.equal_range(-5), itpair.first: " << itpair.first->first << " => " << itpair.first->second
 			  << std::endl;

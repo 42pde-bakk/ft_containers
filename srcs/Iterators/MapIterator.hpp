@@ -71,23 +71,12 @@ namespace ft {
 		pointer		operator->() {
 			return (&(this->ptr->data));
 		}
-		bool	operator==(const const_iterator& rhs) const {
-			return (this->ptr == rhs.ptr);
+		template<typename T2, typename P, typename R, typename P2, typename R2, class C2>
+		friend inline bool operator==(const MapIterator<T2, P, R, C2>& lhs, const MapIterator<T2, P2, R2, C2>& rhs) {
+			return (lhs.ptr == rhs.ptr);
 		}
-		bool	operator!=(const const_iterator& rhs) const {
-			return (this->ptr != rhs.ptr);
-		}
-
-	protected:
-		node_pointer	getptr() const { // make private
-			return this->ptr;
-		}
-		node_pointer	getnext() { // make private
-			return this->ptr->getnext();
-		}
-		node_pointer	getprev() { // make private
-			return this->ptr->getprevious();
-		}
+		template<typename T2, typename P, typename R, typename P2, typename R2, class C2>
+		friend inline bool operator!=(const MapIterator<T2, P, R, C2>& lhs, const MapIterator<T2, P2, R2, C2>& rhs) { return !(lhs == rhs); }
 	};
 
 } // ft
