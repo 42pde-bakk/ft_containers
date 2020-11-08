@@ -354,7 +354,7 @@ namespace ft {
 			iterator it = begin();
 			iterator xit = x.begin();
 			while (it != end() && xit != x.end()) {
-				while (it != end() && comp(*it, *xit))
+				while (it != end() && !comp(*xit, *it))
 					++it;
 				++xit;
 				this->splice(it, x, xit.getprev());

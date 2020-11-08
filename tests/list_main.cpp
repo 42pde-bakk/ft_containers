@@ -32,9 +32,9 @@ size_t endtime;
 struct timeval	tv;
 
 template<typename T>
-void	print_container_content(ft::list<T>	&list, const std::string& name = "container") {
+void	print_container_content(ft::list<T>& l, const std::string& name = "container") {
 	std::cout << name << " contains:";
-	for (ft::list<int>::iterator it = list.begin(); it != list.end(); it++)
+	for (typename ft::list<T>::iterator it = l.begin(); it != l.end(); it++)
 		std::cout << ' ' << *it;
 	std::cout << std::endl;
 }
@@ -253,11 +253,15 @@ void	sam() {
 	std::cout << "second.empty(): " << std::boolalpha << second.empty() << std::endl;
 
 	second.push_back(2.1);
+	print_container_content(second, "second for the first time");
+	print_container_content(first, "first for the first time");
 	first.merge(second, mycomparison);
 	std::cout << "first.size() = " << first.size() << std::endl;
 	std::cout << "first.front() = " << first.front() << std::endl;
 	std::cout << "first.back() = " << first.back() << std::endl;
 	it = first.begin();
+	print_container_content(first, "first");
+	print_container_content(second, "second");
 	std::cout << "*it = " << *it << std::endl;
 	std::cout << "second.empty(): " << std::boolalpha << second.empty() << std::endl;
 }
