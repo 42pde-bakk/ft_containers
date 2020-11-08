@@ -345,16 +345,7 @@ namespace ft {
 			}
 		}
 		void	merge(list& x) {
-			if (&x == this)
-				return ;
-			iterator it = begin();
-			iterator xit = x.begin();
-			while (it != end() && xit != x.end()) {
-				while (it != end() && *it < *xit)
-					++it;
-				++xit;
-				this->splice(it, x, xit.getprev());
-			}
+			this->merge(x, &less_than<value_type>);
 		}
 		template <class Compare>
 		void merge (list& x, Compare comp) {
@@ -368,6 +359,8 @@ namespace ft {
 				++xit;
 				this->splice(it, x, xit.getprev());
 			}
+			if (xit != x.end())
+				this->splice(it, x, xit, x.end());
 		}
 		void	reverse() {
 			iterator it = begin();	

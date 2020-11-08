@@ -220,20 +220,46 @@ void	relational_operators() {
 		std::cout << "NOT\tmylist <= otherlist" << std::endl;
 }
 
+bool mycomparison (double first, double second)
+{ return ( int(first)<int(second) ); }
+
 void	sam() {
-   ft::list<int> first (3,100);   // three ints with a value of 100
-   ft::list<int> second (5,200);  // five ints with a value of 200
-   first.swap(second);
-   std::cout << "first contains:";
-   for (ft::list<int>::iterator it=first.begin(); it!=first.end(); it++) {
-		*it = *it + 3;
-      std::cout << ' ' << *it;
-   }
-   std::cout << '\n';
-   std::cout << "second contains:";
-   for (ft::list<int>::iterator it=second.begin(); it!=second.end(); it++)
-      std::cout << ' ' << *it;
-   std::cout << '\n';
+	ft::list<double> first, second;
+	ft::list<double>::iterator it;
+
+	first.push_back (3.1);
+	first.push_back (2.2);
+	first.push_back (2.9);
+
+	second.push_back (3.7);
+	second.push_back (7.1);
+	second.push_back (1.4);
+
+	first.sort();
+	second.sort();
+
+	it = second.begin();
+	double* ptr = &(*it);
+
+	first.merge(second);
+	std::cout << "first.size() = " << first.size() << std::endl;
+	std::cout << "first.front() = " << first.front() << std::endl;
+	std::cout << "first.back() = " << first.back() << std::endl;
+	it = first.begin();
+	double* ptr2 = &(*it);
+	std::cout << "ptr == ptr2 : " << std::boolalpha << (ptr == ptr2) << std::endl;
+	ft::advance(it, 4);
+	std::cout << "*it = " << *it << std::endl;
+	std::cout << "second.empty(): " << std::boolalpha << second.empty() << std::endl;
+
+	second.push_back(2.1);
+	first.merge(second, mycomparison);
+	std::cout << "first.size() = " << first.size() << std::endl;
+	std::cout << "first.front() = " << first.front() << std::endl;
+	std::cout << "first.back() = " << first.back() << std::endl;
+	it = first.begin();
+	std::cout << "*it = " << *it << std::endl;
+	std::cout << "second.empty(): " << std::boolalpha << second.empty() << std::endl;
 }
 
 void	stl_test() {
@@ -250,14 +276,14 @@ int main(int argc, char **argv) {
 		gettimeofday(&tv, NULL);
 		begintime = tv.tv_usec;
 	}
-	constructors_test();
-	iterators_test();
-	capacity_test_element_access();
-	modifiers_test();
-	operations_test();
-	operations_test2();
-	relational_operators();
-	stl_test();
+//	constructors_test();
+//	iterators_test();
+//	capacity_test_element_access();
+//	modifiers_test();
+//	operations_test();
+//	operations_test2();
+//	relational_operators();
+//	stl_test();
 	sam();
 	if (argc == 2 && strcmp(argv[1], "time") == 0) {
 		gettimeofday(&tv, NULL);
