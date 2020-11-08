@@ -22,7 +22,6 @@ template < class Key, class Compare = less<Key>, class Alloc = std::allocator<Ke
 	public:
 		typedef MapBase<const Key, const Key, const Key, Compare, Alloc>	Base;
 		typedef Key					key_type;
-//		typedef Key					mapped_type;
 		typedef Key					value_type;
 		typedef	Compare				key_compare;
 		typedef	Compare				value_compare;
