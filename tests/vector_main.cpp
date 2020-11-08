@@ -204,6 +204,21 @@ void	sam() {
 	// int ret = sam.end() - sam.begin();
 	int ret = sam.end() - sam.begin();
 	std::cout << "ret = " << ret << std::endl;
+	sam.resize(5);
+	std::cout << "vector capacity: " << sam.capacity() << std::endl;
+	std::cout << "vector size: " << sam.size() << std::endl;
+	std::cout << "vector front: " << sam.front() << std::endl;
+	std::cout << "vector back: " << sam.back() << std::endl;
+	sam.resize(8, 100);
+	std::cout << "vector capacity: " << sam.capacity() << std::endl;
+	std::cout << "vector size: " << sam.size() << std::endl;
+	std::cout << "vector front: " << sam.front() << std::endl;
+	std::cout << "vector back: " << sam.back() << std::endl;
+	sam.resize(12389);
+	std::cout << "vector capacity: " << sam.capacity() << std::endl;
+	std::cout << "vector size: " << sam.size() << std::endl;
+	std::cout << "vector front: " << sam.front() << std::endl;
+	std::cout << "vector back: " << sam.back() << std::endl;
 }
 
 

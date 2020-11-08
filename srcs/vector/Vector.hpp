@@ -118,6 +118,7 @@ namespace ft {
 		void		reserve(size_type n) {
 			if (n <= this->_capacity)
 				return ;
+			n = ft::max(n, this->_capacity * 2);
 			pointer tmp = new value_type[n];
 			for (size_type i = 0; i < this->_size; i++) 
 				tmp[i] = this->_array[i];
