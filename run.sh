@@ -53,7 +53,7 @@ function test {
 #	echo -e "${ORANGE}Startin testing for $1${RESET}"
 	echo -e "${PURPLE}STATUS_FT = ${STATUS_FT}, STATUS_STL = ${STATUS_STL}${RESET}"
 	if [[ $STATUS_FT -ne 0 || $STATUS_STL -ne 0 ]]; then
-		exit
+		exit 1
 	fi
 
 	diff tests/ft.txt tests/std.txt > tests/diff.txt;
