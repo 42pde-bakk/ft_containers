@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/09 12:20:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/11/07 20:04:56 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/11/09 22:07:53 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,12 +72,12 @@ namespace ft {
 		pointer		operator->() {
 			return (&(this->ptr->data));
 		}
-		template<typename T2, typename P, typename R, typename P2, typename R2, class C2>
-		friend inline bool operator==(const MapIterator<T2, P, R, C2>& lhs, const MapIterator<T2, P2, R2, C2>& rhs) {
+		// template<typename T2, typename P, typename R, typename P2, typename R2, class C2>
+		friend inline bool operator==(const MapIterator& lhs, const MapIterator& rhs) {
 			return (lhs.ptr == rhs.ptr);
 		}
-		template<typename T2, typename P, typename R, typename P2, typename R2, class C2>
-		friend inline bool operator!=(const MapIterator<T2, P, R, C2>& lhs, const MapIterator<T2, P2, R2, C2>& rhs) { return !(lhs == rhs); }
+		// template<typename T2, typename P, typename R, typename P2, typename R2, class C2>
+		friend inline bool operator!=(const MapIterator& lhs, const MapIterator& rhs) { return !(lhs == rhs); }
 	};
 
 } // ft

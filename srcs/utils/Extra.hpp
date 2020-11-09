@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/26 13:20:35 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/11/04 17:06:36 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/11/09 22:13:31 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define EXTRA_HPP
 # include "Traits.hpp"
 # include <cstddef>
+# include <functional>
 
 namespace ft {
 	template<typename Iterator>
@@ -43,33 +44,34 @@ namespace ft {
 		var1 = var2;
 		var2 = tmpvar;
 	}
-	template<class value_type>
-	const value_type&	min(const value_type& a, const value_type& b) {
+	template<class T>
+	const T&	min(const T& a, const T& b) {
 		return (a < b ? a : b);
 	}
 
-	template<class value_type>
-	const value_type&	max(const value_type& a, const value_type& b) {
+	template<class T>
+	const T&	max(const T& a, const T& b) {
 		return (a < b ? b : a);
 	}
 
-	template<typename value_type>
-	struct less: public std::binary_function<value_type, value_type, bool> {
-		bool	operator()(const value_type& x, const value_type& y) const {
+	template<typename T>
+	struct less: public std::binary_function<T, T, bool>
+	{
+		bool operator()(const T& x, const T& y) const {
 			return (x < y);
 		}
 	};
 
-	template<typename value_type>
-	bool	is_equal(const value_type& a, const value_type& b) {
+	template<typename T>
+	bool	is_equal(const T& a, const T& b) {
 		return (a == b);
 	}
-	template<typename value_type>
-	bool	less_than(const value_type& a, const value_type& b) {
+	template<typename T>
+	bool	less_than(const T& a, const T& b) {
 		return (a < b);
 	}
-	template<typename value_type>
-	bool	more_than(const value_type& a, const value_type& b) {
+	template<typename T>
+	bool	more_than(const T& a, const T& b) {
 		return (a > b);
 	}
 
