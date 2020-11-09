@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/06 12:23:59 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/11/04 15:42:55 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/11/09 22:46:25 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@
 # include <limits>
 # include <memory>
 # include <cstddef>
-# include "ListIterator.hpp"
+# ifndef LISTITERATOR_HPP
+#  include "ListIterator.hpp"
+# endif
 # include "ReverseIterator.hpp"
 # include <iostream>
 # include "Extra.hpp"

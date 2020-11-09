@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/07 16:36:12 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/11/09 15:45:03 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/11/09 23:50:47 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,9 @@ public:
 	typedef	Category	iterator_category;
 	template <class T2, class A> friend class	deque;
 	template <class T2, class P, class R, size_t B, class C> friend class DequeIterator;
-//	template <class Iterator> friend class ReverseDequeIterator;
 
-protected:
 	pointer cur;
+protected:
 	pointer first;		// the begin of the chunk
 	pointer	last;		// the end of the chunk
 	//because the pointer may skip to other chunk
@@ -137,25 +136,25 @@ public:
 		return *(*this + n);
 	}
 
-	template<typename T2, typename P, typename R, typename P2, typename R2, size_t buf>
-	friend inline bool operator==(const DequeIterator<T2, P, R, buf>& lhs, const DequeIterator<T2, P2, R2, buf>& rhs) {
+	template<typename T2, typename P, typename R, size_t buf>
+	friend inline bool operator==(const this_type& lhs, const DequeIterator<T2, P, R, buf>& rhs) {
 		return (lhs.cur == rhs.cur);
 	}
-	template<typename T2, typename P, typename R, typename P2, typename R2, size_t buf>
-	friend inline bool operator!=(const DequeIterator<T2, P, R, buf>& lhs, const DequeIterator<T2, P2, R2, buf>& rhs) { return !(lhs == rhs); }
+	template<typename T2, typename P, typename R, size_t buf>
+	friend inline bool operator!=(const this_type& lhs, const DequeIterator<T2, P, R, buf>& rhs) { return !(lhs == rhs); }
 
-	template<typename T2, typename P, typename R, typename P2, typename R2, size_t buf>
-	friend inline bool operator<(const DequeIterator<T2, P, R, buf>& lhs, const DequeIterator<T2, P2, R2, buf>& rhs) {
+	template<typename T2, typename P, typename R, size_t buf>
+	friend inline bool operator<(const this_type& lhs, const DequeIterator<T2, P, R, buf>& rhs) {
 		return (lhs.cur < rhs.cur);
 	}
-	template<typename T2, typename P, typename R, typename P2, typename R2, size_t buf>
-	friend inline bool operator>(const DequeIterator<T2, P, R, buf>& lhs, const DequeIterator<T2, P2, R2, buf>& rhs) { return (rhs < lhs); }
+	template<typename T2, typename P, typename R, size_t buf>
+	friend inline bool operator>(const this_type& lhs, const DequeIterator<T2, P, R, buf>& rhs) { return (rhs < lhs); }
 
-	template<typename T2, typename P, typename R, typename P2, typename R2, size_t buf>
-	friend inline bool operator<=(const DequeIterator<T2, P, R, buf>& lhs, const DequeIterator<T2, P2, R2, buf>& rhs) { return !(rhs < lhs); }
+	template<typename T2, typename P, typename R, size_t buf>
+	friend inline bool operator<=(const this_type& lhs, const DequeIterator<T2, P, R, buf>& rhs) { return !(rhs < lhs); }
 
-	template<typename T2, typename P, typename R, typename P2, typename R2, size_t buf>
-	friend inline bool operator>=(const DequeIterator<T2, P, R, buf>& lhs, const DequeIterator<T2, P2, R2, buf>& rhs) { return !(lhs < rhs); }
+	template<typename T2, typename P, typename R, size_t buf>
+	friend inline bool operator>=(const this_type& lhs, const DequeIterator<T2, P, R, buf>& rhs) { return !(lhs < rhs); }
 
 protected:
 	void set_node(map_pointer new_node) {

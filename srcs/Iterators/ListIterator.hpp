@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/11/05 22:22:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/11/07 20:05:23 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/11/09 23:49:47 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,11 @@
 
 # include <memory>
 # include <cstddef>
-# include "ListNode.hpp"
+# ifdef QUEUE_HPP
+#  include "../list/ListNode.hpp"
+# else
+#  include "ListNode.hpp"
+# endif
 
 namespace ft {
 	
@@ -35,9 +39,9 @@ public:
 	typedef Reference									reference;
 	typedef std::bidirectional_iterator_tag				iterator_category;
 	template <class T2, class A>						friend class list;
-	template <class T2, class P, class R>				friend class ListIterator;
+	// template <class T2, class P, class R>				friend class ListIterator;
 
-protected:
+// protected:
 	node_pointer	ptr;
 public:
 	ListIterator( ) : ptr(NULL) { }
@@ -72,12 +76,12 @@ public:
 		return out;
 	}
 
-	template<typename T2, typename P, typename R, typename P2, typename R2>
-	friend inline bool operator==(const ListIterator<T2, P, R>& lhs, const ListIterator<T2, P2, R2>& rhs) {
+	template<typename T2, typename P, typename R>
+	friend inline bool operator==(const this_type& lhs, const ListIterator<T2, P, R>& rhs) {
 		return (lhs.ptr == rhs.ptr);
 	}
-	template<typename T2, typename P, typename R, typename P2, typename R2>
-	friend inline bool operator!=(const ListIterator<T2, P, R>& lhs, const ListIterator<T2, P2, R2>& rhs) { return !(lhs == rhs); }
+	template<typename T2, typename P, typename R>
+	friend inline bool operator!=(const this_type& lhs, const ListIterator<T2, P, R>& rhs) { return !(lhs == rhs); }
 
 protected:
 	node_pointer	getnext() const { return ptr->next; }

@@ -2,8 +2,8 @@
 // Created by Peer De bakker on 11/7/20.
 //
 
-#ifndef FT_CONTAINERS_REVERSEITERATOR_HPP
-#define FT_CONTAINERS_REVERSEITERATOR_HPP
+#ifndef REVERSEITERATOR_HPP
+# define REVERSEITERATOR_HPP
 
 template <class Iterator >
 class ReverseBI {

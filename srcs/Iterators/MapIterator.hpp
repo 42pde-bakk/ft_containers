@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/09 12:20:18 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/11/07 20:04:56 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/11/09 23:47:03 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ namespace ft {
 		typedef node<T, C>*	node_pointer;
 		typedef std::bidirectional_iterator_tag				iterator_category;
 		// make map also friend 
-		template <class T2, class P, class R, class C2>		friend class MapIterator;
-	protected:
+		// template <class T2, class P, class R, class C2>		friend class MapIterator;
+	// protected:
 		node_pointer	ptr;
 	public:
 	
@@ -72,12 +72,12 @@ namespace ft {
 		pointer		operator->() {
 			return (&(this->ptr->data));
 		}
-		template<typename T2, typename P, typename R, typename P2, typename R2, class C2>
-		friend inline bool operator==(const MapIterator<T2, P, R, C2>& lhs, const MapIterator<T2, P2, R2, C2>& rhs) {
+		template<typename T2, typename P, typename R, class C2>
+		friend inline bool operator==(const this_type& lhs, const MapIterator<T2, P, R, C2>& rhs) {
 			return (lhs.ptr == rhs.ptr);
 		}
-		template<typename T2, typename P, typename R, typename P2, typename R2, class C2>
-		friend inline bool operator!=(const MapIterator<T2, P, R, C2>& lhs, const MapIterator<T2, P2, R2, C2>& rhs) { return !(lhs == rhs); }
+		template<typename T2, typename P, typename R, class C2>
+		friend inline bool operator!=(const this_type& lhs, const MapIterator<T2, P, R, C2>& rhs) { return !(lhs == rhs); }
 	};
 
 } // ft
