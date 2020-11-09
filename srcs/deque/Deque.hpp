@@ -6,7 +6,7 @@
 /*   By: pde-bakk <pde-bakk@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/25 18:22:37 by pde-bakk      #+#    #+#                 */
-/*   Updated: 2020/11/09 15:45:30 by pde-bakk      ########   odam.nl         */
+/*   Updated: 2020/11/09 15:58:44 by pde-bakk      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,13 @@
 
 # include <memory>
 # include <cstddef>
-# include "RandomAccessIterator.hpp"
+# include "ReverseIterator.hpp"
 # include "DequeIterator.hpp"
 # include "Traits.hpp"
 # include "Extra.hpp"
 # include "Colours.h"
 # include <iostream>
 # include <algorithm>
-# include "../vector/Vector.hpp"
 # ifndef ARRAY_SIZE
 #  define ARRAY_SIZE 8
 # endif
@@ -168,7 +167,6 @@ namespace ft {
 				this->_size = n;
 			}
 			void	push_back(const value_type& val) {
-				std::cout << "making my run script exit with failure\n";
 				if (finish.last - finish.cur == 1 ) { // We need a new array at the back
 					if (this->_start + this->_num_nodes == _map_size)
 						this->reserve(_size, _num_nodes, _map_size + 2);

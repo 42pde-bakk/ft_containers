@@ -14,7 +14,6 @@
 # define EXTRA_HPP
 # include "Traits.hpp"
 # include <cstddef>
-//# include <functional>
 
 namespace ft {
 	template<typename Iterator>
