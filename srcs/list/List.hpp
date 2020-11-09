@@ -19,7 +19,6 @@
 # include <cstddef>
 # include "ListIterator.hpp"
 # include "ReverseIterator.hpp"
-# include "Traits.hpp"
 # include <iostream>
 # include "Extra.hpp"
 
