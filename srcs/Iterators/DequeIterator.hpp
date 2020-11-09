@@ -164,6 +164,10 @@ protected:
 	}
 };
 
+template <typename T, typename P, typename R, size_t buf>
+inline DequeIterator<T,P,R,buf>	operator+(typename DequeIterator<T,P,R,buf>::difference_type n, const DequeIterator<T,P,R,buf>& x) {
+	return x + n;
+}
 } // namespace ft
 
 #endif //FT_CONTAINERS_DEQUEITERATOR_HPP

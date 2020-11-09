@@ -115,6 +115,11 @@ namespace ft {
 			return (*(this->array + n));
 		}
 	};
+
+template <typename T, typename P, typename R, typename C>
+inline RandomAccessIterator<T,P,R,C>	operator+(typename RandomAccessIterator<T,P,R,C>::difference_type n, const RandomAccessIterator<T,P,R,C>& x) {
+	return x + n;
+}
 }
 
 #endif

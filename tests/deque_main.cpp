@@ -132,8 +132,10 @@ void	bs() {
 		d.push_front(i);
 	ft::deque<int>::iterator it(d.begin());
 	ft::deque<int>::reverse_iterator revit = d.rbegin();
-	(void)it;
-	(void)revit;
+	ft::deque<int>::iterator n = 5 + it;
+	std::cout << "iterator (5 + it): " << *n << std::endl;
+	ft::deque<int>::reverse_iterator revn = 5 + revit;
+	std::cout << "iterator (5 + rit): " << *revn << std::endl;
 }
 
 int	main(int argc, char **argv) {

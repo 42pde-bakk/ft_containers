@@ -67,11 +67,13 @@ void	iterators_test() {
 		hats.push_back(i * 10);
 	ft::vector<int>::iterator		it = hats.begin();
 	ft::vector<int>::iterator		ite = hats.end();
-									ite--;
+		ite--;
+	ft::vector<int>::iterator test = 5 + it;
+	std::cout << "*test = " << *test << std::endl;
 	std::cout << "*it = " << *it << ", *ite = " << *ite << std::endl;
 	ft::vector<int>::const_iterator	cit = hats.begin();
 	ft::vector<int>::const_iterator	cite = hats.end();
-									cite--;
+		cite--;
 	std::cout << "sfhkdsfh" << std::endl;
 	std::cout << "*cit = " << *cit << ", *cite = " << *cite << std::endl;
 	ft::vector<int>::reverse_iterator		rit = hats.rbegin();
