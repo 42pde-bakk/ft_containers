@@ -16,7 +16,7 @@ ifdef COMPILER
  CXX = $(COMPILER)
 endif
 INCLUDE = $(shell find srcs -type d | sed s/^/-I/)
-CXXFLAGS = -W -Wall -Wextra -Werror -pedantic -ansi -std=c++98
+CXXFLAGS = -W -Wall -Wextra -Werror -pedantic -ansi -std=c++11
 ifdef DEBUG
  CXXFLAGS += -g -fsanitize=address #-fsanitize=undefined -fsanitize=alignment -fsanitize=bounds -fsanitize=null -fsanitize=return
 else
