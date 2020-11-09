@@ -10,6 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#pragma once
 #ifndef LISTITERATOR_HPP
 # define LISTITERATOR_HPP
 

@@ -10,8 +10,9 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#pragma once
 #ifndef FT_CONTAINERS_DEQUEITERATOR_HPP
-#define FT_CONTAINERS_DEQUEITERATOR_HPP
+# define FT_CONTAINERS_DEQUEITERATOR_HPP
 
 #include <cstddef>
 #include <iostream>
