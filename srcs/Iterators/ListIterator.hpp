@@ -72,14 +72,12 @@ public:
 		return out;
 	}
 
-	template<typename T2, typename P2, typename R2>
-	friend inline bool operator==(const ListIterator<T2, P2, R2>& rhs) {
-		return (this->ptr == rhs.ptr);
+	template<typename T2, typename P, typename R, typename P2, typename R2>
+	friend inline bool operator==(const ListIterator<T2, P, R>& lhs, const ListIterator<T2, P2, R2>& rhs) {
+		return (lhs.ptr == rhs.ptr);
 	}
-	template<typename T2, typename P2, typename R2>
-	friend inline bool operator!=(const ListIterator<T2, P2, R2>& rhs) {
-		return !(lhs == rhs);
-	}
+	template<typename T2, typename P, typename R, typename P2, typename R2>
+	friend inline bool operator!=(const ListIterator<T2, P, R>& lhs, const ListIterator<T2, P2, R2>& rhs) { return !(lhs == rhs); }
 
 protected:
 	node_pointer	getnext() const { return ptr->next; }
