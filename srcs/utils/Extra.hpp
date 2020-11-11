@@ -6,7 +6,7 @@
 /*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/09/26 13:20:35 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/11/09 23:48:46 by peerdb        ########   odam.nl         */
+/*   Updated: 2020/11/11 21:02:47 by peerdb        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,16 @@ namespace ft {
 	const value_type&	max(const value_type& a, const value_type& b) {
 		return (a < b ? b : a);
 	}
-
+	
+	template <class Arg1, class Arg2, class Result>
+	struct binary_function {
+		typedef Arg1 first_argument_type;
+		typedef Arg2 second_argument_type;
+		typedef Result result_type;
+	};
+  
 	template<typename value_type>
-	struct less: public std::binary_function<value_type, value_type, bool> {
+	struct less: public ft::binary_function<value_type, value_type, bool> {
 		bool	operator()(const value_type& x, const value_type& y) const {
 			return (x < y);
 		}
