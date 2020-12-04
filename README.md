@@ -2,6 +2,9 @@
 
 The multiple available containers in C++ all have a very different usage. To make sure you understand them all, let’s re-implement them!
 
+[![pde-bakk's 42Project Score](https://badge42.herokuapp.com/api/project/pde-bakk/ft_containers)](https://github.com/JaeSeoKim/badge42)
+
+
 Workflows to check if the containers compile and work as expected on both macOS and Ubuntu:
 
 List: ![List - Check Ubuntu & macOS compilation C++ CI](https://github.com/pde-bakk/ft_containers/workflows/List%20-%20Check%20Ubuntu%20&%20macOS%20compilation%20C++%20CI/badge.svg)
