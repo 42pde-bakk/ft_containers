@@ -15,11 +15,11 @@
 
 # include <memory>
 # include <cstddef>
-# include "ReverseIterator.hpp"
-# include "DequeIterator.hpp"
-# include "Traits.hpp"
-# include "Extra.hpp"
-# include "Colours.h"
+# include "../Iterators/ReverseIterator.hpp"
+# include "../Iterators/DequeIterator.hpp"
+# include "../utils/Traits.hpp"
+# include "../utils/Extra.hpp"
+# include "../utils/Colours.h"
 # include <iostream>
 # include <algorithm>
 # ifndef ARRAY_SIZE

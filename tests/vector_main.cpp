@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   vector_main.cpp                                    :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: peerdb <peerdb@student.codam.nl>             +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2020/09/25 21:10:23 by peerdb        #+#    #+#                 */
-/*   Updated: 2020/11/03 22:45:07 by peerdb        ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   vector_main.cpp                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pde-bakk <pde-bakk@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/09/25 21:10:23 by peerdb            #+#    #+#             */
+/*   Updated: 2022/04/19 20:06:50 by pde-bakk         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,21 +223,36 @@ void	sam() {
 	std::cout << "vector back: " << sam.back() << std::endl;
 }
 
+void	testVstresstest()
+{
+	std::cout << "+-------------------+" << std::endl;
+	std::cout << "| Vector Stress test|" << std::endl;
+	std::cout << "+-------------------+" << std::endl << std::endl;
+	ft::vector<int>		stressVec;
+
+	stressVec.reserve(60000);
+	for (size_t i = 0; i < 60000; i++)
+		stressVec.insert(stressVec.end(), 1, i * 3);
+	// print_container_content(stressVec, "stressVec");
+	// printVector(stressVec);
+}
+
 
 int	main(int argc, char **argv) {
-	if (argc == 2 && strcmp(argv[1], "time") == 0) {
+	if (argc == 2 && strcmp(argv[1], "time")) {
 		gettimeofday(&tv, NULL);
 		begintime = tv.tv_usec;
 	}
-	 stl_test();
-	 constructors_test();
-	 iterators_test();
-	 capacity_test();
-	 element_access_test();
-	 modifiers_test();
-	 relational_operators_test();
-	sam();
-	if (argc == 2 && strcmp(argv[1], "time") == 0) {
+	//  stl_test();
+	//  constructors_test();
+	//  iterators_test();
+	//  capacity_test();
+	//  element_access_test();
+	//  modifiers_test();
+	//  relational_operators_test();
+	 testVstresstest();
+	// sam();
+	if (argc == 2 && strcmp(argv[1], "time")) {
 		gettimeofday(&tv, NULL);
 		endtime = tv.tv_usec;
 		std::cout << "Time elapsed in total! = " << endtime - begintime << " nanoseconds" << std::endl;

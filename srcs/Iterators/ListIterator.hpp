@@ -16,11 +16,7 @@
 
 # include <memory>
 # include <cstddef>
-# ifdef QUEUE_HPP
-#  include "../list/ListNode.hpp"
-# else
-#  include "ListNode.hpp"
-# endif
+# include "../list/ListNode.hpp"
 
 namespace ft {
 	

@@ -18,11 +18,11 @@
 # include <memory>
 # include <cstddef>
 # ifndef LISTITERATOR_HPP
-#  include "ListIterator.hpp"
+#  include "../Iterators/ListIterator.hpp"
 # endif
-# include "ReverseIterator.hpp"
+# include "../Iterators/ReverseIterator.hpp"
 # include <iostream>
-# include "Extra.hpp"
+# include "../utils/Extra.hpp"
 
 namespace ft {
 	
