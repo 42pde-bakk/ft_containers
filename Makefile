@@ -30,8 +30,7 @@ ifdef STD
 endif
 
 list vector map stack queue deque set multiset multimap: fclean
-	$(CXX) $(CXXFLAGS) $(TESTDIR)/$@_$(FILES) -o $(NAME) \
-	-Isrcs/$@ -Isrcs/utils -Isrcs/Iterators
+	$(CXX) $(CXXFLAGS) $(TESTDIR)/$@_$(FILES) -o $(NAME) -Isrcs/$@
 
 clean:
 
