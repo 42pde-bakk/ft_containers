@@ -28,6 +28,8 @@ namespace ft {
 
 		template<class U, class V>
 		pair(const pair<U, V>& pr) : first(pr.first), second(pr.second) { }
+
+		pair(const pair& x) : first(x.first), second(x.second) {}
 		
 		template<class U, class V>
 		pair(const std::pair<U, V>& pr) : first(pr.first), second(pr.second) { }
